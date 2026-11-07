@@ -316,6 +316,7 @@ class DeltaSignedREST:
                     path_with_query,
                     headers=self._headers("GET", path_with_query, ""),
                     timeout=float(timeout_seconds),
+                    follow_redirects=False,
                 )
                 status = response.status_code
                 if (status == 429 or status >= 500) and attempt < retry_budget:
