@@ -240,6 +240,7 @@ class CaptureRunResult:
     status: str
     snapshots: list[CaptureSnapshot] = field(default_factory=list)
     reconciliation_reports: list[dict[str, Any]] = field(default_factory=list)
+    cross_window_reconciliation_reports: list[dict[str, Any]] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     requested_windows: int = 0
     completed_windows: int = 0
@@ -464,6 +465,39 @@ class HistoricalCaptureOrchestrator:
                     result.errors.append(f"window={index};repeat={repeat};error={type(exc).__name__}")
                 if plan.interval_seconds and run_count < plan.max_capture_runs:
                     self._sleep(plan.interval_seconds)
+        # Reconcile adjacent windows independently of repeated same-window
+        # observations. This runs after the loop so it also works when every
+        # slot was recovered from disk and no adapter call was necessary.
+        for repeat in range(plan.repeat_count):
+            for index in range(1, len(windows)):
+                for endpoint in plan.endpoints:
+                    earlier = slot_latest.get((repeat, index - 1, endpoint))
+                    later = slot_latest.get((repeat, index, endpoint))
+                    if earlier is None or later is None:
+                        continue
+                    try:
+                        report = reconcile_two_captures(earlier, later)
+                        result.cross_window_reconciliation_reports.append({
+                            "repeat": repeat,
+                            "earlier_window_index": index - 1,
+                            "later_window_index": index,
+                            "endpoint": endpoint,
+                            "status": (
+                                "RECONCILED"
+                                if earlier.complete and earlier.pagination_complete
+                                and later.complete and later.pagination_complete
+                                else "INCONCLUSIVE"
+                            ),
+                            "result": report.to_dict() if hasattr(report, "to_dict") else report,
+                        })
+                    except IncompatibleScopeError:
+                        result.cross_window_reconciliation_reports.append({
+                            "repeat": repeat,
+                            "earlier_window_index": index - 1,
+                            "later_window_index": index,
+                            "endpoint": endpoint,
+                            "status": "INCOMPATIBLE_SCOPE",
+                        })
         return result
 
 
