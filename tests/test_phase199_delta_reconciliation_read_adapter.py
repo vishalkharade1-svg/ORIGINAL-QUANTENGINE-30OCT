@@ -373,8 +373,8 @@ def test_signed_rest_get_policy_honors_retry_after_and_timeout(monkeypatch):
         def __init__(self):
             self.calls = []
 
-        def get(self, path, headers=None, timeout=None):
-            self.calls.append((path, timeout))
+        def get(self, path, headers=None, timeout=None, follow_redirects=True):
+            self.calls.append((path, timeout, follow_redirects))
             return responses.pop(0)
 
     rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
@@ -387,7 +387,7 @@ def test_signed_rest_get_policy_honors_retry_after_and_timeout(monkeypatch):
     assert retry_count == 1
     assert status == 200
     assert rest.client.calls == [
-        ("/v2/fills", 7.0), ("/v2/fills", 7.0)
+        ("/v2/fills", 7.0, False), ("/v2/fills", 7.0, False)
     ]
 
 
@@ -398,7 +398,7 @@ def test_signed_rest_get_policy_does_not_retry_nonretryable_401(monkeypatch):
     class Client:
         calls = 0
 
-        def get(self, path, headers=None, timeout=None):
+        def get(self, path, headers=None, timeout=None, follow_redirects=True):
             self.calls += 1
             return response
 
