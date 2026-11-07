@@ -151,6 +151,7 @@ class DeltaReconciliationReadAdapter:
                     "request_cursor": request_cursor,
                     "response_cursor": after,
                     "response_status": "SUCCESS", "record_count": len(page_rows),
+                    "pagination_metadata_present": after != "__PAGINATION_METADATA_MISSING__",
                     "collected_at": collected_at, "content_sha256": page_hash,
                 })
             if page_rows and page_hash in seen_pages:
@@ -161,7 +162,7 @@ class DeltaReconciliationReadAdapter:
             if not paginated:
                 return rows, after is None, "OK" if after is None else "INCOMPLETE_PAGINATION"
             if after == "__PAGINATION_METADATA_MISSING__":
-                return rows, False, "PAGINATION_METADATA_MISSING"
+                return rows, False, "INCOMPLETE_PAGINATION"
             if after is None:
                 return rows, True, "OK"
             if after in seen_cursors:
