@@ -324,5 +324,5 @@ def observation_stability(snapshots: list[CaptureSnapshot]) -> dict[str, Any]:
         "status": "OBSERVATION_SEQUENCE_COMPLETE" if all(s.complete and s.pagination_complete for s in snapshots)
                  else "OBSERVATION_INCONCLUSIVE",
         "capture_count": len(snapshots), "records": output,
-        "disclaimer": "This measures observed API behavior only; it does not establish venue history completeness, deletion, or retention policy.",
+        "disclaimer": "This measures observed API behavior only; absence does not prove a record was deleted and does not establish venue history completeness or retention policy.",
     }
