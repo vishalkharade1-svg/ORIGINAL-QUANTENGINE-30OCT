@@ -92,7 +92,7 @@ def test_trusted_callback_and_authenticated_fake_adapter_allow_fixture_exercise(
 
 class FakeAdapter:
     def __init__(self, rows=None, complete=True):
-        self._rest = SimpleNamespace(authenticated=False)
+        self._rest = SimpleNamespace(authenticated=False, get_with_policy=lambda *args, **kwargs: None)
         self.rows = rows or [{"id": "o-1", "product_id": 84, "size": "1"}]
         self.complete = complete
         self.calls = []
