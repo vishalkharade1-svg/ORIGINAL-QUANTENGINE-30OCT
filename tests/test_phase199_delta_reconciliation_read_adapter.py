@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import pytest
+import httpx
 
+from core.exchanges.delta.delta_auth import DeltaSignedREST
 from core.exchanges.delta.reconciliation_read_adapter import (
     DeltaReconciliationReadAdapter,
     DeltaReconciliationReadError,
@@ -335,3 +337,74 @@ def test_repeated_nonempty_response_page_is_rejected():
         DeltaReconciliationReadAdapter(rest).capture(
             product_id=84, endpoints=("open_orders",)
         )
+
+
+
+def test_adapter_uses_bounded_rest_policy_and_records_retry_receipt():
+    class PolicyREST(FakeREST):
+        def __init__(self):
+            super().__init__()
+            self.policy_calls = []
+
+        def get_with_policy(self, path, params=None, *, timeout_seconds=20, retry_budget=2):
+            self.policy_calls.append((path, timeout_seconds, retry_budget))
+            return self.get(path, params=params), 1, 200
+
+    rest = PolicyREST()
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("fills",),
+        request_timeout_seconds=7, retry_budget=1,
+    )
+    assert rest.policy_calls == [("/v2/fills", 7, 1)]
+    page = snap.page_provenance[0]
+    assert page["request_policy_enforced"] is True
+    assert page["retry_count"] == 1
+    assert page["http_status_code"] == 200
+
+
+def test_signed_rest_get_policy_honors_retry_after_and_timeout(monkeypatch):
+    request = httpx.Request("GET", "https://api.delta.exchange/v2/fills")
+    responses = [
+        httpx.Response(429, headers={"Retry-After": "0"}, request=request),
+        httpx.Response(200, json={"success": True, "result": []}, request=request),
+    ]
+
+    class Client:
+        def __init__(self):
+            self.calls = []
+
+        def get(self, path, headers=None, timeout=None):
+            self.calls.append((path, timeout))
+            return responses.pop(0)
+
+    rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
+    rest.client = Client()
+    monkeypatch.setattr("core.exchanges.delta.delta_auth.time.sleep", lambda _: None)
+    payload, retry_count, status = rest.get_with_policy(
+        "/v2/fills", timeout_seconds=7, retry_budget=1
+    )
+    assert payload == {"success": True, "result": []}
+    assert retry_count == 1
+    assert status == 200
+    assert rest.client.calls == [
+        ("/v2/fills", 7.0), ("/v2/fills", 7.0)
+    ]
+
+
+def test_signed_rest_get_policy_does_not_retry_nonretryable_401(monkeypatch):
+    request = httpx.Request("GET", "https://api.delta.exchange/v2/fills")
+    response = httpx.Response(401, request=request)
+
+    class Client:
+        calls = 0
+
+        def get(self, path, headers=None, timeout=None):
+            self.calls += 1
+            return response
+
+    rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
+    rest.client = Client()
+    monkeypatch.setattr("core.exchanges.delta.delta_auth.time.sleep", lambda _: None)
+    with pytest.raises(httpx.HTTPStatusError):
+        rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
+    assert rest.client.calls == 1
