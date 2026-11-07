@@ -1,8 +1,6 @@
 """Phase 207 durable restart-recovery tests for historical captures."""
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -33,10 +31,10 @@ def make_plan(**changes):
 
 
 class SequenceAdapter:
-    def __init__(self, statuses=("OK",)):
+    def __init__(self, statuses=("OK",), start_sequence=0):
         self.statuses = list(statuses)
         self.calls = []
-        self.sequence = 0
+        self.sequence = start_sequence
 
     def capture(self, **kwargs):
         self.calls.append(kwargs)
@@ -84,7 +82,7 @@ def test_restart_retries_partial_slot_without_overwriting_prior_evidence(tmp_pat
     assert first.snapshots[0].complete is False
 
     artifacts_before = sorted(path.read_bytes() for path in Path(tmp_path).rglob("*.json"))
-    retry_adapter = SequenceAdapter(statuses=("OK",))
+    retry_adapter = SequenceAdapter(statuses=("OK",), start_sequence=1)
     resumed = HistoricalCaptureOrchestrator(retry_adapter, tmp_path).run(plan)
 
     assert resumed.status == "COMPLETE"
@@ -113,7 +111,7 @@ def test_resume_can_be_disabled_explicitly(tmp_path):
     first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
     assert first.status == "COMPLETE"
 
-    adapter = SequenceAdapter()
+    adapter = SequenceAdapter(start_sequence=5)
     rerun = HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan, resume=False)
     assert rerun.status == "COMPLETE"
     assert len(adapter.calls) == 1
