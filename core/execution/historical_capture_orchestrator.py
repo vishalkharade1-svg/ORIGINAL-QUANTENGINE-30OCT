@@ -299,8 +299,13 @@ class HistoricalCaptureOrchestrator:
             for artifact_path in sorted(plan_dir.glob("*.json")):
                 try:
                     payload = json.loads(artifact_path.read_text(encoding="utf-8"))
-                    if payload.get("schema") != "quantengine.phase207.capture.v1":
+                    schema = payload.get("schema")
+                    if schema == "quantengine.phase206.capture.v1":
+                        # Phase-206 artifacts predate slot coordinates; preserve
+                        # them but never infer a resumable slot from their names.
                         continue
+                    if schema != "quantengine.phase207.capture.v1":
+                        raise CapturePersistenceError("persisted capture schema is unsupported")
                     if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
                         raise CapturePersistenceError("persisted capture scope does not match requested plan")
                     repeat_index = payload.get("repeat_index")
@@ -313,6 +318,16 @@ class HistoricalCaptureOrchestrator:
                     capture = CaptureSnapshot.from_dict(payload.get("capture", {}))
                     if capture.record_category != endpoint:
                         raise CapturePersistenceError("persisted capture endpoint does not match its slot")
+                    if artifact_path.stem != capture.capture_id:
+                        raise CapturePersistenceError("persisted capture filename does not match capture identity")
+                    expected_product = None if endpoint == "wallet_transactions" else plan.product_id
+                    if (capture.venue.strip().lower() != plan.venue.strip().lower()
+                            or capture.account_id != plan.account_id
+                            or capture.product_id != expected_product):
+                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                    expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
+                    if payload.get("capture_status") != expected_status:
+                        raise CapturePersistenceError("persisted capture status does not match its completeness flags")
                     expected_window = windows[window_index]
                     expected_start, expected_end = expected_window.as_iso()
                     if capture.window_start != expected_start or capture.window_end != expected_end:
@@ -367,7 +382,6 @@ class HistoricalCaptureOrchestrator:
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
-                    all_endpoints_complete = True
                     for endpoint in missing_endpoints:
                         records = _snapshot_records(raw, endpoint)
                         if len(records) > plan.max_records_per_snapshot:
@@ -375,7 +389,6 @@ class HistoricalCaptureOrchestrator:
                         if result.total_records + len(records) > plan.max_total_records:
                             raise CapturePlanError("MAX_TOTAL_RECORDS_REACHED")
                         endpoint_complete = endpoint_status.get(endpoint) == "OK"
-                        all_endpoints_complete = all_endpoints_complete and endpoint_complete
                         capture_id = str(uuid5(
                             NAMESPACE_URL,
                             f"{plan_id}:{repeat}:{index}:{endpoint}:{captured_at}",
