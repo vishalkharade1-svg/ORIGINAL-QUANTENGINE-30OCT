@@ -44,6 +44,8 @@ def test_timezone_normalized_to_utc():
     {"max_total_records": 0},
     {"max_pages_per_endpoint": 0},
     {"max_total_pages": 0},
+    {"request_timeout_seconds": 0},
+    {"retry_budget": -1},
     {"mode": "unknown"},
     {"tenant_id": ""},
     {"endpoints": ()},
