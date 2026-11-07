@@ -284,6 +284,9 @@ def test_page_provenance_records_cursor_count_and_content_hash():
     assert pages[0]["response_cursor"] == "orders-next"
     assert pages[0]["record_count"] == 1
     assert len(pages[0]["content_sha256"]) == 64
+    assert pages[0]["request_started_at"]
+    assert pages[0]["collected_at"]
+    assert pages[0]["request_duration_ms"] >= 0
     assert pages[1]["request_cursor"] == "orders-next"
     assert snap.complete is True
 
