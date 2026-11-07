@@ -323,10 +323,11 @@ class DeltaSignedREST:
                     continue
                 response.raise_for_status()
                 return response.json(), attempt, status
-            except (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError):
+            except (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError) as exc:
                 if attempt < retry_budget:
                     time.sleep(min(0.5 * (2 ** attempt), 30.0))
                     continue
+                exc.retry_count = attempt
                 raise
             except httpx.HTTPStatusError as exc:
                 status = exc.response.status_code if exc.response is not None else None
@@ -334,6 +335,7 @@ class DeltaSignedREST:
                     if attempt < retry_budget:
                         time.sleep(retry_delay(exc.response, attempt))
                         continue
+                exc.retry_count = attempt
                 raise
 
         raise RuntimeError("bounded GET retry loop exited unexpectedly")
