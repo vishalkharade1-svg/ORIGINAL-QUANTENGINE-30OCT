@@ -21,7 +21,9 @@ Implemented:
 Blocked / partial:
 - Real authenticated venue collection requires trusted owner authorization callback and explicit authorization. No owner flag exists in the plan.
 - Per-page provenance, shared total-page budget, per-endpoint page caps and repeated-page detection are implemented.
-- Per-plan timeout/retry controls, retry-attempt receipts, HTTP status metadata and partial-page persistence remain incomplete.
+- Per-plan request timeout/retry budgets, Retry-After handling, retry-attempt receipts, HTTP status metadata and redirect-disabled signed GETs are implemented.
+- Earlier valid pages are retained as partial snapshots when a later page fails. Durable process-restart resume remains incomplete.
+- Maximum-record limits are checked after the endpoint snapshot is returned; early page-size enforcement remains incomplete.
 - Endpoint-specific snapshots prevent cross-endpoint record-ID collisions; validated endpoint selection is passed to the Delta adapter, and only selected allowlisted GET endpoints are called. Wallet transactions are stored without product scope.
 - Cross-window sequence reconciliation and durable resume after process restart remain incomplete.
 - Automated release packaging and fresh-extraction validation are not yet certified.
@@ -33,9 +35,9 @@ Production readiness: HOLD / NOT_PRODUCTION_READY.
 
 ## Verification receipt
 
-GitHub Actions: [run 42408507531](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42408507531) — SUCCESS.
-- Phase 206 focused tests: 30 passed.
-- Phase 199 + Phase 205 regressions: 57 passed combined.
+GitHub Actions: [run 42409352002](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42409352002) — SUCCESS.
+- Phase 206 focused tests: 37 passed.
+- Phase 199 + Phase 205 regressions: 62 passed combined.
 - Strict manifest verification: PASS.
 - Secret scans: PASS (working tree, staged blobs, and separate history workflow).
 
