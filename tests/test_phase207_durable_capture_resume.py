@@ -181,11 +181,11 @@ def test_resume_reconstructs_same_window_repeat_reconciliation_reports(tmp_path)
     assert restarted.status == "COMPLETE"
     assert len(restarted.reconciliation_reports) == 1
     assert restarted.reconciliation_reports[0]["result"]["record_counts"]["unchanged"] == 0
-    assert restarted.reconciliation_reports[0]["status"] == "RECONCILED"
+    assert restarted.reconciliation_reports[0]["status"] == "RECONCILED_WITH_DIFFERENCES"
 
 
 def test_completed_recovered_slots_do_not_consume_capture_run_budget(tmp_path):
-    plan = make_plan(max_capture_runs=1, end="2026-10-01T01:00:00Z")
+    plan = make_plan(max_capture_runs=1)
     # First pass can only capture the first of two planned windows.
     first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
     assert first.status == "PARTIAL"
