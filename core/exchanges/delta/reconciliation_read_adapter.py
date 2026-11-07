@@ -296,6 +296,7 @@ class DeltaReconciliationReadAdapter:
                 ("id", "order_id", "product_id", "size", "price", "side"),
                 max_pages=max_pages_per_endpoint, page_budget=page_budget,
                 page_provenance=page_provenance,
+                request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
             )
         if "positions" in selected:
             positions, positions_complete, positions_status = self._read_all(
