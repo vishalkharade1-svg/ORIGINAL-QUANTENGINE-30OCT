@@ -33,7 +33,7 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 
 ## Verification evidence
 
-GitHub Actions run [42407453707](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407453707) completed successfully:
+GitHub Actions run [42407980051](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407980051) completed successfully:
 - Phase 206 focused tests: 28 passed.
 - Phase 199 + Phase 205 regression tests: 53 passed combined.
 - Strict source manifest verification: PASS.
@@ -45,7 +45,6 @@ The full project test suite was not run. A sanitized release archive and fresh-e
 ## Remaining engineering limitations
 
 1. Phase 199 adapter exposes aggregate endpoint completion only. It does not return per-page cursor/status/count/checksum/timestamps or expose a shared page/request budget.
-2. The Phase 199 adapter still does not return per-page cursor/status/count/checksum/timestamps or a shared page/request budget.
 3. Adapter exceptions abort a window. Partial endpoint rows cannot be persisted because the adapter does not return partial snapshots.
 4. Retry and timeout controls are inherited from the shared REST client, not validated as per-plan limits. Phase 206 does not yet implement an independent bounded retry/resume protocol.
 5. Reconciliation currently compares repeated captures of the same window; systematic cross-window and multi-capture sequence reconciliation remains incomplete.
