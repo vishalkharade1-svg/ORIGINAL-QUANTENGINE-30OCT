@@ -65,6 +65,8 @@ class HistoricalCapturePlan:
     max_total_records: int = 100000
     max_pages_per_endpoint: int = 100
     max_total_pages: int = 500
+    request_timeout_seconds: int = 20
+    retry_budget: int = 2
     max_capture_runs: int = 48
     interval_seconds: int = 0
     mode: str = "fixture"
@@ -100,6 +102,10 @@ class HistoricalCapturePlan:
             raise CapturePlanError("max_pages_per_endpoint must be between 1 and 100")
         if isinstance(self.max_total_pages, bool) or not 1 <= self.max_total_pages <= 2500:
             raise CapturePlanError("max_total_pages must be between 1 and 2500")
+        if isinstance(self.request_timeout_seconds, bool) or not 1 <= self.request_timeout_seconds <= 60:
+            raise CapturePlanError("request_timeout_seconds must be between 1 and 60")
+        if isinstance(self.retry_budget, bool) or not 0 <= self.retry_budget <= 5:
+            raise CapturePlanError("retry_budget must be between 0 and 5")
         if isinstance(self.max_capture_runs, bool) or not 1 <= self.max_capture_runs <= 5000:
             raise CapturePlanError("max_capture_runs must be between 1 and 5000")
         if isinstance(self.interval_seconds, bool) or not 0 <= self.interval_seconds <= 86400:
@@ -251,8 +257,13 @@ class HistoricalCaptureOrchestrator:
         if plan.mode == "authenticated":
             if self._owner_authorizer is None or self._owner_authorizer(plan) is not True:
                 raise CaptureAuthorizationError("trusted owner authorization callback denied capture")
-            if not bool(getattr(getattr(self._adapter, "_rest", None), "authenticated", False)):
+            rest_client = getattr(self._adapter, "_rest", None)
+            if rest_client is None:
+                rest_client = getattr(getattr(self._adapter, "_read_adapter", None), "_rest", None)
+            if not bool(getattr(rest_client, "authenticated", False)):
                 raise CaptureAuthorizationError("authenticated Delta REST client is not available")
+            if not callable(getattr(rest_client, "get_with_policy", None)):
+                raise CaptureAuthorizationError("authenticated REST client lacks bounded timeout/retry policy support")
         plan_id = plan.plan_id or str(uuid5(NAMESPACE_URL, canonical_json_bytes({
             "venue": plan.venue, "tenant": plan.tenant_id, "account": plan.account_id,
             "product": plan.product_id, "start_utc": windows[0].start.isoformat(),
@@ -263,6 +274,8 @@ class HistoricalCaptureOrchestrator:
             "max_total_records": plan.max_total_records,
             "max_pages_per_endpoint": plan.max_pages_per_endpoint,
             "max_total_pages": plan.max_total_pages,
+            "request_timeout_seconds": plan.request_timeout_seconds,
+            "retry_budget": plan.retry_budget,
             "max_capture_runs": plan.max_capture_runs,
             "interval_seconds": plan.interval_seconds, "mode": plan.mode,
             "endpoints": plan.endpoints,
@@ -285,6 +298,8 @@ class HistoricalCaptureOrchestrator:
                         endpoints=plan.endpoints,
                         max_pages_per_endpoint=plan.max_pages_per_endpoint,
                         max_total_pages=plan.max_total_pages,
+                        request_timeout_seconds=plan.request_timeout_seconds,
+                        retry_budget=plan.retry_budget,
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
