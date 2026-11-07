@@ -114,6 +114,7 @@ class DeltaReconciliationReadAdapter:
         page_provenance: list[dict[str, Any]] | None = None,
         request_timeout_seconds: int = 20,
         retry_budget: int = 2,
+        allow_partial: bool = False,
     ) -> tuple[list[dict[str, Any]], bool, str]:
         rows: list[dict[str, Any]] = []
         seen_cursors: set[str] = set()
@@ -156,11 +157,31 @@ class DeltaReconciliationReadAdapter:
                     })
                 # Do not propagate request URLs, headers, or exception strings
                 # that might contain credentials.
+                if allow_partial:
+                    return rows, False, "REQUEST_FAILED"
                 raise DeltaReconciliationReadError(
                     f"{endpoint}: authenticated read failed ({type(exc).__name__})"
                 ) from None
-            page_rows, after = self._envelope(response, endpoint)
-            self._require_fields(page_rows, required, endpoint)
+            try:
+                page_rows, after = self._envelope(response, endpoint)
+                self._require_fields(page_rows, required, endpoint)
+            except Exception as exc:
+                if page_provenance is not None:
+                    page_provenance.append({
+                        "endpoint": endpoint, "page_index": page_number,
+                        "request_cursor": request_cursor, "response_cursor": None,
+                        "response_status": "INVALID_RESPONSE", "record_count": 0,
+                        "request_started_at": request_started_at,
+                        "collected_at": datetime.now(timezone.utc).isoformat(),
+                        "request_duration_ms": round((time.monotonic() - request_started_mono) * 1000, 3),
+                        "content_sha256": None, "retry_count": retry_count,
+                        "http_status_code": http_status_code,
+                        "request_policy_enforced": policy_enforced,
+                        "error_type": type(exc).__name__,
+                    })
+                if allow_partial:
+                    return rows, False, "INVALID_RESPONSE"
+                raise
             page_bytes = json.dumps(
                 page_rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
             ).encode("utf-8")
@@ -180,6 +201,10 @@ class DeltaReconciliationReadAdapter:
                     "request_policy_enforced": policy_enforced,
                 })
             if page_rows and page_hash in seen_pages:
+                if page_provenance is not None:
+                    page_provenance[-1]["response_status"] = "REPEATED_PAGE"
+                if allow_partial:
+                    return rows, False, "REPEATED_PAGE"
                 raise DeltaReconciliationReadError(f"{endpoint}: repeated response page")
             if page_rows:
                 seen_pages.add(page_hash)
@@ -191,6 +216,10 @@ class DeltaReconciliationReadAdapter:
             if after is None:
                 return rows, True, "OK"
             if after in seen_cursors:
+                if page_provenance is not None:
+                    page_provenance[-1]["pagination_status"] = "REPEATED_CURSOR"
+                if allow_partial:
+                    return rows, False, "REPEATED_CURSOR"
                 raise DeltaReconciliationReadError(f"{endpoint}: repeated pagination cursor")
             seen_cursors.add(after)
             query["after"] = after
@@ -227,6 +256,7 @@ class DeltaReconciliationReadAdapter:
         max_total_pages: int = 500,
         request_timeout_seconds: int = 20,
         retry_budget: int = 2,
+        allow_partial: bool = False,
     ) -> DeltaReconciliationSnapshot:
         """Read only selected allowlisted endpoint categories.
 
@@ -259,6 +289,8 @@ class DeltaReconciliationReadAdapter:
         if (isinstance(retry_budget, bool) or not isinstance(retry_budget, int)
                 or not 0 <= retry_budget <= 5):
             raise ValueError("retry_budget must be between 0 and 5")
+        if not isinstance(allow_partial, bool):
+            raise ValueError("allow_partial must be a boolean")
         if window_start is not None:
             from core.execution.historical_evidence_window import _utc
             start = _utc(window_start, "window_start")
@@ -283,6 +315,7 @@ class DeltaReconciliationReadAdapter:
                 ("id", "product_id", "size"), max_pages=max_pages_per_endpoint,
                 page_budget=page_budget, page_provenance=page_provenance,
                 request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
+                allow_partial=allow_partial,
             )
         if "order_history" in selected:
             order_history, history_complete, history_status = self._read_all(
