@@ -1,0 +1,33 @@
+{
+  "authenticated_rest_fills": "NOT_EXECUTED",
+  "blocker": "Fresh rotated testnet credentials must be configured as environment variables; previously exposed credentials are not reused.",
+  "credentials_persisted": false,
+  "credentials_source": "environment_only",
+  "dns_probe": {
+    "cdn-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind-pub.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    }
+  },
+  "economic_certification": "BLOCKED",
+  "environment": "india_testnet",
+  "finished_at": "2026-10-10T13:38:19.731740+00:00",
+  "order_placement": "DISABLED",
+  "phase": 85,
+  "private_ws_fills": "NOT_EXECUTED",
+  "production_ready": false,
+  "real_public_l2": "NOT_EXECUTED",
+  "rest_ws_reconciliation": "BLOCKED",
+  "started_at": "2026-10-10T13:38:19.650572+00:00",
+  "status": "BLOCKED_CREDENTIALS_NOT_CONFIGURED",
+  "symbol": "BTCUSD",
+  "title": "Delta Testnet non-trading evidence capture and reconciliation"
+}

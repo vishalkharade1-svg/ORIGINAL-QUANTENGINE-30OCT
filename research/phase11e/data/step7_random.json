@@ -1,0 +1,48 @@
+{
+ "k_median": 15.53199679574306,
+ "draws_per_fold": 500,
+ "trade_cost": 0.45,
+ "folds": {
+  "F1": {
+   "draws": 500,
+   "mean": -6.2471482,
+   "p5": -24.3107,
+   "p25": -14.4438,
+   "p50": -6.7214,
+   "p75": 0.7423,
+   "p95": 13.898,
+   "strategy_net": -6.4606,
+   "strategy_percentile": 0.508,
+   "p_positive": 0.27
+  },
+  "F2": {
+   "draws": 500,
+   "mean": -1.6286144,
+   "p5": -11.5039,
+   "p25": -5.8568,
+   "p50": -1.8813,
+   "p75": 2.0037,
+   "p95": 9.8956,
+   "strategy_net": -2.8684,
+   "strategy_percentile": 0.44,
+   "p_positive": 0.37
+  },
+  "F3": {
+   "strategy_n": 0,
+   "strategy_net": 0.0,
+   "status": "INSUFFICIENT (no strategy fills; control undefined)"
+  },
+  "F4": {
+   "draws": 500,
+   "mean": -0.37176319999999996,
+   "p5": -1.4842,
+   "p25": -0.7382,
+   "p50": -0.4521,
+   "p75": -0.184,
+   "p95": 1.1767,
+   "strategy_net": -0.4476,
+   "strategy_percentile": 0.566,
+   "p_positive": 0.204
+  }
+ }
+}

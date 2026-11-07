@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-10-11T08:37:38.812232+00:00",
+  "environment": "INDIA_TESTNET",
+  "evidence_sha256": "7f6e6ac789f22bc3cee044f58162fc68056f0dca990efc1527f7773ce24ec85f",
+  "fills": [
+    {
+      "commission": "0.10617027",
+      "fill_id": "e8f9f057146241c8bd47655c7eb51a8a",
+      "fill_type": "normal",
+      "order_id": "2175077133",
+      "price": "2499.3",
+      "role": "taker",
+      "side": "sell",
+      "size": "8",
+      "symbol": "ETHUSD",
+      "timestamp": 1791706121706
+    },
+    {
+      "commission": "0.10620638",
+      "fill_id": "c1743bd60eed43129731af5bc4b4e8ef",
+      "fill_type": "normal",
+      "order_id": "2175077480",
+      "price": "2500.15",
+      "role": "taker",
+      "side": "buy",
+      "size": "8",
+      "symbol": "ETHUSD",
+      "timestamp": 1791706339639
+    }
+  ],
+  "provenance_status": "REAL",
+  "request_params": {
+    "page_size": 100,
+    "symbol": "ETHUSD",
+    "symbol_rows_kept": 2,
+    "symbol_rows_seen": 8
+  },
+  "schema_version": 1,
+  "source_endpoint": "https://cdn-ind.testnet.deltaex.org/v2/fills",
+  "symbol": "ETHUSD",
+  "venue": "delta"
+}

@@ -1,0 +1,31 @@
+{
+  "phase": "71",
+  "title": "Funding-aware OOS integration",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "live_readiness": false,
+  "changes": [
+    "Backtester accepts an explicit FundingSchedule and wires it to the canonical TradeSimulator fill/close path.",
+    "FundingSchedule now carries an evidence coverage window and exposes a fail-closed covers() gate.",
+    "Frozen OOS execution accepts an explicit funding schedule and rejects an OOS interval outside verified funding coverage.",
+    "Added verified funding-artifact loader that validates exact market-data bytes, REAL provenance, evidence window coverage, and schedule coverage before OOS execution.",
+    "Frozen OOS output now exposes gross_pnl, commission, slippage, funding, and net_pnl attribution without treating missing funding as zero when funding evidence is required."
+  ],
+  "tests": {
+    "phase71_focused": 5,
+    "economics_and_backtest_targeted": 51,
+    "broader_replay_regression": 24,
+    "compileall": "PASS"
+  },
+  "real_venue_capture": "NOT_EXECUTED",
+  "external_funding_economics": "NOT_VERIFIED",
+  "genuine_funding_artifact_available": false,
+  "genuine_funding_oos_certification": "BLOCKED",
+  "reason_blocked": "No genuine venue funding capture was available in the environment; public Delta access previously failed with DNS resolution failure. Therefore no OOS profitability/economics result is certified from this phase.",
+  "next_unblocked_work": [
+    "Use genuine Delta funding-history evidence bound to the exact historical market-data bytes.",
+    "Run deterministic funding-aware OOS replay on an eligible genuine dataset when evidence coverage exists.",
+    "Produce before/after economics attribution at trade and aggregate levels.",
+    "Continue venue fee/spread/slippage certification and live/paper economics remediation."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "phase": 201,
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "execution_decision": "HOLD",
+  "position_fill_reconstruction": "IMPLEMENTED_FOCUSED_TESTED",
+  "focused_tests": {
+    "count": 74,
+    "status": "PASS"
+  },
+  "test_collection": {
+    "count": 4930,
+    "status": "COLLECTION_ONLY"
+  },
+  "full_suite": "NOT_RUN",
+  "manifest": "PASS",
+  "secret_scan": "PASS",
+  "pinned_python_environment": "NOT_CERTIFIED",
+  "authenticated_venue_verification": "NOT_PERFORMED",
+  "operator_authorization_provisioning": "BLOCKED_OWNER_ACTION",
+  "exchange_network_calls": 0,
+  "exchange_order_writes": 0,
+  "position_model": "NETTED_SIGNED_BUY_POSITIVE_SELL_NEGATIVE",
+  "automatic_resume": "NEVER"
+}

@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "phase": "7E",
+    "baseline": {
+      "commit": "d3eb2c8",
+      "description": "feat(phase7): breakout directional asymmetry research harness -- current production behavior, NO directional branch, frozen thresholds. Immutable baseline for 7E."
+    },
+    "data": {
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "requested_bars": 10000,
+      "cached_bars": 10000,
+      "cache_path": "data\\history\\BTCUSDT_1m_oos.json",
+      "out_of_sample": true
+    },
+    "pipeline": {
+      "identical_frozen_path": true,
+      "entry_mode": "BREAKOUT_CONTINUATION",
+      "engine": "InstitutionalPipeline + Backtester + CausalValidator"
+    },
+    "verdict": {
+      "outcome": "NO-GO",
+      "message": "the synthetic DIRECTIONAL hypothesis does NOT reproduce on real OOS data: win-rate gap -4.7pp below the 5.0pp materiality floor (bull 79.2% vs bear 74.5%); expectancy bull +0.067R vs bear +0.059R. The bearish-strong / bullish-weak signal is absent -> discard the synthetic hypothesis (outcome B)."
+    }
+  },
+  "report": {
+    "total_setups": 692,
+    "triggered": 692,
+    "profiles": {
+      "BULLISH": {
+        "count": 268,
+        "wins": 179,
+        "losses": 47,
+        "unsettled": 36,
+        "excluded": 0,
+        "never_entered": 6,
+        "win_rate_pct": 79.20354,
+        "profit_factor": 1.324093,
+        "expectancy_R": 0.0674,
+        "avg_win_R": 0.347667,
+        "avg_loss_R": -1.0,
+        "payoff": 0.347667,
+        "avg_mae_atr": 22.588902,
+        "avg_mfe_atr": 11.858156,
+        "avg_rr": 7.17323
+      },
+      "BEARISH": {
+        "count": 424,
+        "wins": 263,
+        "losses": 90,
+        "unsettled": 59,
+        "excluded": 0,
+        "never_entered": 12,
+        "win_rate_pct": 74.504249,
+        "profit_factor": 1.232902,
+        "expectancy_R": 0.05938,
+        "avg_win_R": 0.421906,
+        "avg_loss_R": -1.0,
+        "payoff": 0.421906,
+        "avg_mae_atr": 17.077266,
+        "avg_mfe_atr": 9.178704,
+        "avg_rr": 9.364296
+      }
+    },
+    "origins": {
+      "G": {
+        "name": "DATA-SAMPLE IMBALANCE",
+        "metric": "triggered count (% of dataset)",
+        "bullish": 38.728324,
+        "bearish": 61.271676,
+        "asymmetry": 0.367925,
+        "present": true,
+        "note": "268 bullish vs 424 bearish triggered; read every ratio as a rate, never as a count."
+      },
+      "A": {
+        "name": "MARKET",
+        "metric": "settled win rate (%)",
+        "bullish": 79.20354,
+        "bearish": 74.504249,
+        "asymmetry": 0.059332,
+        "present": true,
+        "note": "settled win rate across the triggered population."
+      },
+      "B": {
+        "name": "STRUCTURE-GENERATION",
+        "metric": "triggered setups (%), population share",
+        "bullish": 38.728324,
+        "bearish": 61.271676,
+        "asymmetry": 0.367925,
+        "present": true,
+        "note": "how much of the eligible population each side generated."
+      },
+      "C": {
+        "name": "SETUP-SELECTION",
+        "metric": "avg entry distance (ATR)",
+        "bullish": 17.417767,
+        "bearish": 13.624498,
+        "asymmetry": 0.217782,
+        "present": true,
+        "note": "average distance-from-market of the selected setups."
+      },
+      "D": {
+        "name": "BREAKOUT-TRIGGER",
+        "metric": "causally-executable entry rate (%)",
+        "bullish": 97.761194,
+        "bearish": 97.169811,
+        "asymmetry": 0.006049,
+        "present": true,
+        "note": "fraction of triggered setups that convert to an executable entry."
+      },
+      "E": {
+        "name": "STOP-TARGET GEOMETRY",
+        "metric": "avg reward : risk",
+        "bullish": 41.499451,
+        "bearish": 29.728144,
+        "asymmetry": 0.28365,
+        "present": true,
+        "note": "reward : risk geometry of the triggered population."
+      },
+      "F": {
+        "name": "EXECUTION",
+        "metric": "fill-path divergence (counterfactual-held-constant)",
+        "bullish": 0.0,
+        "bearish": 0.0,
+        "asymmetry": 0.0,
+        "present": false,
+        "note": "execution is held IDENTICAL across directions in the causal dataset (NEXT_BAR_OPEN); any residual difference is setup-origin, not fill-path. 7D verifies via mirror."
+      }
+    },
+    "counterfactual": {
+      "execution_asymmetry": {
+        "bull_shift_pp": 0.0,
+        "bear_shift_pp": 0.0,
+        "verdict": "EXECUTION-HELD-CONSTANT"
+      },
+      "bull_native_win": 79.20354,
+      "bear_native_win": 74.504249
+    },
+    "hypothesis": {
+      "dominant_origin": "G",
+      "win_rate_gap_pp": 4.699291,
+      "geometry_read": "BULLISH_GEOMETRY_STRONGER",
+      "candidate_change": "DIRECTIONAL_POLICY",
+      "note": "7E is gated behind this evidence: a directional BREAKOUT_CONTINUATION policy is only proposed if the origin decomposition shows a genuine directional asymmetry; it would be developed and unit-tested in the isolated research path before any production integration."
+    }
+  }
+}

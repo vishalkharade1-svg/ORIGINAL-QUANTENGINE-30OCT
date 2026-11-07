@@ -1,0 +1,62 @@
+{
+  "current_strategy_replay": {
+    "BTCUSDT_D2": {
+      "bars": 3000,
+      "fills": 0,
+      "losses": 0,
+      "net": 0.0,
+      "orders": 4,
+      "wins": 0
+    },
+    "ETHUSDT_D2": {
+      "bars": 3000,
+      "fills": 0,
+      "losses": 0,
+      "net": 0.0,
+      "orders": 3,
+      "wins": 0
+    },
+    "note": "Current-source replay is evidence only; it does not recreate the historical strategy identity or establish an edge."
+  },
+  "edge_status": "NOT_ESTABLISHED",
+  "legacy_phase7_full_file": {
+    "path": "data/history/BTCUSDT_1m_oos.json",
+    "present": false,
+    "required_for_exact_historical_replay": true
+  },
+  "production_ready": false,
+  "reasons": [
+    "The preserved 11F D2 BTC and ETH datasets are genuinely recoverable and hash-verified.",
+    "The original full Phase-7 BTCUSDT_1m_oos.json is still absent, so the exact historical 10,000-bar protocol cannot be reconstructed from D2 alone.",
+    "The current strategy digest differs from both historical strategy identities.",
+    "Historical findings remain non-transferable until current-source research is independently rerun."
+  ],
+  "recovery": {
+    "canonical_paths_verified": true,
+    "datasets": {
+      "BTCUSDT": {
+        "bars": 3000,
+        "contiguous_1m": true,
+        "end": 1788175440,
+        "lineage_status": "CONTAMINATED (11F validation, disclosed)",
+        "measurement_class": "REAL OHLCV",
+        "path": "research/phase11f/data/universe_D2_BTC.json",
+        "sha256": "4256b0df1fbba1711bb86656138d8a2467fb0152bb071538f4a3ba39c3918903",
+        "start": 1787995500
+      },
+      "ETHUSDT": {
+        "bars": 3000,
+        "contiguous_1m": true,
+        "end": 1788175440,
+        "lineage_status": "CONTAMINATED (11F validation, disclosed)",
+        "measurement_class": "REAL OHLCV",
+        "path": "research/phase11f/data/universe_D2_ETH.json",
+        "sha256": "cc4b8e27fca7ab50593f22badd844362f4120902155793ed44b0603534ea1a06",
+        "start": 1787995500
+      }
+    },
+    "source": "embedded Phase-56 deterministic-OOS-builder checkpoint already present in Phase-64 repository"
+  },
+  "schema": "phase65-d2-recovery-v1",
+  "status": "D2_RECOVERED_FULL_RECERTIFICATION_BLOCKED"
+}

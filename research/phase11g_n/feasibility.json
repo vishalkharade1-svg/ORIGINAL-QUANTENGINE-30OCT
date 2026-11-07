@@ -1,0 +1,407 @@
+{
+ "code_hash": "97d8aaa6e1d47a56a2014dbe25e6d41d15548d75401729fe5838ac866e0a9dde",
+ "datasets": {
+  "BTCUSDT/2026-09-07": {
+   "aggtrades": {
+    "aggressor_side": "REAL (provider is_buyer_maker mapping)",
+    "event_model": "aggregate events (aggTrade != individual fill)",
+    "normalized_sha256": "2d0f70795b23eca98b6483b3bde4f73b391c3c8013266f9e78201d2e61b559f4",
+    "parsed": 739584,
+    "precision": "milliseconds (13-digit transact_time verified)",
+    "quality": {
+     "bad_precision_events": 0,
+     "duplicate_trade_ids": 0,
+     "out_of_order_events": 0,
+     "parsed": 739584,
+     "reject_samples": [],
+     "rejected": 0,
+     "rejects_by_reason": {},
+     "rows": 739584
+    },
+    "rows": 739584
+   },
+   "bars": {
+    "first_minute": 1788739200,
+    "last_minute": 1788825540,
+    "missing_minutes": [],
+    "n_minutes": 1440
+   },
+   "bytes": 59965,
+   "clean_filter": {
+    "dropped_minutes": 204,
+    "kept_minutes": 1236,
+    "rule": "BTC minutes < 2026-09-07T03:24Z dropped (oos overlap); ETH whole days kept (no post-08-31 ETH exposure)"
+   },
+   "date": "2026-09-07",
+   "endpoint": "https://data.binance.vision/data/futures/um/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2026-09-07.zip",
+   "interval": "1m",
+   "kline_crosscheck": {
+    "matched_minutes": 1440,
+    "max_abs_close_diff": 0.0
+   },
+   "klines": {
+    "parsed": 1440,
+    "rejected": 0,
+    "rows": 1440
+   },
+   "market": "UM futures (linear, USDT-margined)",
+   "provider": "Binance",
+   "provider_sha256": "4d83f583ba355f29a962e588e5174185bf40897320d1e3cee928040e7f2e159d",
+   "source_sha256": "4d83f583ba355f29a962e588e5174185bf40897320d1e3cee928040e7f2e159d",
+   "symbol": "BTCUSDT",
+   "venue": "Binance"
+  },
+  "BTCUSDT/2026-09-08": {
+   "aggtrades": {
+    "aggressor_side": "REAL (provider is_buyer_maker mapping)",
+    "event_model": "aggregate events (aggTrade != individual fill)",
+    "normalized_sha256": "333a4a458b78fd58977132d003762efb09bccca328e57a72431b49b61915121f",
+    "parsed": 1028583,
+    "precision": "milliseconds (13-digit transact_time verified)",
+    "quality": {
+     "bad_precision_events": 0,
+     "duplicate_trade_ids": 0,
+     "out_of_order_events": 0,
+     "parsed": 1028583,
+     "reject_samples": [],
+     "rejected": 0,
+     "rejects_by_reason": {},
+     "rows": 1028583
+    },
+    "rows": 1028583
+   },
+   "bars": {
+    "first_minute": 1788825600,
+    "last_minute": 1788911940,
+    "missing_minutes": [],
+    "n_minutes": 1440
+   },
+   "bytes": 61281,
+   "clean_filter": {
+    "dropped_minutes": 0,
+    "kept_minutes": 1440,
+    "rule": "BTC minutes < 2026-09-07T03:24Z dropped (oos overlap); ETH whole days kept (no post-08-31 ETH exposure)"
+   },
+   "date": "2026-09-08",
+   "endpoint": "https://data.binance.vision/data/futures/um/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2026-09-08.zip",
+   "interval": "1m",
+   "kline_crosscheck": {
+    "matched_minutes": 1440,
+    "max_abs_close_diff": 0.0
+   },
+   "klines": {
+    "parsed": 1440,
+    "rejected": 0,
+    "rows": 1440
+   },
+   "market": "UM futures (linear, USDT-margined)",
+   "provider": "Binance",
+   "provider_sha256": "ad03f5ae286bf20186fb0ef7bf5b836bef2f30eedae8f8915ba6436a448fe778",
+   "source_sha256": "ad03f5ae286bf20186fb0ef7bf5b836bef2f30eedae8f8915ba6436a448fe778",
+   "symbol": "BTCUSDT",
+   "venue": "Binance"
+  },
+  "ETHUSDT/2026-09-07": {
+   "aggtrades": {
+    "aggressor_side": "REAL (provider is_buyer_maker mapping)",
+    "event_model": "aggregate events (aggTrade != individual fill)",
+    "normalized_sha256": "c30af11f5c8af05b453e2a2e3a04d24026f88d2e58b77410c9c1183bbad8be06",
+    "parsed": 829122,
+    "precision": "milliseconds (13-digit transact_time verified)",
+    "quality": {
+     "bad_precision_events": 0,
+     "duplicate_trade_ids": 0,
+     "out_of_order_events": 0,
+     "parsed": 829122,
+     "reject_samples": [],
+     "rejected": 0,
+     "rejects_by_reason": {},
+     "rows": 829122
+    },
+    "rows": 829122
+   },
+   "bars": {
+    "first_minute": 1788739200,
+    "last_minute": 1788825540,
+    "missing_minutes": [],
+    "n_minutes": 1440
+   },
+   "bytes": 62371,
+   "clean_filter": {
+    "dropped_minutes": 0,
+    "kept_minutes": 1440,
+    "rule": "whole days kept (no post-2026-08-31 ETH exposure)"
+   },
+   "date": "2026-09-07",
+   "endpoint": "https://data.binance.vision/data/futures/um/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2026-09-07.zip",
+   "interval": "1m",
+   "kline_crosscheck": {
+    "matched_minutes": 1440,
+    "max_abs_close_diff": 0.0
+   },
+   "klines": {
+    "parsed": 1440,
+    "rejected": 0,
+    "rows": 1440
+   },
+   "market": "UM futures (linear, USDT-margined)",
+   "provider": "Binance",
+   "provider_sha256": "35422a28ab76d56b7755fb980bf7be88aa14b7091b6a4ddfb6598725b173265f",
+   "source_sha256": "35422a28ab76d56b7755fb980bf7be88aa14b7091b6a4ddfb6598725b173265f",
+   "symbol": "ETHUSDT",
+   "venue": "Binance"
+  },
+  "ETHUSDT/2026-09-08": {
+   "aggtrades": {
+    "aggressor_side": "REAL (provider is_buyer_maker mapping)",
+    "event_model": "aggregate events (aggTrade != individual fill)",
+    "normalized_sha256": "2b9d554d72ef91486228077aaf97ba22a649780f8776b0fc2b7d746f26201e29",
+    "parsed": 974949,
+    "precision": "milliseconds (13-digit transact_time verified)",
+    "quality": {
+     "bad_precision_events": 0,
+     "duplicate_trade_ids": 0,
+     "out_of_order_events": 0,
+     "parsed": 974949,
+     "reject_samples": [],
+     "rejected": 0,
+     "rejects_by_reason": {},
+     "rows": 974949
+    },
+    "rows": 974949
+   },
+   "bars": {
+    "first_minute": 1788825600,
+    "last_minute": 1788911940,
+    "missing_minutes": [],
+    "n_minutes": 1440
+   },
+   "bytes": 62933,
+   "clean_filter": {
+    "dropped_minutes": 0,
+    "kept_minutes": 1440,
+    "rule": "whole days kept (no post-2026-08-31 ETH exposure)"
+   },
+   "date": "2026-09-08",
+   "endpoint": "https://data.binance.vision/data/futures/um/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2026-09-08.zip",
+   "interval": "1m",
+   "kline_crosscheck": {
+    "matched_minutes": 1440,
+    "max_abs_close_diff": 0.0
+   },
+   "klines": {
+    "parsed": 1440,
+    "rejected": 0,
+    "rows": 1440
+   },
+   "market": "UM futures (linear, USDT-margined)",
+   "provider": "Binance",
+   "provider_sha256": "051c504ecca380c83ba8f3e40e5ca5c09858ec3af97cdb4074b7ea4e944c40e8",
+   "source_sha256": "051c504ecca380c83ba8f3e40e5ca5c09858ec3af97cdb4074b7ea4e944c40e8",
+   "symbol": "ETHUSDT",
+   "venue": "Binance"
+  }
+ },
+ "freshness": {
+  "BTCUSDT": {
+   "basis": "zero timestamp overlap vs all checkable prior sets; new acquisition lineage; no analysis exposure",
+   "classification": "FRESH",
+   "d3_overlap": "UNKNOWN (sealed; limitation recorded)",
+   "overlapping_sets": []
+  },
+  "ETHUSDT": {
+   "basis": "zero timestamp overlap vs all checkable prior sets; new acquisition lineage; no analysis exposure",
+   "classification": "FRESH",
+   "d3_overlap": "UNKNOWN (sealed; limitation recorded)",
+   "overlapping_sets": []
+  }
+ },
+ "limitations": [
+  "D3 era unknowable without opening; D3 overlap recorded UNKNOWN.",
+  "Vision daily files lag ~1 day; forward span grows with time.",
+  "No historical quotes/L2/funding/OI in the bulk archive.",
+  "aggTrade = aggregate event, not individual fill.",
+  "Millisecond precision (13-digit transact_time verified).",
+  "Regime deciles are descriptive; must not be reused as thresholds."
+ ],
+ "overall_overlap": "ZERO_OVERLAP",
+ "overlap": {
+  "BTCUSDT": {
+   "11F_D1_BTC": {
+    "overlap_minutes": 0,
+    "venue": "UNKNOWN",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11F_D2_BTC": {
+    "overlap_minutes": 0,
+    "venue": "UNKNOWN",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11G_G_gap_BTC": {
+    "overlap_minutes": 0,
+    "venue": "Delta Exchange",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11G_I_dev_BTC_trades": {
+    "overlap_minutes": 0,
+    "venue": "Binance",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "gateA_snapshot_BTC": {
+    "overlap_minutes": 0,
+    "venue": "UNKNOWN",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "oos_fresh_BTC": {
+    "overlap_minutes": 0,
+    "venue": "Delta",
+    "verdict": "ZERO_OVERLAP"
+   }
+  },
+  "ETHUSDT": {
+   "11F_D1_ETH": {
+    "overlap_minutes": 0,
+    "venue": "UNKNOWN",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11F_D2_ETH": {
+    "overlap_minutes": 0,
+    "venue": "UNKNOWN",
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11G_G_gap_ETH": {
+    "overlap_minutes": 0,
+    "venue": "Delta Exchange",
+    "verdict": "ZERO_OVERLAP"
+   }
+  }
+ },
+ "phase": "11G-N",
+ "regimes": {
+  "BTCUSDT": {
+   "atr14_close_ratio_deciles": {
+    "max": 0.0013234196915277616,
+    "min": 0.00012454994105532544,
+    "n": 2662,
+    "p10": 0.00023281934603146845,
+    "p25": 0.00029540363555746133,
+    "p50": 0.00042620400517530676,
+    "p75": 0.0005423418325008644,
+    "p90": 0.0006766573301283213
+   },
+   "down_days": 2,
+   "note": "descriptive only; deciles must not be reused as thresholds",
+   "return_bps_deciles": {
+    "max": 20.581884146888754,
+    "min": -21.75724116143961,
+    "n": 2675,
+    "p10": -4.510833581828933,
+    "p25": -2.140753268111717,
+    "p50": 0.0,
+    "p75": 1.8789952453806438,
+    "p90": 4.275022199669808
+   },
+   "up_days": 0
+  },
+  "ETHUSDT": {
+   "atr14_close_ratio_deciles": {
+    "max": 0.001721568726717858,
+    "min": 0.00020510457436731877,
+    "n": 2866,
+    "p10": 0.00038285591839205536,
+    "p25": 0.0004870757006884453,
+    "p50": 0.0006199718383002272,
+    "p75": 0.0007838199188723489,
+    "p90": 0.0009859143442905935
+   },
+   "down_days": 2,
+   "note": "descriptive only; deciles must not be reused as thresholds",
+   "return_bps_deciles": {
+    "max": 28.832793889697665,
+    "min": -30.555882007286254,
+    "n": 2879,
+    "p10": -6.1538956572811045,
+    "p25": -3.013936442108309,
+    "p50": 0.0,
+    "p75": 2.7714739019543093,
+    "p90": 5.95144744831698
+   },
+   "up_days": 0
+  }
+ },
+ "seal_counters_after": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "seal_counters_before": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "symbols": {
+  "BTCUSDT": {
+   "clean_bars": 2676,
+   "clean_events": 1768167,
+   "days": [
+    "2026-09-07",
+    "2026-09-08"
+   ],
+   "duplicate_trade_ids": 0,
+   "events_per_day": 884083.5,
+   "missing_clean_minutes": 0,
+   "out_of_order_events": 0,
+   "rejected_records": 0,
+   "temporal_span": [
+    1788751440,
+    1788911940
+   ]
+  },
+  "ETHUSDT": {
+   "clean_bars": 2880,
+   "clean_events": 1804071,
+   "days": [
+    "2026-09-07",
+    "2026-09-08"
+   ],
+   "duplicate_trade_ids": 0,
+   "events_per_day": 902035.5,
+   "missing_clean_minutes": 0,
+   "out_of_order_events": 0,
+   "rejected_records": 0,
+   "temporal_span": [
+    1788739200,
+    1788911940
+   ]
+  }
+ },
+ "venue": "Binance UM futures (linear, USDT-margined); Binance != Delta (explicit; never pooled)",
+ "walk_forward": {
+  "geometry": {
+   "embargo": 25,
+   "folds": 4,
+   "purge": 150,
+   "step": 1000,
+   "test": 1000,
+   "train_min": 2000
+  },
+  "per_symbol": {
+   "BTCUSDT": {
+    "available_clean_bars": 2676,
+    "feasible_full_wf": false
+   },
+   "ETHUSDT": {
+    "available_clean_bars": 2880,
+    "feasible_full_wf": false
+   }
+  },
+  "required_bars": 6175,
+  "verdict": "FULL_WF_INFEASIBLE"
+ }
+}

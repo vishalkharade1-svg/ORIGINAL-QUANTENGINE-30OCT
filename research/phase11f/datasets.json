@@ -1,0 +1,36 @@
+{
+  "universe": ["BTCUSDT", "ETHUSDT"],
+  "timeframe": "1m",
+  "exchange": "Delta Exchange (/v2/history/candles)",
+  "note": "Universe frozen here. No additions after results. ETH included so generality is not claimed from BTC alone.",
+  "tiers": {
+    "D0_development": {
+      "role": "Exploratory debugging only. Never selection evidence.",
+      "BTCUSDT": {"source": "phase-7 file slice [0:500]", "bars": 500},
+      "ETHUSDT": {"source": "universe_D1_ETH.json slice [0:500]", "bars": 500}
+    },
+    "D1_insample": {
+      "role": "Hypothesis development. Frozen before validation.",
+      "BTCUSDT": {"file": "phase-7 BTCUSDT_1m_oos.json slice [500:7000]",
+                  "bars": 6500, "range": ["ts+500", "ts+6999"],
+                  "contamination": "Phase-7 lineage; IS-use disclosed"},
+      "ETHUSDT": {"file": "research/phase11f/data/universe_D1_ETH.json",
+                  "bars": 4001, "contamination": "fresh fetch, IS-use disclosed"}
+    },
+    "D2_validation": {
+      "role": "Candidate selection ONLY under the pre-registered protocol.",
+      "BTCUSDT": ["phase-7 file slice [7000:10000] (3000 bars)",
+                  "oos_fresh.json Sep-5-7 (2499 bars, opened in 11E: validation-tier max)"],
+      "ETHUSDT": ["universe_D2_ETH.json (3000 bars, same window as BTC slice)"]
+    },
+    "D3_holdout": {
+      "role": "UNTOUCHED until freeze_manifest.json is sealed. No design/selection/threshold use.",
+      "BTCUSDT": {"file": "research/phase11f/data/universe_D3_BTC.json", "bars": 456},
+      "ETHUSDT": {"file": "research/phase11f/data/universe_D3_ETH.json", "bars": 456},
+      "limitation": "Thin (~7.6h each). Holdout verdicts will be sample-limited by construction; INSUFFICIENT is an acceptable holdout outcome."
+    }
+  },
+  "exchange_limits_observed": "1m history fetches return at most ~4000 most-recent bars per request; D1 cross-section lengths differ per symbol (documented, per-symbol evaluation).",
+  "orderflow": "DATA_UNAVAILABLE (candle schema: total volume only). Volume work uses labeled PROXY_FEATURE aggregates.",
+  "costs": "A zero (=11B A_zero) / B moderate (=11B C_moderate: 0.05% + 2bp) / C conservative (=11B D_adverse: 0.059% + 5bp) / D adverse-stress (2x conservative: 0.118% + 10bp, pre-registered here). Frozen; never altered to rescue a candidate. B/C map exactly to 11B/11E numbers for comparability."
+}

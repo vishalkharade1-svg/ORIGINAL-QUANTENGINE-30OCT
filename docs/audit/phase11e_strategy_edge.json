@@ -1,0 +1,74 @@
+{
+  "phase": "11E",
+  "verdict": "RED",
+  "edge_status": "NO EDGE",
+  "spec_commit": "0ede560",
+  "production_modified": false,
+  "live": "DISABLED",
+  "phase12": "NOT STARTED",
+  "fingerprint": {
+    "strategy": "BREAKOUT_CONTINUATION", "git_head": "1e2d3cf",
+    "orders": 27, "fills": 11, "wins": 6, "losses": 5,
+    "breakevens": 0, "net_pnl": 0.117534, "deterministic": true
+  },
+  "datasets": {
+    "D1_gatea": {"bars": 5000, "role": "fingerprint+IS only, contaminated"},
+    "D2_phase7": {"bars": 10000, "role": "secondary OOS, lineage-contaminated"},
+    "D3_fresh": {"bars": 2499, "role": "primary clean OOS",
+                 "sha256": "9f25e69faf1f951f096b35def1c75cb5b0e6d74a43987aaf6bf57944018341eb"}
+  },
+  "folds": {
+    "F1": {"orders": 34, "fills": 14, "W/L": [9, 5], "netA": -0.1606, "netC": -6.4606},
+    "F2": {"orders": 13, "fills": 6, "W/L": [4, 2], "netA": -0.1684, "netC": -2.8684},
+    "F3": {"orders": 0, "fills": 0, "W/L": [0, 0], "netA": 0.0, "netC": 0.0},
+    "F4": {"orders": 2, "fills": 1, "W/L": [1, 0], "netA": 0.0024, "netC": -0.4476}
+  },
+  "pooled_oos": {
+    "n": 21,
+    "A_zero": {"W/L": [14, 7], "net": -0.3267, "expectancy": -0.0156, "pf": 0.7238},
+    "B_small": {"W/L": [2, 19], "net": -4.5267},
+    "C_moderate": {"W/L": [0, 21], "net": -9.7767, "expectancy": -0.4656, "pf": 0.0},
+    "D_adverse": {"W/L": [0, 21], "net": -17.0217}
+  },
+  "breakeven": {
+    "gross_edge_per_trade": -0.0156, "modeled_cost_per_trade_C": 0.45,
+    "breakeven_cost_per_trade": -0.0156, "safety_margin": -0.4656
+  },
+  "adequacy": {"n": 21, "n_ge_30": false, "bootstrap_ci_95": [-0.5274, -0.4095]},
+  "monte_carlo": {"sims": 5000, "seeds": [1107001, 1107002],
+                  "p_loss": 1.0, "p_dd_gt_observed": 0.0, "max_streak_p95": 21},
+  "regimes": {"calibration": "per-fold strictly-prior bars (causal)",
+            "cells": "all negative, 0 wins everywhere",
+            "rescue_regime": null},
+  "sensitivity": {"variants": 6, "positive_at_C": 0, "min_netC": -13.48, "max_netC": -11.64},
+  "execution": {"V1": -9.8443, "V2": -8.6395, "V3": -9.912, "baseline_C": -9.7767},
+  "random_baseline": {"design": "per-fold, 500 draws, MTM-at-boundary",
+                    "F1_percentile": 0.508, "F2_percentile": 0.44,
+                    "F3": "INSUFFICIENT", "F4_percentile": 0.566},
+  "baselines": {
+    "buy_hold_D2_net": -6.6979, "buy_hold_D3_net": 0.4228,
+    "no_trade": 0.0
+  },
+  "decomposition": {"payoff_ratio": 0.3619, "top1_share": 0.3184,
+                    "loo_min": -0.599252, "loo_max": 0.20867},
+  "gates": {
+    "E1_data_integrity": "PASS", "E2_no_lookahead": "PASS",
+    "E3_independent_oos": "PASS",
+    "E4-M_walkforward_methodology": "PASS", "E4-E_walkforward_economics": "FAIL",
+    "E5_cost_robustness": "FAIL", "E6_sample_adequacy": "INSUFFICIENT",
+    "E7_regime": "FAIL", "E8_execution": "FAIL",
+    "E9_montecarlo": "FAIL", "E10_baselines": "FAIL",
+    "E11_reproducibility": "PASS", "E12_datamining": "PASS"
+  },
+  "closure": {
+    "amendment": "docs/audit/phase11e_closure_amendment.md",
+    "corrections": ["per-fold causal regimes", "per-fold random with MTM boundary",
+                    "explicit gross/fees/slippage/net", "E4-M/E4-E split"],
+    "outcome": "Outcome A (corrected analysis remains strongly negative)"
+  },
+  "suite": {"passed": 2001, "failed": 0, "skipped": 0, "collection_errors": 0},
+  "production_finding_reported_separately": "costs booked on pre-resize sizer notional (risk_engine), not final notional; no production change made",
+  "limitations": ["n=21 OOS trades", "two-week Aug/Sep-2026 window", "BTCUSDT 1m only",
+                  "funding unmodeled", "fixed 2:1 random-entry exits", "V2 occupancy approximated",
+                  "uncorrectable prior-selection bias", "exchange-source truth assumed"]
+}

@@ -1,0 +1,70 @@
+{
+  "phase": 172,
+  "audit_title": "QuantEngine Phase 172 Independent Audit & Post-Cost Execution Validation Findings",
+  "auditor": "Independent Quantitative Execution Auditor",
+  "timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-172-01",
+      "severity": "CRITICAL",
+      "category": "EXECUTION_SAFETY",
+      "summary": "Deterministic queue-aware paper execution state machine operates with zero live exchange boundary exposure",
+      "description": "Implemented core/paper_trading/queue_aware_paper_engine.py modeling CREATED -> VALIDATED -> RESTING -> PARTIALLY_FILLED -> FILLED lifecycle alongside valid terminal rejections (REJECTED_POST_ONLY, REJECTED_STALE, REJECTED_CONSTRAINTS). Verified zero live adapter or credential reach via assert_no_live_adapter_invocation().",
+      "reproduction_command": "python -m unittest tests/test_maker_execution_phase172.py",
+      "disposition": "VERIFIED_ISOLATED",
+      "mitigation": "Enforced non-bypassable architectural isolation ensuring paper orders cannot invoke exchange REST/WS transport."
+    },
+    {
+      "id": "FINDING-172-02",
+      "severity": "HIGH",
+      "category": "FEE_CONTRACT_FORMALIZATION",
+      "summary": "Asymmetric execution economics and instrument constraints formalized with Decimal precision",
+      "description": "Implemented calculate_asymmetric_round_trip and validate_instrument_constraints in core/execution/maker_execution_model.py supporting independent entry/exit fee tiers (e.g. Maker entry at 2.36 bps effective, Taker exit at 5.90 bps effective), tick size, lot step, and GST accounting.",
+      "reproduction_command": "python -m unittest tests/test_maker_execution_phase172.py",
+      "disposition": "IMPLEMENTED_AND_TESTED",
+      "mitigation": "Financial accounting uses Decimal arithmetic and explicit FeeScheduleProvenance records."
+    },
+    {
+      "id": "FINDING-172-03",
+      "severity": "HIGH",
+      "category": "BACKTESTING_PRE_ORDER_GATING",
+      "summary": "FrictionHurdleGate integrated into historical backtester decision boundary measures trade-selection effects",
+      "description": "Wired FrictionHurdleGate into core/backtesting/post_cost_backtester.py before order dispatch. Tested across 6 representative trade setups: Taker execution rejects 5/6 setups (83.3% rejected; only swing and trend setups pass), whereas Asymmetric Maker entry / Taker exit rejects 4/6 setups (66.7% rejected; standard intraday 150pt target passes). Micro-scalps (<50 pts) fail under all execution styles.",
+      "reproduction_command": "python scripts/run_phase172_post_cost_backtest.py",
+      "disposition": "EMPIRICALLY_DEMONSTRATED",
+      "mitigation": "Preserved TradeSelectionTally tracking reasons for rejection without silently dropping failed candidates."
+    },
+    {
+      "id": "FINDING-172-04",
+      "severity": "MEDIUM",
+      "category": "QUEUE_CALIBRATION_PRECISION",
+      "summary": "Granular queue dynamics model distinguishes 8 metrics and separates simulation assumptions from empirical observations",
+      "description": "In core/research/queue_dynamics.py, separated P(any fill) = 86.47% from P(complete fill) = 86.20%, expected time to first fill = 5.00s, time to complete fill = 5.05s, expected filled quantity = 0.86 contracts, expiration probability = 13.80%, adverse selection = 0.0164 USD, and unfilled opportunity cost = 0.0207 USD. Explicitly labeled SIMULATION_ASSUMPTION.",
+      "reproduction_command": "python -m unittest tests/test_maker_execution_phase172.py",
+      "disposition": "CALIBRATED_AND_LABELED",
+      "mitigation": "Theoretical Poisson arrival models are kept strictly distinct from observed venue fill probabilities."
+    },
+    {
+      "id": "FINDING-172-05",
+      "severity": "HIGH",
+      "category": "DATA_LINEAGE_LIMITATION",
+      "summary": "Repository historical data coverage limited to 1,440 continuous 1m bars and 113 L2 updates",
+      "description": "Historical audit confirms data/history/BTCUSDT/1m.parquet contains exactly 1,440 rows (2026-09-05T21:35:00Z to 2026-09-06T21:34:00Z = 24 hours), and research/captures/phase167_recon/l2/delta_ob_updates_archive.json contains 113 frames. Continuous multi-year 2024-2026 tick-level depth is absent from repo and marked BLOCKED_EVIDENCE.",
+      "reproduction_command": "python scripts/run_phase172_post_cost_backtest.py",
+      "disposition": "DISCLOSED_AND_PINNED",
+      "mitigation": "Simulations outside the verified 1,440-minute window are classified as scenario sensitivity bounds, not empirical proof."
+    },
+    {
+      "id": "FINDING-172-06",
+      "severity": "MEDIUM",
+      "category": "TEST_ACCOUNTING_RECONCILIATION",
+      "summary": "Reconciliation of upstream hypothesis audit passing status vs historical change-detector failures",
+      "description": "Reconciled apparent discrepancy: test_upstream_hypothesis_audit.py executes 14 unit tests (coercion boundary, conditionality, Sidak without reset) all passing (14/14 OK). The 5 change-detector failures (BLOCK-172-01) reside in distinct test modules (test_oos_feasibility_17, test_oos_validation_18, test_oos_data_extension_19, test_readiness_16). Both statements are accurate and mutually consistent.",
+      "reproduction_command": "python -m unittest tests/test_upstream_hypothesis_audit.py tests/test_oos_feasibility_17.py",
+      "disposition": "AUDITED_AND_RECONCILED",
+      "mitigation": "Documented exact pytest node IDs and collection scopes in reports/PHASE172_TEST_RESULTS.json."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "phase": 165,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "Phase 165 provenance recovery, research recertification, and remaining-system build. Quarantined dirty secondary archive, documented Phase 162 provenance correction, restored authentic .git history, decoupled quantitative strategy core from runtime infrastructure, and maintained standing external evidence blockers.",
+  "supersedes": "reports/PHASE163_RELEASE_GATES.json",
+  "gates": {
+    "archive_integrity": "PASS-deliverable-clean-and-unambiguous",
+    "manifest_completeness": "PASS-all-regular-files-covered",
+    "manifest_determinism": "PASS-lf-only-and-regenerates-byte-for-byte",
+    "provenance_correctness": "PASS-detached-hash-only-and-phase162-reconciled",
+    "quarantine_hygiene": "PASS-dirty-archive-quarantined-outside-delivery",
+    "git_ancestry_evidence": "PASS-authentic-git-repository-restored-tree-provenance-verified",
+    "strategy_identity_separation": "PASS-decoupled-v2-strategy-core-and-runtime-infra-verified",
+    "strategy_digest_recertification": "BLOCKED-preserves-historical-change-detectors-see-BLOCK-163-01",
+    "full_test_suite": "NOT-GREEN-5-deliberate-historical-strategy-change-detectors",
+    "security_secret_scan": "PASS-content-decoding-zero-secrets-detected",
+    "privacy_scan": "PASS-zero-new-leakage-restricted-evidence-package-not-cleared-for-publication",
+    "trading_safety": "PASS-bounded-testnet-only-zero-real-money-orders",
+    "live_order_placement": "NOT PERFORMED",
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "historical_adausd_closure": "UNVERIFIABLE_EXTERNAL-see-BLOCK-163-04",
+    "funding_through_settlement_evidence": "UNVERIFIABLE_EXTERNAL-see-BLOCK-163-05",
+    "repeat_match_evidence": "PARTIAL_MATCHED_WINDOWED-see-BLOCK-163-06"
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "9.0.3",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  },
+  "git_provenance": {
+    "remote_origin": "https://github.com/vishalkharade1-svg/quantengine-spring-41.git",
+    "head_commit": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+    "tree_identity": "0d87d721ce3a206ee735502e41476f5809304d9a",
+    "root_ancestor_linked": "acab8744047a052ff37c88b0a97b2b64c017da4b"
+  },
+  "statement": "Every gate above is either PASS with reproduced evidence, or explicitly blocked with the reason it cannot be established from this archive. No test was weakened, deleted, blanket-skipped or xfailed."
+}

@@ -1,0 +1,289 @@
+{
+  "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+  "external_authentication": false,
+  "phase": "26",
+  "purpose": "Bridge Delta MCP public evidence bundles into the existing 9I RESEARCH source without production authority.",
+  "row_count": 10,
+  "rows": [
+    {
+      "category": "DELTA_MCP_FUNDING",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "funding",
+        "mcp_tool": "",
+        "missing": [
+          "observation"
+        ],
+        "observation_identity": "a8bd8f6434a4398cb426eae22110f908dc36739724a333dd3502af14050906ff",
+        "observation_status": "UNAVAILABLE",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-funding",
+      "result": "UNAVAILABLE",
+      "row_id": "I-138eeaba97",
+      "source": "RESEARCH",
+      "source_id": "a8bd8f6434a4398cb426eae22110f908dc36739724a333dd3502af14050906ff",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_INDICES",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "indices",
+        "mcp_tool": "",
+        "missing": [
+          "observation"
+        ],
+        "observation_identity": "c2330ec92b2ff66b98989a38710fcbb7fd0195c5b6b2fa203db8f69183b03c02",
+        "observation_status": "UNAVAILABLE",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-indices",
+      "result": "UNAVAILABLE",
+      "row_id": "I-1b21380e9c",
+      "source": "RESEARCH",
+      "source_id": "c2330ec92b2ff66b98989a38710fcbb7fd0195c5b6b2fa203db8f69183b03c02",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_CANDLES",
+      "decision_bar": 1700000000,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "candles",
+        "mcp_tool": "get_candles",
+        "missing": [],
+        "observation_identity": "1010ddf3d901069351f46bc7c249aabf0ae7b2a049cd8208645e585c82558eba",
+        "observation_status": "VERIFIED",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {
+        "invalid_rows": 0,
+        "max_time": 1700000000,
+        "min_time": 1700000000,
+        "row_count": 1,
+        "unique_timestamps": 1,
+        "valid_rows": 1
+      },
+      "observation_id": "MCP-BTCUSD-candles",
+      "result": "VERIFIED",
+      "row_id": "I-29b8fdec83",
+      "source": "RESEARCH",
+      "source_id": "1010ddf3d901069351f46bc7c249aabf0ae7b2a049cd8208645e585c82558eba",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_OPEN_INTEREST",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "open_interest",
+        "mcp_tool": "",
+        "missing": [
+          "observation"
+        ],
+        "observation_identity": "7c384b7abacf55cc2200c87a9262c7bf8bb6284744299989420cd4f0a4f35171",
+        "observation_status": "UNAVAILABLE",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-open_interest",
+      "result": "UNAVAILABLE",
+      "row_id": "I-40a1c038c5",
+      "source": "RESEARCH",
+      "source_id": "7c384b7abacf55cc2200c87a9262c7bf8bb6284744299989420cd4f0a4f35171",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_TRADES",
+      "decision_bar": 1700000000,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "trades",
+        "mcp_tool": "get_recent_trades",
+        "missing": [],
+        "observation_identity": "e6e0c18e3f9f0d74277339b78c624718a5b28df188c541798f4c464133dfbf45",
+        "observation_status": "VERIFIED",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {
+        "invalid_rows": 0,
+        "max_time": 1700000000,
+        "min_time": 1700000000,
+        "row_count": 1,
+        "unique_timestamps": 1,
+        "valid_rows": 1
+      },
+      "observation_id": "MCP-BTCUSD-trades",
+      "result": "VERIFIED",
+      "row_id": "I-461b8fba87",
+      "source": "RESEARCH",
+      "source_id": "e6e0c18e3f9f0d74277339b78c624718a5b28df188c541798f4c464133dfbf45",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_SETTLEMENT",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "settlement",
+        "mcp_tool": "",
+        "missing": [
+          "observation"
+        ],
+        "observation_identity": "1d3d011499002f0f65316829d5c8e35060b4efebf92a9ec87ce01ed493b21180",
+        "observation_status": "UNAVAILABLE",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-settlement",
+      "result": "UNAVAILABLE",
+      "row_id": "I-4c797da09d",
+      "source": "RESEARCH",
+      "source_id": "1d3d011499002f0f65316829d5c8e35060b4efebf92a9ec87ce01ed493b21180",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_PRODUCT",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "product",
+        "mcp_tool": "get_product",
+        "missing": [],
+        "observation_identity": "b8c748974c1718fdb5baaa4a296db34f049cde98846fb3b6a422b8126fb021ad",
+        "observation_status": "VERIFIED",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-product",
+      "result": "VERIFIED",
+      "row_id": "I-5dc9b71271",
+      "source": "RESEARCH",
+      "source_id": "b8c748974c1718fdb5baaa4a296db34f049cde98846fb3b6a422b8126fb021ad",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_OPTIONS",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "options",
+        "mcp_tool": "",
+        "missing": [
+          "observation"
+        ],
+        "observation_identity": "8231c2fda1b9ce64adba0cb81570aa81ecb7dbe0c43cee791063f8575dfcd813",
+        "observation_status": "UNAVAILABLE",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-options",
+      "result": "UNAVAILABLE",
+      "row_id": "I-7a488a5d71",
+      "source": "RESEARCH",
+      "source_id": "8231c2fda1b9ce64adba0cb81570aa81ecb7dbe0c43cee791063f8575dfcd813",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_MARK_PRICE",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "mark_price",
+        "mcp_tool": "",
+        "missing": [
+          "observation"
+        ],
+        "observation_identity": "00a57cbf79e168b21682dec51db2d366f362a503daf0a1f5bf4b1f297b8c921f",
+        "observation_status": "UNAVAILABLE",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {},
+      "observation_id": "MCP-BTCUSD-mark_price",
+      "result": "UNAVAILABLE",
+      "row_id": "I-8114fabed0",
+      "source": "RESEARCH",
+      "source_id": "00a57cbf79e168b21682dec51db2d366f362a503daf0a1f5bf4b1f297b8c921f",
+      "strategy": "",
+      "timeframe": ""
+    },
+    {
+      "category": "DELTA_MCP_ORDERBOOK",
+      "decision_bar": null,
+      "direction": "",
+      "instrument_id": "BTCUSD",
+      "kv": {
+        "bundle_identity": "f4a7ca2249613080b8263d29bc95f4f522b4d3f24447754d36dc95080e38d8a9",
+        "consistency_errors": [],
+        "mcp_domain": "orderbook",
+        "mcp_tool": "get_orderbook",
+        "missing": [],
+        "observation_identity": "0c1099e874812dd6cd5e718ab695ad02c5c3d38d9e63e143c92f97c316ac4755",
+        "observation_status": "VERIFIED",
+        "source": "delta_mcp_public",
+        "venue_authentication": "UNVERIFIED"
+      },
+      "measured": {
+        "row_count": 1
+      },
+      "observation_id": "MCP-BTCUSD-orderbook",
+      "result": "VERIFIED",
+      "row_id": "I-b2f1a6bedb",
+      "source": "RESEARCH",
+      "source_id": "0c1099e874812dd6cd5e718ab695ad02c5c3d38d9e63e143c92f97c316ac4755",
+      "strategy": "",
+      "timeframe": ""
+    }
+  ],
+  "schema": "quantengine.phase26.mcp-9i-bridge.v1",
+  "venue_authentication": "UNVERIFIED"
+}

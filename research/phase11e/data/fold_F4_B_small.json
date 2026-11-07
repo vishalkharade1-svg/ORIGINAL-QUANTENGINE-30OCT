@@ -1,0 +1,18 @@
+[
+ {
+  "trade_id": "BTCUSDT-1m-BEARISH-OB-898-79920.00-79922.50-79712.00-ORDER-1-TRADE-1",
+  "direction": "BEARISH",
+  "entry": 79739.5,
+  "exit": 79712.0,
+  "quantity": 8.547e-05,
+  "entry_time": 1788701760,
+  "exit_time": 1788704160,
+  "stop": 79922.5,
+  "take_profit": 79712.0,
+  "gross": 0.0023504249999999893,
+  "commission": 0.1,
+  "slippage": 0.1,
+  "net": -0.19764957500000002,
+  "risk_amount": 0.015640640640640642
+ }
+]

@@ -1,0 +1,272 @@
+{
+  "all_components_passed": true,
+  "balance_reconciliation": {
+    "exact_balance_delta_match": true,
+    "expected_delta_usd": "-0.08260286",
+    "net_cashflow_delta_usd": "-0.08260286",
+    "observed_delta_usd": "-0.08260286",
+    "post_experiment_balance_usd": "198.3880856",
+    "pre_experiment_balance_usd": "198.47068846",
+    "residual_usd": "0E-8"
+  },
+  "balance_summary": {
+    "exact_balance_delta_match": true,
+    "expected_delta_usd": "-0.08260286",
+    "net_cashflow_delta_usd": "-0.08260286",
+    "observed_delta_usd": "-0.08260286",
+    "post_experiment_balance_usd": "198.3880856",
+    "pre_experiment_balance_usd": "198.47068846",
+    "residual_usd": "0E-8"
+  },
+  "components": {
+    "chronological_balances": {
+      "component": "chronological_balances",
+      "details": {
+        "delta_residual_usd": "0E-8",
+        "expected_net_pnl_usd": "-0.08260286",
+        "observed_balance_delta_usd": "-0.08260286",
+        "post_experiment_balance_usd": "198.3880856",
+        "pre_experiment_balance_usd": "198.47068846",
+        "preceding_txn_timestamp": "2026-10-18T16:41:09.857575Z",
+        "preceding_txn_uuid": "985f902d48fd42a18e97cf06022fe43d",
+        "running_balance_steps_verified": 3
+      },
+      "failure_reason": null,
+      "input_artifacts": {
+        "research/captures/phase168_ledger/balances.json": "29e8a275e6bb2361e243df915055fc9fb7f0a9887afb2668d1dfe2963a6f1cd6",
+        "research/captures/phase168_ledger/wallet_100.json": "c6afc323a6c0a45382937f1bbf91a24d56123edf395b7a2bd63e72a027d98310"
+      },
+      "passed": true,
+      "records_duplicated": 0,
+      "records_examined": 43,
+      "records_matched": 1,
+      "records_rejected": 0,
+      "records_unmatched": 0,
+      "residuals": {
+        "balance_delta_residual_usd": "0E-8"
+      },
+      "status": "RECONCILED_EXACT",
+      "tolerance": "1E-8"
+    },
+    "commission_reconciliation": {
+      "component": "commission_reconciliation",
+      "details": {
+        "commission_postings": [
+          {
+            "base_fee_usd": "0.03690698",
+            "decomposition_residual_usd": "0E-8",
+            "fill_id": "363f258b62db43e39a99836029af87ac",
+            "gst_usd": "0.00664326",
+            "posting_time": "2026-10-19T14:26:17.361875Z",
+            "total_commission_usd": "0.04355024",
+            "uuid": "5d03754a3d014a8396395931130ecb3d"
+          },
+          {
+            "base_fee_usd": "0.036909",
+            "decomposition_residual_usd": "0E-8",
+            "fill_id": "6dd5caa55bc44159bd89397ef9f55db8",
+            "gst_usd": "0.00664362",
+            "posting_time": "2026-10-19T14:26:18.705597Z",
+            "total_commission_usd": "0.04355262",
+            "uuid": "3fcb5875e4f549668b3af308f02dd739"
+          }
+        ]
+      },
+      "failure_reason": null,
+      "input_artifacts": {
+        "research/captures/phase168_ledger/wallet_100.json": "c6afc323a6c0a45382937f1bbf91a24d56123edf395b7a2bd63e72a027d98310"
+      },
+      "passed": true,
+      "records_duplicated": 0,
+      "records_examined": 43,
+      "records_matched": 2,
+      "records_rejected": 0,
+      "records_unmatched": 0,
+      "residuals": {
+        "max_fee_decomposition_residual_usd": "0"
+      },
+      "status": "RECONCILED_EXACT",
+      "tolerance": "1E-8"
+    },
+    "l2_quote_binding": {
+      "component": "l2_quote_binding",
+      "details": {
+        "bindings": [
+          {
+            "alignment_delta_ms": 208,
+            "best_ask": "82015.5",
+            "best_bid": "82011.5",
+            "contemporaneous_quote": "82015.5",
+            "fill_id": "363f258b62db43e39a99836029af87ac",
+            "fill_price": "82015.5",
+            "limit_price_improvement_usd": "0.0",
+            "quote_slippage_usd": "0.0",
+            "side": "buy",
+            "submitted_limit": "82015.5"
+          },
+          {
+            "alignment_delta_ms": 119,
+            "best_ask": "82024.0",
+            "best_bid": "82020.0",
+            "contemporaneous_quote": "82020.0",
+            "fill_id": "6dd5caa55bc44159bd89397ef9f55db8",
+            "fill_price": "82020",
+            "limit_price_improvement_usd": "8.5",
+            "quote_slippage_usd": "0.0",
+            "side": "sell",
+            "submitted_limit": "82011.5"
+          }
+        ]
+      },
+      "failure_reason": null,
+      "input_artifacts": {
+        "research/captures/phase167_recon/l2/delta_ob_updates_archive.json": "b14f39e019e5c5d0483d02be4251d04852416c13ab49da76a41410f21c986e3a",
+        "research/captures/phase167_recon/l2/market_friction_evidence.json": "374a9c50f0cd8c9b1cb511d329bb7a6add564bd84f85b3a46d0764df97d0a89d"
+      },
+      "passed": true,
+      "records_duplicated": 0,
+      "records_examined": 113,
+      "records_matched": 2,
+      "records_rejected": 0,
+      "records_unmatched": 0,
+      "residuals": {
+        "max_alignment_delta_ms": "208",
+        "max_quote_slippage_usd": "0"
+      },
+      "status": "RECONCILED_EXACT",
+      "tolerance": "1000"
+    },
+    "positions_and_open_orders": {
+      "component": "positions_and_open_orders",
+      "details": {
+        "cleanup_open_orders": 0,
+        "open_orders": 0,
+        "open_orders_source": "open_orders_response",
+        "order_margin_zero": true,
+        "positions_flat": true,
+        "positions_verified": {
+          "ADAUSD": 0,
+          "BTCUSD": 0
+        }
+      },
+      "failure_reason": null,
+      "input_artifacts": {
+        "research/captures/phase167_recon/recon_experiment_report.json": "a5dd05e46f28ae0f3cd6aab5ba6303e6c74efdfc53da047388b678907e0f2918",
+        "research/captures/phase168_ledger/balances.json": "29e8a275e6bb2361e243df915055fc9fb7f0a9887afb2668d1dfe2963a6f1cd6",
+        "research/captures/phase168_ledger/orders_100.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "research/captures/phase168_ledger/positions.json": "4f1677b6d58c5b724467fe8a155cd0bf5729ac2af7f9255cadba2ac7d943a669"
+      },
+      "passed": true,
+      "records_duplicated": 0,
+      "records_examined": 2,
+      "records_matched": 1,
+      "records_rejected": 0,
+      "records_unmatched": 0,
+      "residuals": {
+        "open_orders": "0"
+      },
+      "status": "RECONCILED_EXACT",
+      "tolerance": "0"
+    },
+    "private_ws_fills": {
+      "component": "private_ws_fills",
+      "details": {
+        "total_trade_frames": 2,
+        "trade_frames": [
+          {
+            "fill_id": "363f258b62db43e39a99836029af87ac",
+            "order_role": "Leg 1 Order",
+            "price": "82015.5",
+            "rest_timestamp_ms": 1792419977351,
+            "rest_utc": "2026-10-19T14:26:17.351000+00:00",
+            "side": "buy",
+            "size": "1",
+            "timestamp_delta_ms": 0,
+            "ws_seq": 3,
+            "ws_timestamp_us": 1792419977351882,
+            "ws_utc": "2026-10-19T14:26:17.351882+00:00"
+          },
+          {
+            "fill_id": "6dd5caa55bc44159bd89397ef9f55db8",
+            "order_role": "Leg 2 Order",
+            "price": "82020",
+            "rest_timestamp_ms": 1792419978695,
+            "rest_utc": "2026-10-19T14:26:18.695000+00:00",
+            "side": "sell",
+            "size": "1",
+            "timestamp_delta_ms": 0,
+            "ws_seq": 4,
+            "ws_timestamp_us": 1792419978695455,
+            "ws_utc": "2026-10-19T14:26:18.695455+00:00"
+          }
+        ]
+      },
+      "failure_reason": null,
+      "input_artifacts": {
+        "research/captures/phase167_recon/private_ws_frames.json": "0a5be2237f30f43b90c1cc9ccaf766dbb67a1c03f75a296fbdbd92906c51e049",
+        "research/captures/phase167_recon/rest_fills.json": "b6fe6eafd12e751f4afadfc1b60c8924493d82935e8b5c9059e718b8e8752436"
+      },
+      "passed": true,
+      "records_duplicated": 0,
+      "records_examined": 4,
+      "records_matched": 2,
+      "records_rejected": 0,
+      "records_unmatched": 0,
+      "residuals": {
+        "max_timestamp_delta_ms": "0"
+      },
+      "status": "RECONCILED_EXACT",
+      "tolerance": "5"
+    },
+    "realized_cashflow": {
+      "component": "realized_cashflow",
+      "details": {
+        "cashflow_uuid": "1f93205723d14aeaa062cc5711c2143c",
+        "contract_multiplier": "0.001",
+        "entry_price": "82015.5",
+        "exit_price": "82020",
+        "expected_gross_usd": "0.0045",
+        "gross_pnl_usd": "0.0045",
+        "position_size": "1",
+        "posting_time": "2026-10-19T14:26:18.705538Z"
+      },
+      "failure_reason": null,
+      "input_artifacts": {
+        "research/captures/phase168_ledger/wallet_100.json": "c6afc323a6c0a45382937f1bbf91a24d56123edf395b7a2bd63e72a027d98310"
+      },
+      "passed": true,
+      "records_duplicated": 0,
+      "records_examined": 13,
+      "records_matched": 1,
+      "records_rejected": 0,
+      "records_unmatched": 0,
+      "residuals": {
+        "gross_pnl_residual_usd": "0"
+      },
+      "status": "RECONCILED_EXACT",
+      "tolerance": "0.0"
+    }
+  },
+  "contract_multiplier": "0.001",
+  "economics": {
+    "effective_realized_friction_usd": "0.08260286",
+    "fee_drag_bps": "10.62",
+    "gross_pnl_usd": "0.0045",
+    "net_pnl_usd": "-0.08260286",
+    "total_commissions_usd": "0.08710286"
+  },
+  "experiment_id": "exp-20261019T142604Z",
+  "overall_status": "RECONCILED_EXACT",
+  "phase": 170,
+  "product_id": 84,
+  "schema": "quantengine.execution-economics-reconciliation.v2",
+  "status": "RECONCILED_EXACT",
+  "symbol": "BTCUSD",
+  "venue_integrity": {
+    "l2_quote_bound": true,
+    "open_orders": 0,
+    "open_orders_verified_source": "open_orders_response",
+    "positions_flat": true,
+    "private_ws_matched": true
+  }
+}

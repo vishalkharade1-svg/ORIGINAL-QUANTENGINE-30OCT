@@ -1,0 +1,320 @@
+{
+  "baseline_commit": "031de0d",
+  "baseline_reference": {
+    "fills": 2,
+    "losses": 2,
+    "match": true,
+    "net": -0.206452,
+    "orders": 25,
+    "wins": 0
+  },
+  "completed_trades": 0,
+  "dataset_identity": {
+    "instrument": "BTCUSDT",
+    "market": "perpetual_futures",
+    "source": "Delta /v2/history/candles",
+    "symbol": "BTCUSDT",
+    "tier": "A-DIRECT",
+    "timeframe": "1m",
+    "venue": "DELTA"
+  },
+  "economic_scenarios": {
+    "funding": "UNAVAILABLE (zero NOT substituted)",
+    "structural": "VERIFIED-zero-cost",
+    "structural_net": 0.0
+  },
+  "edge": "NOT_ESTABLISHED",
+  "estimated_additional_data": {
+    "bars_per_fill": null,
+    "note": "ESTIMATE only: no finite requirement can be inferred from zero fills; context lower bound shown for scale, unbounded above",
+    "required_bars_context": 150000.0,
+    "status": "ZERO OBSERVED FILLS",
+    "verdict": "OOS_BLOCKED"
+  },
+  "execution_funnel": {
+    "global_fills": 0,
+    "global_gross": 0.0,
+    "global_orders": 33,
+    "global_terminal": {
+      "EXPIRED": 30,
+      "INVALIDATED": 3
+    },
+    "per_period_fills": 0,
+    "per_period_orders": 14
+  },
+  "extended_span": {
+    "bars": 11899,
+    "cache": "data/history/BTCUSDT_1m_phase19_extension.json (git-ignored)",
+    "dataset_hash": "4feccebb3c546de365927b16668195fe871c0cca088b7b1cef8c0bf755aaaab1",
+    "end": 1789315380,
+    "requested": 12019,
+    "start": 1788601500
+  },
+  "extension": {
+    "added_bars": 438,
+    "merged_bars": 11899,
+    "merged_max": 1789315380,
+    "merged_min": 1788601500,
+    "new_max": 1789315380,
+    "new_min": 1789289160,
+    "previous_bars": 11461
+  },
+  "final_decision": "OOS_BLOCKED",
+  "final_reason": "merged 11899 bars -> 0 fills; 0 adequate periods; only 438 new bars beyond Phase 18",
+  "gate_matrix": {
+    "actual_fill_rr": "UNAVAILABLE (0 fills; RR>=6 gate intact)",
+    "completed_trade_count": "FAIL (0 total, 0/period; need 60 total + 10/period)",
+    "coverage": "PASS (1.0000 over merged span 11899 bars)",
+    "dataset_integrity": "PASS (0 dupes, 0 gaps, 0 OHLC violations, 0 malformed)",
+    "dataset_provenance": "PASS (DELTA /v2/history/candles; rows carry no venue tag)",
+    "determinism": "PASS (byte-identical regen given same cache)",
+    "discovery_separation": "PASS (discovery Gate-A only; extension strictly after; no concat-split/shuffle)",
+    "execution_funnel": "PASS (frozen NEXT_BAR_OPEN; per-period 14 orders / 0 fills; global 33 orders / 0 fills)",
+    "fee_verification": "PARTIAL (explicit-zero VERIFIED; venue schedule ASSUMED-only)",
+    "flat_bar_quality": "PARTIAL (flat 94.9% PROVENANCE_UNKNOWN)",
+    "frozen_strategy": "PASS (9-file set incl. execution_engine)",
+    "funding": "UNAVAILABLE (no history, no adapter; zero NOT substituted)",
+    "lookahead": "PASS (NEXT_BAR_OPEN; future-mutation suite green)",
+    "microstructure": "UNAVAILABLE (OHLCV-only; nothing reconstructed)",
+    "no_strategy_mutation": "PASS (hash re-verified post-run)",
+    "oos_boundary": "PASS (all 11899 strictly after 1788601440)",
+    "oos_feasibility": "BLOCKED (genuine extension measured; executable sample still zero)",
+    "per_period_sample": "FAIL (0 adequate 10-trade periods of 6)",
+    "period_count": "PASS (6 independent chronological periods executed)",
+    "period_independence": "PASS (independent per-period runs; no cross-period leakage)",
+    "phase18_baseline": "PASS (OOS_BLOCKED, 0 fills/11461 bars)",
+    "production_isolation": "PASS (FORBIDDEN-token scan green)",
+    "production_readiness": false,
+    "purge_embargo": "PASS (frozen purge=0 embargo=0; no new values)",
+    "strategy_hash": "PASS (exact match c52e648ca24fb03b)",
+    "target_venue": "PASS (DELTA EXCHANGE, Tier A direct only)",
+    "temporal_ordering": "PASS (ascending, unique, 6 chronological periods)",
+    "total_sample": "FAIL (0 of 60 required)",
+    "zero_volume_quality": "PARTIAL (zero-volume 87.8% PROVENANCE_UNKNOWN)"
+  },
+  "is_production_ready": false,
+  "limitations": [
+    "Extension wall-clock bound: only 438 new bars beyond Phase-18 span.",
+    "0 completed trades across 11899 merged bars; no finite bars-per-fill inferable.",
+    "Flat 94.9% / zero-volume 87.8% PROVENANCE_UNKNOWN persists.",
+    "Row-level venue identity absent (manifest-level only).",
+    "Funding/microstructure/min-notional unavailable (no adapters).",
+    "Proxy/synthetic tiers not used (Tier A direct only).",
+    "Fresh extension ran through frozen strategy once per period + global; no retuning."
+  ],
+  "live": "NO-GO",
+  "mission": "INDEPENDENT OOS DATA EXTENSION & EXECUTABLE-SAMPLE ACCUMULATION (research-only; strategy frozen)",
+  "original_oos_boundary": 1788601440,
+  "period_feasibility": [
+    {
+      "actual_fill_rr": [],
+      "bars": 1983,
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 2
+      },
+      "end": 1788720420,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "observations": 1983,
+      "opportunities": null,
+      "orders": 2,
+      "period_id": "OOS_01",
+      "reason": "below 10-trade settling gate",
+      "start": 1788601500,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1983,
+      "completed_trades": 0,
+      "directional": {},
+      "end": 1788839400,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "observations": 1983,
+      "opportunities": null,
+      "orders": 0,
+      "period_id": "OOS_02",
+      "reason": "no orders or fills in period",
+      "start": 1788720480,
+      "status": "UNAVAILABLE",
+      "terminal": {},
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1983,
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 1,
+        "BULLISH/EXPIRED": 3
+      },
+      "end": 1788958380,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "observations": 1983,
+      "opportunities": null,
+      "orders": 4,
+      "period_id": "OOS_03",
+      "reason": "below 10-trade settling gate",
+      "start": 1788839460,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 4
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1983,
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 2
+      },
+      "end": 1789077360,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "observations": 1983,
+      "opportunities": null,
+      "orders": 2,
+      "period_id": "OOS_04",
+      "reason": "below 10-trade settling gate",
+      "start": 1788958440,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1983,
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 3,
+        "BULLISH/EXPIRED": 3
+      },
+      "end": 1789196340,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "observations": 1983,
+      "opportunities": null,
+      "orders": 6,
+      "period_id": "OOS_05",
+      "reason": "below 10-trade settling gate",
+      "start": 1789077420,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 6
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1984,
+      "completed_trades": 0,
+      "directional": {},
+      "end": 1789315380,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "observations": 1984,
+      "opportunities": null,
+      "orders": 0,
+      "period_id": "OOS_06",
+      "reason": "no orders or fills in period",
+      "start": 1789196400,
+      "status": "UNAVAILABLE",
+      "terminal": {},
+      "wins": 0
+    }
+  ],
+  "phase": 19,
+  "phase18_reference": {
+    "bars": 11461,
+    "decision": "OOS_BLOCKED",
+    "fills": 0
+  },
+  "prior_span": {
+    "bars": 11461,
+    "dataset_hash": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+    "end": 1789289100,
+    "start": 1788601500
+  },
+  "production_isolation": "PASS",
+  "provenance": {
+    "acquisition_method": "HistoricalLoader.candles_paginated",
+    "acquisition_source": "Delta /v2/history/candles",
+    "extension_cache": "data/history/BTCUSDT_1m_phase19_extension.json",
+    "prior_cache": "data/history/BTCUSDT_1m_phase17_fresh.json",
+    "tier": "A-DIRECT"
+  },
+  "quality": {
+    "activity": {
+      "flat_bars": 11294,
+      "flat_pct": 0.9491553912093453,
+      "flat_provenance": "PROVENANCE_UNKNOWN",
+      "zero_volume_bars": 10452,
+      "zero_volume_pct": 0.878393142280864
+    },
+    "continuity": {
+      "gap_count": 0,
+      "gaps": [],
+      "max_gap_bars": 0
+    },
+    "coverage": {
+      "actual_intervals": 11899,
+      "coverage_pct": 1.0,
+      "duration_bars": 11899,
+      "end": 1789315380,
+      "expected_intervals": 11899,
+      "received": 11899,
+      "requested": 12019,
+      "start": 1788601500
+    },
+    "integrity": {
+      "duplicates": 0,
+      "malformed_rows": 0,
+      "missing_intervals": 0,
+      "monotonic": true,
+      "nonpositive_prices": 0,
+      "ohlc_violations": 0
+    }
+  },
+  "required_sample": {
+    "per_period_trades": 10,
+    "periods": 6,
+    "total_trades": 60
+  },
+  "sample_adequacy": {
+    "actual_total": 0,
+    "adequate_periods": 0,
+    "feasible": false,
+    "required_per_period": 10,
+    "required_total": 60
+  },
+  "strategy_files": [
+    "core/execution/entry_model.py",
+    "core/setup/trade_setup_builder.py",
+    "core/setup/decision_engine.py",
+    "core/execution/execution_engine.py",
+    "core/risk/risk_engine.py",
+    "core/backtesting/accounting.py",
+    "backtesting/backtester.py",
+    "core/paper_trading/paper_trading_engine.py",
+    "config/risk_settings.py"
+  ],
+  "strategy_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+  "strategy_unchanged": true,
+  "total_bars": 11899
+}

@@ -1,0 +1,84 @@
+{
+  "alignment_ms": 1000,
+  "captured_at": "2026-10-11T08:14:41.026562+00:00",
+  "evidence_sha256": "76e96c10081aa50abac97c60f56d07cb8e7aedf68f7e2ad6e6c46880da93f176",
+  "provenance_status": "REAL",
+  "samples": [
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706447270
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706459323
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706463841
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706469115
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706472629
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706474637
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706476143
+    },
+    {
+      "best_ask": "83027.5",
+      "best_bid": "83023.5",
+      "midpoint": "83025.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817796941903391126822482249",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706479657
+    }
+  ],
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "symbol": "BTCUSD",
+  "venue": "delta"
+}

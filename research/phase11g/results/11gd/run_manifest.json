@@ -1,0 +1,22 @@
+{
+ "D3_counters": {
+  "hash": 0,
+  "load": 0,
+  "read": 0
+ },
+ "costs": "A/B/C/D frozen",
+ "execution": "NEXT_BAR_OPEN",
+ "fold_geometry": "single cold-start diagnostic (WF infeasible: 2499 < 6175)",
+ "fresh_dataset_hash": "6c5981fd34654a2ca5737830eeb6bba367b65f1b4a2ebefa5e8df0150d5647d6",
+ "git_head": "fbabde40b19559ce04ecd92fdff283543cd4764a",
+ "hypothesis_hash": "e4905815b7f13ab58c5945ae7b1dd94e5a4f50968d27a59a0d99c685f81234b6",
+ "live_status": "DISABLED",
+ "mc_seeds": "1107001/1107002 (unused: vacuous)",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "production_status": "UNMODIFIED",
+ "python": "3.12.10",
+ "random_seeds": "1108000-1108499 (unused: no fills)",
+ "risk": "2000/0.01/10x/500 frozen",
+ "symbol": "BTCUSDT",
+ "timeframe": "1m"
+}

@@ -1,0 +1,49 @@
+{
+  "capture_id": "exp-20261011T110030Z",
+  "cleanup": {
+    "cancelled": [
+      "2175085905"
+    ],
+    "open_orders": 0,
+    "positions_flat": true
+  },
+  "environment": "india_testnet",
+  "fill_friction_binding": {
+    "reason": "no concurrent L2 frames",
+    "status": "BLOCKED"
+  },
+  "l2": {
+    "error": "ValueError: capture environment must be PRODUCTION or SANDBOX",
+    "status": "FAILED"
+  },
+  "legs": [
+    {
+      "filled": false,
+      "n": 1,
+      "order_id": "2175085905",
+      "price": 82977.0,
+      "side": "buy"
+    }
+  ],
+  "mode": "execute",
+  "prechecks": {
+    "ask": 82977.0,
+    "bid": 82973.0,
+    "flat": true,
+    "product_id": 84
+  },
+  "production_ready": false,
+  "reconciliation": {
+    "reason": "ValueError: no v2/user_trades frames",
+    "status": "BLOCKED"
+  },
+  "rest_fills": 6,
+  "schema": "quantengine.testnet-reconciled-experiment.v1",
+  "scrub_hits": 0,
+  "symbol": "BTCUSD",
+  "ws": {
+    "authenticated": true,
+    "frames": 2,
+    "listen_s": 75.2
+  }
+}

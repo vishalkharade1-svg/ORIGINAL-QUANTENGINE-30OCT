@@ -1,0 +1,59 @@
+{
+ "ablations": "11 preregistered 11G-F variants only (no-sweep/no-displacement/no-fvg/no-bos/no-breaker/no-volume/no-htf per registry)",
+ "contamination_rule": "gap window overlaps no in-repo dataset (verified 0 D2 bars, 0 Gate-A bars); oos_fresh era untouched by this fetch",
+ "costs": [
+  "A",
+  "B",
+  "C",
+  "D"
+ ],
+ "datasets": [
+  "11gg_gap_btcusdt (2099 bars, 1 gap minute)",
+  "11gg_gap_ethusdt (2099 bars, 1 gap minute)"
+ ],
+ "decision": "Tier-1 gap primary (zero-overlap proven); Tier-2 oos_fresh available-but-unused (shorter independence story, documented)",
+ "evidence_minima": {
+  "active_folds": 2,
+  "folds": 3,
+  "pooled_trades": 30,
+  "regime_cell_trades": 3
+ },
+ "execution": "NEXT_BAR_OPEN (signal bar i -> market fill bar i+1 open)",
+ "hypotheses": [
+  "H11GF-001",
+  "H11GF-002",
+  "H11GF-003",
+  "H11GF-004",
+  "H11GF-005",
+  "H11GF-006",
+  "H11GF-007",
+  "H11GF-008"
+ ],
+ "multiple_testing": {
+  "bonferroni_reference": 0.00625,
+  "family_size": 8,
+  "q": 0.1
+ },
+ "risk": {
+  "allocation_cap": 500,
+  "leverage": 10,
+  "risk_per_trade": 0.01,
+  "starting_balance": 2000
+ },
+ "seeds": {
+  "mc_boot": 1107002,
+  "mc_shuffle": 1107001,
+  "random_baseline": "1108000-1108499",
+  "v2_overlay": 1107
+ },
+ "stopping_rule": "WF_INFEASIBLE below 6175 bars: setup-rate diagnostic only, no fold fabrication",
+ "walk_forward": {
+  "embargo_bars": 25,
+  "expanding_origin": true,
+  "n_folds": 4,
+  "purge_bars": 150,
+  "step_bars": 1000,
+  "test_bars": 1000,
+  "train_min_bars": 2000
+ }
+}

@@ -1,0 +1,122 @@
+{
+  "build_procedure": {
+    "archive_bytes": "recorded in the detached record RELEASE_HASH_PHASE162.txt (beside the archive)",
+    "archive_members": "manifest entries + 1 (the manifest itself); recorded in the detached record RELEASE_HASH_PHASE162.txt",
+    "builder": "scripts/build_release.py (enforces the order)",
+    "manifest_entries": "recorded in BUILD_MANIFEST.sha256 and in the detached record",
+    "note": "the archive's own SHA-256 is deliberately not embedded here or anywhere inside the archive; an archive cannot truthfully contain a hash of itself, and any embedded copy would go stale on the next change",
+    "rule": "frozen ordering: write all text -> regenerate BUILD_MANIFEST.sha256 -> verify -> pack -> detached hash record -> extract-verify"
+  },
+  "changes": [
+    {
+      "class": "empirical (funding-through-settlement evidence)",
+      "evidence": "research/captures/phase148_funding/hold_log.jsonl; reports/PHASE162_CAPTURE_REPORT.md",
+      "id": "REP-162-01",
+      "what": "Candidate A executed on India Testnet: 1-contract ETHUSD position held across 16:00 UTC funding settlement + 5m margin window, cleanly exited. Realized funding cashflow debit (-0.00237942 USD) matched theoretical formula exactly (0.00000000 USD delta). Position flat-verified post-flight.",
+      "why": "Closes BLOCK-161-02 by providing definitive empirical proof of funding settlement accounting."
+    },
+    {
+      "class": "empirical (repeat-match private WS reconciliation)",
+      "evidence": "research/captures/phase162_recon/recon_experiment_report.json; research/captures/phase162_recon/private_ws_archive.json; research/captures/phase162_recon/private_ws_frames.json; research/captures/phase162_recon/rest_fills.json; reports/PHASE162_CAPTURE_REPORT.md",
+      "id": "REP-162-02",
+      "what": "Candidate B executed on India Testnet: 2-leg BTCUSD sequence executed under authenticated WebSocket user_trades streaming and concurrent L2 orderbook logging. Windowed reconciliation achieved MATCHED_WINDOWED (2/2 in-window fills matched, 12 pre-window fills classified). L2 binding confirmed 0 slippage. Account flat-verified post-flight.",
+      "why": "Closes BLOCK-161-03 by demonstrating reproducible private WebSocket fill capture and windowed reconciliation."
+    },
+    {
+      "class": "tooling & privacy",
+      "evidence": "scripts/security/scan_privacy.py; tests/test_phase158_privacy_contract.py; tests/test_release_consistency_phase155.py",
+      "id": "REP-162-03",
+      "what": "Declared Phase 162 private WebSocket captures in RESTRICTED_EVIDENCE_PATHS. Advanced release consistency constants to Phase 162.",
+      "why": "Ensures privacy and release contracts enforce integrity over the new empirical evidence."
+    }
+  ],
+  "generated_utc": "2026-10-18",
+  "historical_records": {
+    "reports/PHASE161_ENVIRONMENT.json": {
+      "describes": "the Phase161 environment adoption record, preserved unchanged",
+      "disposition": "preserved unchanged; Phase162 carries the adopted environment",
+      "sha256": "ae9671c03ac166596df9da0c9be6e89e56e5d4e269e68c3eeb489fc1f2fa0251"
+    },
+    "reports/PHASE161_RELEASE_GATES.json": {
+      "describes": "the Phase161 release gates, preserved unchanged",
+      "disposition": "preserved unchanged as the Phase161 gate record; this file supersedes it for Phase162.",
+      "sha256": "d1e0663b35455c3b5fae9b1bd13fbc37e5ba27b2e4d5e3f5a6fb888bc6abd898"
+    },
+    "reports/RELEASE_PROVENANCE_PHASE132.json": {
+      "describes": "the Phase132 release record",
+      "disposition": "preserved unchanged.",
+      "sha256": "05df5fa91b4c0350aedf905f09eb3cdbc96d15abdfbed2876fbfa825f36e985e"
+    }
+  },
+  "input": {
+    "archive": "QuantEngine_PHASE161_RELEASE_CANDIDATE.zip",
+    "bytes": 56220040,
+    "identity_confirmed_against": [
+      "the detached record ../RELEASE_HASH_PHASE161.txt",
+      "this cycle's fresh extraction verification (reports/PHASE162_ARCHIVE_INTEGRITY.json)"
+    ],
+    "manifest_entries": 1900,
+    "members": 1901,
+    "packaged_vs_worktree": "reports/PHASE162_SOURCE_DIFF.json",
+    "sha256": "ce95884b5c34c47f19e58c7b02267b8afa49b0bbb871a56785697c5d2230d8f5"
+  },
+  "not_done": [
+    "no digest was re-pinned; the five strategy-digest failures remain red by contract (BLOCK-162-01)",
+    "no test was weakened, deleted, blanket-skipped or xfailed; the 40 Git facts remain individually declared BLOCKED_EVIDENCE (BLOCK-162-02)",
+    "no live order was placed; all execution strictly conducted on India Testnet under bounded limits",
+    "no economic claim advanced; the edge remains NOT ESTABLISHED"
+  ],
+  "output": {
+    "archive": "QuantEngine_PHASE162_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE162.txt",
+    "post_build_bundle": "QuantEngine_PHASE162_POST_BUILD/ - the self-audit against the final bytes, the extracted-package test log and the post-build verification JSON",
+    "sha256": "NOT_EMBEDDED - the final SHA-256 is recorded only in the detached record RELEASE_HASH_PHASE162.txt delivered beside the archive"
+  },
+  "phase": 162,
+  "release_records": [
+    "reports/PHASE162_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE162_SOURCE_DIFF.json",
+    "reports/PHASE162_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE162_FULL_SUITE_RUN.txt",
+    "reports/PHASE162_MANIFEST_AUDIT.json",
+    "reports/PHASE162_PROVENANCE.json",
+    "reports/PHASE162_SECURITY_SCAN.md",
+    "reports/PHASE162_PRIVACY_REVIEW.md",
+    "reports/PHASE162_PRIVACY_SCAN.json",
+    "reports/PHASE162_DEPENDENCY_REVIEW.md",
+    "reports/PHASE162_OSV_SCAN.json",
+    "reports/PHASE162_ENVIRONMENT.json",
+    "reports/PHASE162_RELEASE_GATES.json",
+    "reports/PHASE162_BLOCKERS.json",
+    "reports/PHASE162_CAPTURE_REPORT.md",
+    "docs/BUILD_HANDOFF_PHASE162.md",
+    "NEXT_ACTIONS.md"
+  ],
+  "role": "release provenance for the Phase162 release candidate",
+  "schema": "quantengine.release-provenance.v2",
+  "supersedes": [
+    "QuantEngine_PHASE161_RELEASE_CANDIDATE.zip and its detached record",
+    "reports/PHASE161_RELEASE_GATES.json"
+  ],
+  "test_evidence": {
+    "authoritative_post_adoption": "recorded in reports/PHASE162_FULL_SUITE_RUN.txt",
+    "command": "python -m pytest -q -p no:cacheprovider --tb=short -rfs",
+    "note": "the suite stays NOT green: five strategy-digest change detectors remain red by contract (BLOCK-162-01) and the 40 Git facts remain gated BLOCKED_EVIDENCE (BLOCK-162-02)."
+  },
+  "verdict": "NOT_PRODUCTION_READY",
+  "verification_environment": {
+    "agreement": "requirements.txt, the installed environment and reports/PHASE162_RELEASE_GATES.json name the same versions",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "numpy": "2.1.1",
+      "pandas": "2.2.2",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3",
+      "python-dotenv": "1.2.2",
+      "websockets": "12.0"
+    },
+    "platform": "Windows-10-10.0.19045-SP0",
+    "pytest": "9.0.3",
+    "python": "3.12.10"
+  }
+}

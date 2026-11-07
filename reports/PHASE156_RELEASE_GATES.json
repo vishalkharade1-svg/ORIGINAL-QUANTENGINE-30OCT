@@ -1,0 +1,66 @@
+{
+  "phase": 156,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "post-Phase155: funding-hold settlement-targeting defect repair, capture attempt, release rebuild",
+  "supersedes": "reports/PHASE155_RELEASE_GATES.json (preserved as the Phase155 record)",
+  "gates": {
+    "archive_integrity": "PASS",
+    "manifest_completeness": "PASS",
+    "provenance_correctness": "PASS-detached-hash-only",
+    "release_internal_consistency": "PASS-repaired-and-regression-tested",
+    "source_evidence_completeness": "PASS",
+    "security_privacy_packaging": "PASS",
+    "security_tooling": "EXECUTED-with-findings",
+    "mcp_configuration_contract": "PASS-operator-provided-config-restored",
+    "evidence_error_handling": "PASS",
+    "http_signing_compatibility": "PASS",
+    "funding_script_settlement_targeting": "PASS-defect-fixed-with-regression",
+    "funding_through_settlement_evidence": "BLOCKED-external-ip-whitelist",
+    "targeted_regression_suites": "PASS-worktree-post-pack-verified",
+    "authoritative_full_suite": "FAIL-43-preexisting-plus-3-ordering-resolved-by-rebuild",
+    "extracted_package_verification": "PASS-extracted-post-pack-verified",
+    "independent_forensic_audit": "PENDING-claude-review"
+  },
+  "post_pack_verification_note": "The frozen ordering rule packs before extraction, so the worktree and extracted-package rows above describe runs executed against the shipped bytes AFTER the pack. Their counts, and the hash of the archive they were run against, are recorded only in the detached record ../RELEASE_HASH_PHASE156.txt. Those rows are not pre-claims: a failure there would force a rebuild, never a rewritten claim.",
+  "funding_hold": {
+    "target": "India Demo (Testnet), ETHUSD, 1 contract, limit-only, flat-in verified",
+    "attempt_utc": "2026-10-16T15:31:51Z",
+    "target_settlement_utc": "2026-10-16T16:00:00Z",
+    "result": "REFUSED_FAIL_CLOSED",
+    "exchange_writes": 0,
+    "http_status": 401,
+    "error_code": "ip_not_whitelisted_for_api_key",
+    "client_ip_observed": ["152.58.7.15", "152.58.7.109"],
+    "whitelisted_ip_on_key": "157.33.197.21",
+    "finding": "egress IP rotated within 20 minutes and never returned to the whitelisted address; a single-IP whitelist cannot support a scheduled capture on this connection",
+    "operator_action": "remove the IP restriction on the India Testnet key, or accept captures only when the current address matches",
+    "evidence": ["research/captures/phase148_funding/hold_log.jsonl",
+                 "research/captures/phase148_funding/ip_whitelist_blocker.json"],
+    "next_windows_utc": ["2026-10-17T00:00:00Z", "2026-10-17T08:00:00Z"]
+  },
+  "funding_script_defect": {
+    "file": "scripts/funding_settlement_hold.py",
+    "defect": "hold loop branched on a hardcoded calendar day (now.day == 16); any later settlement broke out immediately and reported success without capturing funding",
+    "fix": "target_settlement(): next 00/08/16 UTC boundary at least 10 minutes ahead, or explicit --settlement; hold deadline settlement + 5 min; pre/post funding-rate snapshots added for reconciliation",
+    "regression": "tests/test_funding_settlement_targeting.py (9 tests, includes a pin against the hardcoded-date defect)"
+  },
+  "full_suite": {
+    "command": "python -m pytest -q -p no:cacheprovider --tb=short",
+    "last_execution": "reports/PHASE155_FULL_SUITE_RUN2.txt — 46 failed, 3944 passed, 10 skipped, 0 errors in 2429.30s",
+    "note": "No new full-suite execution this round. Phase156 adds 9 tests and re-points 1; the additions are covered by focused runs (63 passed, see verification_record). The last authoritative full run therefore does not describe this tree exactly, and the 43 pre-existing failures it recorded are unchanged in kind.",
+    "triage": "reports/PHASE155_TEST_TRIAGE.json (23 hash-pin, 18 no-git, 2 live-env-guard, 3 manifest-ordering-resolved-by-rebuild)"
+  },
+  "prebuild_drift_observed": [
+    "uncovered:research/captures/phase148_funding/hold_log.jsonl",
+    "uncovered:research/captures/phase148_funding/ip_whitelist_blocker.json",
+    "uncovered:tests/test_funding_settlement_targeting.py",
+    "mismatch:NEXT_ACTIONS.md",
+    "mismatch:scripts/funding_settlement_hold.py",
+    "mismatch:tests/test_release_consistency_phase155.py"
+  ],
+  "final_archive": {
+    "name": "QuantEngine_PHASE156_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED — see detached record ../RELEASE_HASH_PHASE156.txt",
+    "note": "Rebuilt from the Phase155 candidate under the frozen ordering rule (write all text -> regen manifest -> verify -> pack -> detached hash -> extract-verify). The Phase155 and Phase154 zips are preserved as historical evidence. An archive cannot embed a truthful hash of itself; the final SHA-256 and the extraction-verification result live only in the detached record."
+  }
+}

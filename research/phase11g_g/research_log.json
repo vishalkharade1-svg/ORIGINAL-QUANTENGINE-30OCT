@@ -1,0 +1,27 @@
+{
+  "D3": {
+    "read": 0,
+    "hash": 0,
+    "load": 0
+  },
+  "economic_execution": true,
+  "live_execution": false,
+  "phase": "11G-G",
+  "production_modified": false,
+  "stage": "EXECUTED",
+  "status": "EXECUTED_NO_EDGE",
+  "winner_selected": false,
+  "primary_runs": 64,
+  "verdicts": {
+    "H11GF-001": "INSUFFICIENT_EVIDENCE",
+    "H11GF-002": "INSUFFICIENT_EVIDENCE",
+    "H11GF-003": "INSUFFICIENT_EVIDENCE",
+    "H11GF-004": "INSUFFICIENT_EVIDENCE",
+    "H11GF-005": "INSUFFICIENT_EVIDENCE",
+    "H11GF-006": "INSUFFICIENT_EVIDENCE",
+    "H11GF-007": "INSUFFICIENT_EVIDENCE",
+    "H11GF-008": "INSUFFICIENT_EVIDENCE"
+  },
+  "passes": 0,
+  "reproducibility": true
+}

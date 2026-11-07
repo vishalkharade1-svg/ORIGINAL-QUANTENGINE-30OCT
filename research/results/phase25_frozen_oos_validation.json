@@ -1,0 +1,686 @@
+{
+  "certified_protocol": "phase18 (6 independent cold-start periods + global continuous run; phase22-certified reproduction lineage)",
+  "cost_sensitivity": [
+    {
+      "global_run": {
+        "commission": 0.0,
+        "fills": 0,
+        "net_pnl": 0.0,
+        "slippage": 0.0
+      },
+      "net_pnl": 0.0,
+      "note": "post-trade cost attribution on the frozen fills; frozen orders/fills/PnL unchanged; no re-tuning",
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.0,
+        "SLIPPAGE_BPS": 0.0
+      },
+      "per_period": [
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_01",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_02",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_03",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_04",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_05",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_06",
+          "slippage": 0.0
+        }
+      ],
+      "scenario": "A"
+    },
+    {
+      "global_run": {
+        "commission": 0.0,
+        "fills": 0,
+        "net_pnl": 0.0,
+        "slippage": 0.0
+      },
+      "net_pnl": 0.0,
+      "note": "post-trade cost attribution on the frozen fills; frozen orders/fills/PnL unchanged; no re-tuning",
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.0005,
+        "SLIPPAGE_BPS": 2.0
+      },
+      "per_period": [
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_01",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_02",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_03",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_04",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_05",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_06",
+          "slippage": 0.0
+        }
+      ],
+      "scenario": "B"
+    },
+    {
+      "global_run": {
+        "commission": 0.0,
+        "fills": 0,
+        "net_pnl": 0.0,
+        "slippage": 0.0
+      },
+      "net_pnl": 0.0,
+      "note": "post-trade cost attribution on the frozen fills; frozen orders/fills/PnL unchanged; no re-tuning",
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.00059,
+        "SLIPPAGE_BPS": 5.0
+      },
+      "per_period": [
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_01",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_02",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_03",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_04",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_05",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_06",
+          "slippage": 0.0
+        }
+      ],
+      "scenario": "C"
+    },
+    {
+      "global_run": {
+        "commission": 0.0,
+        "fills": 0,
+        "net_pnl": 0.0,
+        "slippage": 0.0
+      },
+      "net_pnl": 0.0,
+      "note": "post-trade cost attribution on the frozen fills; frozen orders/fills/PnL unchanged; no re-tuning",
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.00118,
+        "SLIPPAGE_BPS": 10.0
+      },
+      "per_period": [
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_01",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_02",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_03",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_04",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_05",
+          "slippage": 0.0
+        },
+        {
+          "commission": 0.0,
+          "fills": 0,
+          "gross_pnl": 0.0,
+          "net_pnl": 0.0,
+          "period_id": "OOS_06",
+          "slippage": 0.0
+        }
+      ],
+      "scenario": "D"
+    }
+  ],
+  "datasets": {
+    "phase18_certified": {
+      "identity": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+      "identity_match": true,
+      "path": "data\\history\\BTCUSDT_1m_phase17_fresh.json",
+      "range": [
+        1788601500,
+        1789289100
+      ],
+      "rows": 11461
+    },
+    "phase30_extended": {
+      "identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+      "identity_match": true,
+      "path": "data\\history\\BTCUSDT_1m_oos_topup.json",
+      "range": [
+        1788601500,
+        1790427360
+      ],
+      "rows": 30247
+    }
+  },
+  "evidence_classification": "GENUINE_VENUE_HISTORICAL_OHLCV_REPLAY",
+  "frozen_strategy": true,
+  "funding_aware_runs": [
+    {
+      "bars": 1910,
+      "fills": 0,
+      "funding": 0.0,
+      "funding_events_in_interval": 26,
+      "gross_pnl": 0.0,
+      "orders": 2,
+      "period_id": "OOS_01",
+      "provenance": "REAL (delta global FUNDING:BTCUSDT 1h)",
+      "segment": "funded_full_period"
+    },
+    {
+      "bars": 1910,
+      "fills": 0,
+      "funding": 0.0,
+      "funding_events_in_interval": 32,
+      "gross_pnl": 0.0,
+      "orders": 0,
+      "period_id": "OOS_02",
+      "provenance": "REAL (delta global FUNDING:BTCUSDT 1h)",
+      "segment": "funded_full_period"
+    },
+    {
+      "bars": 1910,
+      "fills": 0,
+      "funding": 0.0,
+      "funding_events_in_interval": 32,
+      "gross_pnl": 0.0,
+      "orders": 2,
+      "period_id": "OOS_03",
+      "provenance": "REAL (delta global FUNDING:BTCUSDT 1h)",
+      "segment": "funded_full_period"
+    },
+    {
+      "bars": 1910,
+      "fills": 0,
+      "funding": 0.0,
+      "funding_events_in_interval": 32,
+      "gross_pnl": 0.0,
+      "orders": 3,
+      "period_id": "OOS_04",
+      "provenance": "REAL (delta global FUNDING:BTCUSDT 1h)",
+      "segment": "funded_full_period"
+    },
+    {
+      "bars": 1910,
+      "fills": 0,
+      "funding": 0.0,
+      "funding_events_in_interval": 31,
+      "gross_pnl": 0.0,
+      "orders": 8,
+      "period_id": "OOS_05",
+      "provenance": "REAL (delta global FUNDING:BTCUSDT 1h)",
+      "segment": "funded_full_period"
+    },
+    {
+      "bars": 1911,
+      "fills": 0,
+      "funding": 0.0,
+      "funding_events_in_interval": 32,
+      "gross_pnl": 0.0,
+      "orders": 0,
+      "period_id": "OOS_06",
+      "provenance": "REAL (delta global FUNDING:BTCUSDT 1h)",
+      "segment": "funded_full_period"
+    }
+  ],
+  "funding_first_event": "2026-09-05T16:00:00Z",
+  "funding_head_gap_seconds": 22500,
+  "generated_at": "2026-10-28T14:08:37Z",
+  "limitations": [
+    "0 completed trades across 6 genuine OOS periods and the global run: no expectancy, profit-factor or drawdown statistic is meaningful at this sample size.",
+    "Realized reward-to-risk is unavailable (0 fills); the 1:6 setup filter gate remains intact and never bypassed.",
+    "The development/validation partition (pre-Gate-A data) is not part of this delivery; sensitivity analysis on a dev partition is BLOCKED, so the cost-ladder attribution here is reporting on the frozen OOS fills, not a dev-derived stress result.",
+    "The first genuine funding settlement is at 2026-09-05T16:00:00Z; the preceding 22500 s of the OOS window have no settlement evidence. Settlements are sparse by design and apply only within actual holding intervals (there were 0 fills, so no funding was applicable); funding was never defaulted to zero over a holding interval.",
+    "Per-trade cost attribution requires per-trade legs the frozen executor does not expose; ladder attribution uses the frozen quantity model per fill (aggregate, per period)."
+  ],
+  "phase": 25,
+  "phase18_execution_funnel": {
+    "current": {
+      "global_fills": 0,
+      "global_orders": 32,
+      "per_period_fills": 0,
+      "per_period_orders": 15
+    },
+    "match": true,
+    "recorded": {
+      "global_fills": 0,
+      "global_orders": 32,
+      "per_period_fills": 0,
+      "per_period_orders": 15
+    }
+  },
+  "phase18_global_run": {
+    "bars": 11461,
+    "fills": 0,
+    "gross_pnl": 0.0,
+    "mismatches": [],
+    "orders": 32,
+    "recorded_match": true,
+    "terminal": {
+      "EXPIRED": 30,
+      "INVALIDATED": 2
+    }
+  },
+  "phase18_reproduction": [
+    {
+      "actual_fill_rr": [],
+      "bars": 1910,
+      "end": "2026-09-06T17:34:00Z",
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "mismatches": [],
+      "orders": 2,
+      "period_id": "OOS_01",
+      "phase18_match": true,
+      "phase18_recorded": {
+        "fills": 0,
+        "losses": 0,
+        "orders": 2,
+        "wins": 0
+      },
+      "start": "2026-09-05T09:45:00Z",
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1910,
+      "end": "2026-09-08T01:24:00Z",
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "mismatches": [],
+      "orders": 0,
+      "period_id": "OOS_02",
+      "phase18_match": true,
+      "phase18_recorded": {
+        "fills": 0,
+        "losses": 0,
+        "orders": 0,
+        "wins": 0
+      },
+      "start": "2026-09-06T17:35:00Z",
+      "terminal": {},
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1910,
+      "end": "2026-09-09T09:14:00Z",
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "mismatches": [],
+      "orders": 2,
+      "period_id": "OOS_03",
+      "phase18_match": true,
+      "phase18_recorded": {
+        "fills": 0,
+        "losses": 0,
+        "orders": 2,
+        "wins": 0
+      },
+      "start": "2026-09-08T01:25:00Z",
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1910,
+      "end": "2026-09-10T17:04:00Z",
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "mismatches": [],
+      "orders": 3,
+      "period_id": "OOS_04",
+      "phase18_match": true,
+      "phase18_recorded": {
+        "fills": 0,
+        "losses": 0,
+        "orders": 3,
+        "wins": 0
+      },
+      "start": "2026-09-09T09:15:00Z",
+      "terminal": {
+        "EXPIRED": 1,
+        "INVALIDATED": 1,
+        "PENDING": 1
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1910,
+      "end": "2026-09-12T00:54:00Z",
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "mismatches": [],
+      "orders": 8,
+      "period_id": "OOS_05",
+      "phase18_match": true,
+      "phase18_recorded": {
+        "fills": 0,
+        "losses": 0,
+        "orders": 8,
+        "wins": 0
+      },
+      "start": "2026-09-10T17:05:00Z",
+      "terminal": {
+        "EXPIRED": 8
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 1911,
+      "end": "2026-09-13T08:45:00Z",
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "mismatches": [],
+      "orders": 0,
+      "period_id": "OOS_06",
+      "phase18_match": true,
+      "phase18_recorded": {
+        "fills": 0,
+        "losses": 0,
+        "orders": 0,
+        "wins": 0
+      },
+      "start": "2026-09-12T00:55:00Z",
+      "terminal": {},
+      "wins": 0
+    }
+  ],
+  "phase30_different_revision_comparison": {
+    "note": "the recorded Phase-30 evidence was produced by an older code revision (not the Phase-22-certified lineage); counts differ at the current tree revision and are reported as different-revision evidence, not as a reproduction failure of the certified Phase-18 protocol",
+    "per_period": [
+      {
+        "bars": 5041,
+        "fills": 0,
+        "gross_pnl": 0.0,
+        "losses": 0,
+        "matches_phase30": false,
+        "mismatches": [
+          "orders: current=2 recorded=1",
+          "completed_trades: current=0 recorded=None"
+        ],
+        "orders": 2,
+        "period_id": "OOS_01",
+        "phase30_recorded": {
+          "fills": 0,
+          "losses": 0,
+          "orders": 1,
+          "wins": 0
+        },
+        "wins": 0
+      },
+      {
+        "bars": 5041,
+        "fills": 0,
+        "gross_pnl": 0.0,
+        "losses": 0,
+        "matches_phase30": false,
+        "mismatches": [
+          "orders: current=24 recorded=0",
+          "completed_trades: current=0 recorded=None"
+        ],
+        "orders": 24,
+        "period_id": "OOS_02",
+        "phase30_recorded": {
+          "fills": 0,
+          "losses": 0,
+          "orders": 0,
+          "wins": 0
+        },
+        "wins": 0
+      },
+      {
+        "bars": 5041,
+        "fills": 0,
+        "gross_pnl": 0.0,
+        "losses": 0,
+        "matches_phase30": false,
+        "mismatches": [
+          "orders: current=4 recorded=1",
+          "completed_trades: current=0 recorded=None"
+        ],
+        "orders": 4,
+        "period_id": "OOS_03",
+        "phase30_recorded": {
+          "fills": 0,
+          "losses": 0,
+          "orders": 1,
+          "wins": 0
+        },
+        "wins": 0
+      },
+      {
+        "bars": 5041,
+        "fills": 0,
+        "gross_pnl": 0.0,
+        "losses": 0,
+        "matches_phase30": false,
+        "mismatches": [
+          "orders: current=4 recorded=6",
+          "completed_trades: current=0 recorded=None"
+        ],
+        "orders": 4,
+        "period_id": "OOS_04",
+        "phase30_recorded": {
+          "fills": 0,
+          "losses": 0,
+          "orders": 6,
+          "wins": 0
+        },
+        "wins": 0
+      },
+      {
+        "bars": 5041,
+        "fills": 1,
+        "gross_pnl": -0.07807338,
+        "losses": 1,
+        "matches_phase30": false,
+        "mismatches": [
+          "orders: current=11 recorded=7",
+          "wins: current=0 recorded=1",
+          "losses: current=1 recorded=0",
+          "completed_trades: current=1 recorded=None",
+          "gross_pnl: current=-0.07807338 recorded=0.241542"
+        ],
+        "orders": 11,
+        "period_id": "OOS_05",
+        "phase30_recorded": {
+          "fills": 1,
+          "losses": 0,
+          "orders": 7,
+          "wins": 1
+        },
+        "wins": 0
+      },
+      {
+        "bars": 5042,
+        "fills": 0,
+        "gross_pnl": 0.0,
+        "losses": 0,
+        "matches_phase30": false,
+        "mismatches": [
+          "orders: current=0 recorded=6",
+          "fills: current=0 recorded=2",
+          "losses: current=0 recorded=2",
+          "completed_trades: current=0 recorded=None",
+          "gross_pnl: current=0.0 recorded=-0.46123493000000004"
+        ],
+        "orders": 0,
+        "period_id": "OOS_06",
+        "phase30_recorded": {
+          "fills": 2,
+          "losses": 2,
+          "orders": 6,
+          "wins": 0
+        },
+        "wins": 0
+      }
+    ]
+  },
+  "schema": "quantengine.phase25-frozen-oos-validation.v1",
+  "strategy_hash_phase18": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+  "strategy_parameters_changed": false,
+  "symbol": "BTCUSDT",
+  "timeframe": "1m",
+  "venue": "DELTA",
+  "verdict": {
+    "completed_trades": 0,
+    "dataset_identity": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+    "edge_reason": "insufficient completed trades (0 vs the 9M minimum of 60); no fills, so realized reward-to-risk is unavailable; OOS_BLOCKED",
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "final_decision": "OOS_BLOCKED",
+    "freshness_boundary": 1788601440,
+    "nine_m_protocol": "60 trades minimum / 5 surviving periods",
+    "phase18_funnel_match": true,
+    "phase18_reproduction_match": true,
+    "rows": 11461
+  }
+}

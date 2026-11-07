@@ -1,0 +1,101 @@
+{
+  "phase": 163,
+  "generated_for": "QuantEngine_PHASE163_RELEASE_CANDIDATE.zip",
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is a blocker carried into Phase 163, each with the reason it cannot be resolved from inside this source archive. None has been downgraded by wording, and none is a test that was silenced to make the suite look better.",
+  "blockers": [
+    {
+      "id": "BLOCK-163-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin strategy digest c52e648ca24f... (full value c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6 in the tests themselves) and still FAIL against this tree.",
+      "why": "The digest matches no revision recoverable from this archive or disk. The documented contract in scripts/recertify_strategy_digest.py requires the original Git checkout; it returns STATUS: BLOCKED.",
+      "effect": "The five tests are correct change detectors and stay red on purpose. Re-pinning them to current bytes would destroy evidence of divergence.",
+      "unblock": "Recover original Git history and re-execute research path, then run documented re-certification.",
+      "evidence": [
+        "reports/PHASE162_STRATEGY_IDENTITY.md",
+        "scripts/recertify_strategy_digest.py"
+      ]
+    },
+    {
+      "id": "BLOCK-163-02",
+      "area": "Git-ancestry evidence facts",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "40 Git-dependent facts are gated as BLOCKED_EVIDENCE by tests/evidence_mode.py.",
+      "why": "No .git directory exists in this source tree. Gated so they cannot pass vacuously.",
+      "effect": "Release gate for ancestry stays BLOCKED.",
+      "unblock": "Deliver project as a real Git repository.",
+      "evidence": [
+        "reports/PHASE163_GIT_EVIDENCE_STATUS.json",
+        "tests/evidence_mode.py",
+        "tests/test_git_evidence_mode_contract.py"
+      ]
+    },
+    {
+      "id": "BLOCK-163-03",
+      "area": "independent forensic audit",
+      "status": "PENDING_EXTERNAL_REVIEW",
+      "what": "A vendor independent audit requires an external reviewer who did not build the bytes.",
+      "why": "Self-audit cannot satisfy vendor independence.",
+      "effect": "No self-produced report may be read as independent third-party verification.",
+      "unblock": "Hand delivery to an independent auditor with docs/CLAUDE_PHASE163_INDEPENDENT_AUDIT_PROMPT.md.",
+      "evidence": [
+        "docs/BUILD_HANDOFF_PHASE163.md",
+        "docs/CLAUDE_PHASE163_INDEPENDENT_AUDIT_PROMPT.md",
+        "reports/PHASE163_RELEASE_GATES.json"
+      ]
+    },
+    {
+      "id": "BLOCK-163-04",
+      "area": "old-account ADAUSD position",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "Old-account ADAUSD LONG 1 @ 0.23327 position closure remains UNVERIFIABLE from the archive.",
+      "why": "No authenticated exchange capture artifact of the closure transaction exists in the package.",
+      "effect": "Cannot be marked closed without authentic venue capture.",
+      "unblock": "Obtain and archive an authenticated Delta exchange order/fill capture showing closure.",
+      "evidence": [
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "NEXT_ACTIONS.md"
+      ]
+    },
+    {
+      "id": "BLOCK-163-05",
+      "area": "funding-through-settlement raw debit payload",
+      "status": "UNVERIFIABLE_EXTERNAL",
+      "what": "Raw settlement cashflow debit is not independently verified in archive capture bytes.",
+      "why": "hold_log.jsonl records funding_rate: 'None' and only funding_rows: 1, lacking raw debit transaction payload.",
+      "effect": "Settlement debit remains UNVERIFIABLE from raw capture bytes alone.",
+      "unblock": "Execute authenticated capture capturing raw exchange funding transaction JSON payload with non-null rate and verified debit.",
+      "evidence": [
+        "research/captures/phase148_funding/hold_log.jsonl",
+        "reports/PHASE162_CAPTURE_REPORT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-163-06",
+      "area": "repeat-match WebSocket fill certification",
+      "status": "PARTIAL_MATCHED_WINDOWED",
+      "what": "Candidate B achieved MATCHED_WINDOWED, which is not full MATCHED certification.",
+      "why": "12 pre-window fills had unaligned market-friction observations and websocket sequences were null.",
+      "effect": "Repeat-match certification remains partial.",
+      "unblock": "Execute private WebSocket capture on fresh account state with non-null sequence IDs and complete friction binding.",
+      "evidence": [
+        "research/captures/phase162_recon/recon_experiment_report.json",
+        "reports/PHASE162_CAPTURE_REPORT.md"
+      ]
+    }
+  ],
+  "closed_this_cycle": [],
+  "standing_findings": [
+    {
+      "id": "FIND-163-01",
+      "finding": "EDGE NOT ESTABLISHED",
+      "statement": "No economic edge is established for any strategy revision. QuantEngine Phase 163 provides empirical protocol evidence, risk controls, and integrity verification, not profitability."
+    },
+    {
+      "id": "FIND-163-02",
+      "finding": "restricted evidence package",
+      "statement": "This archive deliberately contains raw private captures carrying the operator's account identifier and venue order ids. It is a restricted evidence package, not cleared for public publication."
+    }
+  ]
+}

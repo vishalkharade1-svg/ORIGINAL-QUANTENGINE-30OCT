@@ -1,0 +1,50 @@
+{
+ "H11F-001": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-002": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-003": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-004": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-005": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-006": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-007": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11F-008": {
+  "V1_entry_adverse_0p5bp": -57.98573853548938,
+  "V2_missed_10pct": -50.245099382382236,
+  "V3_exits_adverse_1bp": -60.91073847866923,
+  "baseline_C": -55.060738592309534
+ }
+}

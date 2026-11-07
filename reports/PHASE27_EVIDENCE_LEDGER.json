@@ -1,0 +1,17 @@
+{
+  "phase26_evidence_hashes": {
+    "PHASE26_FINAL_REPORT": "a5324008f1eb6d8b161b01cb3fd10fe5c483f3a9506a44495b3d94c42caae268",
+    "PHASE26_ORDER_LIFECYCLE": "6d0554d2e26504c7",
+    "PHASE26_OOS_REEVALUATION": "ad3c273ac665db63",
+    "PHASE26_BLOCKER_REGISTER": "dd113b27c35af40d",
+    "PHASE26_STRATEGY_VALIDATION_PLAN": "15d48177dcac2b23"
+  },
+  "phase27_artifacts": {
+    "final_report": "d322bdb63e6fd10a6846e588ff4c0ff82d8d54b312cf4264778500f21563102f",
+    "rr_migration_audit": "9d0151b74c99050ace434ce399fd7639c6e7bde361574f1b55306fc128a85db1",
+    "trailing_stop_spec": "fc9197ad6c8fdff52e737e4a4c737fb77f977afa5e8594066020d2037e04517e",
+    "strategy_evaluation": "3b38ab62264853496bec102b95d153fa5e011097c48873a04f654a7066811a14",
+    "blocker_register": "851718cb08bdda9fd8091f470ac4939febcc331b8deac533876db19fb075b161"
+  },
+  "notes": "Hashes computed on file contents at time of writing. The ledger itself is not included in the hash set; an external checksum may be generated after all artifacts are finalized."
+}

@@ -1,0 +1,25 @@
+{
+ "acquired_at": "2026-09-09T09:46:50.945586+00:00",
+ "date": "2026-09-07",
+ "files": {
+  "aggTrades": {
+   "bytes": 11347173,
+   "checksum_file_sha256": "ece51c84160433f417b7d7188cab1e9c3c518582ed0090e413d435b53daea392",
+   "checksum_match": true,
+   "local_sha256": "9b9f3aef64d3fbc72e0df15a15cb9630f39862c2d936cc3ef5ffc0bb11312b0c",
+   "provider_sha256": "9b9f3aef64d3fbc72e0df15a15cb9630f39862c2d936cc3ef5ffc0bb11312b0c",
+   "seconds": 5.38,
+   "url": "https://data.binance.vision/data/futures/um/daily/aggTrades/ETHUSDT/ETHUSDT-aggTrades-2026-09-07.zip"
+  },
+  "klines": {
+   "bytes": 62371,
+   "checksum_file_sha256": "5fb3689c94c0ca58b5d32e857ea11e91af2925713687d7e87853fd7374de0cf1",
+   "checksum_match": true,
+   "local_sha256": "35422a28ab76d56b7755fb980bf7be88aa14b7091b6a4ddfb6598725b173265f",
+   "provider_sha256": "35422a28ab76d56b7755fb980bf7be88aa14b7091b6a4ddfb6598725b173265f",
+   "seconds": 1.24,
+   "url": "https://data.binance.vision/data/futures/um/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2026-09-07.zip"
+  }
+ },
+ "symbol": "ETHUSDT"
+}

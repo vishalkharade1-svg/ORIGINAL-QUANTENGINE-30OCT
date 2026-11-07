@@ -1,0 +1,28 @@
+{
+  "acquisition_method": "HistoricalLoader.candles_paginated",
+  "acquisition_source": "Delta /v2/history/candles",
+  "boundary": 1788601440,
+  "interpretation": {
+    "cross_symbol_validation": "UNAVAILABLE",
+    "observed_symbols": [
+      "BTCUSDT"
+    ],
+    "reason": "only one provenance-bound symbol is present"
+  },
+  "manifest_id": "ebf0146f54074eedb834731da59d4e6a2db23e53fbd41cfad0c9d86447c7b956",
+  "schema_version": "oos-multi-symbol-manifest-v1",
+  "symbol_count": 1,
+  "symbols": [
+    {
+      "batch_identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+      "first_timestamp": 1788601500,
+      "last_timestamp": 1790427360,
+      "provenance_identity": "2b07b61a2f6716430ea66e5938ed0ffd1f899538d8e6c560d61bca4401666c9c",
+      "row_count": 30247,
+      "symbol": "BTCUSDT",
+      "timeframe": "1m"
+    }
+  ],
+  "timeframe": "1m",
+  "venue": "DELTA"
+}

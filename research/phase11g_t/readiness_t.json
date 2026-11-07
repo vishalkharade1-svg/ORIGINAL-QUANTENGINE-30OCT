@@ -1,0 +1,107 @@
+{
+ "availability": {
+  "latest_available_day": "2026-09-08",
+  "observed": "2026-09-09",
+  "probe": "HTTP status of daily aggTrades CHECKSUM URLs",
+  "result": "DATA_NOT_YET_AVAILABLE",
+  "status": {
+   "BTCUSDT/2026-09-09": 404,
+   "BTCUSDT/2026-09-10": 404,
+   "BTCUSDT/2026-09-11": 404,
+   "BTCUSDT/2026-09-12": 404,
+   "BTCUSDT/2026-09-13": 404,
+   "BTCUSDT/2026-09-14": 404,
+   "BTCUSDT/2026-09-15": 404,
+   "BTCUSDT/2026-09-16": 404,
+   "BTCUSDT/2026-09-17": 404,
+   "BTCUSDT/2026-09-18": 404,
+   "BTCUSDT/2026-09-19": 404,
+   "BTCUSDT/2026-09-20": 404,
+   "ETHUSDT/2026-09-09": 404,
+   "ETHUSDT/2026-09-10": 404,
+   "ETHUSDT/2026-09-11": 404,
+   "ETHUSDT/2026-09-12": 404,
+   "ETHUSDT/2026-09-13": 404,
+   "ETHUSDT/2026-09-14": 404,
+   "ETHUSDT/2026-09-15": 404,
+   "ETHUSDT/2026-09-16": 404,
+   "ETHUSDT/2026-09-17": 404,
+   "ETHUSDT/2026-09-18": 404,
+   "ETHUSDT/2026-09-19": 404,
+   "ETHUSDT/2026-09-20": 404
+  },
+  "unavailable_days": [
+   "2026-09-09",
+   "2026-09-10",
+   "2026-09-11",
+   "2026-09-12",
+   "2026-09-13",
+   "2026-09-14",
+   "2026-09-15",
+   "2026-09-16",
+   "2026-09-17",
+   "2026-09-18",
+   "2026-09-19",
+   "2026-09-20"
+  ]
+ },
+ "code_hash": "eea445bd832a92a594716e7ce3ab78fc3c8ba3b75f3b3aeaf8226140d16d6355",
+ "cutoffs": {
+  "fresh_start_t": 1788912000,
+  "latest_exposed_minute": 1788911940,
+  "rule": "qualifying events require timestamp >= fresh_start_t"
+ },
+ "decision": "DATA_NOT_YET_AVAILABLE",
+ "economics_executed": false,
+ "hypotheses_executed": 0,
+ "limitations": [
+  "Fast path: no historical re-validation performed (no new data).",
+  "All inventoried minutes remain REUSED (descriptive exposure).",
+  "D3 era unknowable without opening; D3 status UNKNOWN_BY_SEAL.",
+  "aggTrade = aggregate event, not individual fill."
+ ],
+ "new_files": [],
+ "new_fresh_bars": 0,
+ "phase": "11G-T",
+ "required_bars": 6175,
+ "seal_counters_after": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "seal_counters_before": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "symbols": {
+  "BTC": {
+   "contiguous_fresh_bars": 0,
+   "fresh_bars": 0,
+   "gap_count": 0,
+   "gate_met": false,
+   "shortfall_vs_required": 6175
+  },
+  "ETH": {
+   "contiguous_fresh_bars": 0,
+   "fresh_bars": 0,
+   "gap_count": 0,
+   "gate_met": false,
+   "shortfall_vs_required": 6175
+  }
+ },
+ "wf_geometry": {
+  "embargo": 25,
+  "folds": 4,
+  "purge": 150,
+  "step": 1000,
+  "test": 1000,
+  "train_min": 2000
+ }
+}

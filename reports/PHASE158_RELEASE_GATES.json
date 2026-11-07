@@ -1,0 +1,82 @@
+{
+  "phase": 158,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "forensic repair of the Phase157 release candidate: LF restoration of frozen inputs, derivation-checked dataset reconstruction, Git-evidence-mode contract, stale-evidence labelling, privacy enforcement with two-tier leakage classification, manifest-verifier hardening, deterministic rebuild and detached-hash handoff; post-audit revision 2: authentic-byte restoration of the runtime policy file with LF-explicit persistence, an LF-only byte-reproducible manifest, a session snapshot guard, and an explicit publication-clearance statement on the privacy scan",
+  "supersedes": "reports/PHASE157_RELEASE_GATES.json (preserved unchanged as the Phase157 gate record)",
+  "gates": {
+    "archive_integrity": "PASS-input-byte-verified-and-output-extract-verified",
+    "manifest_completeness": "PASS-verifier-hardened-with-negative-controls",
+    "manifest_determinism": "PASS-lf-only-and-regenerates-byte-for-byte-on-every-platform",
+    "provenance_correctness": "PASS-detached-hash-only-no-self-reference",
+    "release_internal_consistency": "PASS-advanced-to-the-phase158-candidate",
+    "stale_evidence_repair": "PASS-labelled-not-rewritten",
+    "frozen_representation": "PASS-lf-restored-every-recorded-pin-reproduces-including-the-runtime-policy-file-restored-to-its-phase131-pin",
+    "dataset_reconstruction": "PASS-content-verified-against-the-frozen-commitment-and-disclosed",
+    "snapshot_neutrality": "PASS-session-guard-restores-any-rewritten-covered-file-byte-exactly-and-reports-it",
+    "git_evidence_mode_contract": "PASS-40-facts-gated-with-a-positive-control",
+    "git_ancestry_evidence": "BLOCKED-archive-mode-cannot-establish-ancestry",
+    "strategy_digest_recertification": "BLOCKED-documented-contract-requires-the-original-repository",
+    "full_test_suite": "NOT-GREEN-5-deliberate-strategy-digest-failures-plus-git-evidence-gates-see-reports/PHASE158_FULL_SUITE_RUN.txt",
+    "security_secret_scan": "PASS",
+    "privacy_scan": "PASS-zero-new-leakage-historical-baseline-enumerated-publication-clearance-not-cleared",
+    "packaging_hygiene": "PASS-in-the-packaged-tree",
+    "dependency_advisory_review": "EXECUTED-3-advisories-2-unreachable-1-accepted-upgrades-not-adopted",
+    "trading_safety": "PASS-no-order-capable-script-ran-and-none-can-run-without-execute",
+    "live_order_placement": "NOT PERFORMED",
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "independent_audit": "EXECUTED-revision-1-audited-findings-dispositioned-and-repaired-in-revision-2-see-reports/PHASE158_AUDIT_REPAIRS.json",
+    "funding_through_settlement_evidence": "BLOCKED-external-ip-whitelist",
+    "repeat_match_evidence": "BLOCKED-external-ip-whitelist"
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "8.4.2",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.0.1",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "18.0.0",
+      "pytest": "8.4.2"
+    }
+  },
+  "final_archive": {
+    "name": "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED - an archive cannot truthfully contain a hash of itself; the value is recorded only in the detached record RELEASE_HASH_PHASE158.txt delivered beside the archive",
+    "members": "recorded in the detached record RELEASE_HASH_PHASE158.txt",
+    "detached_record": "RELEASE_HASH_PHASE158.txt (beside the archive, never inside it)",
+    "post_build_bundle": "QuantEngine_PHASE158_POST_BUILD/ (self-audit against the final bytes, extracted-package test log, post-build verification)"
+  },
+  "test_evidence": {
+    "baseline_pre_repair": "reports/PHASE158_BASELINE_FULL_SUITE.txt (42 failed, 3974 passed, 10 skipped)",
+    "authoritative_post_repair": "reports/PHASE158_FULL_SUITE_RUN.txt",
+    "extracted_package": "PHASE158_EXTRACTED_PACKAGE_TESTS.txt in the post-build bundle",
+    "failure_disposition": "reports/PHASE158_HASH_FAILURE_TRIAGE.json",
+    "focused_evidence": "reports/PHASE158_SNAPSHOT_AUDIT.md",
+    "audit_disposition": "reports/PHASE158_AUDIT_REPAIRS.json"
+  },
+  "blockers": "reports/PHASE158_BLOCKERS.json",
+  "records": [
+    "reports/PHASE158_BASELINE_INVENTORY.md",
+    "reports/PHASE158_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE158_SOURCE_DIFF.json",
+    "reports/PHASE158_HASH_FAILURE_TRIAGE.json",
+    "reports/PHASE158_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE158_FULL_SUITE_RUN.txt",
+    "reports/PHASE158_MANIFEST_AUDIT.json",
+    "reports/PHASE158_PROVENANCE.json",
+    "reports/PHASE158_SECURITY_SCAN.md",
+    "reports/PHASE158_PRIVACY_REVIEW.md",
+    "reports/PHASE158_PRIVACY_SCAN.json",
+    "reports/PHASE158_DEPENDENCY_REVIEW.md",
+    "reports/PHASE158_OSV_SCAN.json",
+    "reports/PHASE158_BLOCKERS.json",
+    "reports/PHASE158_SNAPSHOT_AUDIT.md",
+    "reports/PHASE158_AUDIT_REPAIRS.json",
+    "docs/BUILD_HANDOFF_PHASE158.md",
+    "docs/CLAUDE_PHASE158_INDEPENDENT_AUDIT_PROMPT.md"
+  ],
+  "statement": "Every gate above is either PASS with reproduced evidence, or explicitly blocked with the reason it cannot be established from this archive. No gate was downgraded by wording, and no test was weakened, deleted, blanket-skipped or xfailed to reach these states."
+}

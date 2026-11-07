@@ -1,0 +1,538 @@
+{
+  "certified_protocol_reproduction": {
+    "all_match": true,
+    "executor": "core/research/oos_validation/execution.py:run_frozen_oos",
+    "global_plain": {
+      "actual_fill_rr": [],
+      "bars": 11461,
+      "commission": 0.0,
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 18,
+        "BULLISH/EXPIRED": 12,
+        "BULLISH/INVALIDATED": 2
+      },
+      "fills": 0,
+      "funding": 0.0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "net_pnl": 0.0,
+      "orders": 32,
+      "slippage": 0.0,
+      "terminal": {
+        "EXPIRED": 30,
+        "INVALIDATED": 2
+      },
+      "wins": 0
+    },
+    "lifecycle_evidence": {
+      "path": "reports/PHASE26_ORDER_LIFECYCLE.json",
+      "sha256": "6d0554d2e26504c745084b9ab6bee362177b79fb87dac5639fbf1564d67f9bcc"
+    },
+    "per_period": [
+      {
+        "bars": 1910,
+        "fills": 0,
+        "matches": true,
+        "orders": 2,
+        "period_id": "OOS_01",
+        "phase18_fills": 0,
+        "phase18_orders": 2,
+        "terminal": {
+          "EXPIRED": 2
+        }
+      },
+      {
+        "bars": 1910,
+        "fills": 0,
+        "matches": true,
+        "orders": 0,
+        "period_id": "OOS_02",
+        "phase18_fills": 0,
+        "phase18_orders": 0,
+        "terminal": {}
+      },
+      {
+        "bars": 1910,
+        "fills": 0,
+        "matches": true,
+        "orders": 2,
+        "period_id": "OOS_03",
+        "phase18_fills": 0,
+        "phase18_orders": 2,
+        "terminal": {
+          "EXPIRED": 2
+        }
+      },
+      {
+        "bars": 1910,
+        "fills": 0,
+        "matches": true,
+        "orders": 3,
+        "period_id": "OOS_04",
+        "phase18_fills": 0,
+        "phase18_orders": 3,
+        "terminal": {
+          "EXPIRED": 1,
+          "INVALIDATED": 1,
+          "PENDING": 1
+        }
+      },
+      {
+        "bars": 1910,
+        "fills": 0,
+        "matches": true,
+        "orders": 8,
+        "period_id": "OOS_05",
+        "phase18_fills": 0,
+        "phase18_orders": 8,
+        "terminal": {
+          "EXPIRED": 8
+        }
+      },
+      {
+        "bars": 1911,
+        "fills": 0,
+        "matches": true,
+        "orders": 0,
+        "period_id": "OOS_06",
+        "phase18_fills": 0,
+        "phase18_orders": 0,
+        "terminal": {}
+      }
+    ]
+  },
+  "cost_ladders": [
+    {
+      "applied_to_oos": false,
+      "arithmetic_check_only": {
+        "commission": 0.0,
+        "notional": 60000.0,
+        "slippage": 0.0,
+        "status": "CONFIGURED_ASSUMPTION_CHECK_ONLY_NOT_OOS_EVIDENCE"
+      },
+      "attribution": "NOT_APPLICABLE_NO_FILLS",
+      "global_cost_total": 0.0,
+      "note": "Zero OOS attribution because the frozen run has no fills; not evidence that venue execution costs are zero.",
+      "oos_period_cost_total": 0.0,
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.0,
+        "SLIPPAGE_BPS": 0.0
+      },
+      "scenario": "A"
+    },
+    {
+      "applied_to_oos": false,
+      "arithmetic_check_only": {
+        "commission": 30.0,
+        "notional": 60000.0,
+        "slippage": 24.0,
+        "status": "CONFIGURED_ASSUMPTION_CHECK_ONLY_NOT_OOS_EVIDENCE"
+      },
+      "attribution": "NOT_APPLICABLE_NO_FILLS",
+      "global_cost_total": 0.0,
+      "note": "Zero OOS attribution because the frozen run has no fills; not evidence that venue execution costs are zero.",
+      "oos_period_cost_total": 0.0,
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.0005,
+        "SLIPPAGE_BPS": 2.0
+      },
+      "scenario": "B"
+    },
+    {
+      "applied_to_oos": false,
+      "arithmetic_check_only": {
+        "commission": 35.4,
+        "notional": 60000.0,
+        "slippage": 60.0,
+        "status": "CONFIGURED_ASSUMPTION_CHECK_ONLY_NOT_OOS_EVIDENCE"
+      },
+      "attribution": "NOT_APPLICABLE_NO_FILLS",
+      "global_cost_total": 0.0,
+      "note": "Zero OOS attribution because the frozen run has no fills; not evidence that venue execution costs are zero.",
+      "oos_period_cost_total": 0.0,
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.00059,
+        "SLIPPAGE_BPS": 5.0
+      },
+      "scenario": "C"
+    },
+    {
+      "applied_to_oos": false,
+      "arithmetic_check_only": {
+        "commission": 70.8,
+        "notional": 60000.0,
+        "slippage": 120.0,
+        "status": "CONFIGURED_ASSUMPTION_CHECK_ONLY_NOT_OOS_EVIDENCE"
+      },
+      "attribution": "NOT_APPLICABLE_NO_FILLS",
+      "global_cost_total": 0.0,
+      "note": "Zero OOS attribution because the frozen run has no fills; not evidence that venue execution costs are zero.",
+      "oos_period_cost_total": 0.0,
+      "params": {
+        "COMMISSION_PER_TRADE": 0.0,
+        "COMMISSION_RATE": 0.00118,
+        "SLIPPAGE_BPS": 10.0
+      },
+      "scenario": "D"
+    }
+  ],
+  "datasets": {
+    "phase18_certified": {
+      "end": 1789289100,
+      "file_sha256": "986fdae1189f5695c710a3315a44fe3c649bed66687a0a18ea73247c338ef2ef",
+      "identity": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+      "path": "data/history/BTCUSDT_1m_phase17_fresh.json",
+      "rows": 11461,
+      "start": 1788601500
+    },
+    "phase30_extended": {
+      "end": 1790427360,
+      "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+      "file_sha256": "42d62f3f4401f0dabb1a4b7fdf5a1b2c6718931a129722b0a8cd14acd5d216ee",
+      "identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+      "path": "data/history/BTCUSDT_1m_oos_topup.json",
+      "rows": 30247,
+      "start": 1788601500
+    }
+  },
+  "economics_status": {
+    "commission": 0.0,
+    "completed_trades": 0,
+    "cost_status": "NOT_APPLICABLE_NO_FILLS",
+    "fills": 0,
+    "funding": 0.0,
+    "funding_status": "NOT_APPLICABLE_NO_FILLS",
+    "gross_pnl": 0.0,
+    "net_pnl": 0.0,
+    "realized_rr": [],
+    "slippage": 0.0,
+    "statement": "No fills means no holding interval, so funding and costs do not enter P&L. The zero totals are an absence of transactions, not a measurement of free execution."
+  },
+  "entry_model_changed": false,
+  "evaluation_is_distinct_from_original": true,
+  "extended_dataset_phase30": {
+    "global": {
+      "actual_fill_rr": [
+        9.574468085106384,
+        34.74019607843109
+      ],
+      "bars": 30247,
+      "commission": 0.0,
+      "completed_trades": 2,
+      "directional": {
+        "BEARISH/EXPIRED": 27,
+        "BEARISH/FILLED": 1,
+        "BEARISH/INVALIDATED": 8,
+        "BULLISH/EXPIRED": 37,
+        "BULLISH/FILLED": 1,
+        "BULLISH/INVALIDATED": 8
+      },
+      "fills": 2,
+      "funding": 0.2500501704888216,
+      "gross_pnl": -0.0868021,
+      "losses": 1,
+      "net_pnl": -0.3368522704888216,
+      "orders": 82,
+      "slippage": 0.0,
+      "terminal": {
+        "EXPIRED": 64,
+        "FILLED": 2,
+        "INVALIDATED": 16
+      },
+      "wins": 1
+    },
+    "note": "executed for transparency only; recorded Phase-30 evidence came from a different code revision",
+    "per_period": [
+      {
+        "bars": 5041,
+        "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+        "fills": 0,
+        "funding_events_in_interval": 84,
+        "gross_pnl": 0.0,
+        "matches_phase30": false,
+        "orders": 2,
+        "period_id": "OOS_01",
+        "phase30_recorded_fills": 0,
+        "phase30_recorded_orders": 1
+      },
+      {
+        "bars": 5041,
+        "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+        "fills": 0,
+        "funding_events_in_interval": 84,
+        "gross_pnl": 0.0,
+        "matches_phase30": false,
+        "orders": 24,
+        "period_id": "OOS_02",
+        "phase30_recorded_fills": 0,
+        "phase30_recorded_orders": 0
+      },
+      {
+        "bars": 5041,
+        "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+        "fills": 0,
+        "funding_events_in_interval": 85,
+        "gross_pnl": 0.0,
+        "matches_phase30": false,
+        "orders": 4,
+        "period_id": "OOS_03",
+        "phase30_recorded_fills": 0,
+        "phase30_recorded_orders": 1
+      },
+      {
+        "bars": 5041,
+        "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+        "fills": 0,
+        "funding_events_in_interval": 84,
+        "gross_pnl": 0.0,
+        "matches_phase30": false,
+        "orders": 4,
+        "period_id": "OOS_04",
+        "phase30_recorded_fills": 0,
+        "phase30_recorded_orders": 6
+      },
+      {
+        "bars": 5041,
+        "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+        "fills": 1,
+        "funding_events_in_interval": 85,
+        "gross_pnl": -0.07807338,
+        "matches_phase30": false,
+        "orders": 11,
+        "period_id": "OOS_05",
+        "phase30_recorded_fills": 1,
+        "phase30_recorded_orders": 7
+      },
+      {
+        "bars": 5042,
+        "evidence_class": "DIFFERENT_REVISION_EVIDENCE",
+        "fills": 0,
+        "funding_events_in_interval": 85,
+        "gross_pnl": 0.0,
+        "matches_phase30": false,
+        "orders": 0,
+        "period_id": "OOS_06",
+        "phase30_recorded_fills": 2,
+        "phase30_recorded_orders": 6
+      }
+    ]
+  },
+  "fill_model_changed": false,
+  "funding_aware_phase18": {
+    "global": {
+      "actual_fill_rr": [],
+      "bars": 11461,
+      "commission": 0.0,
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 18,
+        "BULLISH/EXPIRED": 12,
+        "BULLISH/INVALIDATED": 2
+      },
+      "fills": 0,
+      "funding": 0.0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "net_pnl": 0.0,
+      "orders": 32,
+      "slippage": 0.0,
+      "terminal": {
+        "EXPIRED": 30,
+        "INVALIDATED": 2
+      },
+      "wins": 0
+    },
+    "per_period": [
+      {
+        "bars": 1910,
+        "cost_status": "NOT_APPLICABLE_NO_FILLS",
+        "fills": 0,
+        "funding": 0.0,
+        "funding_events_in_interval": 32,
+        "gross_pnl": 0.0,
+        "orders": 2,
+        "period_id": "OOS_01",
+        "segment": "funded_full_period"
+      },
+      {
+        "bars": 1910,
+        "cost_status": "NOT_APPLICABLE_NO_FILLS",
+        "fills": 0,
+        "funding": 0.0,
+        "funding_events_in_interval": 32,
+        "gross_pnl": 0.0,
+        "orders": 0,
+        "period_id": "OOS_02",
+        "segment": "funded_full_period"
+      },
+      {
+        "bars": 1910,
+        "cost_status": "NOT_APPLICABLE_NO_FILLS",
+        "fills": 0,
+        "funding": 0.0,
+        "funding_events_in_interval": 32,
+        "gross_pnl": 0.0,
+        "orders": 2,
+        "period_id": "OOS_03",
+        "segment": "funded_full_period"
+      },
+      {
+        "bars": 1910,
+        "cost_status": "NOT_APPLICABLE_NO_FILLS",
+        "fills": 0,
+        "funding": 0.0,
+        "funding_events_in_interval": 32,
+        "gross_pnl": 0.0,
+        "orders": 3,
+        "period_id": "OOS_04",
+        "segment": "funded_full_period"
+      },
+      {
+        "bars": 1910,
+        "cost_status": "NOT_APPLICABLE_NO_FILLS",
+        "fills": 0,
+        "funding": 0.0,
+        "funding_events_in_interval": 31,
+        "gross_pnl": 0.0,
+        "orders": 8,
+        "period_id": "OOS_05",
+        "segment": "funded_full_period"
+      },
+      {
+        "bars": 1911,
+        "cost_status": "NOT_APPLICABLE_NO_FILLS",
+        "fills": 0,
+        "funding": 0.0,
+        "funding_events_in_interval": 32,
+        "gross_pnl": 0.0,
+        "orders": 0,
+        "period_id": "OOS_06",
+        "segment": "funded_full_period"
+      }
+    ],
+    "segments": "all six periods fully funded (no head gap)"
+  },
+  "funding_evidence": {
+    "head_gap_repaired": true,
+    "phase25_artifact_oos_sha256": "67c33b5538994d18d02c43a8ec6bcf4c9f279548d736ae1729614d43aefdc4b5",
+    "phase25_artifact_phase18_sha256": "494d17a2821e6c8297dc1b60451637bd32277b683b929a0993a4814dcc01f990",
+    "phase25_first_event_utc": "2026-09-05T16:00:00Z",
+    "phase25_head_gap_seconds": 22500,
+    "phase26_artifact_oos": {
+      "path": "reports/evidence/phase26/btcusdt_funding_bound_to_oos.json",
+      "series": {
+        "event_count": 529,
+        "first_event": 1788566400,
+        "first_event_utc": "2026-09-05T00:00:00Z",
+        "head_covered": true,
+        "head_gap_seconds": 0,
+        "head_pad_seconds": 35100,
+        "last_event": 1790467200,
+        "last_event_utc": "2026-09-27T00:00:00Z",
+        "non_hourly_gap_count": 0,
+        "settlements_in_oos": 507,
+        "strictly_hourly": true,
+        "tail_covered": true
+      },
+      "sha256": "4c18bb37940f938a2fc8bc7240462b07b977770eca4555d949013c0e3399702a"
+    },
+    "phase26_artifact_phase18": {
+      "path": "reports/evidence/phase26/btcusdt_funding_bound_to_phase18.json",
+      "series": {
+        "event_count": 529,
+        "first_event": 1788566400,
+        "first_event_utc": "2026-09-05T00:00:00Z",
+        "head_covered": true,
+        "head_gap_seconds": 0,
+        "head_pad_seconds": 35100,
+        "last_event": 1790467200,
+        "last_event_utc": "2026-09-27T00:00:00Z",
+        "non_hourly_gap_count": 0,
+        "settlements_in_oos": 191,
+        "strictly_hourly": true,
+        "tail_covered": true
+      },
+      "sha256": "b8e6473fec4e1b62924ade2c9a11406694ac847ff349f8e7cc0e35065580260b"
+    },
+    "phase26_head_gap_seconds": 0,
+    "recovered_head_settlement_count": 6,
+    "recovered_head_settlements": [
+      {
+        "rate": -0.00214795,
+        "time": 1788602400,
+        "utc": "2026-09-05T10:00:00Z"
+      },
+      {
+        "rate": -0.00214795,
+        "time": 1788606000,
+        "utc": "2026-09-05T11:00:00Z"
+      },
+      {
+        "rate": -0.00214795,
+        "time": 1788609600,
+        "utc": "2026-09-05T12:00:00Z"
+      },
+      {
+        "rate": -0.00214795,
+        "time": 1788613200,
+        "utc": "2026-09-05T13:00:00Z"
+      },
+      {
+        "rate": -0.00214795,
+        "time": 1788616800,
+        "utc": "2026-09-05T14:00:00Z"
+      },
+      {
+        "rate": -0.00214795,
+        "time": 1788620400,
+        "utc": "2026-09-05T15:00:00Z"
+      }
+    ],
+    "repair_method": "aligned the public request to a whole 8-hour funding block with 8h pad; no interpolation and no zero substitution"
+  },
+  "original_evaluations_preserved": {
+    "phase18": {
+      "global_fills": 0,
+      "global_orders": 32,
+      "path": "research/results/phase18_oos_validation.json",
+      "sha256": "95cef0271ae746f26abe4a2661e270e573bdaeab746ba1483ae64d23cf63fdd2"
+    },
+    "phase25": {
+      "cost_scenario_A_global": {
+        "commission": 0.0,
+        "fills": 0,
+        "net_pnl": 0.0,
+        "slippage": 0.0
+      },
+      "funding_head_gap_seconds": 22500,
+      "path": "research/results/phase25_frozen_oos_validation.json",
+      "phase18_funnel_match": true,
+      "sha256": "31c1184a13b229d48111b2fac1baf13b7fab0a17807e6248b318f21945c993ef"
+    }
+  },
+  "phase": 26,
+  "schema": "quantengine.phase26-oos-reevaluation.v1",
+  "strategy_logic_changed": false,
+  "thresholds_changed": false,
+  "verdict": {
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "final_decision": "OOS_BLOCKED",
+    "next_evidence_requirement": "an entry model whose executable reward:risk can satisfy the unchanged 1:6 floor, evaluated on genuinely unseen OOS data with a preregistered protocol; no tuning against this frozen OOS set is permitted",
+    "phase18_reproduction_match": true,
+    "phase25_funding_economics_unchanged": true,
+    "phase25_funding_head_gap_repaired": true,
+    "production_ready": false,
+    "release_gate": "HOLD",
+    "zero_fill_cause": "BREAKOUT_CONTINUATION fills at the next bar's open after price has already moved beyond the order's entry level; the executable reward:risk then fails the frozen-era 1:6 floor (30/32) or the fill is already beyond the take-profit (2/32). No fill timing, geometry or threshold defect was found.",
+    "zero_fill_classification": "LEGITIMATE_NO_FILL_OUTCOME"
+  },
+  "workstreams": [
+    "P26-D",
+    "P26-E",
+    "P26-F"
+  ]
+}

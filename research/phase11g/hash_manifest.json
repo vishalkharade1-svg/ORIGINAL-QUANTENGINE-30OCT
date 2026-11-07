@@ -1,0 +1,63 @@
+{
+ "env": {
+  "python": "3.12.10"
+ },
+ "files": {
+  "research/phase11g/README.md": "abf08df0469cb928d352b100b73b1d1f2b080490128858120e865388104ad5e6",
+  "research/phase11g/data_capability_matrix.json": "a9d6291cda223115a672a70ceb8de20be233a6729410bf136f5420e71c27e31d",
+  "research/phase11g/datasets.py": "757836164c9913cdcd222597f47a02d97b81a6f6a92f831c6b6dd417bdcbda76",
+  "research/phase11g/feature_contracts.json": "231843871f1a39617b5a317f9e2c7ea53ee010c493fc91c986a297e92ba443bd",
+  "research/phase11g/features/breaker.py": "0dfefe901aec61f7f81a3c61d27fe2aac555de4e1da94f45df78b74c319ef27d",
+  "research/phase11g/features/common.py": "1daa28e9009f6ae94382a0634889b886be08422bd442cffe78e902a61dfdb6bd",
+  "research/phase11g/features/confluence.py": "23fb470271739d600c13432e80ebf6f2c8483ae647f63ae7f4ebb62ec6deec7e",
+  "research/phase11g/features/displacement.py": "5ae0f52ca14153f8e244a037dcd2fe0e1df8a32702385e9e7da29420d58d1aff",
+  "research/phase11g/features/fibonacci.py": "fe9393e51611cf216280dd1c345c5374b6d343f9e66a18d1133eb7b0bc187936",
+  "research/phase11g/features/fvg.py": "aa15257026a5ac3c7cf42722616389be4cdac6c78d1bbb138e66d328d3f27f17",
+  "research/phase11g/features/liquidity.py": "20605edd5b7b0bf6b956da4fdae561a448e16e096983521303e861497b8d047e",
+  "research/phase11g/features/mitigation.py": "b8012c5d6c64eeac7c87ab8d54aad52ed0772adfa14c38d83a8d2e4a39f8c25c",
+  "research/phase11g/features/mtf.py": "a6586e5b02a4df2b6924a4062de3005587cdf82d06c882501bd12d9304db182c",
+  "research/phase11g/features/orderblock.py": "5cba8c3f6dcd471b95b755eed39c38a2784f799a59dc16bab7cf427fbc401161",
+  "research/phase11g/features/structure.py": "12baa5b16a3fe57a77794866b105cbcc5cfdc484ddb36d60cb30e2cfc8564fa6",
+  "research/phase11g/features/volume.py": "6e434562beb9cde2d585a1224b56948b167cd3fee98414905c182693526d9c54",
+  "research/phase11g/features/wyckoff.py": "6af4e14f1d08d2040a93676964513779664dbe4e838866804e367f45069c218f",
+  "research/phase11g/research_log.json": "a8be958cff3ec0444b42ab71c8894a2542ce2b73361c62ccad5d3bd9ae79b67e",
+  "research/phase11g/tests/test_breaker.py": "8af37b9b98515baafa26f8fcbfc3342d0a5c1813ed4ff1f724931c3a37715411",
+  "research/phase11g/tests/test_capability_matrix.py": "50ea787c60114b5a064aa27b3d09b61b922a543886b53e208973d7f38f0b2a78",
+  "research/phase11g/tests/test_causality.py": "cda6f52251448b08ea26b08f88fdbbe898bad60d998988e639d5885e33a74c0f",
+  "research/phase11g/tests/test_confluence.py": "d171820f06af697b3c9e1b75ead0e63fde5f7d241148aa372f219b8053680dea",
+  "research/phase11g/tests/test_d3_seal.py": "69363444914c4d60e203815148cb4689ec7f2b4f34889f5231035fedacf5527b",
+  "research/phase11g/tests/test_determinism.py": "45740d19759d6cb6823e0f577ffd404febd3a5f51119cb0651b33d82244d67ab",
+  "research/phase11g/tests/test_displacement.py": "67ff38032b3a35d97ac8149bae2f726a0f08b73ceb7447e2608870691fae14e8",
+  "research/phase11g/tests/test_feature_contracts.py": "8294a483aadefe30dfa5317bf92018f61c3585f32750afbe312ce4c314e4ac85",
+  "research/phase11g/tests/test_fibonacci.py": "c0e1254b2fdbf5d48fd6f874c3681b6656dcfe1dc922638546071ea83659d78c",
+  "research/phase11g/tests/test_fvg.py": "36f6726fe6ab5f641bd9f0233bfb349fc8838acf196fc6b3293ede7fd9e9be27",
+  "research/phase11g/tests/test_liquidity.py": "72c2a2df7cb77374a8e1378f029059a314d18d487d3c73fa26401ad7e629050c",
+  "research/phase11g/tests/test_mitigation.py": "2d954a0780e527d7d6273abac9c7eac809d585b46e3447e8365914f088f92f51",
+  "research/phase11g/tests/test_mtf.py": "c7f28d9a49669dbcd4c04afcb0eef25bef71734f9d501800772c70e733911405",
+  "research/phase11g/tests/test_mutations.py": "f130df0371ab604b125ac78189545b14d4b2850244b8f61434ece14951224203",
+  "research/phase11g/tests/test_orderblock.py": "b2678096e55c0ef47ba578582b307afbeb687c2328f509928ba32f8ea90a3178",
+  "research/phase11g/tests/test_prefix_invariance.py": "7816f78b8775c64891d0930f4ba31aaf4f32bebd5e3082d4e99eb6cf776b7121",
+  "research/phase11g/tests/test_production_isolation.py": "83da498e9967b153b35c3c501a5dd37cc5d48cee04e9e4c4454a42741958edf3",
+  "research/phase11g/tests/test_structure.py": "72a96b8cb909fbbbfd598cb91bcd313068be001612584bb4bfb40c2387dd6d05",
+  "research/phase11g/tests/test_volume.py": "d62fa24a9ebe7142d028440d6c2bc3f8e8a59e5a0499d0f96b0b620ffa38ab1c",
+  "research/phase11g/tests/test_wyckoff.py": "af8201f08e19820b7e8ecdf38052f5b4ddcb49528966826b14021d221b985dee",
+  "research/phase11g/validation/snapshot.py": "7b764dae1d4e17cfb6b92f4933d5550edb01161de484abce0595c7129e338d22"
+ },
+ "head": "e3e6f4b75bd166529e4c35f59a6a68a53bbc7fbb",
+ "perf": {
+  "bars": 7001,
+  "note": "post single-pass rewrite; identical outputs",
+  "per_bar_ms": 1.9,
+  "secs": 14,
+  "series": 24
+ },
+ "phase": "11G",
+ "report": "docs/audit/phase11g_A_feature_engineering.md",
+ "stage": "STAGE_A_FEATURE_ENGINEERING",
+ "suites": {
+  "compileall": "clean",
+  "gate_a": "PASS x2",
+  "main": "2188 passed, 0 failed",
+  "phase11g": "88 passed, 0 failed"
+ }
+}

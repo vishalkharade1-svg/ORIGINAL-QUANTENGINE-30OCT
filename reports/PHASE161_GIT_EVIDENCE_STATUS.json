@@ -1,0 +1,532 @@
+{
+  "carried_over": "the gated fact set is identical to the Phase160 record (reports/PHASE160_GIT_EVIDENCE_STATUS.json): Phase161 is an environment-adoption cycle that adds no gated test and removes none, so the facts are carried byte-for-byte and their historical observation labels were not rewritten",
+  "contract": {
+    "entry_point": "require_git_fact(case, fact_id)",
+    "git_checkout_behaviour": "returns immediately; the test's own assertions run unchanged",
+    "module": "tests/evidence_mode.py",
+    "positive_control": "the regression test creates a throwaway repository in a temporary directory and asserts the guard steps aside there, so archive mode cannot silently disable the checks",
+    "regression_test": "tests/test_git_evidence_mode_contract.py",
+    "source_archive_behaviour": "raises SkipTest with an explicit BLOCKED_EVIDENCE reason naming the fact; a skip is reported as skipped, never as passed"
+  },
+  "facts": [
+    {
+      "commit_refs": [
+        "004b2bcbe5f3ea8ab0b4d2be246bbb25dde61db2"
+      ],
+      "file": "tests/test_researcher_11g_n.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_n::TestRepositoryHead::test_starting_head_ancestor",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 004b2bcbe5f3ea8ab0b4d2be246bbb25dde61db2",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_n.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_n::TestRepositoryHead::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_n.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_n::TestRepositoryHead::test_tree_clean_except_notes",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_n.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_n::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "7c9d156d6076b0cc974fb5e0cf24bbe40c2ec3d2"
+      ],
+      "file": "tests/test_researcher_11g_o.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_o::TestRepositoryHead::test_starting_head_ancestor",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 7c9d156d6076b0cc974fb5e0cf24bbe40c2ec3d2",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_o.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_o::TestRepositoryHead::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_o.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_o::TestRepositoryHead::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_o.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_o::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "501f082d1b037f1d9461d243310d68b95282a2a7"
+      ],
+      "file": "tests/test_researcher_11g_p.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_p::TestRepositoryHead::test_starting_head_ancestor",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 501f082d1b037f1d9461d243310d68b95282a2a7",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_p.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_p::TestRepositoryHead::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_p.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_p::TestRepositoryHead::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_p.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_p::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "57c22e1c68dcf0480c37cebbad494eaf8490afe9"
+      ],
+      "file": "tests/test_researcher_11g_q.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_q::TestStartingState::test_head_descends_from_p",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 57c22e1c68dcf0480c37cebbad494eaf8490afe9",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_q.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_q::TestStartingState::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_q.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_q::TestStartingState::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_q.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_q::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "29959c536610be610653bf34ac7fd331270d96fa"
+      ],
+      "file": "tests/test_researcher_11g_r.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_r::TestStartingState::test_head_descends_from_q",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 29959c536610be610653bf34ac7fd331270d96fa",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_r.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_r::TestStartingState::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_r.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_r::TestStartingState::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_r.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_r::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "217a82553cd91dd886cb060e7f7ebc8245b7caa2"
+      ],
+      "file": "tests/test_researcher_11g_s.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_s::TestStartingState::test_head_descends_from_r",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 217a82553cd91dd886cb060e7f7ebc8245b7caa2",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_s.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_s::TestStartingState::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_s.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_s::TestStartingState::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_s.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_s::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "2942b57f85957e7a48546f9baea935d6437f39bd"
+      ],
+      "file": "tests/test_researcher_11g_t.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_t::TestStartingState::test_head_descends_from_s",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit 2942b57f85957e7a48546f9baea935d6437f39bd",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_t.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_t::TestStartingState::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_t.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_t::TestStartingState::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_t.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_t::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "e88c3a0b39997de440cc56543141c096ee4ed4f7"
+      ],
+      "file": "tests/test_researcher_11g_u.py",
+      "git_subcommands": [
+        "merge-base"
+      ],
+      "id": "test_researcher_11g_u::TestStartingState::test_head_descends_from_t",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "HEAD descends from commit e88c3a0b39997de440cc56543141c096ee4ed4f7",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_u.py",
+      "git_subcommands": [
+        "branch"
+      ],
+      "id": "test_researcher_11g_u::TestStartingState::test_branch_main",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_u.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_u::TestStartingState::test_tree_only_expected",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_11g_u.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_11g_u::TestProductionIsolation::test_no_production_paths",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_researcher_15.py",
+      "git_subcommands": [
+        "status"
+      ],
+      "id": "test_researcher_15::TestMultipleTestingPreserved::test_no_new_hypothesis_family",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "tracked/untracked state of the frozen research tree",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_stage123_operational.py",
+      "git_subcommands": [
+        "grep"
+      ],
+      "id": "test_stage123_operational::TestProductionIsolation::test_security_scan_no_real_credentials",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "repository-wide content search over tracked files",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [
+        "fad7329b24d614794b35deb0b6926e5dd138977a"
+      ],
+      "file": "tests/test_stage4_paper_certification.py",
+      "git_subcommands": [
+        "branch",
+        "merge-base"
+      ],
+      "id": "test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "current branch is 'main'; HEAD descends from commit fad7329b24d614794b35deb0b6926e5dd138977a",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_stage4_paper_certification.py",
+      "git_subcommands": [
+        "diff",
+        "status"
+      ],
+      "id": "test_stage4_paper_certification::TestRepoIntegrity::test_research_byte_unchanged",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "tracked/untracked state of the frozen research tree; research/ is unmodified relative to HEAD",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_stage4_paper_certification.py",
+      "git_subcommands": [
+        "grep"
+      ],
+      "id": "test_stage4_paper_certification::TestSecretScan::test_no_live_format_assignments_tracked",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "repository-wide content search over tracked files",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_upstream_hypothesis_audit.py",
+      "git_subcommands": [
+        "grep"
+      ],
+      "id": "test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_coercion_constructs_records_in_core",
+      "phase157_detail": "the git command returned a non-zero status, so the test failed",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "repository-wide content search over tracked files",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_upstream_hypothesis_audit.py",
+      "git_subcommands": [],
+      "id": "test_upstream_hypothesis_audit::TestPersistedRealCounts::test_no_consumable_real_hypothesis_persisted",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "repository metadata",
+      "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_upstream_hypothesis_audit.py",
+      "git_subcommands": [],
+      "id": "test_upstream_hypothesis_audit::TestFixtureRealSeparation::test_fixture_ids_never_occur_in_tracked_records",
+      "phase157_detail": "the git command failed and produced empty output, which satisfied the test's assertion without verifying anything",
+      "phase157_observation": "PASSED_VACUOUSLY",
+      "required_git_fact": "repository metadata",
+      "status": "BLOCKED_EVIDENCE"
+    }
+  ],
+  "gate": {
+    "requirement": "commit ancestry of the frozen research chain, branch identity, and repository-tracked state",
+    "satisfied": false,
+    "statement": "the release gate for Git ancestry remains blocked; no archive-mode test result may be read as proof of ancestry, branch identity, or tracked state",
+    "status": "BLOCKED_EVIDENCE"
+  },
+  "mode": "SOURCE_ARCHIVE",
+  "mode_evidence": {
+    "git_dir_present": false,
+    "git_executable": "available",
+    "rev_parse_is_inside_work_tree": {
+      "returncode": 128,
+      "stderr": "fatal: not a git repository (or any of the parent directories): .git",
+      "stdout": ""
+    },
+    "root": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE161_Repair"
+  },
+  "phase": 161,
+  "schema": "quantengine.git-evidence-status.v1",
+  "vacuous_pass_finding": {
+    "count": 21,
+    "description": "in the Phase157 archive these tests passed because a failed git command produces empty output, which satisfied assertions of the form 'assert output == \"\"' or 'assert hits == []'. They verified nothing. They are now declared blocked instead of passing silently."
+  }
+}

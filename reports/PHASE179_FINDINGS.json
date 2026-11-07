@@ -1,0 +1,49 @@
+{
+  "phase": 179,
+  "audit_title": "QuantEngine Phase 179 Findings Ledger",
+  "audit_timestamp": "2026-10-20T13:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-179-01",
+      "severity": "SAFETY_INVARIANT",
+      "category": "EXECUTION_BOUNDARY_RISK_ENFORCEMENT",
+      "status": "VERIFIED",
+      "summary": "End-to-end candidate trade submission and order amendment risk enforcement verified",
+      "description": "Implemented submit_candidate_trade() and amend_order_risk() in QueueAwarePaperExecutionEngine, and stop risk pre-checks in PostCostBacktester. Verified that candidates breaching normalized risk budgets fail closed to REJECTED_RISK and are prevented from reaching resting book queues or order dispatch."
+    },
+    {
+      "id": "FINDING-179-02",
+      "severity": "SAFETY_INVARIANT",
+      "category": "STOP_ROUNDING_ADVERSARIAL_AUDIT",
+      "status": "VERIFIED",
+      "summary": "Audited directional asymmetry, planned gross loss preservation, and premature trigger sensitivity",
+      "description": "Adversarially tested long (ceiling up) and short (floor down) stop rounding under CONSERVATIVE policy. Proved planned gross loss is strictly preserved, trigger distance narrows by at most 0.10 USD, and documented that stop orders do not guarantee maximum loss under market gaps or slippage."
+    },
+    {
+      "id": "FINDING-179-03",
+      "severity": "FORENSIC_RESOLUTION",
+      "category": "HISTORICAL_DIGEST_PROVENANCE",
+      "status": "VERIFIED_AND_PRESERVED",
+      "summary": "Resolved historical digest provenance across raw bytes, CRLF line endings, and post-Phase-4 modifications",
+      "description": "Determined that the 5 historical change-detector failures hash raw disk bytes without LF normalization and assert the Phase 14 Windows CRLF digest (c52e648c...). Post-Phase-4 gate-80 corrections naturally altered the hash. Per Safety Rule #7, historical pins are preserved under BLOCK-179-01."
+    },
+    {
+      "id": "FINDING-179-04",
+      "severity": "SECURITY_INCIDENT_STATUS",
+      "category": "CREDENTIAL_GOVERNANCE",
+      "status": "HYGIENE_CLEAN_REMEDIATION_OPEN",
+      "summary": "Local workspace verified clean; historical credential exposure remediation protocol documented for operator",
+      "description": "Automated scanners confirm SECRET_SCAN_PASS and absence of .env files from release candidates. However, historical exposure in un-sanitized archives remains open until the operator revokes old API keys in the Delta Exchange console."
+    },
+    {
+      "id": "FINDING-179-05",
+      "severity": "EVIDENCE_GAP",
+      "category": "DATA_DISJUNCTION",
+      "status": "OPEN",
+      "summary": "44-day temporal gap between 1m candles and L2 depth; authenticated fills remain underpowered at N=2",
+      "description": "Signal generation dataset (09/05) and L2 microstructure dataset (10/19) remain non-overlapping. Testnet fill evidence remains at N=2 (far below N>=30)."
+    }
+  ]
+}

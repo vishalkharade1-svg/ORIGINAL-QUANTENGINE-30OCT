@@ -1,0 +1,23 @@
+{
+  "phase": 39,
+  "name": "Frozen 9M preregistration reload integrity",
+  "status": "IMPLEMENTED_TESTED",
+  "purpose": "Provide one deterministic, fail-closed reload path for persisted frozen OOS preregistration artifacts.",
+  "changes": [
+    "Added FrozenPreregistration.from_dict as the sanctioned persisted-artifact reload path.",
+    "Malformed, missing-field, tampered, and production-ready=true artifacts fail closed.",
+    "Round-trip serialization preserves the exact canonical artifact representation.",
+    "No hypothesis is created, selected, promoted, or inferred by the reload path."
+  ],
+  "verification": {
+    "focused_tests": 60,
+    "focused_status": "PASS",
+    "compileall": "PASS"
+  },
+  "production_ready": false,
+  "real_oos_validation": "UNCHANGED",
+  "limitations": [
+    "No current 9L hypothesis set is preregistered in the supplied snapshot.",
+    "Real OOS remains blocked by insufficient genuine evidence."
+  ]
+}

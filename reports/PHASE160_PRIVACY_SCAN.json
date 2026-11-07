@@ -1,0 +1,65 @@
+{
+ "account_identifier_carriers": [
+  "research/captures/phase146_recon/private_ws_archive.json",
+  "research/captures/phase146_recon/private_ws_frames.json",
+  "research/captures/phase147_ledger/wallet_100.json",
+  "research/captures/phase152_recon2/private_ws_archive.json",
+  "research/captures/phase152_recon2/private_ws_frames.json",
+  "research/captures/phase153_ledger/wallet_100.json"
+ ],
+ "allowlist_is_exhaustive": true,
+ "content_coverage": {
+  "content_inspected_members": 1871,
+  "declared_opaque": [
+   "data/history/BTCUSDT/1m.parquet",
+   "research/phase11g_i/acquisition/raw/BTCUSDT/2026-09-05/BTCUSDT-1m-2026-09-05.zip",
+   "research/phase11g_i/acquisition/raw/BTCUSDT/2026-09-05/BTCUSDT-aggTrades-2026-09-05.zip",
+   "research/phase11g_n/data/raw/BTCUSDT/2026-09-07/BTCUSDT-1m-2026-09-07.zip",
+   "research/phase11g_n/data/raw/BTCUSDT/2026-09-07/BTCUSDT-aggTrades-2026-09-07.zip",
+   "research/phase11g_n/data/raw/BTCUSDT/2026-09-08/BTCUSDT-1m-2026-09-08.zip",
+   "research/phase11g_n/data/raw/BTCUSDT/2026-09-08/BTCUSDT-aggTrades-2026-09-08.zip",
+   "research/phase11g_n/data/raw/ETHUSDT/2026-09-07/ETHUSDT-1m-2026-09-07.zip",
+   "research/phase11g_n/data/raw/ETHUSDT/2026-09-07/ETHUSDT-aggTrades-2026-09-07.zip",
+   "research/phase11g_n/data/raw/ETHUSDT/2026-09-08/ETHUSDT-1m-2026-09-08.zip",
+   "research/phase11g_n/data/raw/ETHUSDT/2026-09-08/ETHUSDT-aggTrades-2026-09-08.zip"
+  ],
+  "declared_opaque_patterns": [
+   "*.zip",
+   "*.parquet"
+  ],
+  "decoding": "content-based (scripts/security/text_decode.py): UTF-8 with optional BOM, UTF-16 LE/BE with or without BOM, UTF-32 BOM; anything else is binary"
+ },
+ "publication_clearance": "NOT_CLEARED",
+ "publication_clearance_reason": "restricted evidence package: the sealed historical records it ships by design enumerate raw venue order ids, so the package is not sanitised for redistribution. PRIVACY_SCAN_PASS states that the confinement rules hold inside the restricted package; it is never a publication clearance.",
+ "raw_order_id_historical_baseline": [
+  "reports/PHASE134_ORDER_EXPERIMENT.md",
+  "reports/PHASE136_MIXED_TYPE_PILOT.md",
+  "reports/PHASE137_SHORT_STOP_PILOTS.md",
+  "reports/PHASE138_SHORT_MARKET.md",
+  "reports/PHASE146_MATCHED_RECON.md",
+  "reports/PHASE150_BTCUSD_MARKET.md",
+  "reports/PHASE151_BTCUSD_SHORT.md",
+  "reports/PHASE152_SWEEP.md",
+  "research/results/phase114_order_experiment.json",
+  "research/results/phase116_ws_reconciliation.json",
+  "research/results/phase120_clean_nofill.json",
+  "research/results/phase124_cancel_shape_fix.json",
+  "research/results/phase125_full_reconciled_run.json"
+ ],
+ "raw_order_id_historical_findings": 17,
+ "raw_order_id_new_leakage": [],
+ "raw_order_ids_found": 38,
+ "restricted_evidence_allowlist": {
+  "research/captures/phase146_recon/private_ws_archive.json": "archived private websocket frames for the Phase146 reconciled experiment",
+  "research/captures/phase146_recon/private_ws_frames.json": "private websocket fill frames (v2/user_trades) for Phase146",
+  "research/captures/phase147_ledger/wallet_100.json": "raw wallet ledger pull backing the Phase147 fee/commission totals",
+  "research/captures/phase152_recon2/private_ws_archive.json": "archived private websocket frames for the Phase152 reconciled experiment",
+  "research/captures/phase152_recon2/private_ws_frames.json": "private websocket fill frames (v2/user_trades) for Phase152",
+  "research/captures/phase153_ledger/wallet_100.json": "raw wallet ledger pull backing the Phase153 fee/commission totals"
+ },
+ "root": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE160_Repair",
+ "schema": "quantengine.privacy-scan.v2",
+ "secret_rules_triggered": [],
+ "verdict": "PRIVACY_SCAN_PASS",
+ "violations": []
+}

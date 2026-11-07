@@ -1,0 +1,138 @@
+{
+ "H11GF-001": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-002": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-003": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-004": {
+  "active_folds": 2,
+  "evidence": "INSUFFICIENT: pooled 2 < 30",
+  "metrics_C": {
+   "expectancy": -1.0658219050451452,
+   "losses": 2,
+   "maxdd": 2.1316438100902904,
+   "net": -2.1316438100902904,
+   "pf": 0.0,
+   "sharpe": -10.887691216992971,
+   "sortino": -10.887691216992971,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 2,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-005": {
+  "active_folds": 2,
+  "evidence": "INSUFFICIENT: pooled 2 < 30",
+  "metrics_C": {
+   "expectancy": -0.7691853176301571,
+   "losses": 2,
+   "maxdd": 1.5383706352603141,
+   "net": -1.5383706352603141,
+   "pf": 0.0,
+   "sharpe": -1.4247759958810684,
+   "sortino": -1.4247759958810684,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 2,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-006": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-007": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-008": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ }
+}

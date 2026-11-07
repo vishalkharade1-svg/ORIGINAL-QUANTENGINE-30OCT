@@ -1,0 +1,46 @@
+{
+ "ablation_results.json": {
+  "sha256": "30766cd6b80f19b9a1f2e8edb21210aab0465665a27245ed5e301a930d237c90",
+  "size": 25655
+ },
+ "cost_results.json": {
+  "sha256": "5fc331bed54210b1ec3a5161ffce35b10c829ebf6010e5b42b5b1f5c7d6c8e18",
+  "size": 6674
+ },
+ "execution_robustness_results.json": {
+  "sha256": "3cd2ff31a74d7f526cec1df8bbceaf4f5175da4901b78dfa7269f510c7e9b612",
+  "size": 1172
+ },
+ "fold_results.json": {
+  "sha256": "15a580e1b0749642a68390715d9898476be33fa1f95f753c34e50c0c41bd2720",
+  "size": 75974
+ },
+ "monte_carlo_results.json": {
+  "sha256": "cf85190629d4520234fa3c6c8848575cdac0817e5c4ab6eb51538b1b94f32bd5",
+  "size": 1135
+ },
+ "multiple_testing_results.json": {
+  "sha256": "571391fbc7401a761155098e1487b08c6522a9b97f0f4dbc4749eec1748b44c3",
+  "size": 480
+ },
+ "primary_results.json": {
+  "sha256": "54b754bd5a79136c66a3be6f0f93439a81c716c417048749fd77010c2ef1eb67",
+  "size": 3416
+ },
+ "random_baseline_results.json": {
+  "sha256": "e328b1e845a476099c2f2dcdc3f76b5e0a66fbcf279b9d018fec6b1bdfbf1fd9",
+  "size": 5066
+ },
+ "regime_results.json": {
+  "sha256": "b388951c2026015509786ff1ac849be7396f78b58569a36d34f6186fa3c4558b",
+  "size": 1797
+ },
+ "reproducibility_results.json": {
+  "sha256": "ebcfc9437855dafdcfe0e542126ec695470983d0b8fc6e8d09d1019a07a61b57",
+  "size": 17468
+ },
+ "run_manifest.json": {
+  "sha256": "774469b7d7ddac9edc15e089dcf667891cdcfbda822bc08f2ef84bb7d4c736b1",
+  "size": 2145
+ }
+}

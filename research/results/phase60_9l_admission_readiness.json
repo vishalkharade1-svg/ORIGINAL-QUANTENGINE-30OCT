@@ -1,0 +1,12 @@
+{
+  "content_identity": "420653d08f817dc2f9ad7705d83f97d6fb2d0692d913c3835b8fd5ce344292f6",
+  "eligible_entry_selection": 0,
+  "eligible_recovery": 0,
+  "preregistration_created": false,
+  "production_ready": false,
+  "reason": "Original genuine Phase-49 9L report artifact is unavailable; no report is synthesized.",
+  "report_path": "/mnt/data/phase58/research/results/phase49_9l_real_discovery.json",
+  "schema": "phase60-9l-admission-readiness-v1",
+  "status": "MISSING_GENUINE_9L_REPORT",
+  "total_eligible": 0
+}

@@ -1,0 +1,35 @@
+{
+  "authenticated_rest_fills": "FAILED",
+  "credentials_persisted": false,
+  "credentials_source": "environment_only",
+  "dns_probe": {
+    "cdn-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind-pub.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    }
+  },
+  "economic_certification": "BLOCKED",
+  "environment": "india_testnet",
+  "finished_at": "2026-10-10T14:55:04.003933+00:00",
+  "l2_observation_count": 34,
+  "order_placement": "DISABLED",
+  "phase": 85,
+  "private_ws_error": "RuntimeError: Delta private websocket authentication failed: {'message': 'ApiKey not found', 'status': 'api_key_not_found', 'status_code': 404, 'success': False, 'type': 'key-auth'}",
+  "private_ws_fills": "FAILED_OR_NO_FILLS",
+  "production_ready": false,
+  "real_public_l2": "CAPTURED",
+  "rest_error": "HTTPStatusError: Client error '401 Unauthorized' for url 'https://cdn-ind.testnet.deltaex.org/v2/fills?page_size=100&symbol=BTCUSD'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+  "rest_ws_reconciliation": "BLOCKED",
+  "started_at": "2026-10-10T14:54:30.768878+00:00",
+  "status": "CAPTURE_COMPLETED_WITH_GAPS",
+  "symbol": "BTCUSD",
+  "title": "Delta Testnet non-trading evidence capture and reconciliation"
+}

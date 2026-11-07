@@ -1,0 +1,86 @@
+{
+  "phase": 176,
+  "audit_title": "QuantEngine Phase 176 Formal Release Gates Assessment",
+  "audit_timestamp": "2026-10-20T07:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "gates": {
+    "gate_01_baseline_archive_integrity": {
+      "name": "Phase 175 Baseline Archive & Detached Record Integrity",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_PROVENANCE.json",
+      "notes": "QuantEngine_PHASE175_RELEASE_CANDIDATE.zip verified against RELEASE_HASH_PHASE175.txt (16aacbde...)"
+    },
+    "gate_02_contract_semantics_verification": {
+      "name": "Contract Semantics & Product ID 84 Modeling Verification",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_CONTRACT_SEMANTICS_AUDIT.md",
+      "notes": "Verified vanilla linear perpetual futures specs: 0.001 multiplier, USD settled, 0.0002/0.0005 commission rates"
+    },
+    "gate_03_instrument_economics_e2e": {
+      "name": "Instrument Economics End-to-End Consistency",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_INSTRUMENT_ECONOMICS_AUDIT.md",
+      "notes": "Proved dimensional consistency and linear scaling across all 6 canonical test setups at $82k and $42k"
+    },
+    "gate_04_fee_and_pnl_reproduction": {
+      "name": "Fee Calculation and P&L Arithmetic Independent Reproduction",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_FEE_AND_PNL_REPRODUCTION.md",
+      "notes": "Gross P&L, 18% GST on commissions, 0% GST on rebates, and effective rates (2.36 bps maker / 5.90 bps taker) confirmed"
+    },
+    "gate_05_risk_and_margin_invariants": {
+      "name": "Risk and Margin Accounting Invariants",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_RISK_AND_MARGIN_AUDIT.md",
+      "notes": "Initial margin (0.5%) and maintenance margin (0.25%) requirements and liquidation distances verified"
+    },
+    "gate_06_hurdle_gate_hierarchy_and_safety": {
+      "name": "Friction Hurdle Gate Subsumption Hierarchy and Fail-Closed Safety",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_HURDLE_GATE_AUDIT.md",
+      "notes": "Subsumption proof verified: Rule 1 strictly subsumes Rule 2; fail-closed safety on NaN/None/invalid inputs verified"
+    },
+    "gate_07_privacy_and_secrets_clean": {
+      "name": "Privacy Review & Secrets Clearance",
+      "status": "PASS",
+      "evidence": "reports/PHASE176_PRIVACY_REVIEW.md",
+      "notes": "Zero credentials, API keys, or private telemetry exposed across entire codebase and reports"
+    },
+    "gate_08_queue_dynamics_empirical_calibration": {
+      "name": "Queue Dynamics Empirical Calibration",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-176-02",
+      "evidence": "reports/PHASE176_BLOCKERS.json",
+      "notes": "Block-hazard queue model remains classified as SIMULATION_ASSUMPTION pending MBO order-level feeds"
+    },
+    "gate_09_synchronized_data_lineage": {
+      "name": "Synchronized Signal-to-Execution Temporal Overlap",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-176-03",
+      "evidence": "reports/PHASE176_DATA_EVIDENCE_AUDIT.md",
+      "notes": "September 2026 candles and October 2026 L2 updates confirmed 44-day disjoint gap"
+    },
+    "gate_10_authenticated_execution_power": {
+      "name": "Statistical Sample Size Power (N >= 30)",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-176-04",
+      "evidence": "reports/PHASE176_BLOCKERS.json",
+      "notes": "Only N=2 valid authenticated testnet fills exist in repository; underpowered for statistical claims"
+    },
+    "gate_11_historical_change_detector_preservation": {
+      "name": "Historical Change-Detector Invariants Preservation",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-176-01",
+      "evidence": "reports/PHASE176_BLOCKERS.json",
+      "notes": "Five historical line-ending change-detector tests remain contractually preserved failing red"
+    },
+    "gate_12_tick_size_documentation_reconciliation": {
+      "name": "Tick Size Documentation Inconsistency (0.50 vs Authoritative 0.10)",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-176-07",
+      "evidence": "reports/PHASE176_CONTRACT_SEMANTICS_AUDIT.md",
+      "notes": "FINDING-176-01: FeeScheduleProvenance documents tick=0.50 vs authoritative 0.10 in MCP product payload"
+    }
+  }
+}

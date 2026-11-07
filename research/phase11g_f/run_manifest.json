@@ -1,0 +1,27 @@
+{
+ "D3_counters": {
+  "hash": 0,
+  "load": 0,
+  "read": 0
+ },
+ "candidate_file": "research/phase11g_f/candidates.py",
+ "candidate_sha256": "50cdf46ee27d2cf2e2736d413e833ec8718812c3bd98c3f80b1a53b1d5a7c024",
+ "costs": "A/B/C/D frozen",
+ "execution": "NEXT_BAR_OPEN",
+ "fold_geometry": "expanding train_start=0, 2000+1000k/test 1000/purge 150/embargo 25/4 folds",
+ "git_head": "95c5d3875ecd7e66811be0e34c60c33753754a0d",
+ "hypothesis_hash": "6181496e2551fc5a478a008d9c397cdd3fdb13014871ef8d43f2d64810f8e356",
+ "live_status": "DISABLED",
+ "mc_seeds": "1107001/1107002",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "production_status": "UNMODIFIED",
+ "python": "3.12.10",
+ "random_seeds": "1108000-1108499",
+ "risk": "2000/0.01/10x/500",
+ "runner_file": "research/phase11g_f/run_f.py",
+ "runner_sha256": "110bae5958eb92dae54a2cfc85cc8a97addd2fc34def7751aeab9298c8c1d93f",
+ "symbols": [
+  "BTCUSDT",
+  "ETHUSDT"
+ ]
+}

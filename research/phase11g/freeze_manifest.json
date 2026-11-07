@@ -1,0 +1,26 @@
+{
+ "D3_status": "SEALED (read 0, hash 0, load 0)",
+ "capability_matrix_sha256": "a9d6291cda223115a672a70ceb8de20be233a6729410bf136f5420e71c27e31d",
+ "cost_contract": "11F ladder A/B/C/D (0 | 0.05%+2bp | 0.059%+5bp | 2xC), funding=0",
+ "dataset_manifest_sha256": "8002f51ce2b67797e436862faf80dfdd62df84a52d6c1f9ee425b6ee6e34b9cd",
+ "execution_contract": "NEXT_BAR_OPEN family-wide (signal bar i -> market fill bar i+1 open)",
+ "feature_contract_sha256": "231843871f1a39617b5a317f9e2c7ea53ee010c493fc91c986a297e92ba443bd",
+ "freeze_timestamp": "2026-09-08T07:14:49Z",
+ "git_head": "1a73ac9f356df4a47b86b288ca703da48e755dd4",
+ "hypothesis_count": 8,
+ "hypothesis_file": "research/phase11g/hypotheses.json",
+ "hypothesis_sha256": "e4905815b7f13ab58c5945ae7b1dd94e5a4f50968d27a59a0d99c685f81234b6",
+ "live_status": "DISABLED",
+ "multiple_testing": {
+  "alpha": 0.05,
+  "bonferroni_reference": 0.00625,
+  "exploratory_fdr_q": 0.1,
+  "family_size": 8,
+  "selection_rule": "NO ranking selection; single passes are hypothesis-generating pending holdout replication"
+ },
+ "phase": "11G",
+ "production_status": "UNMODIFIED",
+ "python": "3.12.10",
+ "stage": "B_FROZEN_PREREGISTRATION",
+ "walk_forward_contract": "11F expanding-origin: train>=2000/test 1000/purge 150/embargo 25/step 1000/4 folds"
+}

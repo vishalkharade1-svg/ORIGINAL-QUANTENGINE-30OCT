@@ -1,0 +1,35 @@
+{
+ "artifacts": {
+  "11f5_a1_amendment.json": "ab43ce223e08993db618aee3b99bcbeadf9980d4312e5d3618ea405e7840e64c",
+  "11f5_ablation_results.json": "d7880b495dc07b1b14dde8915e04c23615eb8aa5dcfe1e7728ac0a50212cc62f",
+  "11f5_cost_results.json": "0d6369a1aea53bdfc4091504c68e4f62282d2796220bef1f5b056730eea27c66",
+  "11f5_execution_manifest.json": "da6f2751fff4ac784896fd79af54e750a91a33fb7f963b370ca108eda14d5f0b",
+  "11f5_execution_results.json": "79bbab015f7e44adef301618d12aa1506c505d6b684272f9f4a157860dbb1864",
+  "11f5_fold_results.json": "a694e86f4ccc61608822409cf1d63b335c44a7c7a42406305b5bde8a58e2343e",
+  "11f5_hypothesis_results.json": "175cf4e518a988b19b34c406d70dcb4077f28fa685845f39dd3a66aecbdaeddb",
+  "11f5_monte_carlo_results.json": "d19768e64a04457561f21b59fe846d5496b95ed7c8409a5941044207dc8cd63d",
+  "11f5_multiple_testing_results.json": "f4455677009f9856a80e306311d29ddc8dfdba2884af76f0ec54af31ab2dbd78",
+  "11f5_pre_correction_fold_geometry.json": "0e8d16bdd063f34a88610f24ec5ade973116b18fd9881ad917ebfe6be7e90e11",
+  "11f5_random_baseline_results.json": "1406babe0ac23652c5578cbe0e53b7f3d1273659b9ff6192fe8888f029d3160a",
+  "11f5_regime_results.json": "f32eb18ba9c36a094f46e2ab15bd6f434ac68926bf96f66f34615a448248debc",
+  "11f5_reproducibility.json": "66be517516bba656f40b603590e765c76f07c5d85c92bf3db057d72c1e400553"
+ },
+ "env": {
+  "python": "3.12.10"
+ },
+ "head": "23125181dde7ae52e11be19488021fd1af2e43a5",
+ "sources": {
+  "candidates.py": "255d784f7d49741c5692eaa9cba0e9479d7b882390dd880940ef35f387449d29",
+  "causality.py": "095e755d7e2c3ac73ee4f95b24d713fdfccf5132428ea45782f0ff219698f8bf",
+  "contracts.py": "75b600597499cdae5c0f685e1f1016e99a916e6b6cfe004306c243791336fec2",
+  "datasets.json": "411eaa45d7ab746407d3199b660db80ea53b9df989ba7b9f2bd3fc8634929f0a",
+  "datasets.py": "d1f6f184eb5017755cd2fad27c6cb34313a87ea7c29677c44d6f129b6df6d28d",
+  "features.py": "3faabbd74085c24a10ad9ae9e6905ac6b0b15f6114700b64d7a8d74af35ac6fe",
+  "fibonacci.py": "43d742a1059c1e2cdaf5ebf51f0b8a3dd269494c3e38eab54d8847a22c158cff",
+  "harness.py": "816da2c867299322e6895dc40a13bd73988332d4067127cd1f42e1d51ffcda0a",
+  "hypotheses.json": "348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005",
+  "metrics.py": "53bb891c08138d88ab7c9874e6c1971fea5fbb7c34037966e1b781310db6082d",
+  "run_research.py": "64e30f6384b46fc0c0463bc4fb1fe914581dc9258db2470d2d6f382c3542f8d5",
+  "validation.py": "70573eb22ecd35cf2577e38dd9df4b1d8f40eefb58e4e18eb6a55ca4f048efae"
+ }
+}

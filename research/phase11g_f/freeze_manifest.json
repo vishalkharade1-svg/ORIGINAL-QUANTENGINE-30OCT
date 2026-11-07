@@ -1,0 +1,25 @@
+{
+ "D3_status": "SEALED (read 0, hash 0, load 0)",
+ "candidate_source": "research/phase11g_f/candidates.py",
+ "cost_contract": "11F ladder A/B/C/D (0 | 0.05%+2bp | 0.059%+5bp | 2xC), funding=0",
+ "execution_contract": "NEXT_BAR_OPEN family-wide (signal bar i -> market fill bar i+1 open)",
+ "family_contract_sha256": "3b06bc664afb9285a586f362a773ebf4b0ae65c10b1f0e7491962c6aae8d3ebd",
+ "freeze_timestamp": "2026-09-08T15:14:04Z",
+ "git_head": "95c5d3875ecd7e66811be0e34c60c33753754a0d",
+ "hypothesis_count": 8,
+ "hypothesis_file": "research/phase11g_f/hypotheses/hypotheses.json",
+ "hypothesis_sha256": "6181496e2551fc5a478a008d9c397cdd3fdb13014871ef8d43f2d64810f8e356",
+ "live_status": "DISABLED",
+ "multiple_testing": {
+  "alpha": 0.05,
+  "bonferroni_reference": 0.00625,
+  "exploratory_fdr_q": 0.1,
+  "family_size": 8,
+  "selection_rule": "no ranking selection; single passes are hypothesis-generating pending holdout replication"
+ },
+ "phase": "11G-F",
+ "production_status": "UNMODIFIED",
+ "python": "3.12.10",
+ "stage": "FROZEN_PREREGISTRATION",
+ "walk_forward_contract": "11F expanding-origin: train>=2000/test 1000/purge 150/embargo 25/step 1000/4 folds"
+}

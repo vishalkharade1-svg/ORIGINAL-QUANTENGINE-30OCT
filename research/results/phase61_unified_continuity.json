@@ -1,0 +1,41 @@
+{
+  "compileall": true,
+  "content_identity": "c04dc20ba256729a50469c75034bae7edd2f35d35d39e30bfc0e25f96e0e26c4",
+  "current_checkpoint": "PHASE61",
+  "focused_tests": 111,
+  "notes": [
+    "The historical Phase-49 genuine Binance 9L artifact/data remains unavailable.",
+    "No historical result was synthesized or backfilled from narrative claims."
+  ],
+  "phase44_57": {
+    "44": "PRESENT",
+    "45": "PRESENT",
+    "46": "PRESENT",
+    "47": "RESTORED_PHASE59",
+    "48": "RESTORED_PHASE59",
+    "49": "MISSING_GENUINE_ARTIFACT",
+    "50": "PRESENT",
+    "51": "PRESENT",
+    "52": "PRESENT",
+    "53": "PRESENT",
+    "54": "PRESENT",
+    "55": "RESTORED_PHASE59_BOUNDARY",
+    "56": "PRESENT",
+    "57": "PRESENT"
+  },
+  "phase60": {
+    "admission_readiness": true,
+    "continuity_lock": true,
+    "eligible_findings": 0,
+    "genuine_9l_report": "MISSING_GENUINE_9L_REPORT",
+    "preregistration_created": false
+  },
+  "production_ready": false,
+  "reconciliation": {
+    "phase49_not_reconstructed": true,
+    "result": "MERGED_WITHOUT_LOSS",
+    "rule": "source_and_tests_are_authoritative",
+    "source_checkpoint": "qe_latest_phase60_full + qe_latest_phase60_admission"
+  },
+  "schema": "phase61-unified-continuity-v1"
+}

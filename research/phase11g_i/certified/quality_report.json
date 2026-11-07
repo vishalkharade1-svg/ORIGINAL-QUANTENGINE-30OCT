@@ -1,0 +1,28 @@
+{
+ "accepted_events": 410535,
+ "aggressor_sides": {
+  "buy": 210247,
+  "sell": 200288
+ },
+ "duplicates": 0,
+ "gaps": [],
+ "kline_cross_check": {
+  "high_mismatches": 1,
+  "low_mismatches": 1,
+  "minutes_compared": 1440,
+  "volume_diff_abs": 16.342000000000446,
+  "volume_diff_rel": 0.00034253194322069754
+ },
+ "out_of_order": 0,
+ "rejected_events": 0,
+ "rejection_reasons": {},
+ "resolution": "tick",
+ "symbol_coverage": [
+  "BTCUSDT"
+ ],
+ "timestamp_range": [
+  1788566400003,
+  1788652799413
+ ],
+ "total_events": 410535
+}

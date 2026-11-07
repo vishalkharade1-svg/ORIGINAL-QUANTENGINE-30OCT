@@ -1,0 +1,90 @@
+{
+  "phase": 159,
+  "generated_for": "QuantEngine_PHASE159_RELEASE_CANDIDATE.zip",
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is a blocker that the Phase159 hardening cycle did NOT resolve, each with the reason it cannot be resolved from inside this archive. None has been downgraded by wording, and none is a test that was silenced to make the suite look better. Phase159 was deliberately a hardening-only cycle: its scope was the three Phase158 revision-2 self-audit observations, evidence-collection being external-blocked as below.",
+  "blockers": [
+    {
+      "id": "BLOCK-159-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin strategy digest c52e648c4e6a... (full value in the tests themselves) and still FAIL against this tree.",
+      "why": "The digest matches no revision recoverable from this archive, from any archive on disk (Phase131..Phase158), or from the original upload. The documented contract in scripts/recertify_strategy_digest.py states the re-certification requires the original Git checkout plus a research re-execution it cannot perform here; it returns STATUS: BLOCKED.",
+      "effect": "The five tests are correct change detectors and stay red on purpose. Re-pinning them to the current bytes would destroy the only evidence that the strategy changed; no phase has done that.",
+      "unblock": "Recover the original Git history and re-execute the research path, then run the documented re-certification.",
+      "evidence": ["reports/PHASE158_HASH_FAILURE_TRIAGE.json", "reports/PHASE159_FULL_SUITE_RUN.txt", "scripts/recertify_strategy_digest.py"]
+    },
+    {
+      "id": "BLOCK-159-02",
+      "area": "funding-through-settlement evidence",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "No funding-through-settlement capture exists for the hardened tree.",
+      "why": "The capture needs an authorized Testnet order run. The India Testnet API key's IP whitelist still holds 157.33.197.21, so an authenticated request from the current egress address is refused before any order could be signed.",
+      "effect": "The funding-cost component of the economics ledger remains INSUFFICIENT_EVIDENCE. No order-capable script was run during Phase 159.",
+      "unblock": "The operator removes or replaces the IP restriction on the India Testnet key, then authorizes a bounded run.",
+      "evidence": ["research/captures/phase148_funding/ip_whitelist_blocker.json", "research/captures/phase148_funding/hold_log.jsonl", "reports/PHASE158_RELEASE_GATES.json"]
+    },
+    {
+      "id": "BLOCK-159-03",
+      "area": "repeat-match evidence",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "No second reconciled match exists beyond the two bounded captures already held.",
+      "why": "Same external cause as BLOCK-159-02: the IP whitelist blocks the authorized order run the capture requires.",
+      "effect": "The windowed reconciler (reconcile_with_rest_windowed, Phase157) is the strongest statement available: it certifies a WINDOW, never the account.",
+      "unblock": "Same as BLOCK-159-02.",
+      "evidence": ["research/economics/delta_private_fill_capture.py", "reports/PHASE157_RELEASE_GATES.json"]
+    },
+    {
+      "id": "BLOCK-159-04",
+      "area": "Git-ancestry evidence facts",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "40 Git-dependent facts are gated as BLOCKED_EVIDENCE: 19 that failed loudly in Phase157 and 21 that had been passing VACUOUSLY (a failed git command returns empty output, which satisfied assertEqual(out, \"\") / assertEqual(hits, [])).",
+      "why": "No .git directory exists anywhere in this tree or in any archive delivered to it, so Git ancestry cannot be established in archive mode. The record was refreshed for this phase (reports/PHASE159_GIT_EVIDENCE_STATUS.json) with the fact set carried byte-for-byte from the Phase158 record; no gated test was added or removed by the hardening cycle.",
+      "effect": "The release gate for ancestry stays BLOCKED, exactly as the Phase 2 requirement demands. The guard (tests/evidence_mode.py) steps aside in a real repository and was verified against a throwaway temp repo.",
+      "unblock": "Deliver the project as a real Git repository (or record these facts as permanently inapplicable by an explicit contract change).",
+      "evidence": ["reports/PHASE159_GIT_EVIDENCE_STATUS.json", "tests/evidence_mode.py", "tests/test_git_evidence_mode_contract.py"]
+    },
+    {
+      "id": "BLOCK-159-05",
+      "area": "independent forensic audit (vendor independence)",
+      "status": "PENDING_EXTERNAL_REVIEW",
+      "what": "The executor's self-audit of the Phase158 revision-2 bytes WAS executed on 2026-10-17 (all 16 brief items, PHASE158_REV2_AUDIT_REPORT.md beside the delivery). A vendor independent audit still has not happened for this phase chain.",
+      "why": "Self-audit independence is by process only — the entity that produced the artifact cannot be independent of it by vendor. This block requires an auditor who did not build, repair, or ship the bytes.",
+      "effect": "No self-produced report (including the executed self-audit) may be read as independent verification. The Phase158 revision-2 handoff note PHASE158_REV2_AUDIT_HANDOFF.md (preserved in ../_phase158_audited/ with the superseded revision-2 delivery it audits) remains valid, extended by the Phase159 post-build bundle for this candidate's bytes.",
+      "unblock": "Hand the archive + detached record + post-build bundle to an independent auditor and record the result.",
+      "evidence": ["docs/CLAUDE_PHASE158_INDEPENDENT_AUDIT_PROMPT.md", "reports/PHASE159_RELEASE_GATES.json"]
+    },
+    {
+      "id": "BLOCK-159-06",
+      "area": "dependency advisories",
+      "status": "ACCEPTED_RISK_DEFERRED",
+      "what": "Three advisory upgrades (python-dotenv 1.2.2, pyarrow 23.0.1, pytest 9.0.3) have been evaluated with zero new failures and remain deliberately NOT adopted into requirements.txt; the advisory list was re-verified by a fresh OSV query in this phase (reports/PHASE159_OSV_SCAN.json).",
+      "why": "The pins are the reproducibility contract for every piece of evidence in this release; adopting a new environment requires re-deriving the evidence under it, which is its own deliberate step.",
+      "effect": "The advisories remain open against the pinned versions. Two are unreachable from this codebase (re-verified by search in this tree); the third (pytest) affects local test execution only.",
+      "unblock": "A phase whose scope includes re-deriving the evidence environment.",
+      "evidence": ["reports/PHASE159_DEPENDENCY_REVIEW.md", "reports/DEPENDENCY_UPGRADE_EVALUATION.md"]
+    },
+    {
+      "id": "BLOCK-159-07",
+      "area": "old-account position",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "ADAUSD LONG 1 @ 0.23327 on the old account remains open and untouched by this phase.",
+      "why": "Closing it requires operator funding and the old account's keys.",
+      "effect": "Recorded here so it is not lost; Phase159 performed no order action of any kind.",
+      "unblock": "Operator action on the old account.",
+      "evidence": ["reports/PHASE153_LEDGER.md", "NEXT_ACTIONS.md"]
+    }
+  ],
+  "standing_findings": [
+    {
+      "id": "FIND-159-01",
+      "finding": "EDGE NOT ESTABLISHED",
+      "statement": "No economic edge is established for any strategy revision. This is unchanged by Phase159 and must be restated in any handoff: the release work repairs evidence integrity and hardens scanners, not profitability."
+    },
+    {
+      "id": "FIND-159-02",
+      "finding": "restricted evidence package",
+      "statement": "This archive deliberately contains raw private captures carrying the operator's account identifier and venue order ids (the value is parameterised in scripts/security/scan_privacy.py and appears nowhere but those captures). It is a restricted evidence package, not a distributable. See reports/PHASE159_PRIVACY_REVIEW.md. Test fixture identifiers are synthetic as of Phase159 (see reports/PHASE159_HARDENING.json)."
+    }
+  ]
+}

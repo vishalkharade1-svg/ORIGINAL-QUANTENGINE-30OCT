@@ -1,0 +1,33 @@
+QuantEngine Phase132 — test baseline (2026-10-15)
+Root: F:\vishal 3\latestoriginalquant\QuantEngine_PHASE131_Digest_Evidence_Repair
+Python 3.12.10 / pytest 8.4.2 / Windows-10 (pinned Python present; httpx 0.28.1 vs 0.27.2 drift noted)
+
+[1] Focused policy shard — EXECUTED
+CMD: python -m pytest tests/test_secret_scan_phase0.py tests/test_trading_policy.py tests/test_level4_rr_exit_policy.py tests/test_breakout_policy_erosion_phase99.py tests/test_policy_authority_guard_phase100.py tests/test_simulator_post_cost_gate_13.py tests/test_post_cost_rr_13.py -q -p no:cacheprovider --tb=short
+RESULT: 57 passed in 7.94s
+EXIT: 0
+
+[2] Phase131 cross-component shard — EXECUTED (reproduces Phase131 verification)
+CMD: python -m pytest tests/test_authoritative_path_phase7.py tests/test_digest_recertification_phase8.py tests/test_phase60_continuity_lock.py tests/test_trading_policy.py tests/test_post_cost_rr_13.py tests/test_simulator_post_cost_gate_13.py tests/test_backtester.py tests/test_backtester_hardening.py tests/test_backtester_economics_wiring_66.py tests/test_backtester_breakout.py -q -p no:cacheprovider --tb=short
+RESULT: 71 passed, 1 skipped in 5.72s
+SKIP: Git ancestry test (no .git metadata in source ZIP) — expected per Phase131
+EXIT: 0
+
+[3] Collection — EXECUTED
+CMD: python -m pytest --collect-only -q -p no:cacheprovider
+RESULT: 3955 tests collected in 7.69s (Phase130 reported 3954; +1 delta un-triaged)
+EXIT: 0
+
+[4] Compile — EXECUTED
+CMD: python -m compileall -q core backtesting config research scripts tests
+RESULT: PASS (all files compile)
+CMD: python scripts/recertify_strategy_digest.py --json
+RESULT: canonical 99a47bdd49d96643a0037843f089ddfacdd15da42a0927b0acde04679128f4bc / status BLOCKED
+EXIT: 0
+
+[5] Full suite — NOT_RUN in Phase132 baseline
+Historical reference (Phase127): 3869 passed / 67 failed / 11 skipped — NOT GREEN.
+Phase132 full run deferred to post-fix verification (bounded shards first per master prompt §8).
+
+No network exchange calls. No orders placed. No credentials used.
+Production readiness: FALSE. Full suite: NOT GREEN / NOT COMPLETE.

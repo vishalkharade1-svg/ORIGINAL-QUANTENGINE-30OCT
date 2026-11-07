@@ -1,0 +1,147 @@
+{
+  "alignment_ms": 1000,
+  "captured_at": "2026-10-11T08:21:12.380031+00:00",
+  "evidence_sha256": "f2d3ddd464e53dc17fcd1537cb7ce244fa9287013b39158ac8fe146bb4942e9f",
+  "provenance_status": "REAL",
+  "samples": [
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706843470
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706843721
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706843972
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706845729
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706846231
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706851506
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706860044
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706860295
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706862805
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706863307
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706865817
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706866068
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706870586
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706870837
+    },
+    {
+      "best_ask": "83029.5",
+      "best_bid": "83025.5",
+      "midpoint": "83027.5",
+      "spread": "4.0",
+      "spread_bps": "0.4817680888862123995061877089",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791706872092
+    }
+  ],
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "symbol": "BTCUSD",
+  "venue": "delta"
+}

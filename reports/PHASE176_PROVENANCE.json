@@ -1,0 +1,59 @@
+{
+  "phase": 176,
+  "audit_title": "QuantEngine Phase 176 Release Provenance & Environment Record",
+  "audit_timestamp": "2026-10-20T07:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "input_archive": "QuantEngine_PHASE175_RELEASE_CANDIDATE.zip",
+  "output_archive": "QuantEngine_PHASE176_RELEASE_CANDIDATE.zip",
+  "environment": {
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "git_head": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+    "line_endings_policy": "Canonical LF in archive manifest; platform-native CRLF on disk preserved"
+  },
+  "input": {
+    "archive": "QuantEngine_PHASE175_RELEASE_CANDIDATE.zip",
+    "sha256": "16aacbde562d3a39078e15d62d120810b2d72b0f426526856fd7d274b16954b4",
+    "detached_record": "RELEASE_HASH_PHASE175.txt",
+    "verification_status": "VERIFIED_EXACT_MATCH"
+  },
+  "output": {
+    "archive": "QuantEngine_PHASE176_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE176.txt"
+  },
+  "contract_specification": {
+    "exchange": "Delta Exchange India",
+    "product_id": 84,
+    "symbol": "BTCUSD",
+    "contract_type": "perpetual_futures",
+    "notional_type": "vanilla",
+    "is_quanto": false,
+    "contract_unit_currency": "BTC",
+    "contract_multiplier": "0.001",
+    "quoting_asset": "USD",
+    "settling_asset": "USD",
+    "maker_commission_rate": "0.0002",
+    "taker_commission_rate": "0.0005",
+    "gst_rate": "0.18",
+    "effective_maker_rate_bps": "2.36",
+    "effective_taker_rate_bps": "5.90",
+    "tick_size_authoritative": "0.1",
+    "tick_size_documented": "0.50 (discrepancy recorded under FINDING-176-01 / BLOCK-176-07)"
+  },
+  "datasets": {
+    "btc_1m_continuous_candles": {
+      "path": "data/history/BTCUSDT/1m.parquet",
+      "rows": 1440,
+      "interval_utc": "2026-09-05T00:00:00Z -> 2026-09-05T23:59:00Z",
+      "sha256": "f3bf5261ca942bf9ec89ae397c729e2621c17ee1917f6942ad55848cb66b96e5"
+    },
+    "l2_orderbook_updates": {
+      "path": "research/captures/phase167_recon/l2/delta_ob_updates_archive.json",
+      "frames": 113,
+      "interval_utc": "2026-10-19T14:26:00Z -> 2026-10-19T14:32:00Z",
+      "sha256": "b78a94665a363a033f6df23b6b64f9bf3cf8dfc94294ca238a0b0d62d22b512e"
+    },
+    "temporal_overlap": "NONE (Disjoint windows: Sep 5, 2026 vs Oct 19, 2026)"
+  }
+}

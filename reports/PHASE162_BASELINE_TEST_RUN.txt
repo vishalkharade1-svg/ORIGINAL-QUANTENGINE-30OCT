@@ -1,0 +1,47 @@
+# Authoritative full-suite run -- Phase 162 (Forensic Audit, Hardening & Empirical Release)
+
+Command (the project's canonical command plus `-rfs`, so the complete skip set is enumerated):
+
+    python -m pytest -q -p no:cacheprovider --tb=short -rfs
+
+Environment:
+    Platform: Windows 10 (win32)
+    Python: 3.12.10
+    pytest: 9.0.3
+    pyarrow: 23.0.1
+    python-dotenv: 1.2.2
+    httpx: 0.28.1
+    websockets: 12.0
+    pandas: 2.2.2
+    numpy: 2.1.1
+
+Session Snapshot Guard:
+    SNAPSHOT_GUARD_SUMMARY {"covered_files": 1924, "files_added_by_tests": [],
+    "restores": {}, "start_problems": [], "tests": 4127,
+    "tree_pristine_at_session_start": true}
+
+Authoritative Baseline Counts:
+    Total collected: 4,127
+    Passed: 4,065
+    Passing subtests: 399
+    Failed: 5
+    Skipped: 57
+    Pytest exit code: 1
+
+Failures Triage (5 Deliberate Strategy-Digest Change Detectors):
+    1. tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match
+    2. tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    3. tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    4. tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs
+    5. tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned
+
+    Expected digest: c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+    Observed digest: f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+    Dispositon: RETAINED AS INTENTIONAL CHANGE DETECTORS (BLOCK-162-01).
+
+Skip Census (57 Total):
+    - 40 Git-dependent facts: Gated via `require_git_fact()` in `tests/evidence_mode.py` due to source archive distribution lacking `.git` directory (`BLOCK-162-02`).
+    - 17 External/Environment facts: Gated due to absent live testnet credentials or optional external broker endpoints.
+
+Conclusion:
+    The full suite confirms that all active execution, risk, accounting, and manifest contracts pass 100%. The 5 strategy failures and 40 Git skips are deliberate, documented gates that prevent unauthorized production claims. The overall verdict is NOT_PRODUCTION_READY.

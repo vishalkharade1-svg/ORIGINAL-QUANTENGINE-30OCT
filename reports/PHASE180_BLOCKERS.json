@@ -1,0 +1,108 @@
+{
+  "phase": 180,
+  "audit_title": "QuantEngine Phase 180 Standing Blockers Ledger",
+  "audit_timestamp": "2026-10-20T15:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "blockers": [
+    {
+      "id": "BLOCK-180-01",
+      "category": "HISTORICAL_INTEGRITY",
+      "severity": "CONTRACTUAL_FAILURE",
+      "status": "OPEN",
+      "title": "Historical 9-File Strategy Hash Mismatch Preserved by Contract",
+      "description": "5 historical change-detector tests fail asserting the legacy Windows CRLF digest (c52e648c...) from Phase 14. Forensic analysis proves post-Phase-4 gate-80 fixes altered byte content (disk bytes yield 9c56f3ff..., LF bytes yield ba17582d...). Per Safety Rule #7, historical pins are preserved unchanged.",
+      "owner": "Release Engineering",
+      "evidence_required": "Formal baseline reset process approved across all versioned records or restoration of historical commit branch",
+      "closure_criteria": "Approved migration to versioned strategy identity invariants without modifying historical files"
+    },
+    {
+      "id": "BLOCK-180-02",
+      "category": "ENVIRONMENT_LIMITATION",
+      "severity": "ENVIRONMENT_GAP",
+      "status": "OPEN",
+      "title": "Standalone Archive Git Ancestry Absence",
+      "description": "27 test nodes assert historical git commit ancestry (e.g. merge-base with Phase 12-14 commits). Packaged delivery distributions contain standalone source trees without historical git commit history.",
+      "owner": "Release Engineering",
+      "evidence_required": "Full repository history graph with historical release tags and branches",
+      "closure_criteria": "Restoration of git commit history in environment or execution within full repository clone"
+    },
+    {
+      "id": "BLOCK-180-03",
+      "category": "INDEPENDENT_AUDIT",
+      "severity": "GOVERNANCE_GATE",
+      "status": "OPEN",
+      "title": "Detached Third-Party Vendor Sign-off",
+      "description": "QuantEngine release candidate requires independent review by an external quant-engineering auditor who did not build the system.",
+      "owner": "Governance & Risk Committee",
+      "evidence_required": "Independent third-party audit report and signed attestation",
+      "closure_criteria": "Formally signed off third-party quant-engineering security and risk audit"
+    },
+    {
+      "id": "BLOCK-180-04",
+      "category": "EXTERNAL_EXCHANGE",
+      "severity": "EVIDENCE_GAP",
+      "status": "OPEN",
+      "title": "Old-Account ADAUSD Position Closure Capture",
+      "description": "The historical ADAUSD LONG position on legacy account was reported closed by the operator, but an authentic exchange fill/order payload artifact is absent from archive bytes.",
+      "owner": "Trading Operations",
+      "evidence_required": "Authentic exchange fill/order payload artifact proving flat account balance",
+      "closure_criteria": "Export of authenticated raw exchange fill receipt for ADAUSD trade closure"
+    },
+    {
+      "id": "BLOCK-180-05",
+      "category": "EXTERNAL_EXCHANGE",
+      "severity": "EVIDENCE_GAP",
+      "status": "OPEN",
+      "title": "Historical Funding Debit Raw Exchange Payload",
+      "description": "Phase 148 funding hold capture holds funding_rate_pre/post: None without raw exchange transaction receipt or debit amount.",
+      "owner": "Trading Operations",
+      "evidence_required": "Authenticated raw exchange funding transaction payload during live settlement cycle",
+      "closure_criteria": "Reconciliation of authentic funding payment debits against exchange transaction logs"
+    },
+    {
+      "id": "BLOCK-180-06",
+      "category": "EXTERNAL_EXCHANGE",
+      "severity": "EVIDENCE_GAP",
+      "status": "OPEN",
+      "title": "Repeat-Match Private WebSocket Fill Certification",
+      "description": "Candidate B private WebSocket user_trades sequence lacks full exchange trade IDs matching REST fills under strict non-windowed reconciliation.",
+      "owner": "Execution Engineering",
+      "evidence_required": "Controlled testnet capture producing 100% matched trade IDs between WebSocket and REST",
+      "closure_criteria": "Complete non-windowed reconciliation of WebSocket fills to REST execution receipts"
+    },
+    {
+      "id": "BLOCK-180-07",
+      "category": "RISK_ENFORCEMENT",
+      "severity": "SAFETY_INVARIANT",
+      "status": "RESOLVED",
+      "title": "Post-Normalization Stop-Risk Boundary Enforcement",
+      "description": "Normalized stop price recalculation with round-trip frictions, dynamic amendment re-audits, and fail-closed dispatch boundaries.",
+      "owner": "Execution Engineering",
+      "evidence_required": "Unit tests verifying post-normalization risk recalculation and execution isolation",
+      "closure_criteria": "Verified across 18 Phase 179 and 11 Phase 180 tests with 0 adapter dispatches on rejection"
+    },
+    {
+      "id": "BLOCK-180-08",
+      "category": "INSTRUMENT_SEMANTICS",
+      "severity": "CONTRACT_SPECIFICATION",
+      "status": "RESOLVED",
+      "title": "BTC Contract-Multiplier Inconsistency Resolved",
+      "description": "Phase 179 prose cited multiplier 1.0, while Phase 176–178 cited 0.001. Live Delta API query and MCP fixture confirm Product ID 84 is linear with multiplier 0.001 (1 contract = 0.001 BTC). Multiplier 1.0 classified as synthetic test instrument.",
+      "owner": "Quantitative Research",
+      "evidence_required": "Authoritative instrument specification and verified unit tests for both contract types",
+      "closure_criteria": "Tests and documentation reconciled; authoritative multiplier 0.001 confirmed"
+    },
+    {
+      "id": "BLOCK-180-09",
+      "category": "TAX_AND_ACCOUNTING",
+      "severity": "STATUTORY_COMPLIANCE",
+      "status": "OPEN",
+      "title": "Delta India Fee Schedule & GST Invoice Audit",
+      "description": "Statutory GST liability (18%) and maker rebate netting require confirmation via official exchange monthly tax invoice.",
+      "owner": "Finance & Compliance",
+      "evidence_required": "Official Delta Exchange India monthly tax invoice and fee ledger",
+      "closure_criteria": "Reconciliation of tax invoice debits with modeled post-cost fees and rebate netting"
+    }
+  ]
+}

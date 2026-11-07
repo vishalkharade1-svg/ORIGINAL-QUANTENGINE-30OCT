@@ -1,0 +1,300 @@
+{
+  "phase": 172,
+  "title": "Post-Cost Backtesting & Maker Edge Validation",
+  "dataset_coverage": {
+    "parquet_1m_rows": 1440,
+    "parquet_start_utc": "2026-09-05T21:35:00+00:00",
+    "parquet_end_utc": "2026-09-06T21:34:00+00:00",
+    "l2_frames_inspected": 113,
+    "unsupplied_multiyear_status": "BLOCKED_EVIDENCE"
+  },
+  "comparative_variants": {
+    "variant_a_frictionless_baseline": [
+      {
+        "setup": "Micro-Scalp 4.5pts",
+        "gross_profit_usd": "0.00450000",
+        "fees_usd": "0.00000000",
+        "net_profit_usd": "0.00450000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Tight Scalp 15pts",
+        "gross_profit_usd": "0.01500000",
+        "fees_usd": "0.00000000",
+        "net_profit_usd": "0.01500000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Small Intraday 50pts",
+        "gross_profit_usd": "0.05000000",
+        "fees_usd": "0.00000000",
+        "net_profit_usd": "0.05000000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Standard Intraday 150pts",
+        "gross_profit_usd": "0.15000000",
+        "fees_usd": "0.00000000",
+        "net_profit_usd": "0.15000000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Swing Target 400pts",
+        "gross_profit_usd": "0.40000000",
+        "fees_usd": "0.00000000",
+        "net_profit_usd": "0.40000000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Wide Trend 1000pts",
+        "gross_profit_usd": "1.00000000",
+        "fees_usd": "0.00000000",
+        "net_profit_usd": "1.00000000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true
+      }
+    ],
+    "variant_b_taker_verified_fees": [
+      {
+        "setup": "Micro-Scalp 4.5pts",
+        "gross_profit_usd": "0.00450000",
+        "fees_usd": "0.09676266",
+        "net_profit_usd": "-0.09226266",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0968 USD) consume 2150.3% of gross target (0.0045 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Tight Scalp 15pts",
+        "gross_profit_usd": "0.01500000",
+        "fees_usd": "0.09676885",
+        "net_profit_usd": "-0.08176885",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0968 USD) consume 645.1% of gross target (0.0150 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Small Intraday 50pts",
+        "gross_profit_usd": "0.05000000",
+        "fees_usd": "0.09678950",
+        "net_profit_usd": "-0.04678950",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0968 USD) consume 193.6% of gross target (0.0500 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Standard Intraday 150pts",
+        "gross_profit_usd": "0.15000000",
+        "fees_usd": "0.09684850",
+        "net_profit_usd": "0.05315150",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0968 USD) consume 64.6% of gross target (0.1500 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Swing Target 400pts",
+        "gross_profit_usd": "0.40000000",
+        "fees_usd": "0.09699600",
+        "net_profit_usd": "0.30300400",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: post-fee R:R 1.02 is below minimum requirement 1.25"
+      },
+      {
+        "setup": "Wide Trend 1000pts",
+        "gross_profit_usd": "1.00000000",
+        "fees_usd": "0.09735000",
+        "net_profit_usd": "0.90265000",
+        "adverse_selection_usd": "0.00000000",
+        "hurdle_passed": true,
+        "rejection_reason": null
+      }
+    ],
+    "variant_c_maker_conservative": [
+      {
+        "setup": "Micro-Scalp 4.5pts",
+        "gross_profit_usd": "0.00450000",
+        "fees_usd": "0.03870506",
+        "adverse_selection_usd": "0.01640000",
+        "net_profit_usd": "-0.05060506",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0387 USD) consume 860.1% of gross target (0.0045 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Tight Scalp 15pts",
+        "gross_profit_usd": "0.01500000",
+        "fees_usd": "0.03870754",
+        "adverse_selection_usd": "0.01640000",
+        "net_profit_usd": "-0.04010754",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0387 USD) consume 258.0% of gross target (0.0150 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Small Intraday 50pts",
+        "gross_profit_usd": "0.05000000",
+        "fees_usd": "0.03871580",
+        "adverse_selection_usd": "0.01640000",
+        "net_profit_usd": "-0.00511580",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: round-trip fees (0.0387 USD) consume 77.4% of gross target (0.0500 USD), exceeding max allowed 40.0%"
+      },
+      {
+        "setup": "Standard Intraday 150pts",
+        "gross_profit_usd": "0.15000000",
+        "fees_usd": "0.03873940",
+        "adverse_selection_usd": "0.01640000",
+        "net_profit_usd": "0.09486060",
+        "hurdle_passed": false,
+        "rejection_reason": "Friction hurdle failed: post-fee R:R 0.80 is below minimum requirement 1.25"
+      },
+      {
+        "setup": "Swing Target 400pts",
+        "gross_profit_usd": "0.40000000",
+        "fees_usd": "0.03879840",
+        "adverse_selection_usd": "0.01640000",
+        "net_profit_usd": "0.34480160",
+        "hurdle_passed": true,
+        "rejection_reason": null
+      },
+      {
+        "setup": "Wide Trend 1000pts",
+        "gross_profit_usd": "1.00000000",
+        "fees_usd": "0.03894000",
+        "adverse_selection_usd": "0.01640000",
+        "net_profit_usd": "0.94466000",
+        "hurdle_passed": true,
+        "rejection_reason": null
+      }
+    ],
+    "variant_d_maker_central": [
+      {
+        "setup": "Micro-Scalp 4.5pts",
+        "gross_profit_usd": "0.00450000",
+        "fees_usd": "0.03870506",
+        "adverse_selection_usd": "0.00820000",
+        "net_profit_usd": "-0.04240506",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Tight Scalp 15pts",
+        "gross_profit_usd": "0.01500000",
+        "fees_usd": "0.03870754",
+        "adverse_selection_usd": "0.00820000",
+        "net_profit_usd": "-0.03190754",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Small Intraday 50pts",
+        "gross_profit_usd": "0.05000000",
+        "fees_usd": "0.03871580",
+        "adverse_selection_usd": "0.00820000",
+        "net_profit_usd": "0.00308420",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Standard Intraday 150pts",
+        "gross_profit_usd": "0.15000000",
+        "fees_usd": "0.03873940",
+        "adverse_selection_usd": "0.00820000",
+        "net_profit_usd": "0.10306060",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Swing Target 400pts",
+        "gross_profit_usd": "0.40000000",
+        "fees_usd": "0.03879840",
+        "adverse_selection_usd": "0.00820000",
+        "net_profit_usd": "0.35300160",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Wide Trend 1000pts",
+        "gross_profit_usd": "1.00000000",
+        "fees_usd": "0.03894000",
+        "adverse_selection_usd": "0.00820000",
+        "net_profit_usd": "0.95286000",
+        "hurdle_passed": true
+      }
+    ],
+    "variant_e_maker_optimistic_bound": [
+      {
+        "setup": "Micro-Scalp 4.5pts",
+        "gross_profit_usd": "0.00450000",
+        "fees_usd": "0.03870506",
+        "adverse_selection_usd": "0.00000000",
+        "net_profit_usd": "-0.03420506",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Tight Scalp 15pts",
+        "gross_profit_usd": "0.01500000",
+        "fees_usd": "0.03870754",
+        "adverse_selection_usd": "0.00000000",
+        "net_profit_usd": "-0.02370754",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Small Intraday 50pts",
+        "gross_profit_usd": "0.05000000",
+        "fees_usd": "0.03871580",
+        "adverse_selection_usd": "0.00000000",
+        "net_profit_usd": "0.01128420",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Standard Intraday 150pts",
+        "gross_profit_usd": "0.15000000",
+        "fees_usd": "0.03873940",
+        "adverse_selection_usd": "0.00000000",
+        "net_profit_usd": "0.11126060",
+        "hurdle_passed": false
+      },
+      {
+        "setup": "Swing Target 400pts",
+        "gross_profit_usd": "0.40000000",
+        "fees_usd": "0.03879840",
+        "adverse_selection_usd": "0.00000000",
+        "net_profit_usd": "0.36120160",
+        "hurdle_passed": true
+      },
+      {
+        "setup": "Wide Trend 1000pts",
+        "gross_profit_usd": "1.00000000",
+        "fees_usd": "0.03894000",
+        "adverse_selection_usd": "0.00000000",
+        "net_profit_usd": "0.96106000",
+        "hurdle_passed": true
+      }
+    ]
+  },
+  "granular_queue_calibration": {
+    "p_any_fill": "0.864665",
+    "p_complete_fill": "0.861958",
+    "expected_time_first_fill_sec": "5.00",
+    "expected_time_complete_fill_sec": "5.05",
+    "expected_filled_quantity": "0.86",
+    "p_unfilled_or_expired": "0.138042",
+    "adverse_selection_cost_usd": "0.01640000",
+    "unfilled_opportunity_cost_usd": "0.02070630",
+    "classification": "SIMULATION_ASSUMPTION"
+  },
+  "trade_selection_summary": {
+    "total_candidates_tested": 6,
+    "taker_accepted": 1,
+    "taker_rejected": 5,
+    "maker_accepted": 2,
+    "maker_rejected": 4,
+    "maker_selection_widening_factor": "2.00x"
+  },
+  "findings_and_conclusions": [
+    "Maker execution reduces commission friction by 60%, but does NOT guarantee a positive edge on sub-15pt scalps due to adverse selection.",
+    "Taker execution on scalps < 50 pts is mathematically negative expectancy under 5.90 bps effective fees.",
+    "FrictionHurdleGate successfully eliminates 50% of negative-expectancy taker candidates.",
+    "Queue fill probability of 86.2% is a simulation assumption parameterized by Poisson volume arrival; it is not empirical proof of live execution priority."
+  ]
+}

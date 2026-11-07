@@ -1,0 +1,64 @@
+{
+ "datasets": {
+  "D1_gatea": {
+   "n": 5000,
+   "chronological": true,
+   "duplicates": 0,
+   "out_of_order": 0,
+   "gaps": 0,
+   "missing_volume": 0,
+   "invalid_ohlc": 0,
+   "non_finite": 0,
+   "first": 1788301500,
+   "last": 1788601440,
+   "sha256": "c17ec3a2064eb257a9a5ee19cccf562731c369b752e5ce0fe47aff6b1ec9caeb",
+   "meta": {
+    "symbol": "BTCUSDT",
+    "timeframe": "1m"
+   }
+  },
+  "D2_phase7": {
+   "n": 10000,
+   "chronological": true,
+   "duplicates": 0,
+   "out_of_order": 0,
+   "gaps": 0,
+   "missing_volume": 0,
+   "invalid_ohlc": 0,
+   "non_finite": 0,
+   "first": 1787575500,
+   "last": 1788175440,
+   "sha256": "9743fc5b125965eab8d7d534287c416c08dfe28a004f98bc63087c80a7778fc5",
+   "meta": {
+    "symbol": "BTCUSDT",
+    "timeframe": "1m"
+   }
+  },
+  "D3_fresh": {
+   "n": 2499,
+   "chronological": true,
+   "duplicates": 0,
+   "out_of_order": 0,
+   "gaps": 0,
+   "missing_volume": 0,
+   "invalid_ohlc": 0,
+   "non_finite": 0,
+   "first": 1788601500,
+   "last": 1788751380,
+   "sha256": "6c5981fd34654a2ca5737830eeb6bba367b65f1b4a2ebefa5e8df0150d5647d6",
+   "meta": {
+    "symbol": "BTCUSDT",
+    "timeframe": "1m"
+   }
+  }
+ },
+ "D1_fingerprint": {
+  "orders": 27,
+  "fills": 11,
+  "wins": 6,
+  "losses": 5,
+  "breakevens": 0,
+  "net": 0.117534
+ },
+ "fingerprint_match": true
+}

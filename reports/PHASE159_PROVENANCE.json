@@ -1,0 +1,138 @@
+{
+  "build_procedure": {
+    "archive_bytes": "recorded in the detached record RELEASE_HASH_PHASE159.txt (beside the archive)",
+    "archive_members": "manifest entries + 1 (the manifest itself); recorded in the detached record RELEASE_HASH_PHASE159.txt",
+    "builder": "scripts/build_release.py (unchanged from Phase155; enforces the order)",
+    "manifest_entries": "recorded in BUILD_MANIFEST.sha256 and in the detached record",
+    "note": "the archive's own SHA-256 is deliberately not embedded here or anywhere inside the archive; an archive cannot truthfully contain a hash of itself, and any embedded copy would go stale on the next change",
+    "rule": "frozen ordering: write all text -> regenerate BUILD_MANIFEST.sha256 -> verify -> pack -> detached hash record -> extract-verify (the worktree suite log is written inside this ordering: its stub is covered by the pre-suite regeneration, the real log replaces it after the run, and the manifest is regenerated again before packing)"
+  },
+  "generated_utc": "2026-10-17",
+  "historical_records": {
+    "reports/PHASE158_GIT_EVIDENCE_STATUS.json": {
+      "describes": "the Phase158 revision-2 Git-evidence gate (mode SOURCE_ARCHIVE; 40 facts blocked)",
+      "disposition": "preserved unchanged; the Phase159 record (reports/PHASE159_GIT_EVIDENCE_STATUS.json) carries the identical fact set with fresh mode evidence"
+    },
+    "reports/PHASE158_RELEASE_GATES.json": {
+      "disposition": "preserved unchanged as the revision-2 gate record; this file supersedes it for the Phase159 candidate."
+    },
+    "reports/PHASE158_AUDIT_REPAIRS.json": {
+      "describes": "the revision-1 audit findings dispositioned in revision 2",
+      "disposition": "preserved unchanged; the revision-2 self-audit observations they left open are this phase's input and are dispositioned in reports/PHASE159_HARDENING.json"
+    },
+    "reports/RELEASE_PROVENANCE_PHASE132.json": {
+      "describes": "the Phase132 release record",
+      "disposition": "preserved unchanged (renamed to this explicit name in Phase158; bytes unchanged).",
+      "sha256": "05df5fa91b4c0350aedf905f09eb3cdbc96d15abdfbed2876fbfa825f36e985e"
+    }
+  },
+  "input": {
+    "archive": "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip",
+    "bytes": 56098577,
+    "identity_confirmed_against": [
+      "the detached record ../RELEASE_HASH_PHASE158.txt",
+      "the revision-2 self-audit's standalone recomputation (agrees)"
+    ],
+    "members": 1852,
+    "manifest_entries": 1851,
+    "packaged_vs_worktree": "reports/PHASE159_SOURCE_DIFF.json",
+    "sha256": "b283332a8b8651e2d3e82acdf8b958bb1df43f5979dce905d9c0312778676beb",
+    "worktree_at_input": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair (the revision-2 build worktree; retained as historical reference)"
+  },
+  "not_done": [
+    "no digest was re-pinned; the five strategy-digest failures remain red by contract (scripts/recertify_strategy_digest.py returns STATUS: BLOCKED)",
+    "no test was weakened, deleted, blanket-skipped or xfailed; the 40 Git facts are individually declared BLOCKED_EVIDENCE with reasons carried from the Phase158 record and the ancestry gate stays blocked; the only label change in a contract test made an assertion STRONGER (the manifest test now requires the accurate 'missing:' label)",
+    "no order was placed and no order-capable script was run without --execute; live order placement remains disabled",
+    "no dataset byte, frozen pin, skip reason, or historical record was rewritten",
+    "no economic claim advanced; the edge remains NOT ESTABLISHED",
+    "no scoped development was added beyond the recorded hardening items: the cycle did exactly the three audit observations plus this record set (reports/PHASE159_HARDENING.json)"
+  ],
+  "output": {
+    "archive": "QuantEngine_PHASE159_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE159.txt",
+    "post_build_bundle": "QuantEngine_PHASE159_POST_BUILD/ \u2014 the self-audit against the final bytes, the extracted-package test log and the post-build verification JSON, none of which can live inside the archive they describe",
+    "sha256": "NOT_EMBEDDED \u2014 the final SHA-256 is recorded only in the detached record RELEASE_HASH_PHASE159.txt delivered beside the archive"
+  },
+  "phase": 159,
+  "release_records": [
+    "reports/PHASE159_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE159_SOURCE_DIFF.json",
+    "reports/PHASE159_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE159_FULL_SUITE_RUN.txt",
+    "reports/PHASE159_MANIFEST_AUDIT.json",
+    "reports/PHASE159_PROVENANCE.json",
+    "reports/PHASE159_SECURITY_SCAN.md",
+    "reports/PHASE159_PRIVACY_REVIEW.md",
+    "reports/PHASE159_PRIVACY_SCAN.json",
+    "reports/PHASE159_DEPENDENCY_REVIEW.md",
+    "reports/PHASE159_OSV_SCAN.json",
+    "reports/PHASE159_HARDENING.json",
+    "reports/PHASE159_RELEASE_GATES.json",
+    "reports/PHASE159_BLOCKERS.json",
+    "docs/BUILD_HANDOFF_PHASE159.md",
+    "NEXT_ACTIONS.md"
+  ],
+  "repairs": [
+    {
+      "class": "tooling",
+      "evidence": "scripts/security/scan_secrets.py; tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_bom_prefixed_first_line_secret_is_found",
+      "id": "REP-159-01",
+      "what": "BOM-aware secret scanner: files decode with utf-8-sig so a BOM on line 1 can no longer hide an assignment from the ^-anchored credential rules",
+      "why": "revision-2 self-audit observation AUD-OBS-158-01 (LOW): demonstrated blind spot with a BOM'd .env in a scratch tree"
+    },
+    {
+      "class": "tooling",
+      "evidence": "scripts/generate_manifest.py; tests/test_phase158_manifest_contract.py::TestVerifierProblems::test_missing_file_is_detected",
+      "id": "REP-159-02",
+      "what": "manifest verifier label accuracy: a listed-but-absent file is reported as 'missing:' (was the inverted 'manifest-extra:'); the redundant compensation branch removed; detection unchanged",
+      "why": "revision-2 self-audit observation AUD-OBS-158-02 (LOW): the label misdescribed the failure to the operator"
+    },
+    {
+      "class": "privacy",
+      "evidence": "tests/test_phase158_privacy_contract.py; colloquial check: the synthetic id appears in no harvested capture value",
+      "id": "REP-159-03",
+      "what": "synthetic test-fixture identifiers: all 10 fixture occurrences of the real historical venue order id replaced with the verified-collision-free synthetic 9000001234, with the fixture-synthetic rule stated in the test",
+      "why": "revision-2 self-audit observation AUD-OBS-158-03 (OBSERVATION): test fixtures should not carry real identifiers"
+    },
+    {
+      "class": "tooling",
+      "evidence": "scripts/security/scan_privacy.py; tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_bom_prefixed_capture_line_is_still_harvested",
+      "id": "REP-159-04",
+      "what": "BOM-aware privacy line reader: same hardening as the secret scanner, applied to every line the privacy scanner reads",
+      "why": "the identical blind spot existed in the privacy scanner's line reader; closed alongside rather than left as a known issue"
+    }
+  ],
+  "role": "release provenance for the Phase159 hardened candidate",
+  "schema": "quantengine.release-provenance.v2",
+  "source_snapshot": {
+    "extraction_verification": "reports/PHASE159_ARCHIVE_INTEGRITY.json",
+    "what": "the input archive extracted byte-verified into F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE159_Repair (1,852/1,852 members verified; the shipped manifest reproduced byte-for-byte on the fresh copy), then hardened in place"
+  },
+  "supersedes": [
+    "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip and its detached record (preserved as the revision-2 deliverable in _phase158_audited/)",
+    "reports/PHASE158_RELEASE_GATES.json (preserved as the revision-2 gate record)"
+  ],
+  "test_evidence": {
+    "authoritative_post_hardening": "recorded in reports/PHASE159_FULL_SUITE_RUN.txt after the worktree run completes",
+    "command": "python -m pytest -q -p no:cacheprovider --tb=short -rfs (the canonical command; -rfs enums the full skip set for the worktree/extracted comparison)",
+    "extracted_package": "recorded in the post-build bundle (PHASE159_EXTRACTED_PACKAGE_TESTS.txt): the same command re-run against the extracted shipped bytes with the complete delivery beside it, compared in PHASE159_POST_BUILD_VERIFICATION.json",
+    "focused_evidence": "reports/PHASE159_HARDENING.json: the four touched contract files run green before the manifest regeneration (the only pre-regeneration failures are the stale-manifest class)",
+    "note": "the suite stays NOT green: the five deliberate strategy-digest change detectors remain red by contract (BLOCK-159-01) and the 40 Git facts remain gated BLOCKED_EVIDENCE (BLOCK-159-04). Nothing in the hardening cycle claims a green suite."
+  },
+  "verdict": "NOT_PRODUCTION_READY",
+  "verification_environment": {
+    "agreement": "requirements.txt, the installed environment and reports/PHASE159_RELEASE_GATES.json name the same versions; tests/test_dependency_pin_contract.py enforces it against the highest-numbered gates record",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "numpy": "2.1.1",
+      "pandas": "2.2.2",
+      "pyarrow": "18.0.0",
+      "pytest": "8.4.2",
+      "python-dotenv": "1.0.1",
+      "websockets": "12.0"
+    },
+    "platform": "Windows-10-10.0.19045-SP0",
+    "pytest": "8.4.2",
+    "python": "3.12.10"
+  }
+}

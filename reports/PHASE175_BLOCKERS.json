@@ -1,0 +1,79 @@
+{
+  "phase": 175,
+  "audit_title": "QuantEngine Phase 175 Release Blockers Ledger",
+  "audit_timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "blockers": [
+    {
+      "id": "BLOCK-175-01",
+      "category": "HISTORICAL_CONTRACT_INTEGRITY",
+      "severity": "CONTRACTUAL_FAILURE",
+      "title": "Historical Change-Detector Digest Drift (5 Tests Failing by Contract)",
+      "description": "Five legacy change-detector tests fail because they assert raw disk line-ending match against an uncommitted pre-Phase-4 Windows CRLF digest (c52e648c...). Per safety rule #7, historical strategy pins are preserved unchanged.",
+      "owner": "Release Engineering",
+      "evidence_required": "Formal baseline reset process approved across all versioned records",
+      "closure_criteria": "Approved migration to versioned strategy identity invariants without modifying historical files"
+    },
+    {
+      "id": "BLOCK-175-02",
+      "category": "EXECUTION_MODELING",
+      "severity": "EVIDENCE_GAP",
+      "title": "Simulated Queue Dynamics Calibration Unverified Empirically",
+      "description": "Queue fill probability formula (P = 1 - exp(-lambda*t/Q) = 86.47%) is a mathematical block-hazard heuristic. Lacks calibration against empirical order-level queue position and high-frequency cancellation feeds.",
+      "owner": "Quantitative Research",
+      "evidence_required": "Market-by-Order (MBO) order-level message feed with synchronized private fill tracking",
+      "closure_criteria": "Empirical calibration of arrival intensity and cancellation rates with out-of-sample fill validation"
+    },
+    {
+      "id": "BLOCK-175-03",
+      "category": "DATASET_INTEGRITY",
+      "severity": "DATA_DISJOINT",
+      "title": "Non-Overlapping Signal and Execution Datasets",
+      "description": "Available 1-minute candle data (data/history/BTCUSDT/1m.parquet) covers September 5, 2026, while high-frequency Level-2 order book updates cover October 19, 2026. Zero temporal overlap exists.",
+      "owner": "Data Engineering",
+      "evidence_required": "Concurrent 1-minute candle and high-frequency Level-2 depth data covering the identical observation window",
+      "closure_criteria": "Synchronized historical replay showing signal generation and execution fill against contemporaneous order books"
+    },
+    {
+      "id": "BLOCK-175-04",
+      "category": "STATISTICAL_POWER",
+      "severity": "INSUFFICIENT_SAMPLE_SIZE",
+      "title": "Authenticated Fill Evidence Severely Underpowered (N=2)",
+      "description": "Only 2 valid authenticated testnet fills exist for BTCUSD. Sample size is far below the minimum N >= 30 requirement.",
+      "owner": "Trading Operations & Research",
+      "evidence_required": "At least 30 independently attributable, authenticated fills under controlled execution conditions",
+      "closure_criteria": "Reconciliation of at least 30 fills with exchange trade IDs, wallet cashflows, and zero unreconciled residuals"
+    },
+    {
+      "id": "BLOCK-175-05",
+      "category": "HISTORICAL_LEDGER",
+      "severity": "UNVERIFIED_EVIDENCE",
+      "title": "Unresolved Historical ADAUSD Position Closure Evidence",
+      "description": "Historical position ledger evidence for ADAUSD closure remains blocked in sealed historical account records.",
+      "owner": "Historical Audit Specialist",
+      "evidence_required": "Attributable ledger export from the original historical account demonstrating balance settlement",
+      "closure_criteria": "Independent verification of historical ADAUSD trade closure without cross-account contamination"
+    },
+    {
+      "id": "BLOCK-175-06",
+      "category": "OPERATIONAL_SAFETY",
+      "severity": "POLICY_PROHIBITION",
+      "title": "Live and Testnet Order Execution Prohibited Without Operator Authorization",
+      "description": "Strict prohibition against placing, amending, or cancelling orders on real or testnet exchanges without explicit operator sign-off and bounded scope.",
+      "owner": "Executive Operator",
+      "evidence_required": "Written operator authorization, dedicated testnet credentials, and signed pre-flight risk checks",
+      "closure_criteria": "Controlled execution of bounded testnet experiment protocol in accordance with Section 10 rules"
+    },
+    {
+      "id": "BLOCK-175-07",
+      "category": "GATE_SPECIFICATION",
+      "severity": "TECHNICAL_DEBT",
+      "title": "Mathematically Subsumed Hurdle Rule Retained for Compatibility",
+      "description": "Rule 1 (fee ratio <= 40%) strictly subsumes Rule 2 (target multiple >= 2.0x). Rule 2 is redundant but retained for serialized output compatibility.",
+      "owner": "Execution Engineering",
+      "evidence_required": "Refactoring plan confirming external monitoring tools and downstream consumers do not break if Rule 2 is modified",
+      "closure_criteria": "Documented compatibility confirmation or unified single-hurdle formulation"
+    }
+  ]
+}

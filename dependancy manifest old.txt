@@ -1,0 +1,871 @@
+====================================================
+FILE
+====================================================
+
+core/common/base_engine.py
+
+STATUS
+------
+CANONICAL
+
+IMPORTS
+-------
+abc.ABC
+abc.abstractmethod
+
+IMPORTED BY
+-----------
+ALL analysis engines
+
+DEPENDENCIES
+------------
+None
+
+PIPELINE
+--------
+Institutional Pipeline
+
+DUPLICATES
+----------
+core/common/engine.py  ❌ REMOVE after confirming nothing imports it.
+
+NOTES
+-----
+Single parent class for every analysis engine.
+====================================================
+FILE
+====================================================
+
+core/market_structure/market_structure_engine.py
+
+TYPE
+----
+Composite / Domain Engine
+
+STATUS
+------
+KEEP
+
+ROLE
+----
+Coordinates all Market Structure analysis.
+
+OWNS
+----
+SwingEngine
+TrendEngine
+StructureEngine
+BOSEngine
+CHoCHEngine
+
+IMPORTED
+--------
+core.enums.StructureType
+core.market_structure.state.MarketStructureState
+core.market_structure.swing_engine.SwingEngine
+core.market_structure.trend_engine.TrendEngine
+core.market_structure.structure_engine.StructureEngine
+core.market_structure.bos_engine.BOSEngine
+core.market_structure.choch_engine.CHoCHEngine
+
+PRODUCES
+--------
+MarketStructureState
+
+PIPELINE STAGE
+--------------
+Market Structure
+
+ACTION
+------
+Refactor later to inherit BaseEngine.
+
+DO NOT DELETE.
+====================================================
+FILE
+====================================================
+
+core/pipeline/pipeline_statistics.py
+
+TYPE
+----
+Service
+
+STATUS
+------
+KEEP
+
+IMPORTS
+-------
+None
+
+IMPORTED BY
+-----------
+core/pipeline/institutional_pipeline.py
+
+PROVIDES
+--------
+processed
+engine_calls
+pipeline_errors
+trades
+wins
+losses
+pnl
+summary
+
+DEPENDENCIES
+------------
+None
+
+PIPELINE
+--------
+Institutional Pipeline
+
+ACTION
+------
+KEEP
+
+Future additions:
+- skipped candles
+- engine errors
+- execution timing
+
+
+====================================================
+FILE
+====================================================
+
+core/events/event_bus.py
+
+TYPE
+----
+Infrastructure Service
+
+STATUS
+------
+KEEP
+
+IMPORTS
+-------
+core.events.event_dispatcher.EventDispatcher
+
+IMPORTED BY
+-----------
+core.pipeline.institutional_pipeline
+
+Future:
+ReplayEngine
+LiveFeed
+Execution
+Risk
+Portfolio
+PositionManager
+
+DEPENDS ON
+----------
+EventDispatcher
+Event
+EventType
+
+PUBLIC API
+----------
+subscribe()
+publish()
+dispatch()
+clear()
+
+FUTURE API
+----------
+unsubscribe()
+subscribe_once()
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+System-wide event router.
+Must remain event-agnostic.
+Should never contain market-specific logic.
+
+====================================================
+FILE
+====================================================
+
+core/events/event_dispatcher.py
+
+TYPE
+----
+Infrastructure Service
+
+STATUS
+------
+KEEP
+
+IMPORTS
+-------
+collections.deque
+
+IMPORTED BY
+-----------
+core.events.event_bus.EventBus
+
+DEPENDS ON
+----------
+collections.deque
+
+PUBLIC API
+----------
+push()
+pop()
+empty()
+clear()
+__len__()
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+Owns the event queue only.
+Contains no market or trading logic.
+Can later be replaced with a PriorityQueue or Async Queue
+without changing EventBus.
+FILE: core/events/event_dispatcher.py
+
+IMPORTS:
+- collections.deque
+
+IMPORTED BY:
+- core.events.event_bus.EventBus
+
+PUBLIC METHODS:
+- push
+- pop
+- empty
+- clear
+- __len__
+
+DEPENDENCIES:
+- collections.deque
+
+STATUS:
+- KEEP (Frozen)
+
+====================================================
+FILE
+====================================================
+
+core/events/event.py
+
+TYPE
+----
+Event
+
+STATUS
+------
+KEEP
+
+IMPORTS
+-------
+dataclasses.dataclass
+
+IMPORTED BY
+-----------
+core.events.candle_event.CandleEvent
+
+Future:
+TradeEvent
+OrderEvent
+PositionEvent
+RiskEvent
+FundingEvent
+HeartbeatEvent
+ShutdownEvent
+
+DEPENDS ON
+----------
+dataclasses
+
+FIELDS
+------
+timestamp
+event_type
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+Base class for every system event.
+Must remain generic.
+Should never contain market-specific data.
+
+====================================================
+FILE
+====================================================
+
+core/events/event_types.py
+
+TYPE
+----
+Constant Definition
+
+STATUS
+------
+KEEP (Frozen)
+
+IMPORTS
+-------
+None
+
+IMPORTED BY
+-----------
+core.events.candle_event
+core.pipeline.institutional_pipeline
+
+Future:
+ReplayEngine
+LiveFeed
+ExecutionEngine
+RiskEngine
+PortfolioManager
+PositionManager
+
+DEPENDS ON
+----------
+None
+
+PROVIDES
+--------
+Market Events
+Trading Events
+System Events
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+Central event registry for the entire QuantEngine.
+All event names should be defined here.
+Avoid hard-coded event strings elsewhere.
+
+====================================================
+FILE
+====================================================
+
+core/events/candle_event.py
+
+TYPE
+----
+Event
+
+STATUS
+------
+KEEP (Frozen)
+
+IMPORTS
+-------
+dataclasses.dataclass
+core.events.event.Event
+core.events.event_types.EventType
+core.history.candle.Candle
+
+IMPORTED BY
+-----------
+core.replay.replay_engine
+core.pipeline.institutional_pipeline
+
+Future:
+LiveFeed
+HistoricalReplay
+PaperTrading
+BacktestingEngine
+
+DEPENDS ON
+----------
+core.events.event
+core.events.event_types
+core.history.candle
+
+FIELDS
+------
+timestamp (inherited)
+event_type
+candle
+symbol
+timeframe
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+Canonical market-data event.
+Used identically by Replay, Live and Backtesting.
+Should remain lightweight.
+
+====================================================
+FILE
+====================================================
+
+core/replay/replay_engine.py
+
+TYPE
+----
+Engine
+
+STATUS
+------
+KEEP (Frozen)
+
+IMPORTS
+-------
+core.events.candle_event.CandleEvent
+
+IMPORTED BY
+-----------
+core.pipeline.pipeline_runner
+
+Future:
+BacktestingEngine
+PaperTradingEngine
+ReplayValidator
+ReplayTester
+
+DEPENDS ON
+----------
+core.events.candle_event.CandleEvent
+
+PUBLIC METHODS
+--------------
+__init__
+reset
+finished
+next
+current_index
+progress
+
+STATE
+-----
+candles
+index
+event_bus
+symbol
+timeframe
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+Canonical replay engine.
+Responsible only for feeding candles and publishing CandleEvents.
+Must never contain analysis logic.
+
+====================================================
+FILE
+====================================================
+
+core/replay/replay_feed.py
+
+TYPE
+----
+Replay Buffer
+
+STATUS
+------
+KEEP (Frozen)
+
+IMPORTS
+-------
+None
+
+IMPORTED BY
+-----------
+core.pipeline.pipeline_runner
+
+Future:
+ReplayVisualizer
+ReplayDashboard
+ReplayValidator
+ReplayRecorder
+
+DEPENDS ON
+----------
+None
+
+PUBLIC METHODS
+--------------
+__init__
+reset
+add
+candles
+latest
+size
+
+STATE
+-----
+history
+
+ACTION
+------
+KEEP
+
+NOTES
+-----
+Canonical replay history buffer.
+Stores visible replay candles only.
+Must never contain analysis logic.
+
+FILE: core/replay/pipeline_runner.py
+
+TYPE:
+Replay Coordinator
+
+STATUS:
+REPLACE (Temporary)
+
+IMPORTS:
+- core.pipeline.pipeline_context.PipelineContext
+- core.pipeline.institutional_pipeline.InstitutionalPipeline
+- core.replay.replay_engine.ReplayEngine
+
+IMPORTED BY:
+- tests/test_pipeline_runner.py
+
+DEPENDS ON:
+- PipelineContext
+- InstitutionalPipeline
+- ReplayEngine
+
+PUBLIC METHODS:
+- __init__
+- run
+
+STATE:
+- replay
+- pipeline
+- context
+
+RESPONSIBILITY:
+- Coordinate replay execution
+- Feed replay candles into the institutional pipeline
+
+KNOWN ISSUES:
+- Uses add_candle() instead of push_candle()
+- Doesn't use EventBus
+- Doesn't dispatch CandleEvents
+- Doesn't use ReplayFeed
+
+NEXT ARCHITECTURE:
+ReplayEngine → EventBus → InstitutionalPipeline → Registered Engines
+
+FILE: core/pipeline/pipeline_context.py
+
+TYPE:
+Canonical Shared Pipeline State
+
+STATUS:
+KEEP
+
+IMPORTS:
+- collections.deque
+- dataclasses.dataclass
+- dataclasses.field
+- typing.Any
+- core.market_state.MarketState
+- core.risk.account_state.AccountState
+
+IMPORTED BY:
+- core.pipeline.institutional_pipeline
+- core.replay.pipeline_runner
+- tests.test_pipeline_context
+- tests.test_pipeline_runner
+- Future: Live, Paper, Backtest, Replay, Analysis Engines
+
+DEPENDS ON:
+- MarketState
+- AccountState
+
+PUBLIC METHODS:
+- __post_init__
+- add_candle
+- push_candle
+- last
+- window
+- reset
+
+PROPERTIES:
+- candle_count
+- current_index
+
+STATE:
+- market
+- account
+- candles
+- latest_candle
+- swings
+- trend
+- structure
+- liquidity
+- displacement
+- fvgs
+- order_blocks
+- mitigations
+- breakers
+- cumulative_delta
+- price_ladder
+- footprint
+- volume_profile
+- confluence
+- regime
+- institutional_score
+- trade_setups
+- decision
+- order
+- position
+- replay_index
+- completed
+
+RESPONSIBILITY:
+- Canonical shared state for every pipeline cycle.
+
+ACTION:
+- KEEP
+
+====================================================
+FILE
+====================================================
+
+core/pipeline/institutional_pipeline.py
+
+TYPE
+----
+Canonical Pipeline Coordinator
+
+STATUS
+------
+KEEP (Canonical)
+
+====================================================
+IMPORTS
+====================================================
+
+from core.events.event_types import EventType
+
+from core.pipeline.pipeline_statistics import PipelineStatistics
+
+====================================================
+IMPORTED BY
+====================================================
+
+core.replay.pipeline_runner
+
+tests.test_pipeline_context
+
+tests.test_pipeline_runner
+
+Future:
+LiveEngine
+PaperTradingEngine
+BacktestingEngine
+
+====================================================
+DEPENDS ON
+====================================================
+
+core.pipeline.pipeline_context.PipelineContext
+
+core.pipeline.pipeline_statistics.PipelineStatistics
+
+core.events.event_bus.EventBus
+
+BaseEngine (via registered engines)
+
+====================================================
+PUBLIC METHODS
+====================================================
+
+__init__()
+
+register()
+
+unregister()
+
+subscribe()
+
+on_candle()
+
+process()
+
+reset()
+
+====================================================
+STATE
+====================================================
+
+context
+
+statistics
+
+engines
+
+====================================================
+RESPONSIBILITIES
+====================================================
+
+Own the pipeline lifecycle.
+
+Register analysis engines.
+
+Subscribe to the EventBus.
+
+Receive CandleEvents.
+
+Execute registered engines by priority.
+
+Maintain execution statistics.
+
+Reset the pipeline.
+
+====================================================
+SHOULD NOT DO
+====================================================
+
+Market Analysis
+
+Swing Detection
+
+Trend Detection
+
+Liquidity Detection
+
+Order Execution
+
+Database Access
+
+REST Calls
+
+WebSocket Handling
+
+====================================================
+PIPELINE FLOW
+====================================================
+
+ReplayEngine
+      │
+      ▼
+EventBus
+      │
+      ▼
+InstitutionalPipeline
+      │
+      ▼
+Registered Engines
+      │
+      ▼
+PipelineContext
+
+====================================================
+ENGINE CONTRACT
+====================================================
+
+Every registered engine must provide:
+
+priority
+
+enabled
+
+validate(context)
+
+process(context)
+
+reset()
+
+====================================================
+KNOWN COMPATIBILITY
+====================================================
+
+Compatible with:
+
+BaseEngine
+
+PipelineContext.add_candle()
+
+PipelineStatistics
+
+EventBus
+
+====================================================
+FUTURE IMPROVEMENTS
+====================================================
+
+- Validate engine dependencies before registration.
+
+- Catch engine exceptions individually so one engine
+  cannot stop the entire pipeline.
+
+- Record execution timing per engine.
+
+- Record failed engine names.
+
+====================================================
+ACTION
+====================================================
+
+KEEP
+
+Canonical Institutional Pipeline.
+No duplicate pipeline implementation should exist.
+FILE: core/pipeline/institutional_pipeline.py
+
+TYPE:
+Canonical Pipeline Coordinator
+
+STATUS:
+KEEP
+
+IMPORTS:
+- core.events.event_types.EventType
+- core.pipeline.pipeline_statistics.PipelineStatistics
+
+IMPORTED BY:
+- core.replay.pipeline_runner
+- tests.test_pipeline_context
+- tests.test_pipeline_runner
+- Future: Live, Paper, Backtest
+
+DEPENDS ON:
+- PipelineContext
+- PipelineStatistics
+- EventBus
+- BaseEngine
+
+PUBLIC METHODS:
+- __init__
+- register
+- unregister
+- subscribe
+- on_candle
+- process
+- reset
+
+STATE:
+- context
+- statistics
+- engines
+
+RESPONSIBILITY:
+- Coordinate event-driven execution of all registered analysis engines.
+
+ACTION:
+- KEEP

@@ -1,0 +1,53 @@
+{
+  "phase": 155,
+  "overall": "NOT_PRODUCTION_READY",
+  "gates": {
+    "archive_integrity": "PASS",
+    "manifest_completeness": "PASS",
+    "provenance_correctness": "PASS-detached-hash-only",
+    "release_internal_consistency": "PASS-repaired-and-regression-tested",
+    "source_evidence_completeness": "PASS",
+    "security_privacy_packaging": "PASS",
+    "security_tooling": "EXECUTED-with-findings",
+    "mcp_configuration_contract": "PASS-operator-provided-config-restored",
+    "evidence_error_handling": "PASS",
+    "http_signing_compatibility": "PASS",
+    "targeted_regression_suites": "PASS-39-worktree-48-extracted",
+    "authoritative_full_suite": "FAIL-43-preexisting-plus-3-ordering-fixed-by-final-rebuild",
+    "extracted_package_verification": "PASS-48-focused-standalone",
+    "independent_forensic_audit": "PENDING-claude-review"
+  },
+  "security_tooling_detail": {
+    "pip_audit": {
+      "command": "python -m pip_audit -r requirements.txt",
+      "unique_advisories": 3,
+      "packages": {
+        "python-dotenv": {"pinned": "1.0.1", "advisory": "PYSEC-2026-2270", "fix": "1.2.2"},
+        "pyarrow": {"pinned": "18.0.0", "advisory": "PYSEC-2026-113", "fix": "23.0.1"},
+        "pytest": {"pinned": "8.4.2", "advisory": "PYSEC-2026-1845", "fix": "9.0.3"}
+      },
+      "action": "recorded; pin upgrade deferred to scheduled green-run maintenance (no silent upgrade)"
+    },
+    "bandit": {
+      "command": "python -m bandit -r core scripts -x tests,_archive",
+      "before": {"HIGH": 10, "MEDIUM": 3, "LOW": 67},
+      "after": {"HIGH": 10, "MEDIUM": 0, "LOW": 67},
+      "b310_urlopen": "FIXED (scheme allowlist + justified nosec + regression tests)",
+      "b324_sha1": "ACCEPTED RISK (non-security content fingerprints in core/research/**)",
+      "b105_b106_b107": "FALSE POSITIVE (empty defaults / negative-test fixture)"
+    }
+  },
+  "full_suite": {
+    "command": "python -m pytest -q -p no:cacheprovider --tb=short",
+    "raw_output": "reports/PHASE155_FULL_SUITE_RUN2.txt",
+    "result": "46 failed, 3944 passed, 10 skipped, 0 errors in 2429.30s (0:40:29)",
+    "delta_vs_previous_run": "-5 errors (MCP config restored -> passing), +1 failed (manifest staleness from the .gitignore edit), no regressions",
+    "triage": "reports/PHASE155_TEST_TRIAGE.json (23 hash-pin, 18 no-git, 2 live-env-guard, 3 manifest-ordering-fixed-by-final-rebuild)",
+    "expected_after_final_rebuild": "43 failed (all pre-existing), 3947 passed, 10 skipped, 0 errors"
+  },
+  "final_archive": {
+    "name": "QuantEngine_PHASE155_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED — see detached record ../RELEASE_HASH_PHASE155.txt",
+    "note": "Phase155 rebuilds the Phase154 candidate under the frozen ordering rule. The Phase154 zip is preserved as historical (defective) evidence. An archive cannot embed a truthful hash of itself; the final SHA-256 lives only in the detached record."
+  }
+}

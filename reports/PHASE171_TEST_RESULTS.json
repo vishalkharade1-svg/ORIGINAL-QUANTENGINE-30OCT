@@ -1,0 +1,67 @@
+{
+  "phase": 171,
+  "test_date": "2026-10-20",
+  "total_executed": 238,
+  "passed": 233,
+  "failed": 5,
+  "skipped": 0,
+  "contractually_failing_change_detectors": [
+    "tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+    "tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+    "tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs",
+    "tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match",
+    "tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned"
+  ],
+  "failing_tests_rationale": "All 5 tests pin pre-Phase-4 Windows uncommitted digest c52e648c... Preserved failing red by contract under BLOCK-171-01 to avoid falsifying research provenance.",
+  "new_phase171_suites": {
+    "tests/test_maker_execution_phase171.py": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "tests/test_release_records_phase171.py": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "retained_prior_phase_suites": {
+    "tests/test_timestamp_provenance_phase170.py": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "tests/test_execution_economics_verifier_phase169.py": {
+      "total": 27,
+      "passed": 27,
+      "failed": 0
+    },
+    "tests/test_release_records_phase170.py": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "tests/test_release_records_phase169.py": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "tests/test_upstream_hypothesis_audit.py": {
+      "total": 14,
+      "passed": 14,
+      "failed": 0
+    },
+    "tests/test_strategy_identity_separation_phase165.py": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "tests/test_strategy_historical_reconstruction_phase168.py": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    }
+  },
+  "reconciliation_equation": "233 passed + 5 failed + 0 skipped = 238 executed",
+  "disposition": "VERIFIED_ACCOUNTED"
+}

@@ -1,0 +1,104 @@
+{
+  "phase": 169,
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is an active blocker or verified provenance status. None has been downgraded by wording, and no test was silenced to fabricate a passing suite.",
+  "blockers": [
+    {
+      "id": "BLOCK-169-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin historical strategy digest c52e648ca24f... and remain failing change detectors against this tree.",
+      "why": "The digest reflects the pre-Phase-4 baseline minted from an uncommitted working tree on Windows. Phase 168 forensic reconstruction mapped the exact Git blob evolution across commits 3f19895, fbeb860, and ffefa14. Decoupled Alpha Strategy Core (v1.1) and Runtime Infrastructure (v1.1) are established in core/research/strategy_identity.py. Legitimate recertification of the new versioned identities requires running the complete out-of-sample research pipeline.",
+      "effect": "The five historical tests remain red deliberately. Overwriting the pin without full pipeline execution would falsify research provenance.",
+      "unblock": "Operator re-execution of research pipeline with newly established versioned strategy identities.",
+      "evidence": [
+        "reports/PHASE168_STRATEGY_HISTORICAL_RECONSTRUCTION.md",
+        "core/research/historical_reconstruction.py",
+        "core/research/strategy_identity.py",
+        "tests/test_strategy_historical_reconstruction_phase168.py"
+      ]
+    },
+    {
+      "id": "BLOCK-169-02",
+      "area": "Git-ancestry evidence facts",
+      "status": "VERIFIED_RECOVERED",
+      "what": "Original .git directory restored and verified in workspace root.",
+      "why": "Remote origin https://github.com/vishalkharade1-svg/quantengine-spring-41.git recovered. Tree identity 0d87d721... and commit ancestry connecting to acab874 and ffefa14 verified.",
+      "effect": "Git-dependent evidence tests execute directly against authentic Git commit database.",
+      "unblock": "RESOLVED in Phase 165/166/167.",
+      "evidence": [
+        "tests/test_git_evidence_mode_contract.py",
+        "reports/PHASE167_INDEPENDENT_AUDIT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-169-03",
+      "area": "independent forensic audit",
+      "status": "COMPLETED_INDEPENDENT_REVIEW",
+      "what": "Detached vendor audit executed in Phase 164; verified independently in Phase 166, 167, 168, and 169.",
+      "why": "Independent technical audit report produced without self-serving bias.",
+      "effect": "Discharged technically; legal/regulatory compliance remains operator-controlled.",
+      "unblock": "RESOLVED in Phase 164/166/167/168/169.",
+      "evidence": [
+        "reports/PHASE167_INDEPENDENT_AUDIT.md",
+        "reports/PHASE169_INDEPENDENT_AUDIT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-169-04",
+      "area": "historical ADAUSD position attribution and closure",
+      "status": "NON_ATTRIBUTABLE_CURRENT_ACCOUNT_HISTORICAL_UNVERIFIABLE",
+      "what": "Historical ADAUSD LONG 1 @ 0.23327 position is not attributable to the currently configured account. Historical closure on the original old account remains UNVERIFIABLE from archive bytes alone.",
+      "why": "Authenticated read-only positions query against the configured API account on Delta India Testnet confirmed ADAUSD size=0, entry_price=None (books flat, 0 open orders). The historical ADAUSD open position was held on an old pre-rotation account. No authentic venue order/fill capture artifact of the historical closure on that original old account exists in the archive.",
+      "effect": "The historical ADAUSD position is confirmed non-attributable to the current API account. Historical closure on the original old account remains unverified.",
+      "unblock": "Obtain and archive an authentic Delta exchange order/fill capture showing closure on the original old account.",
+      "evidence": [
+        "reports/PHASE167_INDEPENDENT_AUDIT.md",
+        "reports/PHASE169_EXECUTION_ECONOMICS_RECONCILIATION.md",
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "NEXT_ACTIONS.md"
+      ]
+    },
+    {
+      "id": "BLOCK-169-05",
+      "area": "funding-through-settlement raw debit payload",
+      "status": "UNVERIFIABLE_EXTERNAL",
+      "what": "Raw settlement cashflow debit is not independently verified in archive capture bytes.",
+      "why": "hold_log.jsonl records funding_rate: 'None' and only funding_rows: 1, lacking raw debit transaction payload.",
+      "effect": "Settlement debit remains UNVERIFIABLE from raw capture bytes alone.",
+      "unblock": "Execute authenticated capture capturing raw exchange funding transaction JSON payload with non-null rate and verified debit.",
+      "evidence": [
+        "research/captures/phase148_funding/hold_log.jsonl",
+        "reports/PHASE162_CAPTURE_REPORT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-169-06",
+      "area": "execution economics verifier hardening & in-window fill certification",
+      "status": "VERIFIED_IN_WINDOW_RECONCILED_EXACT",
+      "what": "Hardened verifier validates all 6 evidence subsystems with component-level granularity. In-window fills matched 2/2 and reconciled with authoritative exchange wallet ledger (0.00000000 USD fee and cashflow discrepancy). Account-wide certification remains PARTIAL_MATCHED_WINDOWED due to historical pre-window fills.",
+      "why": "In Phase 169, verifier was hardened: WebSocket frame schema and timestamp bounds verified; L2 quote binding validated with side-aware slippage and limit price improvement; wallet commission duplicate prevention and fee decomposition verified; realized cashflow uniquely matched with 0.001 contract multiplier; chronological ledger running balances validated from preceding transaction balance; position flatness and open order status verified. However, 14 historical pre-window fills on the account had no contemporaneous socket capture (strict reconciliation fails with FAILED_STRICT).",
+      "effect": "In-window matching and authoritative ledger reconciliation are fully verified; account-wide full MATCHED certification remains partial.",
+      "unblock": "Execute private WebSocket capture on fresh account state with non-null sequence IDs and complete friction binding across all account fills.",
+      "evidence": [
+        "reports/PHASE169_EXECUTION_ECONOMICS_RECONCILIATION.md",
+        "research/results/phase169_execution_economics_reconciliation.json",
+        "core/reconciliation/execution_economics_verifier.py",
+        "tests/test_execution_economics_verifier_phase169.py",
+        "research/captures/phase167_recon/recon_experiment_report.json"
+      ]
+    }
+  ],
+  "standing_findings": [
+    {
+      "id": "FIND-169-01",
+      "finding": "EDGE NOT ESTABLISHED",
+      "statement": "No economic edge is established for any strategy revision. High-turnover micro-breakout attempts lose -0.0826 USD net on 1 contract due to 10.62 bps fee drag exceeding gross profit."
+    },
+    {
+      "id": "FIND-169-02",
+      "finding": "restricted evidence package",
+      "statement": "This archive deliberately contains raw private captures carrying the operator's account identifier and venue order ids. It is a restricted evidence package, not cleared for public publication."
+    }
+  ]
+}

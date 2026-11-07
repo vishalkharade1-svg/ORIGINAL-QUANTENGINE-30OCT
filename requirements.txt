@@ -1,0 +1,61 @@
+# QuantEngine runtime dependencies (Phase 11C-R audited,
+# Phase 12 re-verified).
+#
+# Direct runtime deps: httpx (Delta REST), websockets
+# (Delta WS), python-dotenv (settings), pandas + numpy
+# (history / research math). Logging is stdlib-only
+# (core/common/logging_config.py, deliberately
+# dependency-free).
+#
+# pyarrow is a TRANSITIVE runtime dep: pandas parquet I/O
+# in core/history/history_storage.py needs it at runtime
+# even though no module imports it directly -- do NOT
+# remove it without replacing parquet persistence.
+#
+# Phase 11C-R removals (verified zero code references):
+# aiohttp, orjson were listed but never imported.
+#
+# Phase 12 removal (verified zero importers repo-wide):
+# loguru was imported only by the orphaned core/logger.py
+# (quarantined to _archive/core_logger_orphaned_phase12.py;
+# nothing ever imported it). Uninstalling loguru changes
+# no code path.
+#
+# Test tool (pinned for reproducibility, Phase 11C-Q):
+# run the suite with `python -m pytest tests/ -q`.
+#
+# httpx pin corrected (Phase157). It said 0.27.2 while every
+# environment that produced evidence ran 0.28.1 -- a drift first
+# recorded in Phase132 and carried for many phases. The consequence
+# was not cosmetic: Phase134 found httpx 0.28 had removed the
+# `content` kwarg from Client.delete(), which silently broke order
+# cancellation (reports/PHASE134_ORDER_EXPERIMENT.md). The code now
+# supports BOTH versions through the request()-preferred /
+# delete()-fallback shim in core/exchanges/delta/delta_auth.py, so
+# the pin is set to the version the evidence was actually produced
+# under. Rationale and evidence: reports/DEPENDENCY_PIN_DRIFT_RESOLUTION.md.
+# The agreement between this file and the release record is now
+# enforced by tests/test_dependency_pin_contract.py.
+#
+# Dependency-environment step (Phase161). The three advisory upgrades
+# evaluated in reports/DEPENDENCY_UPGRADE_EVALUATION.md (isolated venv,
+# zero new failures) are now ADOPTED, and the release evidence was
+# re-derived under them -- the deliberate step BLOCK-160-06 declared as
+# its unblock. A fresh OSV query against the new pins clears the three
+# advisories (reports/PHASE161_OSV_SCAN.json; the adopted environment, the
+# evaluation basis, the transitive set and the residual-risk notes are
+# recorded in reports/PHASE161_DEPENDENCY_REVIEW.md and
+# reports/PHASE161_ENVIRONMENT.json). python-dotenv 1.0.1 -> 1.2.2,
+# pyarrow 18.0.0 -> 23.0.1 (parquet I/O; the dataset reconstruction and
+# the frozen pins were re-verified under it), pytest 8.4.2 -> 9.0.3
+# (test tool only); httpx 0.28.1 and websockets 12.0 are carried.
+# The agreement between this file and the release record is enforced by
+# tests/test_dependency_pin_contract.py.
+cryptography==46.0.4
+httpx==0.28.1
+websockets==12.0
+python-dotenv==1.2.2
+pandas==2.2.2
+numpy==2.1.1
+pyarrow==23.0.1
+pytest==9.0.3

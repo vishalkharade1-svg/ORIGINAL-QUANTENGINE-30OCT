@@ -1,0 +1,97 @@
+{
+  "phase": 166,
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is an active blocker or verified provenance status. None has been downgraded by wording, and no test was silenced to fabricate a passing suite.",
+  "blockers": [
+    {
+      "id": "BLOCK-166-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin historical strategy digest c52e648ca24f... and remain failing change detectors against this tree.",
+      "why": "The digest reflects the pre-Phase-4 baseline. Phase 165/166 decoupled Alpha Strategy Core (v1.1) from Runtime Infrastructure (v1.1) in core/research/strategy_identity.py. Legitimate recertification of the new versioned identities requires running the complete out-of-sample research pipeline.",
+      "effect": "The five historical tests remain red deliberately. Overwriting the pin without full pipeline execution would falsify research provenance.",
+      "unblock": "Operator re-execution of research pipeline with newly established versioned strategy identities.",
+      "evidence": [
+        "reports/PHASE165_STRATEGY_ARCHITECTURE_RECERTIFICATION.md",
+        "core/research/strategy_identity.py",
+        "tests/test_strategy_identity_separation_phase165.py"
+      ]
+    },
+    {
+      "id": "BLOCK-166-02",
+      "area": "Git-ancestry evidence facts",
+      "status": "VERIFIED_RECOVERED",
+      "what": "Original .git directory restored and verified in workspace root.",
+      "why": "Remote origin https://github.com/vishalkharade1-svg/quantengine-spring-41.git recovered. Tree identity 0d87d721... and commit ancestry connecting to acab874 and ffefa14 verified.",
+      "effect": "Git-dependent evidence tests execute directly against authentic Git commit database.",
+      "unblock": "RESOLVED in Phase 165/166.",
+      "evidence": [
+        "tests/test_git_evidence_mode_contract.py",
+        "reports/PHASE166_INDEPENDENT_VERIFICATION.md"
+      ]
+    },
+    {
+      "id": "BLOCK-166-03",
+      "area": "independent forensic audit",
+      "status": "COMPLETED_INDEPENDENT_REVIEW",
+      "what": "Detached vendor audit executed in Phase 164; verified independently in Phase 166.",
+      "why": "Independent technical audit report produced without self-serving bias.",
+      "effect": "Discharged technically; legal/regulatory compliance remains operator-controlled.",
+      "unblock": "RESOLVED in Phase 164/166.",
+      "evidence": [
+        "reports/PHASE166_INDEPENDENT_VERIFICATION.md"
+      ]
+    },
+    {
+      "id": "BLOCK-166-04",
+      "area": "old-account ADAUSD position closure",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "Old-account ADAUSD LONG 1 @ 0.23327 position closure remains UNVERIFIABLE from archive bytes alone.",
+      "why": "No authenticated exchange capture artifact of the historical closure transaction exists in the package.",
+      "effect": "Cannot be marked closed without authentic venue capture.",
+      "unblock": "Obtain and archive an authenticated Delta exchange order/fill capture showing closure.",
+      "evidence": [
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "NEXT_ACTIONS.md"
+      ]
+    },
+    {
+      "id": "BLOCK-166-05",
+      "area": "funding-through-settlement raw debit payload",
+      "status": "UNVERIFIABLE_EXTERNAL",
+      "what": "Raw settlement cashflow debit is not independently verified in archive capture bytes.",
+      "why": "hold_log.jsonl records funding_rate: 'None' and only funding_rows: 1, lacking raw debit transaction payload.",
+      "effect": "Settlement debit remains UNVERIFIABLE from raw capture bytes alone.",
+      "unblock": "Execute authenticated capture capturing raw exchange funding transaction JSON payload with non-null rate and verified debit.",
+      "evidence": [
+        "research/captures/phase148_funding/hold_log.jsonl",
+        "reports/PHASE162_CAPTURE_REPORT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-166-06",
+      "area": "repeat-match WebSocket fill certification",
+      "status": "PARTIAL_MATCHED_WINDOWED",
+      "what": "Candidate B achieved MATCHED_WINDOWED, which is not full MATCHED certification.",
+      "why": "12 pre-window fills had unaligned market-friction observations and websocket sequences were null.",
+      "effect": "Repeat-match certification remains partial.",
+      "unblock": "Execute private WebSocket capture on fresh account state with non-null sequence IDs and complete friction binding.",
+      "evidence": [
+        "research/captures/phase162_recon/recon_experiment_report.json",
+        "reports/PHASE162_CAPTURE_REPORT.md"
+      ]
+    }
+  ],
+  "standing_findings": [
+    {
+      "id": "FIND-166-01",
+      "finding": "EDGE NOT ESTABLISHED",
+      "statement": "No economic edge is established for any strategy revision. QuantEngine Phase 166 provides empirical protocol evidence, risk controls, and integrity verification, not profitability."
+    },
+    {
+      "id": "FIND-166-02",
+      "finding": "restricted evidence package",
+      "statement": "This archive deliberately contains raw private captures carrying the operator's account identifier and venue order ids. It is a restricted evidence package, not cleared for public publication."
+    }
+  ]
+}

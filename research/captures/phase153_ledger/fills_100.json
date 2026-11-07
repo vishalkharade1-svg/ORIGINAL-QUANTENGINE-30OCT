@@ -1,0 +1,1629 @@
+[
+ {
+  "commission": "0.04369839",
+  "created_at": "2026-10-16T08:53:02.209942Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "34443e96abf34443819f946a5517b77b",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82305.78361649",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "34443e96abf34443819f946a5517b77b",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "realized_pnl": "-0.00400000",
+    "size": 0,
+    "total_commission_paid": "0.087398900000000000"
+   },
+   "order_price": "82294.5",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.048553755",
+   "rack_commission_without_gst": "0.04114725",
+   "source": "api",
+   "spot": "82312.1",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04369839",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.2945",
+  "order_id": "2175504565",
+  "price": "82294.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.04370051",
+  "created_at": "2026-10-16T08:53:01.639895Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "b2c345b59fee49e78e8274dd4dd1c46b",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82303.7837481",
+   "new_position": {
+    "bankruptcy_price": "74068.65000000",
+    "commission": "0.04855923241137900000000000000",
+    "entry_price": "82298.50000000",
+    "last_fill_uuid": "b2c345b59fee49e78e8274dd4dd1c46b",
+    "liquidation_price": "74274.39625000",
+    "margin": "8.22985000",
+    "size": 1,
+    "total_commission_paid": "0.043700510000000000"
+   },
+   "order_price": "82298.5",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.048556115",
+   "rack_commission_without_gst": "0.04114925",
+   "source": "api",
+   "spot": "82309.2",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04370051",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.2985",
+  "order_id": "2175504564",
+  "price": "82298.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.05694816",
+  "created_at": "2026-10-16T08:52:30.810287Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "5566c5dbdb9f44d6a5a6cea313ea8e05",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "107.46497523",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "5566c5dbdb9f44d6a5a6cea313ea8e05",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "realized_pnl": "-0.43000000",
+    "size": 0,
+    "total_commission_paid": "0.114124650000000000"
+   },
+   "order_price": "107.247",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.06327573",
+   "rack_commission_without_gst": "0.0536235",
+   "source": "api",
+   "spot": "106.936",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.05694816",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "107.247",
+  "order_id": "2175504548",
+  "price": "107.247",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "SOL",
+   "contract_value": "1",
+   "id": 92572,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DESOLUSD"
+   },
+   "symbol": "SOLUSD",
+   "tick_size": "0.0001",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "SOL"
+   }
+  },
+  "product_id": 92572,
+  "product_symbol": "SOLUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.05717649",
+  "created_at": "2026-10-16T08:50:26.969067Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "7ad2b1601cc64ee1820b4a91f6b1f665",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "107.51024083",
+   "new_position": {
+    "bankruptcy_price": "96.90930000",
+    "commission": "0.06352943000000000000000000000",
+    "entry_price": "107.67700000",
+    "last_fill_uuid": "7ad2b1601cc64ee1820b4a91f6b1f665",
+    "liquidation_price": "97.98607000",
+    "margin": "10.76770000",
+    "size": 1,
+    "total_commission_paid": "0.057176490000000000"
+   },
+   "order_price": "107.677",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.06352943",
+   "rack_commission_without_gst": "0.0538385",
+   "source": "api",
+   "spot": "106.971",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.05717649",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "107.677",
+  "order_id": "2175504425",
+  "price": "107.677",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "SOL",
+   "contract_value": "1",
+   "id": 92572,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DESOLUSD"
+   },
+   "symbol": "SOLUSD",
+   "tick_size": "0.0001",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "SOL"
+   }
+  },
+  "product_id": 92572,
+  "product_symbol": "SOLUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.0174853",
+  "created_at": "2026-10-16T08:50:04.405801Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "98f5f938250b4e9198ba7398ecd33125",
+  "meta_data": {
+   "effective_commission_rate": "0.00018",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82327.04882642",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "98f5f938250b4e9198ba7398ecd33125",
+    "liquidation_price": null,
+    "margin": "-0.00000000",
+    "realized_pnl": "-0.00700000",
+    "size": 0,
+    "total_commission_paid": "0.061194840000000000"
+   },
+   "order_price": "82322.5",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.01942811",
+   "rack_commission_without_gst": "0.0164645",
+   "source": "api",
+   "spot": "82337.8",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.0174853",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.3225",
+  "order_id": "2175504399",
+  "price": "82322.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "maker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.04370954",
+  "created_at": "2026-10-16T08:49:44.867626Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "2ac5c4f043a743fb9a16c0cbf1feb5b4",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82374.56075582",
+   "new_position": {
+    "bankruptcy_price": "90547.05000000",
+    "commission": "0.05342275950000000000000000000",
+    "entry_price": "82315.50000000",
+    "last_fill_uuid": "2ac5c4f043a743fb9a16c0cbf1feb5b4",
+    "liquidation_price": "90341.26125000",
+    "margin": "8.23155000",
+    "size": -1,
+    "total_commission_paid": "0.043709540000000000"
+   },
+   "order_price": "0.1",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.048566145",
+   "rack_commission_without_gst": "0.04115775",
+   "source": "api",
+   "spot": "82336.4",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04370954",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.3155",
+  "order_id": "2175504379",
+  "price": "82315.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.04371299",
+  "created_at": "2026-10-16T08:49:36.004449Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "a64af8039b3a4675924f6d5fcc0f32df",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82398.44045278",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "a64af8039b3a4675924f6d5fcc0f32df",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "realized_pnl": "-0.32220000",
+    "size": 0,
+    "total_commission_paid": "0.087597070000000000"
+   },
+   "order_price": "82322",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.04856998",
+   "rack_commission_without_gst": "0.041161",
+   "source": "api",
+   "spot": "82338.6",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04371299",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.322",
+  "order_id": "2175504369",
+  "price": "82322",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.04388408",
+  "created_at": "2026-10-16T08:45:15.261966Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "b86f5f11ec5943a08eb7162767a01ff1",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82406.34608785",
+   "new_position": {
+    "bankruptcy_price": "74379.78000000",
+    "commission": "0.04876007800000000000000000000",
+    "entry_price": "82644.20000000",
+    "last_fill_uuid": "b86f5f11ec5943a08eb7162767a01ff1",
+    "liquidation_price": "74586.39050000",
+    "margin": "8.26442000",
+    "size": 1,
+    "total_commission_paid": "0.043884080000000000"
+   },
+   "order_price": "164810.6",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.048760078",
+   "rack_commission_without_gst": "0.0413221",
+   "source": "api",
+   "spot": "82331.4",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04388408",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.6442",
+  "order_id": "2175504062",
+  "price": "82644.2",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.04365617",
+  "created_at": "2026-10-16T08:29:13.537796Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "8a1acae2175246d09afa907c955d7ddd",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82219.90864188",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "8a1acae2175246d09afa907c955d7ddd",
+    "liquidation_price": null,
+    "margin": "-0.00000000",
+    "realized_pnl": "-0.07350000",
+    "size": 0,
+    "total_commission_paid": "0.087273320000000000"
+   },
+   "order_price": "90355.65",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.04850685",
+   "rack_commission_without_gst": "0.0411075",
+   "source": "api",
+   "spot": "82226.6",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04365617",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.215",
+  "order_id": "2175502985",
+  "price": "82215",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.04361715",
+  "created_at": "2026-10-16T08:24:59.441830Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "fd253de0f85a4856a3fcc033db9a3709",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82155.06742855",
+   "new_position": {
+    "bankruptcy_price": "90355.65000000",
+    "commission": "0.05330983350000000000000000000",
+    "entry_price": "82141.50000000",
+    "last_fill_uuid": "fd253de0f85a4856a3fcc033db9a3709",
+    "liquidation_price": "90150.29625000",
+    "margin": "8.21415000",
+    "size": -1,
+    "total_commission_paid": "0.043617150000000000"
+   },
+   "order_price": "0.1",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.048463485",
+   "rack_commission_without_gst": "0.04107075",
+   "source": "api",
+   "spot": "82165.8",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04361715",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.1415",
+  "order_id": "2175502774",
+  "price": "82141.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.01745928",
+  "created_at": "2026-10-16T08:20:25.972840Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "d36812aa9a1d4e4b81ec78a4f0893b34",
+  "meta_data": {
+   "effective_commission_rate": "0.00018",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82209.39366873",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "d36812aa9a1d4e4b81ec78a4f0893b34",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "realized_pnl": "0.05850000",
+    "size": 0,
+    "total_commission_paid": "0.061076430000000000"
+   },
+   "order_price": "82200",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.0193992",
+   "rack_commission_without_gst": "0.01644",
+   "source": "api",
+   "spot": "82220.6",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01745928",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.2",
+  "order_id": "2175502494",
+  "price": "82200",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "maker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.04361715",
+  "created_at": "2026-10-16T08:19:45.982046Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "5c60bb9dc23d452f93107a4b49e4729e",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.7.119",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82139.70631837",
+   "new_position": {
+    "bankruptcy_price": "73927.35000000",
+    "commission": "0.04846348500000000000000000000",
+    "entry_price": "82141.50000000",
+    "last_fill_uuid": "5c60bb9dc23d452f93107a4b49e4729e",
+    "liquidation_price": "74132.70375000",
+    "margin": "8.21415000",
+    "size": 1,
+    "total_commission_paid": "0.043617150000000000"
+   },
+   "order_price": "164307.3",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.048463485",
+   "rack_commission_without_gst": "0.04107075",
+   "source": "api",
+   "spot": "82158.1",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.04361715",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.1415",
+  "order_id": "2175502442",
+  "price": "82141.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.01752141",
+  "created_at": "2026-10-15T19:07:21.663106Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "e16d4e1842b843139700c4f79b209550",
+  "meta_data": {
+   "effective_commission_rate": "0.00018",
+   "ip": "157.33.197.21",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82491.89344154",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "e16d4e1842b843139700c4f79b209550",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "realized_pnl": "-0.00400000",
+    "size": 0,
+    "total_commission_paid": "0.035043670000000000"
+   },
+   "order_price": "82492.5",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.01946823",
+   "rack_commission_without_gst": "0.0164985",
+   "source": "api",
+   "spot": "82512.1",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01752141",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.4925",
+  "order_id": "2175475319",
+  "price": "82492.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "maker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.01752226",
+  "created_at": "2026-10-15T19:07:07.425886Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "b1732151f4db45fb8ce7c41602551b41",
+  "meta_data": {
+   "effective_commission_rate": "0.00018",
+   "ip": "157.33.197.21",
+   "is_commission_on_notional": true,
+   "leverage": "10",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "82491.24724954",
+   "new_position": {
+    "bankruptcy_price": "74246.85000000",
+    "commission": "0.04867293500000000000000000000",
+    "entry_price": "82496.50000000",
+    "last_fill_uuid": "b1732151f4db45fb8ce7c41602551b41",
+    "liquidation_price": "74453.09125000",
+    "margin": "8.24965000",
+    "size": 1,
+    "total_commission_paid": "0.017522260000000000"
+   },
+   "order_price": "82496.5",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.019469174",
+   "rack_commission_without_gst": "0.0164993",
+   "source": "api",
+   "spot": "82514.4",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01752226",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "82.4965",
+  "order_id": "2175475317",
+  "price": "82496.5",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "BTC",
+   "contract_value": "0.001",
+   "id": 84,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEXBTUSD"
+   },
+   "symbol": "BTCUSD",
+   "tick_size": "0.1",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 8,
+    "symbol": "BTC"
+   }
+  },
+  "product_id": 84,
+  "product_symbol": "BTCUSD",
+  "role": "maker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.01294128",
+  "created_at": "2026-10-15T18:28:05.777722Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "2e6868a17342451d8f603cf3b63955a9",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "157.33.197.21",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2437.24420604",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "2e6868a17342451d8f603cf3b63955a9",
+    "liquidation_price": null,
+    "margin": "-0.00000000",
+    "realized_pnl": "0.01100000",
+    "size": 0,
+    "total_commission_paid": "0.025888400000000000"
+   },
+   "order_price": "2437.35",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.014379185",
+   "rack_commission_without_gst": "0.01218575",
+   "source": "api",
+   "spot": "2438.06",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01294128",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.3715",
+  "order_id": "2175473702",
+  "price": "2437.15",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.01294712",
+  "created_at": "2026-10-15T18:27:46.950163Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "49bf89202eae4189bb36d6ae5d1a351c",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "157.33.197.21",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2438.09841592",
+   "new_position": {
+    "bankruptcy_price": "2925.90000000",
+    "commission": "0.01726281000000000000000000000",
+    "entry_price": "2438.25000000",
+    "last_fill_uuid": "49bf89202eae4189bb36d6ae5d1a351c",
+    "liquidation_price": "2913.70875000",
+    "margin": "4.87650000",
+    "size": -1,
+    "total_commission_paid": "0.012947120000000000"
+   },
+   "order_price": "0.05",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.014385675",
+   "rack_commission_without_gst": "0.01219125",
+   "source": "api",
+   "spot": "2439.18",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01294712",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.3825",
+  "order_id": "2175473683",
+  "price": "2438.25",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.01293623",
+  "created_at": "2026-10-15T18:21:15.463172Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "7a0aaf609fb74b419d64188042744a9b",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "157.33.197.21",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2436.06174459",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "7a0aaf609fb74b419d64188042744a9b",
+    "liquidation_price": null,
+    "margin": "-0.00000000",
+    "realized_pnl": "0.00200000",
+    "size": 0,
+    "total_commission_paid": "0.025873520000000000"
+   },
+   "order_price": "2436.3",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.01437358",
+   "rack_commission_without_gst": "0.012181",
+   "source": "api",
+   "spot": "2437.09",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01293623",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.362",
+  "order_id": "2175473350",
+  "price": "2436.2",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.01293729",
+  "created_at": "2026-10-15T18:21:04.102625Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "d368f0765fc649aba5c280a04ee23d79",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "157.33.197.21",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2436.23612279",
+   "new_position": {
+    "bankruptcy_price": "2923.68000000",
+    "commission": "0.01724971200000000000000000000",
+    "entry_price": "2436.40000000",
+    "last_fill_uuid": "d368f0765fc649aba5c280a04ee23d79",
+    "liquidation_price": "2911.49800000",
+    "margin": "4.87280000",
+    "size": -1,
+    "total_commission_paid": "0.012937290000000000"
+   },
+   "order_price": "2436.4",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.01437476",
+   "rack_commission_without_gst": "0.012182",
+   "source": "api",
+   "spot": "2437.29",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01293729",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.364",
+  "order_id": "2175473344",
+  "price": "2436.4",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.00517906",
+  "created_at": "2026-10-15T17:13:18.415032Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "c215396c32bc4af38a247c4c8d2b2fd7",
+  "meta_data": {
+   "effective_commission_rate": "0.00018",
+   "ip": "152.58.15.76",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2438.25970683",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "c215396c32bc4af38a247c4c8d2b2fd7",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "size": 0,
+    "total_commission_paid": "0.018126710000000000"
+   },
+   "order_price": "2438.35",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.005754506",
+   "rack_commission_without_gst": "0.0048767",
+   "source": "api",
+   "spot": "2439.46",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.00517906",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.3835",
+  "order_id": "2175468648",
+  "price": "2438.35",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "maker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.01294765",
+  "created_at": "2026-10-15T17:12:24.459508Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "bdb1d3d9a74b4ceca009e03c78a5c713",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.15.76",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2438.58457079",
+   "new_position": {
+    "bankruptcy_price": "1950.68000000",
+    "commission": "0.01438764896766100000000000000",
+    "entry_price": "2438.35000000",
+    "last_fill_uuid": "bdb1d3d9a74b4ceca009e03c78a5c713",
+    "liquidation_price": "1962.87175000",
+    "margin": "4.87670000",
+    "size": 1,
+    "total_commission_paid": "0.012947650000000000"
+   },
+   "order_price": "4876.7",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.014386265",
+   "rack_commission_without_gst": "0.01219175",
+   "source": "api",
+   "spot": "2439.69",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01294765",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.3835",
+  "order_id": "2175468633",
+  "price": "2438.35",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ },
+ {
+  "commission": "0.01294472",
+  "created_at": "2026-10-15T17:12:08.726451Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "ee1f35852365461c9c78ac02693ab2db",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.15.76",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2437.96969463",
+   "new_position": {
+    "bankruptcy_price": null,
+    "commission": "0.000000000000000000",
+    "last_fill_uuid": "ee1f35852365461c9c78ac02693ab2db",
+    "liquidation_price": null,
+    "margin": "0.00000000",
+    "realized_pnl": "-0.01150000",
+    "size": 0,
+    "total_commission_paid": "0.025895560000000000"
+   },
+   "order_price": "1951.16",
+   "order_size": "1",
+   "order_type": "market_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.01438302",
+   "rack_commission_without_gst": "0.012189",
+   "source": "api",
+   "spot": "2438.78",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01294472",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.378",
+  "order_id": "2175468617",
+  "price": "2437.8",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "sell",
+  "size": "1"
+ },
+ {
+  "commission": "0.01295084",
+  "created_at": "2026-10-15T17:11:59.840235Z",
+  "credits_used": "0",
+  "fill_type": "normal",
+  "id": "9c35a15804b94cf8865c6c9dca0854c0",
+  "meta_data": {
+   "effective_commission_rate": "0.00045",
+   "ip": "152.58.15.76",
+   "is_commission_on_notional": true,
+   "leverage": "5",
+   "liquidation_fee_in_settling_asset": "0",
+   "mark": "2438.92156472",
+   "new_position": {
+    "bankruptcy_price": "1951.16000000",
+    "commission": "0.01438980500000000000000000000",
+    "entry_price": "2438.95000000",
+    "last_fill_uuid": "9c35a15804b94cf8865c6c9dca0854c0",
+    "liquidation_price": "1963.35475000",
+    "margin": "4.87790000",
+    "size": 1,
+    "total_commission_paid": "0.012950840000000000"
+   },
+   "order_price": "2439.3",
+   "order_size": "1",
+   "order_type": "limit_order",
+   "order_unfilled_size": "0",
+   "rack_commision": "0.014389805",
+   "rack_commission_without_gst": "0.01219475",
+   "source": "api",
+   "spot": "2439.83",
+   "tfc_used_for_commission": "0",
+   "tfc_used_for_liquidation_fee": "-0",
+   "total_commission_in_settling_asset": "0.01295084",
+   "total_liquidation_fee_in_settling_asset": "-0"
+  },
+  "notional": "24.3895",
+  "order_id": "2175468602",
+  "price": "2438.95",
+  "product": {
+   "contract_type": "perpetual_futures",
+   "contract_unit_currency": "ETH",
+   "contract_value": "0.01",
+   "id": 1699,
+   "notional_type": "vanilla",
+   "quoting_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "settling_asset": {
+    "minimum_precision": 2,
+    "precision": 8,
+    "symbol": "USD"
+   },
+   "spot_index": {
+    "symbol": ".DEETHUSD"
+   },
+   "symbol": "ETHUSD",
+   "tick_size": "0.05",
+   "underlying_asset": {
+    "minimum_precision": 4,
+    "precision": 18,
+    "symbol": "ETH"
+   }
+  },
+  "product_id": 1699,
+  "product_symbol": "ETHUSD",
+  "role": "taker",
+  "settling_asset_id": 3,
+  "settling_asset_symbol": "USD",
+  "side": "buy",
+  "size": "1"
+ }
+]

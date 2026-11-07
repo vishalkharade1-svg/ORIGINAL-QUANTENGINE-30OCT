@@ -1,0 +1,26 @@
+{
+  "current_oos_evidence":{
+    "completed_fills":3,
+    "dataset_identity":"520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+    "fresh_bars":30247,
+    "required_fills":60,
+    "required_fresh_bars":300000,
+    "status":"OOS_BLOCKED"
+  },
+  "limitations":[
+    "external Delta DNS/network unavailable in execution environment",
+    "historical Phase-17 fixtures absent from supplied snapshot"
+  ],
+  "operator_contract":{
+    "conflicting_duplicate_policy":"FAIL_CLOSED",
+    "explicit_end_timestamp_required":true,
+    "gap_filling":false,
+    "interpolation":false,
+    "provenance_required":true,
+    "wall_clock_in_operator":false
+  },
+  "phase":"34",
+  "production_ready":false,
+  "schema_version":"phase34-v1",
+  "title":"deterministic_oos_acquisition_anchor"
+}

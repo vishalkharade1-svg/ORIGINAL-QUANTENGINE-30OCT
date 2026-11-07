@@ -1,0 +1,105 @@
+{
+  "phase": 162,
+  "generated_for": "QuantEngine_PHASE162_RELEASE_CANDIDATE.zip",
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is a blocker that Phase 162 did NOT resolve, each with the reason it cannot be resolved from inside this archive. None has been downgraded by wording, and none is a test that was silenced to make the suite look better. All carried blockers stand explicitly recorded with true evidence status.",
+  "blockers": [
+    {
+      "id": "BLOCK-162-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin strategy digest c52e648ca24f... (full value c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6 in the tests themselves) and still FAIL against this tree.",
+      "why": "The digest matches no revision recoverable from this archive, from any archive on disk (Phase131..Phase161), or from the original upload. The documented contract in scripts/recertify_strategy_digest.py states the re-certification requires the original Git checkout plus a research re-execution it cannot perform here; it returns STATUS: BLOCKED.",
+      "effect": "The five tests are correct change detectors and stay red on purpose. Re-pinning them to the current bytes would destroy the only evidence that the strategy changed; no phase has done that, and this cycle maintains them intact.",
+      "unblock": "Recover the original Git history and re-execute the research path, then run the documented re-certification.",
+      "evidence": [
+        "reports/PHASE158_HASH_FAILURE_TRIAGE.json",
+        "reports/PHASE161_FULL_SUITE_RUN.txt",
+        "reports/PHASE162_STRATEGY_IDENTITY.md",
+        "scripts/recertify_strategy_digest.py"
+      ]
+    },
+    {
+      "id": "BLOCK-162-02",
+      "area": "Git-ancestry evidence facts",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "40 Git-dependent facts are gated as BLOCKED_EVIDENCE: 19 that failed loudly in Phase157 and 21 that had been passing VACUOUSLY (a failed git command returns empty output, which satisfied assertEqual(out, \"\") / assertEqual(hits, [])).",
+      "why": "No .git directory exists anywhere in this tree or in any archive delivered to it, so Git ancestry cannot be established in archive mode. The record was refreshed for this phase (reports/PHASE162_GIT_EVIDENCE_STATUS.json) with the fact set carried byte-for-byte from the Phase161 record.",
+      "effect": "The release gate for ancestry stays BLOCKED, exactly as the Phase 2 requirement demands. The guard (tests/evidence_mode.py) steps aside in a real repository and was verified against a throwaway temp repo.",
+      "unblock": "Deliver the project as a real Git repository (or record these facts as permanently inapplicable by an explicit contract change).",
+      "evidence": [
+        "reports/PHASE162_GIT_EVIDENCE_STATUS.json",
+        "tests/evidence_mode.py",
+        "tests/test_git_evidence_mode_contract.py"
+      ]
+    },
+    {
+      "id": "BLOCK-162-03",
+      "area": "independent forensic audit (vendor independence)",
+      "status": "PENDING_EXTERNAL_REVIEW",
+      "what": "A vendor independent audit requires an auditor who did not build, repair, or ship the bytes.",
+      "why": "Self-audit independence is by process only -- the entity that produced the artifact cannot be independent of it by vendor.",
+      "effect": "No self-produced report may be read as independent verification.",
+      "unblock": "Prepare the Phase 162 handoff and hand the delivery to an independent auditor; record the result.",
+      "evidence": [
+        "docs/BUILD_HANDOFF_PHASE162.md",
+        "docs/CLAUDE_PHASE162_INDEPENDENT_AUDIT_PROMPT.md",
+        "reports/PHASE162_RELEASE_GATES.json"
+      ]
+    },
+    {
+      "id": "BLOCK-162-04",
+      "area": "old-account ADAUSD position",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "The old-account ADAUSD LONG 1 @ 0.23327 position remains UNVERIFIABLE from the archive.",
+      "why": "Operator word-of-mouth reported closure post-seal of Phase 161, but no authenticated exchange capture artifact of the closure transaction exists in the package.",
+      "effect": "Cannot be marked closed without an authentic venue capture. Gated as BLOCKED_EXTERNAL / UNVERIFIABLE.",
+      "unblock": "Obtain and archive an authenticated Delta exchange order/fill capture showing the closure of the old-account ADAUSD position.",
+      "evidence": [
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "NEXT_ACTIONS.md"
+      ]
+    },
+    {
+      "id": "BLOCK-162-05",
+      "area": "funding-through-settlement raw debit payload",
+      "status": "UNVERIFIABLE_EXTERNAL",
+      "what": "Candidate A demonstrated hold across settlement, but raw settlement cashflow debit is not verified in the capture bytes.",
+      "why": "The raw capture hold_log.jsonl records funding_rate_pre/post: 'None' and records only funding_rows count 1. The transaction UUID and debit amount appear in report prose via theoretical calculation, but are missing from the raw capture payload itself.",
+      "effect": "Gate funding_through_settlement_evidence cannot pass unconditionally. It is UNVERIFIABLE from raw capture bytes alone.",
+      "unblock": "Execute an authenticated capture capturing the raw exchange funding transaction JSON payload with non-null funding rate and verified cashflow debit.",
+      "evidence": [
+        "research/captures/phase148_funding/hold_log.jsonl",
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "reports/PHASE162_ACCOUNTING_RECOVERY_AUDIT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-162-06",
+      "area": "repeat-match WebSocket fill certification",
+      "status": "PARTIAL_MATCHED_WINDOWED",
+      "what": "Candidate B achieved MATCHED_WINDOWED (2/2 in-window fills matched), which is not full MATCHED certification under execution_economics_certification.py.",
+      "why": "The capture contains 12 pre-window fills that trigger 'ValueError: no aligned market-friction observation', and websocket_first_seq / last_seq are null.",
+      "effect": "Repeat-match certification remains partial (MATCHED_WINDOWED only).",
+      "unblock": "Execute a private WebSocket capture on a fresh account state without pre-window fills, capturing non-null sequence IDs and complete friction binding.",
+      "evidence": [
+        "research/captures/phase162_recon/recon_experiment_report.json",
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "reports/PHASE162_ACCOUNTING_RECOVERY_AUDIT.md"
+      ]
+    }
+  ],
+  "closed_this_cycle": [],
+  "standing_findings": [
+    {
+      "id": "FIND-162-01",
+      "finding": "EDGE NOT ESTABLISHED",
+      "statement": "No economic edge is established for any strategy revision. This is unchanged by Phase 162 and must be restated in any handoff: the release work provides empirical protocol evidence and integrity verification, not profitability."
+    },
+    {
+      "id": "FIND-162-02",
+      "finding": "restricted evidence package",
+      "statement": "This archive deliberately contains raw private captures carrying the operator's account identifier and venue order ids (the value is parameterised in scripts/security/scan_privacy.py and appears nowhere but those captures). It is a restricted evidence package, not a distributable. See reports/PHASE162_PRIVACY_REVIEW.md. Every member is content-inspected or a declared opaque class."
+    }
+  ]
+}

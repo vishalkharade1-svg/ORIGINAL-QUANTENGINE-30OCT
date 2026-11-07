@@ -1,0 +1,35 @@
+{
+  "phase": "11F",
+  "stage": "ARCHITECTURE_READY",
+  "note": "Preparation manifest only. NOT the final D3-opening freeze. No candidate research executed; D3 remains SEALED.",
+  "phase11e_control": "FROZEN",
+  "production_strategy": "FROZEN",
+  "production_strategy_name": "BREAKOUT_CONTINUATION",
+  "live": "DISABLED",
+  "d3_status": "SEALED",
+  "git_head": "dbf210ebebd20494d38fdf8ebda76685063ac0ee",
+  "research_protocol_version": "11F-1.0",
+  "cost_protocol_version": "11F-costs-A/B/C/D-v1",
+  "execution_protocol_version": "11F-exec-LIMIT_RETEST-v1",
+  "hypotheses": 8,
+  "research_executed": false,
+  "d3_opened": false,
+  "sha256": {
+    "hypotheses.json": "348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005",
+    "datasets.json": "411eaa45d7ab746407d3199b660db80ea53b9df989ba7b9f2bd3fc8634929f0a",
+    "research_log.json": "2d5ef3e0a24f447efe698830f812d2ec982cd820b9c7e69978c9d380cce31b46",
+    "candidates.py": "255d784f7d49741c5692eaa9cba0e9479d7b882390dd880940ef35f387449d29",
+    "features.py": "3faabbd74085c24a10ad9ae9e6905ac6b0b15f6114700b64d7a8d74af35ac6fe",
+    "fibonacci.py": "43d742a1059c1e2cdaf5ebf51f0b8a3dd269494c3e38eab54d8847a22c158cff",
+    "contracts.py": "75b600597499cdae5c0f685e1f1016e99a916e6b6cfe004306c243791336fec2",
+    "metrics.py": "53bb891c08138d88ab7c9874e6c1971fea5fbb7c34037966e1b781310db6082d",
+    "datasets.py": "7014ca0f30ef5b6cc44ab6f1b552a86832bbef6a964d5007fdbf995b038601e4",
+    "harness.py": "816da2c867299322e6895dc40a13bd73988332d4067127cd1f42e1d51ffcda0a",
+    "fetch_universe.py": "f9557e6eca28abe1ef4fc678e65e48c3439dd63cb457f998d346a8881e34e29c"
+  },
+  "amendments": [
+    {"id": "11F-4-A1", "file": "candidates.py",
+     "prior_sha256": "2a4bb8b2010e1a6def181d48998077e93840a279d41f73b0091c5eb5a073a4e8",
+     "reason": "prepare() wiped pend/last_* on every growing-feed rebuild, so stateful LIMIT-retest hypotheses (002/005/006/007) could never trigger in-harness. Fix preserves cross-bar state across same-dataset prefix-extension rebuilds (feature values prefix-stable per 11F-2). Economics, frozen params, features, costs untouched."}
+  ]
+}

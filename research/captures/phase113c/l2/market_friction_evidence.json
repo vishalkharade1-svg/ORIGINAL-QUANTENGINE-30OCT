@@ -1,0 +1,57 @@
+{
+  "alignment_ms": 1000,
+  "captured_at": "2026-10-11T08:38:00.002990+00:00",
+  "evidence_sha256": "c10c69381ac09a97891f4f6f0d0d013b92a0ed2903e1fbe5d088bc02333f48df",
+  "provenance_status": "REAL",
+  "samples": [
+    {
+      "best_ask": "2499.10",
+      "best_bid": "2499.00",
+      "midpoint": "2499.05",
+      "spread": "0.10",
+      "spread_bps": "0.4001520577819571437146115524",
+      "symbol": "ETHUSD",
+      "timestamp_ms": 1791707859571
+    },
+    {
+      "best_ask": "2499.10",
+      "best_bid": "2499.05",
+      "midpoint": "2499.075",
+      "spread": "0.05",
+      "spread_bps": "0.2000740273901343497093924752",
+      "symbol": "ETHUSD",
+      "timestamp_ms": 1791707864572
+    },
+    {
+      "best_ask": "2499.10",
+      "best_bid": "2499.05",
+      "midpoint": "2499.075",
+      "spread": "0.05",
+      "spread_bps": "0.2000740273901343497093924752",
+      "symbol": "ETHUSD",
+      "timestamp_ms": 1791707869573
+    },
+    {
+      "best_ask": "2499.10",
+      "best_bid": "2499.05",
+      "midpoint": "2499.075",
+      "spread": "0.05",
+      "spread_bps": "0.2000740273901343497093924752",
+      "symbol": "ETHUSD",
+      "timestamp_ms": 1791707874574
+    },
+    {
+      "best_ask": "2499.25",
+      "best_bid": "2499.15",
+      "midpoint": "2499.20",
+      "spread": "0.10",
+      "spread_bps": "0.4001280409731113956466069142",
+      "symbol": "ETHUSD",
+      "timestamp_ms": 1791707879575
+    }
+  ],
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "symbol": "ETHUSD",
+  "venue": "delta"
+}

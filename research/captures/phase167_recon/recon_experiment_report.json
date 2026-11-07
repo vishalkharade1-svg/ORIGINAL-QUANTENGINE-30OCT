@@ -1,0 +1,168 @@
+{
+  "capture_id": "exp-20261019T142604Z",
+  "cleanup": {
+    "cancelled": [],
+    "open_orders": 0,
+    "positions_flat": true
+  },
+  "environment": "india_testnet",
+  "fill_friction_binding": {
+    "bindings": [
+      {
+        "fill_id": "b1732151f4db45fb8ce7c41602551b41",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "e16d4e1842b843139700c4f79b209550",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "5c60bb9dc23d452f93107a4b49e4729e",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "d36812aa9a1d4e4b81ec78a4f0893b34",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "fd253de0f85a4856a3fcc033db9a3709",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "8a1acae2175246d09afa907c955d7ddd",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "b86f5f11ec5943a08eb7162767a01ff1",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "a64af8039b3a4675924f6d5fcc0f32df",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "2ac5c4f043a743fb9a16c0cbf1feb5b4",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "98f5f938250b4e9198ba7398ecd33125",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "b2c345b59fee49e78e8274dd4dd1c46b",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "34443e96abf34443819f946a5517b77b",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "d1c5c852d2904b9a8bd1ddf8131852fa",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "bceea400d432436086278effc0148c64",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "alignment_delta_ms": 208,
+        "fill_id": "363f258b62db43e39a99836029af87ac",
+        "reference_price": "82015.5",
+        "slippage": "0.0",
+        "slippage_bps": "0",
+        "status": "BOUND"
+      },
+      {
+        "alignment_delta_ms": 119,
+        "fill_id": "6dd5caa55bc44159bd89397ef9f55db8",
+        "reference_price": "82020.0",
+        "slippage": "0.0",
+        "slippage_bps": "0",
+        "status": "BOUND"
+      }
+    ],
+    "module_error": "ValueError: no aligned market-friction observation for fill b1732151f4db45fb8ce7c41602551b41",
+    "status": "WINDOWED_ANALYSIS"
+  },
+  "l2": {
+    "evidence_sha256": "5a2dc2fed8eed4d8621155c2fa4483350eb9f4edc4df18a8116257d16a079262",
+    "observations": 113,
+    "range_ms": [
+      1792419968771,
+      1792420043101
+    ],
+    "status": "CAPTURED"
+  },
+  "legs": [
+    {
+      "filled": true,
+      "n": 1,
+      "order_id": "2175761339",
+      "price": 82015.5,
+      "side": "buy"
+    },
+    {
+      "filled": true,
+      "n": 2,
+      "order_id": "2175761341",
+      "price": 82011.5,
+      "side": "sell"
+    }
+  ],
+  "mode": "execute",
+  "prechecks": {
+    "ask": 82011.5,
+    "bid": 82007.5,
+    "flat": true,
+    "product_id": 84
+  },
+  "production_ready": false,
+  "reconciliation": {
+    "claim": "window-scoped only: the in-window REST fill set matches the socket set exactly; out-of-window fills are classified, never reconciled",
+    "matched_fill_count": 2,
+    "matched_fill_ids": [
+      "363f258b62db43e39a99836029af87ac",
+      "6dd5caa55bc44159bd89397ef9f55db8"
+    ],
+    "post_window_fill_ids": [],
+    "pre_window_fill_ids": [
+      "2ac5c4f043a743fb9a16c0cbf1feb5b4",
+      "34443e96abf34443819f946a5517b77b",
+      "5c60bb9dc23d452f93107a4b49e4729e",
+      "8a1acae2175246d09afa907c955d7ddd",
+      "98f5f938250b4e9198ba7398ecd33125",
+      "a64af8039b3a4675924f6d5fcc0f32df",
+      "b1732151f4db45fb8ce7c41602551b41",
+      "b2c345b59fee49e78e8274dd4dd1c46b",
+      "b86f5f11ec5943a08eb7162767a01ff1",
+      "bceea400d432436086278effc0148c64",
+      "d1c5c852d2904b9a8bd1ddf8131852fa",
+      "d36812aa9a1d4e4b81ec78a4f0893b34",
+      "e16d4e1842b843139700c4f79b209550",
+      "fd253de0f85a4856a3fcc033db9a3709"
+    ],
+    "reconciliation_sha256": "af05356efe44894abcf50f34cbc0b04e8b830864ae61184ac61423cbb03b2ee9",
+    "rest_evidence_sha256": "087f1232e5fa8edbfe679a36fe4c60731e1875ff9823c711bf4e3c255a2e88e5",
+    "status": "MATCHED_WINDOWED",
+    "strict_reconciliation_attempt": {
+      "error": "ValueError: {\"mismatches\": [], \"missing_from_rest\": [], \"missing_from_ws\": [\"2ac5c4f043a743fb9a16c0cbf1feb5b4\", \"34443e96abf34443819f946a5517b77b\", \"5c60bb9dc23d452f93107a4b49e4729e\", \"8a1acae2175246d09afa907c955d7ddd\", \"98f5f938250b4e9198ba7398ecd33125\", \"a64af8039b3a4675924f6d5fcc0f32df\", \"b1732151f4db45fb8ce7c41602551b41\", \"b2c345b59fee49e78e8274dd4dd1c46b\", \"b86f5f11ec5943a08eb7162767a01ff1\", \"bceea400d432436086278effc0148c64\", \"d1c5c852d2904b9a8bd1ddf8131852fa\", \"d36812aa9a1d4e4b81ec78a4f0893b34\", \"e16d4e1842b843139700c4f79b209550\", \"fd253de0f85a4856a3fcc033db9a3709\"]}",
+      "status": "FAILED_STRICT"
+    },
+    "websocket_first_seq": null,
+    "websocket_last_seq": null,
+    "window_ms": {
+      "end": 1792419978695,
+      "start": 1792419977351
+    },
+    "window_source": "socket_fill_span"
+  },
+  "rest_fills": 16,
+  "schema": "quantengine.testnet-reconciled-experiment.v1",
+  "scrub_hits": 0,
+  "symbol": "BTCUSD",
+  "ws": {
+    "authenticated": true,
+    "frames": 4,
+    "listen_s": 75.2
+  }
+}

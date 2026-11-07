@@ -1,0 +1,32 @@
+{
+  "phase": 74,
+  "name": "historical market-friction binding",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "live_readiness": false,
+  "real_venue_capture": "NOT_EXECUTED",
+  "network_capture": "BLOCKED_DNS",
+  "implementation": [
+    "Added strict time-aligned market-friction evidence artifact.",
+    "Requires strictly ascending timestamps and contemporaneous best bid/ask.",
+    "Rejects crossed/locked books, malformed market state, and trade-only input.",
+    "Supports optional fill observations only when within explicit alignment window.",
+    "Computes quoted spread separately from executable fill slippage.",
+    "Adds deterministic artifact fingerprint and tamper verification.",
+    "Fixture provenance cannot be promoted to REAL by verification.",
+    "Economics certification now requires genuine historical friction evidence and still requires a separate realized-fill ledger."
+  ],
+  "tests": {
+    "phase74": 6,
+    "combined_economics": 47,
+    "failed": 0,
+    "compileall": "PASS"
+  },
+  "evidence_boundary": [
+    "Preserved Binance aggregate-trade data is genuine but is not Delta L2 evidence and was not promoted.",
+    "No time-aligned Delta historical L2 capture was available in the environment.",
+    "A point-in-time Delta orderbook snapshot remains insufficient for historical OOS spread/slippage certification.",
+    "No realized user-fill ledger was captured; economics certification remains BLOCKED."
+  ],
+  "next": "Acquire genuine time-aligned Delta orderbook/fill evidence, bind it to the exact OOS interval and venue identity, then run economics certification without substituting trade tape or snapshots."
+}

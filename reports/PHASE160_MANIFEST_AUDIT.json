@@ -1,0 +1,33 @@
+{
+  "phase": 160,
+  "what": "manifest regeneration and verification record for the Phase160 candidate",
+  "procedure": [
+    {
+      "step": 1,
+      "when": "2026-10-18, after every Phase160 record, document and test file was finalised (with reports/PHASE160_FULL_SUITE_RUN.txt in its registered pre-run stub form and reports/PHASE160_SOURCE_DIFF.json written immediately before this generation)",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1883,
+      "verification": "python scripts/generate_manifest.py --root . --verify -> MANIFEST_PASS (0 problems)"
+    },
+    {
+      "step": 2,
+      "when": "2026-10-18, immediately after this record itself was written (so these stages are covered too)",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1884,
+      "verification": "MANIFEST_PASS (0 problems)"
+    },
+    {
+      "step": 3,
+      "when": "2026-10-18, after the worktree full-suite run completed (5 failed, 4058 passed, 55 skipped in 2501.42s): reports/PHASE160_FULL_SUITE_RUN.txt was replaced by the real run log, this record's history was extended with the post-run regeneration, and both scanners were re-run green with the two late records present, exactly as declared up front before the run started",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1884,
+      "verification": "MANIFEST_PASS (0 problems), executed immediately before packing and then by scripts/build_release.py again over the quiesced tree (its frozen step 1-2); the focused contracts had been re-run green before the suite (72 passed, 2 skipped)"
+    }
+  ],
+  "planned_later_steps_declared_up_front": {
+    "why": "the frozen ordering rule requires that every file the manifest covers was finalised before the generation that covers it; the only files that change after the worktree suite runs are named here before the run, and they are the only reasons a further regeneration exists",
+    "step_3": "after the worktree full-suite run completes, reports/PHASE160_FULL_SUITE_RUN.txt is replaced with the real run log, this record's history is extended with the post-run regeneration, and both scanners are re-run green with the two late records present; BUILD_MANIFEST.sha256 is regenerated and verified again before anything is packed",
+    "step_4": "the packed archive therefore carries the manifest covering the real run log; the extracted-package run verifies it independently"
+  },
+  "statement": "BUILD_MANIFEST.sha256 is LF-only, self-excluded, byte-exact to a fresh generation, and every step above was verified MANIFEST_PASS at the time it was made."
+}

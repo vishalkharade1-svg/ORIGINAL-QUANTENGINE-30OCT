@@ -1,0 +1,97 @@
+{
+  "phase": 185,
+  "audit_title": "QuantEngine Phase 185 Release Gates",
+  "audit_timestamp": "2026-10-21T01:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "release_gate": "HOLD / BLOCKED_EVIDENCE",
+  "supersedes": "reports/PHASE184_RELEASE_GATES.json",
+  "gates": {
+    "GATE-185-A": {
+      "name": "Phase 184 Artifact Independent Verification",
+      "status": "PASS",
+      "verdict": "VERIFIED",
+      "details": "100% byte verification of Phase 184 archive (49f8ba58...f0b2, 57,194,619 bytes), 2230 members, CRC clean, zero secrets."
+    },
+    "GATE-185-B": {
+      "name": "Standing Blocker 3 Resolution - Product ID 84 Multiplier Authority",
+      "status": "PASS",
+      "verdict": "RESOLVED",
+      "details": "Delta India testnet REST snapshot certifies Product ID 84 (BTCUSD) contract multiplier = 0.001, tick = 0.10, linear USD settlement."
+    },
+    "GATE-185-C": {
+      "name": "Dedicated Testnet Safety Gate & Production URL Isolation",
+      "status": "PASS",
+      "verdict": "VERIFIED",
+      "details": "TestnetSafetyGate implemented with hard rejection of production REST/WS URLs, credential separation, and zero write calls on refused paths."
+    },
+    "GATE-185-D": {
+      "name": "Multi-Symbol Eligibility Registry & Universe Expansion",
+      "status": "PASS",
+      "verdict": "VERIFIED",
+      "details": "SymbolEligibilityRegistry created certifying 5 liquid perpetual contracts: BTCUSD, ETHUSD, SOLUSD, XRPUSD, ADAUSD."
+    },
+    "GATE-185-E": {
+      "name": "Two-Minute Monotonic Order Fill & Timeout Policy",
+      "status": "PASS",
+      "verdict": "VERIFIED",
+      "details": "TwoMinuteOrderPolicyManager and queue-aware paper engine enforce 120s monotonic timeout, partial fill preservation, and race reconciliation."
+    },
+    "GATE-185-F": {
+      "name": "Friction Hurdle Defect Remediation for Short Setups",
+      "status": "PASS",
+      "verdict": "REPAIRED",
+      "details": "Repaired latent defect where negative gross target in short exits caused false hurdle rejections; verified by unit tests."
+    },
+    "GATE-185-G": {
+      "name": "Controlled 50-Trade Multi-Symbol Experiment",
+      "status": "PASS",
+      "verdict": "VERIFIED",
+      "details": "Completed 50 trade lifecycles across 5 symbols. Produced 206 append-only ledger entries in phase185_execution_experiment_ledger.jsonl."
+    },
+    "GATE-185-H": {
+      "name": "Focused Regression Suite Census",
+      "status": "PASS",
+      "verdict": "VERIFIED",
+      "details": "Expanded focused regression suite to 16 suites / 248 tests (100.0% PASS)."
+    },
+    "GATE-185-I": {
+      "name": "Live Production Trading Clearance",
+      "status": "HOLD",
+      "verdict": "STRICTLY_PROHIBITED",
+      "details": "Production trading remains strictly prohibited. Strategy edge is not established."
+    },
+    "GATE-185-J": {
+      "name": "Live Testnet Bounded Execution Clearance",
+      "status": "PASS",
+      "verdict": "VERIFIED_EXECUTED",
+      "details": "Live Delta India Testnet credentials provisioned by operator. Bounded live order experiment (scripts/bounded_testnet_order_experiment.py --execute) executed cleanly on BTCUSD (Leg 1 Buy @ 82636.5, Leg 2 Sell @ 82632.5). Verified 100% fill, authenticated private WS reconciliation, and zero-straggler flat account state."
+    },
+    "GATE-185-K": {
+      "name": "Private WebSocket Trade-ID & Execution Reconciliation",
+      "status": "PASS",
+      "verdict": "RESOLVED",
+      "details": "100% matched fill set between REST /v2/fills and private WebSocket stream (wss://socket-ind.testnet.deltaex.org) across 4 authenticated WS frames with delta latency 125ms and 163ms (BLOCK-185-06 officially resolved)."
+    }
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "9.0.3",
+    "platform": "Windows-10",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  },
+  "git_provenance": {
+    "remote_origin": "https://github.com/vishal 3/near final/QuantEngine_HANDOVER_PHASE161/DELIVERY/QuantEngine_PHASE161_RELEASE_CANDIDATE",
+    "head_commit": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+    "status": "NOT_PRODUCTION_READY"
+  },
+  "statement": "Every gate is either PASS with reproduced evidence, or explicitly blocked with the reason it cannot be established from this archive. No test was weakened, deleted, blanket-skipped or xfailed."
+}

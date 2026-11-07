@@ -1,0 +1,203 @@
+{
+  "dataset": {
+    "end": 1790427360,
+    "identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+    "row_provenance_identity": "2b07b61a2f6716430ea66e5938ed0ffd1f899538d8e6c560d61bca4401666c9c",
+    "rows": 30247,
+    "start": 1788601500
+  },
+  "is_production_ready": false,
+  "limitations": [
+    "No current 9L hypothesis is preregistered; this snapshot does not execute or validate a hypothesis.",
+    "Only 3 completed trades are available against the 60-trade 9M minimum.",
+    "No new network data was used; source freshness remains an operator prerequisite.",
+    "Microstructure evidence is unavailable from the current OHLCV dataset.",
+    "Repository-wide certification remains unverified for the supplied ZIP because historical fixtures/ancestry are absent."
+  ],
+  "name": "Deterministic current OOS readiness snapshot",
+  "observed_execution": {
+    "completed_trades": 3,
+    "losses": 2,
+    "orders": 21,
+    "wins": 1
+  },
+  "phase": 33,
+  "production_ready": false,
+  "purpose": "Bind current genuine OOS data, provenance, quality, and existing readiness gates into one deterministic research snapshot.",
+  "quality": {
+    "activity": {
+      "flat_bars": 28805,
+      "flat_pct": 0.95232585049757,
+      "flat_provenance": "PROVENANCE_UNKNOWN",
+      "zero_volume_bars": 26713,
+      "zero_volume_pct": 0.8831619664760142
+    },
+    "continuity": {
+      "gap_count": 6,
+      "gaps": [
+        {
+          "gap_end": 1789350960,
+          "gap_start": 1789347360,
+          "missing_bars": 59
+        },
+        {
+          "gap_end": 1789467600,
+          "gap_start": 1789467360,
+          "missing_bars": 3
+        },
+        {
+          "gap_end": 1789707600,
+          "gap_start": 1789707360,
+          "missing_bars": 3
+        },
+        {
+          "gap_end": 1789827660,
+          "gap_start": 1789827360,
+          "missing_bars": 4
+        },
+        {
+          "gap_end": 1789948980,
+          "gap_start": 1789947360,
+          "missing_bars": 26
+        },
+        {
+          "gap_end": 1790192820,
+          "gap_start": 1790187360,
+          "missing_bars": 90
+        }
+      ],
+      "max_gap_bars": 90
+    },
+    "coverage": {
+      "actual_intervals": 30247,
+      "coverage_pct": 0.99392087276551,
+      "duration_bars": 30432,
+      "end": 1790427360,
+      "expected_intervals": 30432,
+      "received": 30247,
+      "requested": 30552,
+      "start": 1788601500
+    },
+    "integrity": {
+      "duplicates": 0,
+      "malformed_rows": 0,
+      "missing_intervals": 185,
+      "monotonic": true,
+      "nonpositive_prices": 0,
+      "ohlc_violations": 0
+    }
+  },
+  "snapshot": {
+    "available_contiguous_bars": 12432,
+    "available_fills": 3,
+    "available_fresh_bars": 30247,
+    "blockers": [
+      {
+        "blocker_class": "NO_ELIGIBLE_HYPOTHESES",
+        "detail": "no frozen eligible hypotheses exist; upstream discovery produced nothing preregistrable",
+        "gate_id": "hypothesis_preregistration"
+      },
+      {
+        "blocker_class": "DATA_TIME_BOUND",
+        "detail": "fresh_bars=30247; missing bars must genuinely occur after the frozen boundary",
+        "gate_id": "minimum_bar_count"
+      },
+      {
+        "blocker_class": "DATA_TIME_BOUND",
+        "detail": "fresh_bars=30247; missing bars must genuinely occur after the frozen boundary",
+        "gate_id": "fresh_oos_bar_count"
+      },
+      {
+        "blocker_class": "NO_FILLS",
+        "detail": "fills=3; fills count only from research execution evidence",
+        "gate_id": "minimum_fill_requirement"
+      },
+      {
+        "blocker_class": "ECONOMICS_UNAVAILABLE",
+        "detail": "economics_maker_fee=UNAVAILABLE: invalid status supplied",
+        "gate_id": "economics_maker_fee"
+      },
+      {
+        "blocker_class": "ECONOMICS_UNAVAILABLE",
+        "detail": "economics_taker_fee=UNAVAILABLE: invalid status supplied",
+        "gate_id": "economics_taker_fee"
+      },
+      {
+        "blocker_class": "ECONOMICS_UNAVAILABLE",
+        "detail": "economics_funding=UNAVAILABLE: invalid status supplied",
+        "gate_id": "economics_funding"
+      },
+      {
+        "blocker_class": "ECONOMICS_UNAVAILABLE",
+        "detail": "economics_contract_value=UNAVAILABLE: 0.001 observed on testnet BTCUSD product and in venue worked examples, but neither binds the BTCUSDT OOS dataset schedule; kept UNAVAILABLE",
+        "gate_id": "economics_contract_value"
+      },
+      {
+        "blocker_class": "ECONOMICS_UNAVAILABLE",
+        "detail": "economics_slippage=UNAVAILABLE: no venue slippage schedule exists; explicit-zero defaults are not a schedule",
+        "gate_id": "economics_slippage"
+      },
+      {
+        "blocker_class": "MICROSTRUCTURE_UNAVAILABLE",
+        "detail": "microstructure=UNAVAILABLE: OHLCV-only dataset; no depth/trades",
+        "gate_id": "microstructure_evidence"
+      },
+      {
+        "blocker_class": "NO_ELIGIBLE_HYPOTHESES",
+        "detail": "empty frozen set declares no symbol_metadata",
+        "gate_id": "symbol_metadata"
+      },
+      {
+        "blocker_class": "NO_ELIGIBLE_HYPOTHESES",
+        "detail": "empty frozen set declares no regime_metadata",
+        "gate_id": "regime_metadata"
+      },
+      {
+        "blocker_class": "NO_ELIGIBLE_HYPOTHESES",
+        "detail": "empty frozen set declares no directional_metadata",
+        "gate_id": "directional_metadata"
+      },
+      {
+        "blocker_class": "REPOSITORY_FORENSIC_BLOCK",
+        "detail": "historical pins/dirt/ancestry intentionally preserved; repository-wide certification stays blocked",
+        "gate_id": "repository"
+      }
+    ],
+    "dataset_id": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+    "deterministic_identity_status": "VERIFIED",
+    "directional_metadata_status": "UNAVAILABLE",
+    "economics_status": "BLOCKED",
+    "fill_gap": 57,
+    "fresh_bar_gap": 269753,
+    "frozen_boundary": 1788601440,
+    "handoff_state": "WAITING_FOR_DATA",
+    "hypothesis_count": 0,
+    "identity_algorithm": "content_hash:research.phase11g.provenance.model:sha256-canonical-json",
+    "is_production_ready": false,
+    "latest_observed_timestamp": 1790427360,
+    "limitations": [
+      "snapshot binds exact dataset rows; any row change yields a different dataset identity",
+      "time-bound gaps use source timestamps only; no completion date is predicted",
+      "READY_FOR_OOS_EXECUTION is a handoff for a separate authorized task, never an execution"
+    ],
+    "microstructure_status": "BLOCKED",
+    "oos_window_start": 1788601500,
+    "overall_readiness": "BLOCKED",
+    "preregistration_id": "41bd96638209078f118eec7055fc76696708d4e86a9a4a0f6a9f7aa47f0e6c5c",
+    "preregistration_status": "BLOCKED",
+    "production_isolation": true,
+    "production_isolation_status": "VERIFIED",
+    "protocol_id": "9M-1",
+    "regime_metadata_status": "UNAVAILABLE",
+    "report_id": "c6e65a4ebef7521776dac8e3ced2b8a8a352493c7ed146330fd5a7133a7f035c",
+    "required_contiguous_bars": 6175,
+    "required_fills": 60,
+    "required_fresh_bars": 300000,
+    "schema_version": "1",
+    "snapshot_id": "4a324409e57f958fda963680195c4373548ff986617ba263a5de8c94dea1cf81",
+    "snapshot_type": "OOS_READINESS_SNAPSHOT",
+    "source_status": "NO_NEW_SOURCE_DATA",
+    "symbol_metadata_status": "UNAVAILABLE"
+  },
+  "status": "IMPLEMENTED_TESTED"
+}

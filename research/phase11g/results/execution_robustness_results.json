@@ -1,0 +1,50 @@
+{
+ "H11G-001": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11G-002": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11G-003": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11G-004": {
+  "V1_entry_adverse_0p5bp": -2.1816420427308403,
+  "V2_missed_10pct": -2.1316438100902904,
+  "V3_exits_adverse_1bp": -2.23164027537139,
+  "baseline_C": -2.1316438100902904
+ },
+ "H11G-005": {
+  "V1_entry_adverse_0p5bp": -1.568080806281314,
+  "V2_missed_10pct": -1.5383706352603141,
+  "V3_exits_adverse_1bp": -1.5977909773023142,
+  "baseline_C": -1.5383706352603141
+ },
+ "H11G-006": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11G-007": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11G-008": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ }
+}

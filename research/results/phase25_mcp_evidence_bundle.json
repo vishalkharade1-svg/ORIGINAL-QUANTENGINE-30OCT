@@ -1,0 +1,19 @@
+{
+  "phase": 25,
+  "mission": "DELTA MCP PUBLIC EVIDENCE BUNDLE",
+  "status": "VERIFIED",
+  "tests": 22,
+  "tests_passed": 22,
+  "compileall": "PASS",
+  "domains": ["product","candles","trades","orderbook","open_interest","funding","mark_price","settlement","options","indices"],
+  "purpose": "Combine already-normalized public MCP observations into a deterministic research evidence bundle without granting venue authenticity or production authority.",
+  "venue_authentication": "UNVERIFIED",
+  "external_capture": "NOT_PERFORMED_IN_THIS_ENVIRONMENT",
+  "production_ready": false,
+  "limitations": [
+    "The bundle is only as authentic as the upstream capture/provenance supplied to it.",
+    "Missing domains remain UNAVAILABLE and are never synthesized.",
+    "Duplicate domains and symbol mismatches are retained as consistency errors.",
+    "No MCP invocation, network access, account access, or trading authority is performed by this phase."
+  ]
+}

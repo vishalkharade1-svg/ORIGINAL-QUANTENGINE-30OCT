@@ -1,0 +1,17 @@
+{
+  "phase27_artifacts": {
+    "final_report": "d322bdb63e6fd10a6846e588ff4c0ff82d8d54b312cf4264778500f21563102f",
+    "rr_migration_audit": "9d0151b74c99050ace434ce399fd7639c6e7bde361574f1b55306fc128a85db1",
+    "trailing_stop_spec": "fc9197ad6c8fdff52e737e4a4c737fb77f977afa5e8594066020d2037e04517e",
+    "strategy_evaluation": "3b38ab62264853496bec102b95d153fa5e011097c48873a04f654a7066811a14",
+    "blocker_register": "851718cb08bdda9fd8091f470ac4939febcc331b8deac533876db19fb075b161"
+  },
+  "phase28_artifacts": {
+    "independent_audit": "e39e51e76b2427f439bef1e6c59401f11d81c1ce80d7a577301b05586a0d1fb8",
+    "test_results": "4711ac1ef86edd07f7aef4d0a150f40da47a848e67dca7a3564358acc4c0c6cd",
+    "trailing_stop_validation": "5cc382b4155ae606b8cdda9c23a734dcfdcf4c375cb109c32fcee31651e29e80",
+    "strategy_evaluation": "ae67b1f5a4509bfa133cc36977cc8ecf781719921d03bcd0f32a5e6ed812d0a6",
+    "blocker_register": "87d9ac70e1d84ec5cbf6be1b68effb80b2857e60a8c65749e6ee8a497d98924d"
+  },
+  "notes": "Hashes computed on file contents at time of writing. The ledger itself is not included in the hash set; an external checksum may be generated after all artifacts are finalized."
+}

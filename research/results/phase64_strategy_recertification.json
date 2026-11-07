@@ -1,0 +1,97 @@
+{
+  "conclusion": "current strategy requires fresh research certification; historical findings are not transferable",
+  "gate_a": {
+    "bars": 5000,
+    "current": {
+      "breakevens": 0,
+      "fills": 1,
+      "losses": 0,
+      "net": 0.344788,
+      "orders": 4,
+      "wins": 1
+    },
+    "dataset": "docs/audit/baseline_9s_delta_5000_raw.json",
+    "dataset_sha256": "c17ec3a2064eb257a9a5ee19cccf562731c369b752e5ce0fe47aff6b1ec9caeb",
+    "first": 1788301500,
+    "historical": {
+      "breakevens": 0,
+      "fills": 11,
+      "losses": 5,
+      "net": 0.117534,
+      "orders": 27,
+      "wins": 6
+    },
+    "last": 1788601440,
+    "matches_historical": {
+      "breakevens": true,
+      "fills": false,
+      "losses": false,
+      "net": false,
+      "orders": false,
+      "wins": false
+    },
+    "meta": {
+      "symbol": "BTCUSDT",
+      "timeframe": "1m"
+    }
+  },
+  "historical_inputs": {
+    "D1_gate_a": true,
+    "D2_phase7": false,
+    "D3_fresh": true
+  },
+  "production_ready": false,
+  "reasons": [
+    "current backtester does not reproduce the historical Gate-A fingerprint",
+    "the current strategy digest differs from both the recorded research identity and the forensic Phase-4 identity",
+    "D2 historical Phase-7 OOS input is absent from the supplied repository, so full historical recertification cannot be rerun",
+    "no historical strategy hash or research artifact is repinned or rewritten"
+  ],
+  "schema": "phase64-strategy-recertification-v1",
+  "status": "BLOCKED",
+  "strategy_identity": {
+    "current_digest": "575cd4c12a2f97d394e02b185e41529d96350c5c3fba834ce4d77df04f6b6e94",
+    "forensic_phase4_digest": "9eff61b777846c7f5e2056c486c9c381872a93e154d35160e70f63051c8fd8a2",
+    "matches_forensic": false,
+    "matches_recorded": false,
+    "per_file": [
+      {
+        "file": "core/execution/entry_model.py",
+        "sha256": "8cb0fb2f45f87f1bcd42072e5ea48b30a982193d8eabeb158fd704c2f5234a82"
+      },
+      {
+        "file": "core/setup/trade_setup_builder.py",
+        "sha256": "f780310cad383995f59ce3181483bdd52e85461746893b96dae131febfd6cecc"
+      },
+      {
+        "file": "core/setup/decision_engine.py",
+        "sha256": "10521ff29ae6c4980ae11260fd3bc87a7942027bf7218b2ed2b43f95845f5584"
+      },
+      {
+        "file": "core/execution/execution_engine.py",
+        "sha256": "19a469e1980828dde28ebe8d5728ce5d4a5c6c1e5c935628ea3ee8bfddd249c4"
+      },
+      {
+        "file": "core/risk/risk_engine.py",
+        "sha256": "62f0e019885c4d68a0a005f8d867157feb2a8aaa3adb666b6fc2ddcfcbaccef1"
+      },
+      {
+        "file": "core/backtesting/accounting.py",
+        "sha256": "1c1bfc9bc0256f7c5edcd07e0f495d954abb90632e5daf6d4b85ce0fee16e583"
+      },
+      {
+        "file": "backtesting/backtester.py",
+        "sha256": "74af3bb1050197a0981b1b843681e03d97d89213843a6bc4c238140e1c7e2599"
+      },
+      {
+        "file": "core/paper_trading/paper_trading_engine.py",
+        "sha256": "bbd0cfd94d8b4e842fb90ad66feb4ca3c8b48c4e447d7d429aff543e301fa2aa"
+      },
+      {
+        "file": "config/risk_settings.py",
+        "sha256": "7c38bd894ff2638cd9b287fbed01d505608729d685bd141f8dd86406b6ca6880"
+      }
+    ],
+    "recorded_digest": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6"
+  }
+}

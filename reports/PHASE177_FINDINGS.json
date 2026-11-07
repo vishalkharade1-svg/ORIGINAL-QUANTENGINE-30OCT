@@ -1,0 +1,49 @@
+{
+  "phase": 177,
+  "audit_title": "QuantEngine Phase 177 Independent Audit Findings Ledger",
+  "audit_timestamp": "2026-10-20T09:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-177-01",
+      "severity": "REMEDIATED_DEFECT",
+      "category": "TICK_SIZE_REMEDIATION",
+      "status": "RESOLVED",
+      "summary": "Resolved tick-size discrepancy (0.50 vs 0.10) across FeeScheduleProvenance, InstrumentMetadata, constraint validation, and paper engine",
+      "description": "FINDING-176-01 / BLOCK-176-07 closed. Traced discrepancy to legacy BTCUSDT Global catalog. Authoritative Delta India BTCUSD (Product ID 84) specifies tick_size=0.10. Implemented InstrumentMetadata.for_btcusd(), hardened validate_instrument_constraints() with fail-closed conflict checks, updated PaperOrder and submit_limit_post_only() defaults from 0.50 to 0.10, and added normalize_price_to_tick() with deterministic CONSERVATIVE rounding."
+    },
+    {
+      "id": "FINDING-177-02",
+      "severity": "VERIFIED_PROOF",
+      "category": "GATE_SUBSUMPTION",
+      "status": "VERIFIED",
+      "summary": "Formally proved and tested that Friction Hurdle Rule 1 strictly subsumes Rule 2 under default linear contract parameters",
+      "description": "Rule 1 requires fee_to_target <= 40% (target_multiple >= 2.50x), which strictly exceeds Rule 2 requirement (target_multiple >= 2.00x). Retained Rule 2 for external consumer compatibility and operator parameter independence under BLOCK-177-08."
+    },
+    {
+      "id": "FINDING-177-03",
+      "severity": "EVIDENCE_GAP",
+      "category": "DATA_DISJUNCTION",
+      "status": "OPEN",
+      "summary": "Confirmed 44-day temporal gap between 1m candles and Level-2 orderbook captures; authenticated fills remain underpowered at N=2",
+      "description": "Historical 1m continuous candles cover 2026-09-05; L2 orderbook frames cover 2026-10-19. No synchronized signal-to-fill historical depth replay is possible. Authenticated fills (N=2) remain far below the N>=30 statistical significance requirement."
+    },
+    {
+      "id": "FINDING-177-04",
+      "severity": "SAFETY_INVARIANT",
+      "category": "EXECUTION_SAFETY",
+      "status": "VERIFIED",
+      "summary": "Verified complete execution pipeline safety and strict isolation from live exchange adapters",
+      "description": "Invariant assert_no_live_adapter_invocation() verified across all tests. Paper simulation engine cannot reach live exchange adapters or credentials. Order state machine strictly prohibits rejected or expired orders from generating fills. Duplicate fills and unrecorded fees are blocked."
+    },
+    {
+      "id": "FINDING-177-05",
+      "severity": "CONTRACTUAL_PRESERVATION",
+      "category": "HISTORICAL_INTEGRITY",
+      "status": "CONTRACTUALLY_RETAINED",
+      "summary": "Preserved 5 contractual historical change-detector failures asserting legacy Windows CRLF digests without mutation",
+      "description": "In accordance with Safety Rule #7, historical strategy pins and digests are preserved unchanged. Five legacy change-detector tests fail by contract asserting uncommitted pre-Phase-4 Windows CRLF digests under BLOCK-177-01."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "capture_id": "phase113-ada",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1791707834854,
+  "environment": "SANDBOX",
+  "evidence_sha256": "13f4f982ef39c987f0401d0b7ef81b228fc6b04a9c5a128ec82eb643ba6069c7",
+  "first_sequence": 24853,
+  "last_sequence": 24855,
+  "messages_seen": 3,
+  "observations_emitted": 3,
+  "sample_count": 3,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1791707814850,
+  "symbol": "ADAUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

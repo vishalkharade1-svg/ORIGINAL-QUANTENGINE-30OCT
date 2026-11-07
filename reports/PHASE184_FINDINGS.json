@@ -1,0 +1,47 @@
+{
+  "phase": 184,
+  "audit_title": "QuantEngine Phase 184 Findings & Triage Record",
+  "audit_timestamp": "2026-10-21T00:46:00Z",
+  "findings": [
+    {
+      "id": "F-184-01",
+      "title": "Focused Regression Denominator & Suite Selection Reconciled",
+      "severity": "LOW",
+      "classification": "REPORTING_SELECTION_VARIANCE",
+      "status": "RECONCILED",
+      "details": "Phase 182 reported 216 passing tests across 12 phase suites (203 tests) plus 2 packaging/secret suites (13 tests). Phase 183 reported 215 passing tests across only the 13 phase-numbered suites (203 + 12 = 215 tests), omitting the 2 security/packaging suites from its command line. When all 15 suites are run across Phases 171-183 + packaging + secrets, 228 of 228 tests pass cleanly (100% PASS). No tests were dropped or silently altered."
+    },
+    {
+      "id": "F-184-02",
+      "title": "Dependency Pin Contract Omission Remediated (RP-184-01)",
+      "severity": "MEDIUM",
+      "classification": "RELEASE_PROCESS_DEFECT",
+      "status": "RESOLVED",
+      "details": "tests/test_dependency_pin_contract.py inspects the highest-numbered PHASE*_RELEASE_GATES.json for a verification_environment block. In Phase 183, PHASE183_RELEASE_GATES.json omitted this block, causing 4 contract test failures. Resolved in Phase 184 by declaring verification_environment matching requirements.txt (Python 3.12.10, pytest 9.0.3, Windows-10, and all 7 pinned dependencies). All 4 tests now pass 100%."
+    },
+    {
+      "id": "F-184-03",
+      "title": "Legacy Simulator Test Fixture Directional Geometry Defects",
+      "severity": "LOW",
+      "classification": "LEGACY_TEST_FIXTURE_DEFECT",
+      "status": "IDENTIFIED_AND_DOCUMENTED",
+      "details": "Two legacy tests fail due to invalid setup geometry: test_accounting_9q.py passes take_profit (100) <= entry (100) for a BULLISH setup, and test_stage4_paper_certification.py uses a lambda that sets stop_loss (150) < entry (160) for a BEARISH setup. In both cases, TradeSimulator hardened geometry validation correctly rejects the invalid setup. Production code must not be modified to accommodate invalid test geometries."
+    },
+    {
+      "id": "F-184-04",
+      "title": "Stop-Rounding Semantics & Risk Budget Distinctions Verified",
+      "severity": "INFO",
+      "classification": "MATHEMATICAL_VERIFICATION",
+      "status": "VERIFIED",
+      "details": "Verified that tick normalization under CONSERVATIVE policy rounds Long stops UP (CEILING) and Short stops DOWN (FLOOR), contracting gross distance and reducing nominal stop loss. Confirmed that Phase 182 Scenario 1 passed only because it explicitly requested FLOOR policy (expanding gross distance) and round-trip fees pushed total risk over the budget. Phase 183 tests rigorously distinguish raw gross loss, normalized gross loss, fees, total risk, and budget."
+    },
+    {
+      "id": "F-184-05",
+      "title": "Execution Boundary & Sentinel Isolation Certified",
+      "severity": "INFO",
+      "classification": "SAFETY_CONTRACT",
+      "status": "CERTIFIED",
+      "details": "Offline SpyExecutionAdapter confirms 0 live adapter calls across all candidate rejection paths, including risk budget breaches, friction hurdle failures, stale books, inverted books, constraint violations, and non-finite numeric inputs. assert_no_live_adapter_invocation() == 0 at all times."
+    }
+  ]
+}

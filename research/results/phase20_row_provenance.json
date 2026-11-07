@@ -1,0 +1,18 @@
+{
+  "coverage": "EXACT_TIMESTAMP_COVERAGE",
+  "dataset": "data/history/BTCUSDT_1m_oos_topup.json",
+  "dataset_identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+  "limitations": [
+    "Sidecar records collector-declared provenance; it does not independently authenticate venue origin.",
+    "No new market data was acquired in this phase.",
+    "OOS remains blocked by insufficient temporal span, fills, economics, and microstructure evidence."
+  ],
+  "metadata": "DELTA /v2/history/candles via HistoricalLoader.candles_paginated",
+  "mission": "ROW-LEVEL OOS ACQUISITION PROVENANCE HARDENING",
+  "phase": 20,
+  "production_ready": false,
+  "row_count": 30247,
+  "row_provenance_identity": "2b07b61a2f6716430ea66e5938ed0ffd1f899538d8e6c560d61bca4401666c9c",
+  "schema_version": "row-provenance-v1",
+  "status": "VERIFIED"
+}

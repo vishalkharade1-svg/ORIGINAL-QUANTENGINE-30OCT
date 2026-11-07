@@ -1,0 +1,98 @@
+{
+ "H11G-001": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-002": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-003": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-004": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-005": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-006": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-007": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-008": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ }
+}

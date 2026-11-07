@@ -1,0 +1,47 @@
+{
+  "phase": 68,
+  "name": "funding_holding_period_economics",
+  "status": "IMPLEMENTED_AND_TESTED_WITH_KNOWN_BASELINE_FAILURE",
+  "baseline_checkpoint": "QuantEngine_PHASE67_ECONOMICS_EXECUTION_WIRING.zip",
+  "baseline_sha256": "a4f94574ab219ba3af7d7bfe6d484a1fd01d1b660fc8105094eda40c159c71d6",
+  "changes": [
+    "Added explicit timestamped FundingEvent/FundingSchedule evidence model.",
+    "Added signed funding to canonical net PnL accounting.",
+    "Added funding and funding-event count to Trade.",
+    "Wired FundingSchedule into TradeSimulator close accounting for callers that explicitly provide verified funding evidence.",
+    "Included funding in PerformanceAnalytics modeled-cost accounting.",
+    "Persisted funding fields in research TradeRecord/journal.",
+    "Replaced obsolete funding-unavailable structural test with an evidence-required invariant."
+  ],
+  "funding_semantics": {
+    "positive_rate": "long pays / short receives",
+    "negative_rate": "long receives / short pays",
+    "settlement_window": "entry_time < funding_timestamp <= exit_time",
+    "interpolation": false,
+    "synthetic_zero_substitution": false,
+    "duplicate_timestamps": "rejected"
+  },
+  "verification": {
+    "changed_surface_tests_passed": 60,
+    "broader_regression_tests_passed": 145,
+    "broader_regression_failures": 1,
+    "compileall": "PASS",
+    "full_suite": "NOT_GREEN; also blocked by frozen strategy provenance tests",
+    "known_failures": [
+      "tests/test_versioned_economics_phase6.py::TestVersionedEconomics::test_eroded_trade_is_rejected (legacy helper expects 6R while authoritative runtime policy currently permits 1R)",
+      "tests/test_authoritative_path_phase7.py::TestNormalizedStrategyDigest::test_digest_matches_forensic_baseline",
+      "tests/test_authoritative_path_phase7.py::TestNormalizedStrategyDigest::test_only_phase4_files_differ_from_pre_phase4",
+      "tests/test_digest_recertification_phase8.py::TestRecertProcedure::test_canonical_digest_matches_forensic_baseline"
+    ],
+    "historical_digest": "9eff61b777846c7f5e2056c486c9c381872a93e154d35160e70f63051c8fd8a2",
+    "current_digest_observed": "2d18c710fd1e4ade168772d909d8e05421a549cd8a900cc55cb732201925853c",
+    "digest_action": "NO_REPINNING_OR_TEST_WEAKENING"
+  },
+  "external_evidence": {
+    "delta_funding_adapter_exists": true,
+    "current_live_public_probe": "NOT_REVERIFIED_IN_THIS_PHASE",
+    "venue_realistic_claim": false,
+    "production_ready": false
+  },
+  "next_boundary": "real venue funding evidence -> funding-aware genuine OOS -> paper/live exchange settlement reconciliation"
+}

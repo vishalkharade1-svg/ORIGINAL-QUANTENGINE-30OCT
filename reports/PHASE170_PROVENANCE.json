@@ -1,0 +1,90 @@
+{
+  "phase": 170,
+  "timestamp": "2026-10-19T23:15:00Z",
+  "audit_type": "INDEPENDENT_PHASE169_AUDIT_TIMESTAMP_PROVENANCE_AND_HISTORICAL_STRATEGY_LINEAGE",
+  "input_archive": {
+    "name": "QuantEngine_PHASE169_RELEASE_CANDIDATE.zip",
+    "sha256": "be9b0c0d9f307669a9888690432d0c9dd025dc25919cc9917d4151346971b989",
+    "size_bytes": 56688890,
+    "members_count": 2030,
+    "manifest_entries": 2029,
+    "detached_record": "RELEASE_HASH_PHASE169.txt",
+    "verification": "VERIFIED_EXACT_MATCH"
+  },
+  "prior_baseline_archive": {
+    "name": "QuantEngine_PHASE168_RELEASE_CANDIDATE.zip",
+    "sha256": "727dd8422a4d220231e742f18c953ac0ca2c1ed3574404ca61c91c4e72a90295",
+    "size_bytes": 56650124,
+    "members_count": 2017,
+    "detached_record": "RELEASE_HASH_PHASE168.txt",
+    "verification": "VERIFIED_EXACT_MATCH"
+  },
+  "output_archive": {
+    "name": "QuantEngine_PHASE170_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE170.txt",
+    "packaging_contract": "DETACHED_RECORD_TRAVELS_BESIDE_PACKAGE_NEVER_EMBEDDED"
+  },
+  "git_environment": {
+    "head_commit": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+    "branch": "main",
+    "remote_origin": "https://github.com/vishalkharade1-svg/quantengine-spring-41.git"
+  },
+  "verified_subsystems": [
+    {
+      "subsystem": "private_ws_fills",
+      "status": "PASS",
+      "artifact": "research/captures/phase167_recon/private_ws_frames.json",
+      "artifact_sha256": "9c2d1b84930335e2b0c953b0a2333010b9cb0460c182594615ecae7ce606e399",
+      "records_matched": 2,
+      "max_timestamp_delta_ms": 0
+    },
+    {
+      "subsystem": "l2_quote_binding",
+      "status": "PASS",
+      "artifact": "research/captures/phase167_recon/l2/market_friction_evidence.json",
+      "artifact_sha256": "5a2dc2fed8eed4d8621155c2fa4483350eb9f4edc4df18a8116257d16a079262",
+      "records_matched": 2,
+      "limit_improvement_pts": "+8.50"
+    },
+    {
+      "subsystem": "commission_reconciliation",
+      "status": "PASS",
+      "artifact": "research/captures/phase168_ledger/wallet_100.json",
+      "artifact_sha256": "9fa17ec3dd81273934d40026e6ef37d8259e8f192b0058b4461ec4cf2547b74f",
+      "records_matched": 2,
+      "fee_decomposition_residual_usd": "0E-8"
+    },
+    {
+      "subsystem": "realized_cashflow",
+      "status": "PASS",
+      "artifact": "research/captures/phase168_ledger/wallet_100.json",
+      "artifact_sha256": "9fa17ec3dd81273934d40026e6ef37d8259e8f192b0058b4461ec4cf2547b74f",
+      "records_matched": 1,
+      "gross_pnl_usd": "0.0045"
+    },
+    {
+      "subsystem": "chronological_balances",
+      "status": "PASS",
+      "artifacts": {
+        "wallet": "research/captures/phase168_ledger/wallet_100.json",
+        "balances": "research/captures/phase168_ledger/balances.json"
+      },
+      "pre_experiment_balance_usd": "198.47068846",
+      "post_experiment_balance_usd": "198.3880856",
+      "balance_delta_residual_usd": "0E-8"
+    },
+    {
+      "subsystem": "positions_and_open_orders",
+      "status": "PASS",
+      "artifacts": {
+        "positions": "research/captures/phase168_ledger/positions.json",
+        "balances": "research/captures/phase168_ledger/balances.json"
+      },
+      "positions_flat": true,
+      "open_orders": 0
+    }
+  ],
+  "overall_reconciliation": "RECONCILED_EXACT",
+  "system_posture": "NOT_PRODUCTION_READY",
+  "strategy_posture": "EDGE NOT ESTABLISHED"
+}

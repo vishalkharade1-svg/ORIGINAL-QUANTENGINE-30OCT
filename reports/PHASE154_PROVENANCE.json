@@ -1,0 +1,39 @@
+{
+  "build": {
+    "manifest_generator": "scripts/generate_manifest.py",
+    "manifest_name": "BUILD_MANIFEST.sha256",
+    "method": "deterministic pack; exclusions = manifest contract",
+    "output_archive": "QuantEngine_PHASE154_RELEASE_CANDIDATE.zip"
+  },
+  "environment": {
+    "os": "Windows-10-10.0.19045-SP0",
+    "pinned": {
+      "httpx": "0.27.2",
+      "numpy": "2.1.1",
+      "pandas": "2.2.2",
+      "pyarrow": "18.0.0",
+      "pytest": "8.4.2",
+      "python-dotenv": "1.0.1",
+      "websockets": "12.0"
+    },
+    "pytest": "8.4.2",
+    "python": "3.12.10"
+  },
+  "input_archive": {
+    "bytes": 55639953,
+    "entries": 1770,
+    "name": "QuantEngine_PHASE153_RELEASE_CANDIDATE.zip",
+    "sha256": "eb7c3ba10b74bb00e1bff0b58d523799facbcb024e20ce61cc19af6729b91e86"
+  },
+  "manifest": {
+    "entries": 1791,
+    "name": "BUILD_MANIFEST.sha256",
+    "note": "Manifest hash intentionally not embedded (self-reference); integrity via deterministic regeneration + verify PASS + regression test. Final archive hash lives ONLY in detached ../RELEASE_HASH_PHASE154.txt.",
+    "reproducible": true,
+    "verify_command": "python scripts/generate_manifest.py --root . --verify"
+  },
+  "output_archive": "QuantEngine_PHASE154_RELEASE_CANDIDATE.zip",
+  "phase": 154,
+  "source_snapshot": "worktree files per BUILD_MANIFEST.sha256@12ac15934bff",
+  "status": "FINAL"
+}

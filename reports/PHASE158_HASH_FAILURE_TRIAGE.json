@@ -1,0 +1,144 @@
+{
+ "baseline_run": {
+  "command": "python -m pytest -q -p no:cacheprovider --tb=short",
+  "exit_code": 1,
+  "log": "reports/PHASE158_BASELINE_FULL_SUITE.txt",
+  "summary": "42 failed, 3974 passed, 10 skipped in 2645.54s (0:44:05)",
+  "workspace": "the input archive extracted byte-verified into QuantEngine_PHASE158_Release_Repair (pre-repair)"
+ },
+ "counts": {
+  "environment_artifact": 1,
+  "git_ancestry_loud": 19,
+  "hash_class": 22,
+  "passed": 3974,
+  "skipped": 10,
+  "total_failed": 42
+ },
+ "failures_by_root_cause": {
+  "ENV": [
+   "tests/test_release_consistency_phase155.py::TestReleaseConsistency155::test_archive_and_detached_record_agree"
+  ],
+  "GIT": [
+   "tests/test_researcher_11g_n.py::TestRepositoryHead::test_branch_main",
+   "tests/test_researcher_11g_n.py::TestRepositoryHead::test_starting_head_ancestor",
+   "tests/test_researcher_11g_o.py::TestRepositoryHead::test_branch_main",
+   "tests/test_researcher_11g_o.py::TestRepositoryHead::test_starting_head_ancestor",
+   "tests/test_researcher_11g_p.py::TestRepositoryHead::test_branch_main",
+   "tests/test_researcher_11g_p.py::TestRepositoryHead::test_starting_head_ancestor",
+   "tests/test_researcher_11g_q.py::TestStartingState::test_branch_main",
+   "tests/test_researcher_11g_q.py::TestStartingState::test_head_descends_from_p",
+   "tests/test_researcher_11g_r.py::TestStartingState::test_branch_main",
+   "tests/test_researcher_11g_r.py::TestStartingState::test_head_descends_from_q",
+   "tests/test_researcher_11g_s.py::TestStartingState::test_branch_main",
+   "tests/test_researcher_11g_s.py::TestStartingState::test_head_descends_from_r",
+   "tests/test_researcher_11g_t.py::TestStartingState::test_branch_main",
+   "tests/test_researcher_11g_t.py::TestStartingState::test_head_descends_from_s",
+   "tests/test_researcher_11g_u.py::TestStartingState::test_branch_main",
+   "tests/test_researcher_11g_u.py::TestStartingState::test_head_descends_from_t",
+   "tests/test_researcher_15.py::TestMultipleTestingPreserved::test_no_new_hypothesis_family",
+   "tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_head_is_stage123_closure_descendant",
+   "tests/test_upstream_hypothesis_audit.py::TestNoFindingToHypothesisEdge::test_only_coercion_constructs_records_in_core"
+  ],
+  "R1": [
+   "tests/test_oos_data_extension_19.py::TestBoundary::test_extension_preserves_prior",
+   "tests/test_oos_data_extension_19.py::TestBoundary::test_no_discovery_contamination",
+   "tests/test_oos_data_extension_19.py::TestBoundary::test_strict_boundary_and_equality_excluded",
+   "tests/test_oos_data_extension_19.py::TestCausality::test_future_mutation_preserves_early",
+   "tests/test_oos_data_extension_19.py::TestDatasetIdentity::test_chronological_unique_ordering",
+   "tests/test_oos_data_extension_19.py::TestDatasetIdentity::test_dataset_hash_matches",
+   "tests/test_oos_data_extension_19.py::TestDeterminism::test_small_slice_rerun_identical",
+   "tests/test_oos_data_extension_19.py::TestPeriods::test_periods_chronological_non_overlapping",
+   "tests/test_oos_data_extension_19.py::TestProvenance::test_rows_carry_no_venue_identity",
+   "tests/test_oos_topup_acquisition.py::TestTopupCacheProvenance::test_h_phase19_cache_untouched"
+  ],
+  "R2": [
+   "tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match",
+   "tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+   "tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+   "tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs",
+   "tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned"
+  ],
+  "R3": [
+   "tests/test_oos_data_extension_19.py::TestDatasetIdentity::test_artifact_stable_bytes",
+   "tests/test_oos_feasibility_17.py::TestDeterminism::test_artifact_stable_bytes",
+   "tests/test_oos_validation_18.py::TestDeterminism::test_artifact_stable_bytes",
+   "tests/test_readiness_16.py::TestDeterministicSerialization::test_artifact_stable_bytes",
+   "tests/test_researcher_15.py::TestDeterministicSerialization::test_artifact_stable_bytes"
+  ],
+  "R4": [
+   "tests/test_phase11f_data_lineage.py::TestDatasetContract::test_manifest_hashes_match_files",
+   "tests/test_phase11f_determinism.py::TestSerializationDeterminism::test_manifest_hashes_reproduce"
+  ]
+ },
+ "git_evidence": {
+  "facts_total": 40,
+  "gate": "BLOCKED (ancestry cannot be established in archive mode)",
+  "loud_failure": 19,
+  "status_record": "reports/PHASE158_GIT_EVIDENCE_STATUS.json",
+  "vacuous_pass": 21,
+  "vacuous_pass_highlights": [
+   "tests/test_stage123_operational.py::TestSecurityScan::test_security_scan_no_real_credentials",
+   "tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_research_byte_unchanged"
+  ]
+ },
+ "inherited_disposition_and_correction": {
+  "corrected": "43 in that worktree = 22 hash + 19 git + 2 live-env; 42 in the clean workspace = 22 hash + 19 git + 1 nesting artifact. One test that shells out to `git grep` had been counted as a hash failure; the 2 live-env failures are packaging-hygiene assertions that only fire when a worktree holds .env.",
+  "inherited": "Phase157's own notes said 43 = 23 hash + 18 git + 2 live-env, measured in its build worktree (which holds .env)",
+  "why_it_matters": "the split decides what a repair can fix. Counting the git-grep test as a hash failure would have sent a repair looking for a digest that was never the cause."
+ },
+ "note": "no test was weakened, deleted, blanket-skipped or xfailed by this triage. Every failure either reproduces a fixable defect (R1/R3/R4), stays red as a deliberate change detector (R2), or is declared BLOCKED_EVIDENCE with a reason (GIT).",
+ "phase": 158,
+ "repaired": {
+  "ENV": "1 -> resolved by placing the Phase158 archive and its detached record together",
+  "GIT": "19 loud failures -> BLOCKED_EVIDENCE skips; 21 vacuous passes also gated",
+  "R1": "10 failures -> expect PASS",
+  "R2": "5 failures -> remain FAIL by contract (correct change detectors)",
+  "R3": "5 failures -> expect PASS",
+  "R4": "2 failures -> expect PASS"
+ },
+ "root_causes": {
+  "ENV": {
+   "detail": "the test requires that a detached hash record never exists without its archive. This workspace sits in the delivery directory that holds the Phase157 detached record while the Phase157 archive itself lives in its own build worktree, so the test sees an orphaned record. It is a property of the directory layout, not of the packaged tree: the Phase158 build places its archive and record together here, and the test's constants advance to the Phase158 pair.",
+   "expected_after_repair": "PASS once the Phase158 archive and record sit together",
+   "name": "workspace-nesting artifact of this build layout",
+   "repair": "REP-158-04 (release-record contracts advanced to the Phase158 candidate)"
+  },
+  "GIT": {
+   "detail": "observed: rc=128 'fatal: not a git repository', and empty output from git grep/diff. These 19 failed loudly. A further 21 Git-dependent tests passed VACUOUSLY in the same way -- empty output satisfying assertEqual(out, \"\") / assertEqual(hits, []).",
+   "expected_after_repair": "SKIP with BLOCKED_EVIDENCE reason (never a pass)",
+   "name": "Git-ancestry facts cannot be established in an archive (no .git anywhere)",
+   "repair": "REP-158-03: tests/evidence_mode.py gates all 40 facts as BLOCKED_EVIDENCE, with a positive control proving the guard steps aside in a real repository; the ancestry release gate stays BLOCKED"
+  },
+  "R1": {
+   "detail": "data/history/BTCUSDT_1m_phase19_extension.json shipped in no archive from Phase131 onward. Observed error: FileNotFoundError.",
+   "expected_after_repair": "PASS",
+   "name": "missing dataset (gitignored by the project's own packaging contract)",
+   "repair": "REP-158-02 (derivation-checked reconstruction with a disclosure block)"
+  },
+  "R2": {
+   "detail": "the five tests pin c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6; the tree computes f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4 for the nine-file digest. scripts/recertify_strategy_digest.py documents the re-certification as requiring the original Git checkout and a research re-execution, and returns STATUS: BLOCKED.",
+   "expected_after_repair": "FAIL (deliberate; BLOCK-158-01)",
+   "name": "strategy digest pin matches no recoverable revision",
+   "repair": "NONE BY CONTRACT -- the five tests stay red as correct change detectors; no re-pin"
+  },
+  "R3": {
+   "detail": "the five research/results artifacts (phase14/15/17/18/19) are byte-pinned by test_artifact_stable_bytes; the conversion broke the pins without changing content.",
+   "expected_after_repair": "PASS",
+   "name": "canonical-JSON result artifacts were LF->CRLF converted",
+   "repair": "REP-158-01 (LF restoration; each artifact's LF form equals its canonical form)"
+  },
+  "R4": {
+   "detail": "test_manifest_hashes_match_files / test_manifest_hashes_reproduce compare raw bytes against research/phase11f/freeze_manifest.json; ten files were CRLF.",
+   "expected_after_repair": "PASS",
+   "name": "research/phase11f freeze-manifest pins were broken by the same LF->CRLF conversion",
+   "repair": "REP-158-01 (ten files LF-restored, each reproducing its recorded pin exactly; research_log.json is the documented append exception and keeps its shipped bytes)"
+  }
+ },
+ "schema": "quantengine.hash-failure-triage.v1",
+ "verification": {
+  "baseline_command": "python -m pytest -q -p no:cacheprovider --tb=short",
+  "extracted_package_log": "post-build bundle: QuantEngine_PHASE158_POST_BUILD/reports/PHASE158_EXTRACTED_PACKAGE_TESTS.txt",
+  "focused_evidence": "reports/PHASE158_SNAPSHOT_AUDIT.md",
+  "post_repair_log": "reports/PHASE158_FULL_SUITE_RUN.txt"
+ }
+}

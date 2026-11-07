@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuantEngine — Paper Preview + Risk Policy Control</title>
+<style>
+  body { font-family: monospace; background: #0d1117; color: #c9d1d9; margin: 0; padding: 12px; }
+  h1 { font-size: 18px; margin: 0 0 4px 0; }
+  .banner { background: #161b22; border: 1px solid #30363d; padding: 8px; margin-bottom: 10px; }
+  .banner b.paper { color: #3fb950; }
+  .banner b.off { color: #f85149; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 10px; }
+  .panel { background: #161b22; border: 1px solid #30363d; padding: 8px; }
+  .panel h2 { font-size: 13px; margin: 0 0 6px 0; color: #58a6ff; }
+  table { border-collapse: collapse; width: 100%; font-size: 11px; }
+  td, th { border: 1px solid #30363d; padding: 2px 5px; text-align: right; }
+  th { color: #8b949e; }
+  .tag { font-size: 10px; padding: 0 4px; border-radius: 3px; }
+  .obs { background: #1f6feb; color: #fff; }
+  .pap { background: #8957e5; color: #fff; }
+  .loc { background: #555; color: #fff; }
+  .una { background: #555; color: #f85149; }
+  .ok { color: #3fb950; } .bad { color: #f85149; } .warn { color: #d29922; }
+  canvas { width: 100%; height: 220px; background: #010409; border: 1px solid #30363d; }
+  #tokenrow { margin-bottom: 10px; font-size: 12px; }
+  #tokenrow input { background: #0d1117; color: #c9d1d9; border: 1px solid #30363d; padding: 3px; }
+  .rej { color: #d29922; font-size: 11px; }
+  .control { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; }
+  .control label { font-size: 10px; color: #8b949e; }
+  .control input, .control select { width: 100%; box-sizing: border-box; background:#0d1117; color:#c9d1d9; border:1px solid #30363d; padding:4px; }
+  button { background:#238636; color:#fff; border:1px solid #2ea043; padding:5px 8px; cursor:pointer; }
+  button.secondary { background:#30363d; border-color:#484f58; }
+</style>
+</head>
+<body>
+<h1>QUANTENGINE — PAPER PREVIEW <span class="tag pap">PAPER ONLY</span></h1>
+<div class="banner" id="header">loading…</div>
+<div id="tokenrow">API token (memory only, never stored):
+  <input type="password" id="token" size="24" autocomplete="off">
+</div>
+<div class="grid">
+  <div class="panel"><h2>CONNECTION</h2><div id="conn">…</div></div>
+  <div class="panel"><h2>MARKET</h2><div id="market">…</div></div>
+  <div class="panel"><h2>SIGNAL</h2><div id="signal">…</div></div>
+  <div class="panel"><h2>OPEN POSITIONS <span class="tag pap">PAPER-MODELLED</span></h2><div id="positions">…</div></div>
+  <div class="panel"><h2>ORDERS <span class="tag pap">PAPER</span></h2><div id="orders">…</div></div>
+  <div class="panel"><h2>RECENT TRADES <span class="tag pap">PAPER-MODELLED</span></h2><div id="trades">…</div></div>
+  <div class="panel"><h2>REJECTIONS (mandatory)</h2><div id="rejections">…</div></div>
+  <div class="panel"><h2>EVIDENCE <span class="tag loc">LOCAL</span></h2><div id="evidence">…</div></div>
+  <div class="panel"><h2>HEALTH</h2><div id="health">…</div></div>
+  <div class="panel" style="grid-column:1/-1"><h2>RISK / EXIT POLICY <span class="tag loc">AUTHENTICATED CONTROL</span></h2>
+    <div id="policy_status" class="warn">loading…</div>
+    <div class="control">
+      <div><label>Instrument override</label><input id="policy_symbol" placeholder="BTCUSDT / NIFTY / option symbol"></div>
+      <div><label>Minimum R:R (1–20)</label><input id="policy_min" type="number" min="1" max="20" step="0.01" value="1"></div>
+      <div><label>Maximum R:R (1–20)</label><input id="policy_max" type="number" min="1" max="20" step="0.01" value="20"></div>
+      <div><label>Trailing activation (R)</label><input id="policy_activation" type="number" min="0.01" step="0.01" value="1"></div>
+      <div><label>Trailing distance (R)</label><input id="policy_distance" type="number" min="0.01" step="0.01" value="0.5"></div>
+      <div><label>Trailing</label><select id="policy_trailing"><option value="true">ENABLED</option><option value="false">DISABLED</option></select></div>
+      <div><label>Opposite-signal exit</label><select id="policy_opposite"><option value="true">ENABLED</option><option value="false">DISABLED</option></select></div>
+    </div>
+    <div style="margin-top:8px"><button onclick="savePolicy()">SAVE GLOBAL / INSTRUMENT</button> <button class="secondary" onclick="resetPolicy()">RESET INSTRUMENT OVERRIDE</button></div>
+  </div>
+</div>
+<div class="panel" style="margin-top:10px"><h2>CHART <span class="tag obs">OBSERVED</span></h2><canvas id="chart" width="900" height="220"></canvas><div id="chartmeta">…</div></div>
+<script>
+"use strict";
+var TOKEN = "";
+var state = { lastEvent: 0, apiError: false };
+document.getElementById("token").addEventListener("input", function (e) { TOKEN = e.target.value; });
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function api(path, cb) {
+  fetch(path, { headers: { "Authorization": "Bearer " + TOKEN } })
+    .then(function (r) { if (!r.ok) { throw new Error("HTTP " + r.status); } return r.json(); })
+    .then(function (j) { state.apiError = false; cb(null, j); })
+    .catch(function (e) { state.apiError = true; cb(e, null); });
+}
+function apiPost(path, payload, cb) {
+  fetch(path, { method: "POST", headers: { "Authorization": "Bearer " + TOKEN, "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok) { throw new Error(j.detail || ("HTTP " + r.status)); } return j; }); })
+    .then(function (j) { cb(null, j); })
+    .catch(function (e) { cb(e, null); });
+}
+function renderPolicy(p) {
+  var symbol = document.getElementById("policy_symbol").value.trim().toUpperCase();
+  var q = symbol && p.instruments && p.instruments[symbol] ? p.instruments[symbol] : p.global;
+  if (!q) { return; }
+  document.getElementById("policy_min").value = q.min_rr;
+  document.getElementById("policy_max").value = q.max_rr;
+  document.getElementById("policy_activation").value = q.trailing_activation_r;
+  document.getElementById("policy_distance").value = q.trailing_distance_r;
+  document.getElementById("policy_trailing").value = String(q.trailing_enabled);
+  document.getElementById("policy_opposite").value = String(q.auto_exit_on_opposite_signal);
+  document.getElementById("policy_status").innerHTML = "policy: <b>" + esc(symbol || "GLOBAL") + "</b> &nbsp; R:R " + num(q.min_rr,2) + "–" + num(q.max_rr,2) + " &nbsp; trailing=" + esc(String(q.trailing_enabled));
+}
+function loadPolicy() {
+  api("/risk-policy", function(e, p) { if (e || !p) { document.getElementById("policy_status").innerHTML = '<span class="bad">POLICY UNAVAILABLE</span>'; return; } renderPolicy(p); });
+}
+function savePolicy() {
+  var symbol = document.getElementById("policy_symbol").value.trim().toUpperCase();
+  var payload = { scope: symbol ? "instrument" : "global", policy: {
+    min_rr: Number(document.getElementById("policy_min").value),
+    max_rr: Number(document.getElementById("policy_max").value),
+    trailing_enabled: document.getElementById("policy_trailing").value === "true",
+    trailing_activation_r: Number(document.getElementById("policy_activation").value),
+    trailing_distance_r: Number(document.getElementById("policy_distance").value),
+    auto_exit_on_opposite_signal: document.getElementById("policy_opposite").value === "true"
+  } };
+  if (symbol) { payload.symbol = symbol; }
+  apiPost("/risk-policy", payload, function(e, p) { document.getElementById("policy_status").innerHTML = e ? '<span class="bad">SAVE FAILED: ' + esc(e.message) + '</span>' : '<span class="ok">POLICY SAVED</span>'; if (!e) { renderPolicy(p); } });
+}
+function resetPolicy() {
+  var symbol = document.getElementById("policy_symbol").value.trim().toUpperCase();
+  if (!symbol) { document.getElementById("policy_status").innerHTML = '<span class="warn">Enter an instrument before reset.</span>'; return; }
+  apiPost("/risk-policy/reset", {symbol: symbol}, function(e, p) { document.getElementById("policy_status").innerHTML = e ? '<span class="bad">RESET FAILED: ' + esc(e.message) + '</span>' : '<span class="ok">INSTRUMENT OVERRIDE RESET</span>'; if (!e) { renderPolicy(p); } });
+}
+document.getElementById("policy_symbol").addEventListener("change", loadPolicy);
+function num(x, d) { if (x === null || x === undefined || isNaN(Number(x))) { return "UNAVAILABLE"; } return Number(x).toFixed(d === undefined ? 2 : d); }
+function age(ts) {
+  if (!ts) { return "UNAVAILABLE"; }
+  var now = Date.now() / 1000, t = Number(ts) > 1e12 ? Number(ts) / 1000 : Number(ts);
+  var s = Math.max(0, now - t);
+  return s < 1 ? "just now" : Math.floor(s) + "s ago";
+}
+function staleness(ts, limit) {
+  if (!ts) { return '<span class="warn">STALE (no data)</span>'; }
+  var now = Date.now() / 1000, t = Number(ts) > 1e12 ? Number(ts) / 1000 : Number(ts);
+  if (now - t > (limit || 120)) { return '<span class="warn">STALE</span>'; }
+  return '<span class="ok">LIVE</span>';
+}
+function drawChart(candles, trades) {
+  var cv = document.getElementById("chart"), ctx = cv.getContext("2d");
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  if (!candles || !candles.length) { ctx.fillStyle = "#8b949e"; ctx.fillText("UNAVAILABLE", 10, 20); return; }
+  var lo = Infinity, hi = -Infinity, i;
+  for (i = 0; i < candles.length; i++) { lo = Math.min(lo, candles[i].low); hi = Math.max(hi, candles[i].high); }
+  if (!(hi > lo)) { return; }
+  function X(k) { return 10 + (k / Math.max(1, candles.length - 1)) * (cv.width - 20); }
+  function Y(p) { return cv.height - 10 - ((p - lo) / (hi - lo)) * (cv.height - 20); }
+  for (i = 0; i < candles.length; i++) {
+    var c = candles[i], up = c.close >= c.open;
+    ctx.strokeStyle = up ? "#3fb950" : "#f85149"; ctx.fillStyle = ctx.strokeStyle;
+    ctx.beginPath(); ctx.moveTo(X(i), Y(c.high)); ctx.lineTo(X(i), Y(c.low)); ctx.stroke();
+    var y0 = Y(c.open), y1 = Y(c.close);
+    ctx.fillRect(X(i) - 2, Math.min(y0, y1), 4, Math.max(2, Math.abs(y1 - y0)));
+  }
+  (trades || []).forEach(function (t) {
+    var k = 0, best = 0, bd = Infinity, j;
+    for (j = 0; j < candles.length; j++) {
+      var d = Math.abs((candles[j].timestamp || 0) - (t.entry_time || 0));
+      if (d < bd) { bd = d; best = j; }
+    }
+    k = best;
+    ctx.fillStyle = "#58a6ff";
+    ctx.beginPath(); ctx.arc(X(k), Y(t.entry), 4, 0, 7); ctx.fill();
+    if (t.exit_price) { ctx.strokeStyle = "#d29922"; ctx.beginPath(); ctx.arc(X(k), Y(t.exit_price), 6, 0, 7); ctx.stroke(); }
+    if (t.stop_loss) { ctx.strokeStyle = "#f85149"; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(0, Y(t.stop_loss)); ctx.lineTo(cv.width, Y(t.stop_loss)); ctx.stroke(); ctx.setLineDash([]); }
+    if (t.take_profit) { ctx.strokeStyle = "#3fb950"; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(0, Y(t.take_profit)); ctx.lineTo(cv.width, Y(t.take_profit)); ctx.stroke(); ctx.setLineDash([]); }
+  });
+}
+function refresh() {
+  api("/preview", function (e, preview) {
+    if (e || !preview) { document.getElementById("header").innerHTML = '<span class="bad">API ERROR — check token</span>'; return; }
+    document.getElementById("header").innerHTML =
+      "<b>QUANTENGINE</b> &nbsp; MODE: <b class='paper'>" + esc(preview.mode || "UNKNOWN") + "</b>" +
+      " &nbsp; MARKET DATA: <b>LIVE PUBLIC</b>" +
+      " &nbsp; LIVE EXECUTION: <b class='off'>DISABLED</b>" +
+      " &nbsp; PRODUCTION READY: <b class='off'>FALSE</b>";
+  });
+  var sym = "BTCUSDT";
+  api("/candles", function (e, all) {
+    if (e || !all) { return; }
+    var keys = Object.keys(all || {});
+    if (keys.length) { sym = keys[0]; }
+    var entry = all[sym] || { candles: [], transport: {} };
+    var candles = entry.candles || [], tr = entry.transport || {};
+    var last = candles.length ? candles[candles.length - 1] : null;
+    if (last) { state.lastEvent = last.timestamp; }
+    var html = "symbol: <b>" + esc(sym) + "</b> 1m<br>";
+    if (last) {
+      html += "last: <b>" + num(last.close) + "</b> O:" + num(last.open) + " H:" + num(last.high) +
+        " L:" + num(last.low) + " V:" + num(last.volume, 1) + "<br>";
+      html += "last closed: " + esc(new Date((last.timestamp > 1e12 ? last.timestamp : last.timestamp * 1000)).toISOString()) +
+        " (" + age(last.timestamp) + ")<br>";
+    } else { html += "candles: <span class='una'>UNAVAILABLE</span><br>"; }
+    html += "bars: " + candles.length + " delivered: " + (tr.delivered === undefined ? "UNAVAILABLE" : tr.delivered) +
+      " polls: " + (tr.polls === undefined ? "?" : tr.polls) + "<br>";
+    html += "feed: " + (tr.last_error ? '<span class="bad">ERROR ' + esc(tr.last_error) + "</span>"
+      : (tr.subscribed === false ? '<span class="warn">DISCONNECTED</span>' : '<span class="ok">CONNECTED</span>'));
+    html += " " + staleness(last ? last.timestamp : 0);
+    document.getElementById("market").innerHTML = html;
+    document.getElementById("conn").innerHTML =
+      "Market Data: " + (tr.last_error ? '<span class="bad">RECONNECTING</span>' : '<span class="ok">CONNECTED</span>') +
+      "<br>Last Event: " + (last ? age(last.timestamp) : "UNAVAILABLE") +
+      "<br>Data Age: " + (last ? age(last.timestamp) : "UNAVAILABLE") +
+      "<br>WebSocket: N/A (REST poll every ~15s) <span class='tag loc'>LOCAL</span>";
+    api("/evidence", function (e2, ev) {
+      var trades = [];
+      if (ev && ev.per_symbol && ev.per_symbol[sym]) {
+        trades = (ev.per_symbol[sym].closed_trades || []).concat(ev.per_symbol[sym].open_trades || []);
+      }
+      drawChart(candles, trades);
+      document.getElementById("chartmeta").innerHTML = "bars: " + candles.length +
+        " — markers: entries (blue), exits (amber), SL red dashed, TP green dashed. No strategy computed in browser.";
+    });
+  });
+  api("/signals", function (e, sigs) {
+    if (e || !sigs) { document.getElementById("signal").innerHTML = "UNAVAILABLE"; return; }
+    var keys = Object.keys(sigs), html = "";
+    keys.forEach(function (s) {
+      var sset = sigs[s] || {}, sig = sset.signal || (sset.signals || [])[0] || null;
+      html += "<b>" + esc(s) + "</b><br>";
+      if (!sig) { html += "signal: <span class='una'>none</span><br>"; return; }
+      html += "dir: <b>" + esc(sig.direction) + "</b> entry: " + num(sig.entry) +
+        " stop: " + num(sig.stop_loss) + " target: " + num(sig.take_profit) + "<br>";
+      html += "gross R:R: " + num(sig.risk_reward) + " (req 1.0–20.0 fixed target)<br>";
+    });
+    document.getElementById("signal").innerHTML = html || "UNAVAILABLE";
+  });
+  api("/positions", function (e, pos) {
+    if (e || !pos) { document.getElementById("positions").innerHTML = "UNAVAILABLE"; return; }
+    var html = "";
+    Object.keys(pos).forEach(function (s) {
+      var p = pos[s] || {}, cur = p.current_trade, list = [].concat(cur ? [cur] : [], p.open_trades || []);
+      if (!list.length) { html += "<b>" + esc(s) + "</b>: flat<br>"; return; }
+      html += "<table><tr><th>side</th><th>qty</th><th>entry</th><th>SL</th><th>TP</th><th>gross</th><th>net</th></tr>";
+      list.forEach(function (t) {
+        var gross = ((t.direction === "BEARISH" ? t.entry - t.exit_price || 0 : 0));
+        html += "<tr><td>" + esc(t.direction) + "</td><td>" + num(t.quantity, 4) + "</td><td>" + num(t.entry) +
+          "</td><td>" + num(t.stop_loss) + "</td><td>" + num(t.take_profit) + "</td><td>" + num(t.pnl) +
+          "</td><td>" + num((t.pnl || 0) - (t.commission || 0) - (t.slippage || 0)) + "</td></tr>";
+      });
+      html += "</table>";
+    });
+    document.getElementById("positions").innerHTML = html || "UNAVAILABLE";
+  });
+  api("/orders", function (e, ord) {
+    if (e || !ord) { document.getElementById("orders").innerHTML = "UNAVAILABLE"; return; }
+    var html = "";
+    Object.keys(ord).forEach(function (s) {
+      var arr = (ord[s] || {}).intents || [];
+      html += "<b>" + esc(s) + "</b> (" + arr.length + " PAPER intents)<br>";
+      if (arr.length) {
+        html += "<table><tr><th>id</th><th>side</th><th>qty</th><th>entry</th><th>status</th><th>reason</th></tr>";
+        arr.slice(-8).forEach(function (o) {
+          html += "<tr><td>" + esc(o.order_id || o.setup_id || "?") + "</td><td>" + esc(o.direction) +
+            "</td><td>" + num(o.quantity, 4) + "</td><td>" + num(o.entry) + "</td><td>" + esc(o.status) +
+            "</td><td>" + esc(o.reason || "") + "</td></tr>";
+        });
+        html += "</table>";
+      }
+    });
+    document.getElementById("orders").innerHTML = html || "UNAVAILABLE";
+  });
+  api("/evidence", function (e, ev) {
+    if (e || !ev) {
+      document.getElementById("evidence").innerHTML = "UNAVAILABLE";
+      document.getElementById("rejections").innerHTML = "UNAVAILABLE";
+      document.getElementById("trades").innerHTML = "UNAVAILABLE";
+      return;
+    }
+    var t = ev.totals || {};
+    document.getElementById("evidence").innerHTML =
+      "intents: " + (t.intents || 0) + "<br>open: " + (t.open_trades || 0) +
+      " closed: " + (t.closed_trades || 0) + "<br>rejections: " + (t.rejections || 0) +
+      "<br>net P&amp;L: " + num(t.net_pnl) + " <span class='tag pap'>PAPER-MODELLED</span>" +
+      "<br>routed: " + (ev.engine_routed || 0) + " unrouted: " + (ev.engine_unrouted || 0) +
+      " route_errors: " + (ev.route_errors || 0) +
+      "<br>halts: " + ((ev.halts || []).length ? esc(JSON.stringify(ev.halts)) : "none");
+    var rej = "";
+    Object.keys(ev.per_symbol || {}).forEach(function (s) {
+      (ev.per_symbol[s].rejections || []).slice(0, 8).forEach(function (r) {
+        rej += "<div class='rej'><b>" + esc(s) + "</b> " + esc(r.direction) +
+          " RR=" + num((r.entry && r.stop_loss) ? Math.abs(r.take_profit - r.entry) / Math.max(1e-9, Math.abs(r.entry - r.stop_loss)) : 0) +
+          " — " + esc((r.reasons || []).join("; ")) + "</div>";
+      });
+    });
+    document.getElementById("rejections").innerHTML = rej || "none recorded (latest evaluation)";
+    var tr = "";
+    Object.keys(ev.per_symbol || {}).forEach(function (s) {
+      (ev.per_symbol[s].closed_trades || []).slice(-8).forEach(function (x) {
+        tr += "<div>" + esc(s) + " " + esc(x.direction) + " " + num(x.entry) + "→" + num(x.exit_price) +
+          " q=" + num(x.quantity, 4) + " pnl=" + num(x.pnl) + " [" + esc(x.result || x.status) + "]</div>";
+      });
+    });
+    document.getElementById("trades").innerHTML = tr || "no closed trades";
+  });
+  api("/health", function (e, h) {
+    api("/account", function (e2, a) {
+      var acc = "UNAVAILABLE";
+      if (a) { acc = "balance: " + num(a.sum_balance) + " equity: " + num(a.sum_equity) + " <span class='tag pap'>PAPER-MODELLED</span>"; }
+      document.getElementById("health").innerHTML =
+        (state.apiError ? '<span class="bad">API ERROR</span><br>' : '<span class="ok">API OK</span><br>') +
+        "engine: " + esc((h && (h.lifecycle || h.state)) || "UNAVAILABLE") + "<br>" +
+        "account: " + acc + "<br>" +
+        "staleness: " + staleness(state.lastEvent);
+    });
+  });
+}
+refresh();
+loadPolicy();
+setInterval(refresh, 3000);
+setInterval(loadPolicy, 5000);
+</script>
+</body>
+</html>

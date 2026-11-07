@@ -1,0 +1,20 @@
+{
+  "phase": "9K-MCP-CONTEXT-28",
+  "source": "delta_mcp_public",
+  "conditioning_domains": [
+    "trades",
+    "orderbook",
+    "open_interest",
+    "funding",
+    "mark_price",
+    "settlement",
+    "options",
+    "indices"
+  ],
+  "regime_labels_from_mcp": [],
+  "regime_detection": "UNCHANGED",
+  "venue_authentication": "UNVERIFIED",
+  "research_only": true,
+  "production_ready": false,
+  "external_observation": false
+}

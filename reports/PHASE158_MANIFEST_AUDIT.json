@@ -1,0 +1,58 @@
+{
+ "contract_test": "tests/test_phase158_manifest_contract.py",
+ "covered_files": 1847,
+ "duplicate_paths": [],
+ "exclusions": {
+  "self": {
+   "count": 1,
+   "examples": [
+    "BUILD_MANIFEST.sha256"
+   ]
+  },
+  "skip_dir:__pycache__": {
+   "count": 965,
+   "examples": [
+    "backtesting/__pycache__/__init__.cpython-312.pyc",
+    "backtesting/__pycache__/backtester.cpython-312.pyc",
+    "backtesting/__pycache__/portfolio_backtester.cpython-312.pyc",
+    "config/__pycache__/__init__.cpython-312.pyc",
+    "config/__pycache__/risk_settings.cpython-312.pyc",
+    "config/__pycache__/settings.cpython-312.pyc"
+   ]
+  }
+ },
+ "extra_in_manifest": [],
+ "malformed_lines": [],
+ "manifest_entries": 1847,
+ "manifest_lists_itself": false,
+ "mismatched_hashes": [],
+ "missing_from_manifest": [],
+ "nested_archives_covered": [
+  "research/phase11g_i/acquisition/raw/BTCUSDT/2026-09-05/BTCUSDT-1m-2026-09-05.zip",
+  "research/phase11g_i/acquisition/raw/BTCUSDT/2026-09-05/BTCUSDT-aggTrades-2026-09-05.zip",
+  "research/phase11g_n/data/raw/BTCUSDT/2026-09-07/BTCUSDT-1m-2026-09-07.zip",
+  "research/phase11g_n/data/raw/BTCUSDT/2026-09-07/BTCUSDT-aggTrades-2026-09-07.zip",
+  "research/phase11g_n/data/raw/BTCUSDT/2026-09-08/BTCUSDT-1m-2026-09-08.zip",
+  "research/phase11g_n/data/raw/BTCUSDT/2026-09-08/BTCUSDT-aggTrades-2026-09-08.zip",
+  "research/phase11g_n/data/raw/ETHUSDT/2026-09-07/ETHUSDT-1m-2026-09-07.zip",
+  "research/phase11g_n/data/raw/ETHUSDT/2026-09-07/ETHUSDT-aggTrades-2026-09-07.zip",
+  "research/phase11g_n/data/raw/ETHUSDT/2026-09-08/ETHUSDT-1m-2026-09-08.zip",
+  "research/phase11g_n/data/raw/ETHUSDT/2026-09-08/ETHUSDT-aggTrades-2026-09-08.zip"
+ ],
+ "regenerates_byte_for_byte": true,
+ "regenerates_identically_in_a_copy": true,
+ "root": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair",
+ "schema": "quantengine.manifest-audit.v1",
+ "self_reference_note": "this record is itself covered by the manifest. The entry counts above are the counts at audit time, which exclude this record; writing it adds exactly one manifest entry, and the manifest is regenerated afterwards so it covers this file too",
+ "verdict": "MANIFEST_AUDIT_PASS",
+ "verifier_hardening": "scripts/generate_manifest.py now reports duplicate and malformed manifest lines; before Phase158 a duplicate path silently collapsed in the expected map and a malformed line raised instead of being reported",
+ "verifier_negative_controls": {
+  "clean_tree_verifies": true,
+  "duplicate_line_detected": true,
+  "extra_file_detected": true,
+  "malformed_line_detected": true,
+  "missing_file_detected": true,
+  "wrong_hash_detected": true
+ },
+ "verify_problems": []
+}

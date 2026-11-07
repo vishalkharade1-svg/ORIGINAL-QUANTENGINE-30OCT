@@ -1,0 +1,120 @@
+{
+  "phase": 184,
+  "audit_title": "QuantEngine Phase 184 Blocker Ledger",
+  "audit_timestamp": "2026-10-21T00:48:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "release_gate": "HOLD / BLOCKED_EVIDENCE",
+  "blockers": [
+    {
+      "id": "BLOCK-184-01",
+      "title": "Historical Strategy Digest Discrepancy",
+      "classification": "CONTRACTUALLY_RETAINED_FAILURE",
+      "severity": "BLOCKER",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 5,
+      "current_evidence": "Five tests assert Phase 14 CRLF digest (c52e648c...). Current canonical LF digest is 9c56f3ff... Gate-80 cost fixes post-Phase 4 modified strategy files. Pins are preserved unchanged.",
+      "closure_requirements": "Formal operator authorization establishing dual-attestation baseline or historical digest update.",
+      "operator_action": "Review and approve strategy code modifications from Gate-80, or authorize dual baseline."
+    },
+    {
+      "id": "BLOCK-184-02",
+      "title": "Shallow Git Tree Ancestry Limitations",
+      "classification": "ENVIRONMENT_LIMITATION",
+      "severity": "MEDIUM",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 27,
+      "current_evidence": "27 tests assert commit ancestry back to fad7329b24d614794b35deb0b6926e5dd138977a. Shallow clone fails git merge-base --is-ancestor.",
+      "closure_requirements": "Full git history packfiles from upstream source repository.",
+      "operator_action": "Fetch or restore full git commit object database into the delivery worktree."
+    },
+    {
+      "id": "BLOCK-184-03",
+      "title": "Delta Exchange India Product ID 84 Multiplier Authority",
+      "classification": "PROVISIONAL_EVIDENCE",
+      "severity": "HIGH",
+      "status": "PROVISIONAL",
+      "affected_tests_count": 0,
+      "current_evidence": "Multiplier 0.001 for Delta Exchange India BTCUSD Product ID 84 is verified in calculation examples but remains provisional pending official authenticated exchange metadata capture.",
+      "closure_requirements": "Official exchange contract specification document or authenticated REST product payload capture. Zero live orders permitted.",
+      "operator_action": "Provide authenticated exchange API product definitions or signed exchange specification sheet."
+    },
+    {
+      "id": "BLOCK-184-04",
+      "title": "Historical ADAUSD Position Closure Evidence",
+      "classification": "EXTERNAL_EXCHANGE",
+      "severity": "HIGH",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Non-attributable current account historical ADAUSD closure cannot be established from repository records alone.",
+      "closure_requirements": "Capture and archive raw exchange order/fill receipt proving flat account balance.",
+      "operator_action": "Export authentic raw exchange order fills and ledger statement for historical ADAUSD position closure."
+    },
+    {
+      "id": "BLOCK-184-05",
+      "title": "Historical Funding-Debit Raw Evidence",
+      "classification": "EXTERNAL_EXCHANGE",
+      "severity": "MEDIUM",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Raw 8-hour funding cash flow debit receipts across historical settlement cycles remain unverifiable externally.",
+      "closure_requirements": "Capture authenticated raw exchange funding transaction payload during a live settlement cycle.",
+      "operator_action": "Archive official exchange funding fee ledger entries with transaction hashes."
+    },
+    {
+      "id": "BLOCK-184-06",
+      "title": "Incomplete Private WebSocket Trade-ID & Execution Matching",
+      "classification": "MARKET_DATA",
+      "severity": "HIGH",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Private WebSocket fill messages lack 100% deterministic trade-ID reconciliation against REST execution reports outside windowed sessions.",
+      "closure_requirements": "Execute bounded authenticated capture under operator authorization for full WebSocket-to-REST match certification.",
+      "operator_action": "Authorize and coordinate live read-only socket feed capture with synchronized REST poll."
+    },
+    {
+      "id": "BLOCK-184-07",
+      "title": "Market-Data Discontinuities & Missing Overlapping L2 Windows",
+      "classification": "MARKET_DATA",
+      "severity": "MEDIUM",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Historical L2 orderbook feeds contain gap intervals during reconnect cycles.",
+      "closure_requirements": "Continuous multi-venue market data ingestion and gap-free L2 archive capture.",
+      "operator_action": "Deploy dedicated redundant L2 depth recording infrastructure."
+    },
+    {
+      "id": "BLOCK-184-08",
+      "title": "Uncalibrated Queue-Fill & Maker-Execution Assumptions",
+      "classification": "EXECUTION_MODEL",
+      "severity": "HIGH",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Poisson arrival rates and queue position fill probabilities in QueueAwarePaperExecutionEngine are theoretical and uncalibrated against real fill logs.",
+      "closure_requirements": "Empirical exchange latency calibration and passive fill rate benchmarking.",
+      "operator_action": "Provide anonymized production passive maker fill latency logs for statistical calibration."
+    },
+    {
+      "id": "BLOCK-184-09",
+      "title": "Historical Credential Exposure, Key Revocation & Access-Log Review",
+      "classification": "OPERATIONAL_SECURITY",
+      "severity": "HIGH",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Current repository contains zero active secrets (SECRET_SCAN_PASS). However, historical commits contained exposed credentials whose formal exchange revocation and access logs require operational sign-off.",
+      "closure_requirements": "Exchange console API key revocation receipts and security access log sign-off.",
+      "operator_action": "Complete security audit of exchange API key management console and confirm complete revocation."
+    },
+    {
+      "id": "BLOCK-184-10",
+      "title": "Fee, GST, Rebate & Tax-Invoice Reconciliation",
+      "classification": "ACCOUNTING_TAX",
+      "severity": "HIGH",
+      "status": "UNRESOLVED",
+      "affected_tests_count": 0,
+      "current_evidence": "Statutory 18% GST fee calculations in maker_execution_model.py are mathematically sound, but lack cross-validation against official Delta Exchange India tax invoices.",
+      "closure_requirements": "Reconcile official Delta Exchange India monthly tax invoices against internal ledger accounts.",
+      "operator_action": "Provide official GST tax invoices from Delta Exchange India for monthly accounting sign-off."
+    }
+  ]
+}

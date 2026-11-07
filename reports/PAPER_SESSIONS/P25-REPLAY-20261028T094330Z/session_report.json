@@ -1,0 +1,117 @@
+{
+  "cost_economics": {
+    "classification": "CONFIGURED_SIMULATION",
+    "known": true,
+    "per_trade": 0.0,
+    "profile_name": "p25-conservative-assumption",
+    "rate": 0.0005,
+    "slippage_bps": 5.0,
+    "venue_realistic": false,
+    "venue_source": ""
+  },
+  "evidence_class": "SYNTHETIC_FIXTURE",
+  "fills_are": "SIMULATED_PAPER_FILL",
+  "gap_repair": null,
+  "market_data_endpoint": null,
+  "market_data_source": "synthetic_frames:seed=99:candles=600",
+  "phase24_report": {
+    "counts": {
+      "disconnects": {},
+      "engine": {
+        "last_route_error": "",
+        "reconcile_errors": 0,
+        "registry_count": 1,
+        "route_errors": 0,
+        "routed": 299,
+        "unrouted": 0
+      },
+      "frames_ingested": 598,
+      "frames_input": 600,
+      "gaps": {
+        "statuses": {
+          "DELTA:BTCUSDT:1m": {
+            "gaps": [
+              "CandleGap(venue='DELTA', instrument='BTCUSDT', resolution='1m', after_start=1700018340, before_start=1700018520, missing_candles=2)"
+            ],
+            "missing_candles": 2,
+            "status": "DATA_GAP_UNREPAIRED"
+          }
+        }
+      },
+      "log_verdicts": {
+        "PIPELINE_ADDED": 1,
+        "SETUP_ACCEPTED": 1
+      },
+      "paper": {
+        "equity_end": 2000.5905863520793,
+        "equity_start": 2000.0,
+        "orders_placed": 1,
+        "trades_closed": 1
+      },
+      "pipeline": {
+        "candles_processed": 299,
+        "registry_symbols": [
+          "BTCUSDT"
+        ]
+      },
+      "risk": {
+        "decision_accepted_rr": [
+          3.205485
+        ],
+        "decision_accepted_total": 1,
+        "decision_rejected_total": 6,
+        "orders_created_placed": 1,
+        "setups_seen_total": 7
+      },
+      "skipped_for_gap": 2,
+      "stream": {
+        "applied": 598,
+        "duplicates_or_old": 1,
+        "rejected": 0,
+        "unhandled": 0
+      },
+      "synthetic_frames_injected": 1,
+      "transport": {
+        "closed_delivered": 299,
+        "forming_delivered": 1,
+        "frames_ingested": 599,
+        "runtime_rejections": {
+          "candle continuity is not verified": 298
+        },
+        "unrouted": 0
+      },
+      "unrouted_during_outage": 0,
+      "workers": {
+        "BTCUSDT": {
+          "delivered": 299,
+          "duplicates": 0,
+          "forming_skipped": 1,
+          "out_of_order": 0,
+          "received": 300,
+          "status": "LIVE"
+        }
+      }
+    },
+    "deterministic": true,
+    "endpoint": null,
+    "evidence_class": "SYNTHETIC_FIXTURE",
+    "faults_applied": [
+      "DuplicateFault@120",
+      "GapFault@300"
+    ],
+    "non_deterministic": {
+      "latency_ms": {},
+      "memory_peak_mb": 0.0,
+      "runtime_seconds": 1.063
+    },
+    "schema": "quantengine.verified-transport-replay.v1",
+    "seed": null,
+    "source_path": "",
+    "speed": 0.0,
+    "symbol": null
+  },
+  "preliminary": true,
+  "schema": "quantengine.phase25-paper-session-report.v1",
+  "session_id": "P25-REPLAY-20261028T094330Z",
+  "session_mode": "offline_replay"
+}

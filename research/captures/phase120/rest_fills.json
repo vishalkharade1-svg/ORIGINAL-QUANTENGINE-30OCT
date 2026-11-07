@@ -1,0 +1,90 @@
+{
+  "captured_at": "2026-10-11T11:01:47.938720+00:00",
+  "environment": "INDIA_TESTNET",
+  "evidence_sha256": "667ab3147faa4c792310e936d9d2b3c8f98f9281529699036ff1a0dbe5b5da00",
+  "fills": [
+    {
+      "commission": "0.08816353",
+      "fill_id": "bf23c4741bc242f69e69bc693aab9299",
+      "fill_type": "normal",
+      "order_id": "2175077023",
+      "price": "83016.5",
+      "role": "taker",
+      "side": "buy",
+      "size": "2",
+      "symbol": "BTCUSD",
+      "timestamp": 1791706066244
+    },
+    {
+      "commission": "0.03526971",
+      "fill_id": "276465d643294b0fa921041c835f48a4",
+      "fill_type": "normal",
+      "order_id": "2175077503",
+      "price": "83026.6",
+      "role": "maker",
+      "side": "sell",
+      "size": "2",
+      "symbol": "BTCUSD",
+      "timestamp": 1791706359123
+    },
+    {
+      "commission": "0.04409399",
+      "fill_id": "c65da8154eda4f37937a54cc86722a06",
+      "fill_type": "normal",
+      "order_id": "2175079813",
+      "price": "83039.5",
+      "role": "taker",
+      "side": "buy",
+      "size": "1",
+      "symbol": "BTCUSD",
+      "timestamp": 1791708843616
+    },
+    {
+      "commission": "0.04409186",
+      "fill_id": "66845084e3bc4a8098dec075ce017e7c",
+      "fill_type": "normal",
+      "order_id": "2175079814",
+      "price": "83035.5",
+      "role": "taker",
+      "side": "sell",
+      "size": "1",
+      "symbol": "BTCUSD",
+      "timestamp": 1791708844107
+    },
+    {
+      "commission": "0.04408309",
+      "fill_id": "0b75139556ce4570bc523277add20ac2",
+      "fill_type": "normal",
+      "order_id": "2175080073",
+      "price": "83019",
+      "role": "taker",
+      "side": "buy",
+      "size": "1",
+      "symbol": "BTCUSD",
+      "timestamp": 1791709221848
+    },
+    {
+      "commission": "0.04408097",
+      "fill_id": "2adff3b55ba04b39a1b4988656904d9b",
+      "fill_type": "normal",
+      "order_id": "2175080074",
+      "price": "83015",
+      "role": "taker",
+      "side": "sell",
+      "size": "1",
+      "symbol": "BTCUSD",
+      "timestamp": 1791709222397
+    }
+  ],
+  "provenance_status": "REAL",
+  "request_params": {
+    "page_size": 100,
+    "symbol": "BTCUSD",
+    "symbol_rows_kept": 6,
+    "symbol_rows_seen": 28
+  },
+  "schema_version": 1,
+  "source_endpoint": "https://cdn-ind.testnet.deltaex.org/v2/fills",
+  "symbol": "BTCUSD",
+  "venue": "delta"
+}

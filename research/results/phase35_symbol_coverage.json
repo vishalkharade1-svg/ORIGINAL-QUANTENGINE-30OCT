@@ -1,0 +1,22 @@
+{
+  "coverage": {
+    "audit_id": "5d2af225c03ce88fff5e6d3109e0cd43a28149de0dccd61b0536139537014129",
+    "missing_symbol_rows": 30247,
+    "required_bars": 300000,
+    "required_trades": 60,
+    "schema_version": "1",
+    "symbols": []
+  },
+  "dataset_identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+  "is_production_ready": false,
+  "limitations": [
+    "current OOS candle cache has no explicit per-row symbol field",
+    "single-symbol filenames are not used to synthesize symbol metadata",
+    "no universal claim is permitted from one symbol",
+    "additional explicit-symbol evidence is required for cross-symbol consistency"
+  ],
+  "phase": 35,
+  "production_ready": false,
+  "purpose": "multi-symbol OOS evidence coverage only",
+  "universal_validation": false
+}

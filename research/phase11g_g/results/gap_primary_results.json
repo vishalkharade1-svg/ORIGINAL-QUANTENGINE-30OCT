@@ -1,0 +1,82 @@
+{
+ "H11GF-001": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-002": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-003": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-004": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-005": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-006": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-007": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ },
+ "H11GF-008": {
+  "metrics_C": {
+   "expectancy": 0.0,
+   "net": 0,
+   "pf": 0.0
+  },
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE",
+  "wf": "WF_INFEASIBLE"
+ }
+}

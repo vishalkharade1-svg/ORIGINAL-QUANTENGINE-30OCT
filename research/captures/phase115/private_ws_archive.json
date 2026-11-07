@@ -1,0 +1,55 @@
+{
+  "archive_sha256": "1d1fe35db6fe8a4029cefa7c18a5e138360a484238cbca345bb690ea198e1f15",
+  "channel": "v2/user_trades",
+  "first_seq": null,
+  "frames": [
+    {
+      "chain_sha256": "e32c8d036ec90ad07d276326468299b5bf6347d97be58004c1a1a7dae248b3c4",
+      "frame": {
+        "R": "normal",
+        "S": "buy",
+        "c": "QE-exp-20261011T090010Z-R1",
+        "f": "0b75139556ce4570bc523277add20ac2",
+        "i": 84,
+        "o": 2175080073,
+        "p": "83019",
+        "po": 1,
+        "r": "taker",
+        "s": "1",
+        "se": 5,
+        "sy": "BTCUSD",
+        "t": 1791709221848602,
+        "type": "v2/user_trades",
+        "u": 12141396
+      },
+      "frame_sha256": "beafe7a104d035120a6f964b3ef011c9586322711e353087ea878f89e6271f65"
+    },
+    {
+      "chain_sha256": "6fa83922eb6a862d71dcf9c35b2d17e722dd00215b4d8180272abecf27f630f7",
+      "frame": {
+        "R": "normal",
+        "S": "sell",
+        "c": "QE-exp-20261011T090010Z-R2",
+        "f": "2adff3b55ba04b39a1b4988656904d9b",
+        "i": 84,
+        "o": 2175080074,
+        "p": "83015",
+        "po": 0,
+        "r": "taker",
+        "s": "1",
+        "se": 6,
+        "sy": "BTCUSD",
+        "t": 1791709222397285,
+        "type": "v2/user_trades",
+        "u": 12141396
+      },
+      "frame_sha256": "8994d1b9c2cff71b9fb81ffdf41a3f218a2c8ec1ec725bb8545257cc85984e9b"
+    }
+  ],
+  "last_seq": null,
+  "provenance_status": "REAL",
+  "schema_version": 1,
+  "symbol": "BTCUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

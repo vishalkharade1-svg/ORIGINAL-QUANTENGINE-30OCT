@@ -1,0 +1,25 @@
+{
+ "acquired_at": "2026-09-09T09:46:44.202805+00:00",
+ "date": "2026-09-08",
+ "files": {
+  "aggTrades": {
+   "bytes": 12614367,
+   "checksum_file_sha256": "f616fd04f0457fead1ad77e032d0a30a22e1a08a5bff9e123f26287e34afb1eb",
+   "checksum_match": true,
+   "local_sha256": "b0cca50f65f5d7ad33e5ef02d0896395208e71330c030b90258aa9abefcbcdf5",
+   "provider_sha256": "b0cca50f65f5d7ad33e5ef02d0896395208e71330c030b90258aa9abefcbcdf5",
+   "seconds": 6.05,
+   "url": "https://data.binance.vision/data/futures/um/daily/aggTrades/BTCUSDT/BTCUSDT-aggTrades-2026-09-08.zip"
+  },
+  "klines": {
+   "bytes": 61281,
+   "checksum_file_sha256": "008dc1dfe160b8a2facb7fdf0358149f56177444c49cdc4b378c1155f5b1c551",
+   "checksum_match": true,
+   "local_sha256": "ad03f5ae286bf20186fb0ef7bf5b836bef2f30eedae8f8915ba6436a448fe778",
+   "provider_sha256": "ad03f5ae286bf20186fb0ef7bf5b836bef2f30eedae8f8915ba6436a448fe778",
+   "seconds": 1.12,
+   "url": "https://data.binance.vision/data/futures/um/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2026-09-08.zip"
+  }
+ },
+ "symbol": "BTCUSDT"
+}

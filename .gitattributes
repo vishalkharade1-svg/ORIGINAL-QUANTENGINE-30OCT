@@ -1,0 +1,29 @@
+# ====================================================
+# QuantEngine .gitattributes (Phase 21, owner-approved Option A)
+# ====================================================
+# Contract: the frozen 11G-N..U artifacts record ``code_hash`` values
+# as raw-byte SHA-256 digests of their companion generator scripts,
+# computed via ``hashlib.sha256(Path(__file__).read_bytes())`` and
+# pinned in HEAD against the canonical LF encodings committed on
+# Linux.  Those 8 generator files therefore must always be checked
+# out with LF endings on every platform (including Windows with
+# core.autocrlf=true) so the pinned digests reproduce from raw disk
+# bytes.  THIS IS A TARGETED CONTRACT: the rules below name exactly
+# the 8 pinned generators; every other file in the tree keeps the
+# repository-wide checkout behavior (core.autocrlf), and no other
+# research content is re-marked.
+#
+# The 11G acquisition stores (*.zip under research/**/data/raw/**)
+# are binary blobs; the binary macro forces -text so content
+# normalization can never touch them (checkout writes bundle bytes
+# verbatim regardless of core.autocrlf).
+
+research/phase11g_n/analyze.py   text eol=lf
+research/phase11g_o/analyze_o.py text eol=lf
+research/phase11g_p/analyze_p.py text eol=lf
+research/phase11g_q/gate.py      text eol=lf
+research/phase11g_r/gate_r.py    text eol=lf
+research/phase11g_s/gate_s.py    text eol=lf
+research/phase11g_t/monitor.py   text eol=lf
+research/phase11g_u/monitor_u.py text eol=lf
+research/**/data/raw/** binary

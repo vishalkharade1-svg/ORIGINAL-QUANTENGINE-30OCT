@@ -1,0 +1,89 @@
+{
+  "phase": 161,
+  "generated_for": "QuantEngine_PHASE161_RELEASE_CANDIDATE.zip",
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is a blocker that the Phase161 environment-adoption cycle did NOT resolve, each with the reason it cannot be resolved from inside this archive. None has been downgraded by wording, and none is a test that was silenced to make the suite look better. The cycle executed exactly the unblock BLOCK-160-06 declared (the dependency-environment step) and closed that one carried block; everything else stands unchanged, evidence-collection being external-blocked as below.",
+  "blockers": [
+    {
+      "id": "BLOCK-161-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin strategy digest c52e648c4e6a... (full value in the tests themselves) and still FAIL against this tree.",
+      "why": "The digest matches no revision recoverable from this archive, from any archive on disk (Phase131..Phase160), or from the original upload. The documented contract in scripts/recertify_strategy_digest.py states the re-certification requires the original Git checkout plus a research re-execution it cannot perform here; it returns STATUS: BLOCKED.",
+      "effect": "The five tests are correct change detectors and stay red on purpose. Re-pinning them to the current bytes would destroy the only evidence that the strategy changed; no phase has done that, and this cycle re-ran them under the adopted environment with the identical failure set.",
+      "unblock": "Recover the original Git history and re-execute the research path, then run the documented re-certification.",
+      "evidence": ["reports/PHASE158_HASH_FAILURE_TRIAGE.json", "reports/PHASE161_FULL_SUITE_RUN.txt", "scripts/recertify_strategy_digest.py"]
+    },
+    {
+      "id": "BLOCK-161-02",
+      "area": "funding-through-settlement evidence",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "No funding-through-settlement capture exists for this tree.",
+      "why": "The capture needs an authorized Testnet order run. The India Testnet API key's IP whitelist still holds 157.33.197.21, so an authenticated request from the current egress address is refused before any order could be signed.",
+      "effect": "The funding-cost component of the economics ledger remains INSUFFICIENT_EVIDENCE. No order-capable script was run during Phase 161.",
+      "unblock": "The operator removes or replaces the IP restriction on the India Testnet key, then authorizes a bounded run.",
+      "evidence": ["research/captures/phase148_funding/ip_whitelist_blocker.json", "research/captures/phase148_funding/hold_log.jsonl", "reports/PHASE161_RELEASE_GATES.json"]
+    },
+    {
+      "id": "BLOCK-161-03",
+      "area": "repeat-match evidence",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "No second reconciled match exists beyond the two bounded captures already held.",
+      "why": "Same external cause as BLOCK-161-02: the IP whitelist blocks the authorized order run the capture requires.",
+      "effect": "The windowed reconciler (reconcile_with_rest_windowed, Phase157) is the strongest statement available: it certifies a WINDOW, never the account.",
+      "unblock": "Same as BLOCK-161-02.",
+      "evidence": ["research/economics/delta_private_fill_capture.py", "reports/PHASE157_RELEASE_GATES.json"]
+    },
+    {
+      "id": "BLOCK-161-04",
+      "area": "Git-ancestry evidence facts",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "40 Git-dependent facts are gated as BLOCKED_EVIDENCE: 19 that failed loudly in Phase157 and 21 that had been passing VACUOUSLY (a failed git command returns empty output, which satisfied assertEqual(out, \"\") / assertEqual(hits, [])).",
+      "why": "No .git directory exists anywhere in this tree or in any archive delivered to it, so Git ancestry cannot be established in archive mode. The record was refreshed for this phase (reports/PHASE161_GIT_EVIDENCE_STATUS.json) with the fact set carried byte-for-byte from the Phase160 record; no gated test was added or removed by the environment-adoption cycle.",
+      "effect": "The release gate for ancestry stays BLOCKED, exactly as the Phase 2 requirement demands. The guard (tests/evidence_mode.py) steps aside in a real repository and was verified against a throwaway temp repo.",
+      "unblock": "Deliver the project as a real Git repository (or record these facts as permanently inapplicable by an explicit contract change).",
+      "evidence": ["reports/PHASE161_GIT_EVIDENCE_STATUS.json", "tests/evidence_mode.py", "tests/test_git_evidence_mode_contract.py"]
+    },
+    {
+      "id": "BLOCK-161-05",
+      "area": "independent forensic audit (vendor independence)",
+      "status": "PENDING_EXTERNAL_REVIEW",
+      "what": "A vendor independent audit still has not happened for any phase of this chain. What exists: the round-1 independent audit of the Phase158 revision-1 bytes (findings received and dispositioned), the release-side round-2 audit continuation executed 2026-10-18 (PHASE160_AUDIT_CONTINUATION.json in the Phase160 post-build bundle, rightly labelled non-independent), and the Phase160 audit handoff (PHASE160_AUDIT_HANDOFF.md) prepared beside the Phase160 delivery -- the handoff, bundle and record now preserved with the superseded delivery in ../_phase160_superseded/.",
+      "why": "Self-audit independence is by process only -- the entity that produced the artifact cannot be independent of it by vendor. This block requires an auditor who did not build, repair, or ship the bytes.",
+      "effect": "No self-produced report (including the round-2 continuation) may be read as independent verification. A Phase161 handoff note has NOT been prepared -- preparing it and engaging the auditor remain operator-attached steps.",
+      "unblock": "Prepare the Phase161 handoff (same pattern as PHASE159_AUDIT_HANDOFF.md) or hand the preserved Phase160 delivery to an independent auditor; record the result.",
+      "evidence": ["../_phase160_superseded/PHASE160_AUDIT_HANDOFF.md", "../_phase160_superseded/QuantEngine_PHASE160_POST_BUILD/reports/PHASE160_AUDIT_CONTINUATION.json", "docs/CLAUDE_PHASE158_INDEPENDENT_AUDIT_PROMPT.md", "reports/PHASE161_RELEASE_GATES.json"]
+    },
+    {
+      "id": "BLOCK-161-06",
+      "area": "old-account position",
+      "status": "BLOCKED_EXTERNAL",
+      "what": "ADAUSD LONG 1 @ 0.23327 on the old account remains open and untouched by this phase.",
+      "why": "Closing it requires operator funding and the old account's keys.",
+      "effect": "Recorded here so it is not lost; Phase161 performed no order action of any kind.",
+      "unblock": "Operator action on the old account.",
+      "evidence": ["reports/PHASE153_LEDGER.md", "NEXT_ACTIONS.md"]
+    }
+  ],
+  "closed_this_cycle": [
+    {
+      "id": "BLOCK-160-06",
+      "area": "dependency advisories",
+      "status_at_phase_160": "ACCEPTED_RISK_DEFERRED",
+      "resolution": "the declared unblock was executed: the three evaluated upgrades are adopted into requirements.txt (python-dotenv 1.2.2, pyarrow 23.0.1, pytest 9.0.3), the installed environment was upgraded to match, and a fresh OSV query against the adopted pins clears all advisories -- no advisory remains open against any pinned version. The whole evidence set of this candidate was re-derived under the adopted pins, satisfying the block's own condition (a phase whose scope includes re-deriving the evidence environment).",
+      "evidence": ["reports/PHASE161_DEPENDENCY_REVIEW.md", "reports/PHASE161_OSV_SCAN.json", "reports/PHASE161_ENVIRONMENT.json"]
+    }
+  ],
+  "standing_findings": [
+    {
+      "id": "FIND-161-01",
+      "finding": "EDGE NOT ESTABLISHED",
+      "statement": "No economic edge is established for any strategy revision. This is unchanged by Phase161 and must be restated in any handoff: the release work repairs evidence integrity and hardens scanners, not profitability."
+    },
+    {
+      "id": "FIND-161-02",
+      "finding": "restricted evidence package",
+      "statement": "This archive deliberately contains raw private captures carrying the operator's account identifier and venue order ids (the value is parameterised in scripts/security/scan_privacy.py and appears nowhere but those captures). It is a restricted evidence package, not a distributable. See reports/PHASE161_PRIVACY_REVIEW.md. Test fixture identifiers are synthetic as of Phase159, and as of Phase160 every member is content-inspected or a declared opaque class; this cycle changed neither fact."
+    }
+  ]
+}

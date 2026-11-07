@@ -1,0 +1,66 @@
+{
+ "datasets": {
+  "BTCUSDT": {
+   "first": 1787755440,
+   "last": 1788175440,
+   "lineage": "D1[0:4001]+D2[4001:7001]",
+   "n": 7001,
+   "sha256": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f"
+  },
+  "ETHUSDT": {
+   "first": 1787755440,
+   "last": 1788175440,
+   "lineage": "D1[0:4001]+D2[4001:7001]",
+   "n": 7001,
+   "sha256": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f"
+  }
+ },
+ "env": {
+  "numpy": "2.1.1",
+  "pandas": "2.2.2",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "pytest": "8.4.2",
+  "python": "3.12.10"
+ },
+ "parents": [
+  "f782d9dcf2285a2c9bd16c3fff2e9980686a32d6",
+  "23125181dde7ae52e11be19488021fd1af2e43a5"
+ ],
+ "phase": "11F-5",
+ "protocol": {
+  "costs": "11F-costs-A/B/C/D-v1",
+  "exec": "11F-exec-LIMIT_RETEST-v1",
+  "validation": "11F-3.0",
+  "wf": {
+   "design": "expanding-origin chronological folds",
+   "embargo_bars": 25,
+   "invariant": "train_end + purge + embargo <= test_start < test_end",
+   "n_folds": 4,
+   "purge_bars": 150,
+   "step_bars": 1000,
+   "test_bars": 1000,
+   "train_min_bars": 2000,
+   "train_rule": "train_start = 0 for every fold; train_end = train_min_bars + k*step_bars"
+  }
+ },
+ "seeds": {
+  "mc_boot": 1107002,
+  "mc_shuffle": 1107001,
+  "rb": "1108000-1108499",
+  "v2": 1107
+ },
+ "sources": {
+  "candidates.py": "255d784f7d49741c5692eaa9cba0e9479d7b882390dd880940ef35f387449d29",
+  "causality.py": "095e755d7e2c3ac73ee4f95b24d713fdfccf5132428ea45782f0ff219698f8bf",
+  "contracts.py": "75b600597499cdae5c0f685e1f1016e99a916e6b6cfe004306c243791336fec2",
+  "datasets.json": "411eaa45d7ab746407d3199b660db80ea53b9df989ba7b9f2bd3fc8634929f0a",
+  "datasets.py": "d1f6f184eb5017755cd2fad27c6cb34313a87ea7c29677c44d6f129b6df6d28d",
+  "features.py": "3faabbd74085c24a10ad9ae9e6905ac6b0b15f6114700b64d7a8d74af35ac6fe",
+  "fibonacci.py": "43d742a1059c1e2cdaf5ebf51f0b8a3dd269494c3e38eab54d8847a22c158cff",
+  "harness.py": "816da2c867299322e6895dc40a13bd73988332d4067127cd1f42e1d51ffcda0a",
+  "hypotheses.json": "348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005",
+  "metrics.py": "53bb891c08138d88ab7c9874e6c1971fea5fbb7c34037966e1b781310db6082d",
+  "run_research.py": "64e30f6384b46fc0c0463bc4fb1fe914581dc9258db2470d2d6f382c3542f8d5",
+  "validation.py": "70573eb22ecd35cf2577e38dd9df4b1d8f40eefb58e4e18eb6a55ca4f048efae"
+ }
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "quantengine.phase22-strategy-identity-baseline.v1",
+  "historical_phase14_pinned_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+  "registered_frozen_baseline": {
+    "schema_ref": "quantengine.strategy-identity.v2",
+    "strategy_core": {
+      "version": "1.1-phase4-corrected",
+      "sha256": "26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666",
+      "files": [
+        {
+          "file": "core/execution/entry_model.py",
+          "sha256": "8cb0fb2f45f87f1bcd42072e5ea48b30a982193d8eabeb158fd704c2f5234a82"
+        },
+        {
+          "file": "core/setup/trade_setup_builder.py",
+          "sha256": "f780310cad383995f59ce3181483bdd52e85461746893b96dae131febfd6cecc"
+        },
+        {
+          "file": "core/setup/decision_engine.py",
+          "sha256": "cc1d3e1e0b0ae641ea5f173657e8b2dc7e7798b5f6e7cc0e5596c4e04b482599"
+        },
+        {
+          "file": "core/execution/execution_engine.py",
+          "sha256": "19a469e1980828dde28ebe8d5728ce5d4a5c6c1e5c935628ea3ee8bfddd249c4"
+        },
+        {
+          "file": "core/risk/risk_engine.py",
+          "sha256": "d3b07dabec104a3e182369a848bc2fd086393ab850d1f1c08df790dc8ecc97a4"
+        },
+        {
+          "file": "config/risk_settings.py",
+          "sha256": "7c38bd894ff2638cd9b287fbed01d505608729d685bd141f8dd86406b6ca6880"
+        }
+      ]
+    },
+    "runtime_infrastructure": {
+      "version": "1.1-phase164-hardened",
+      "sha256": "997a21f21045551ed25e29d2289157d257b16b5f3b99bbf04e95c7f257b96294",
+      "files": [
+        {
+          "file": "core/backtesting/accounting.py",
+          "sha256": "e668a77e8d6985918ca0440cb3a4633d2afa313df6957107433fcc2d07d1e794"
+        },
+        {
+          "file": "backtesting/backtester.py",
+          "sha256": "2ef42fee41b89e867a5150610e31df1ff3ecb62eca351aeea4cec464e0b0775f"
+        },
+        {
+          "file": "core/paper_trading/paper_trading_engine.py",
+          "sha256": "7aa2518ec647efc9c559968a9f3fcde9cf916cfbfb2ca540290d6c903fe422e5"
+        }
+      ]
+    },
+    "composite_legacy_9_files": {
+      "canonical_lf_sha256": "05986916c990dbda8329b7fa8230ced878f951c68ed87e071b6afd3b8475afda",
+      "raw_disk_sha256": "473e5942166e717bf27a49d29ce9a38f8b4e9e2de6393bf3a484c8c3efe3c990"
+    }
+  },
+  "provenance": {
+    "decision": "Phase-14 pooled 9-file pin preserved as historical record. Live research registration moves to the Phase-165 versioned identity (LF-canonical alpha core + runtime infrastructure).",
+    "classification": "Worktree drift of the 6 alpha/runtime files is intentional runtime-policy hardening (product execution layer), distinct from frozen research semantics.",
+    "era_reproduction_evidence": "HEAD-committed code reproduces all six recorded OOS period funnels exactly; worktree code under the frozen-research runtime isolation (QUANTENGINE_FROZEN_OOS) reproduces the same six funnels exactly.",
+    "pinned_bytes_recoverability": "The Phase-14 pinned byte state is unrecoverable from any preserved state (git object store, 166 dangling commits, 25 delivery zips, EOL variants).",
+    "behavioral_contract": "Frozen replays must execute under era semantics; runtime policy (trading_policy) remains the sole production fill-path authority (Phase-99/100 guards unchanged)."
+  }
+}

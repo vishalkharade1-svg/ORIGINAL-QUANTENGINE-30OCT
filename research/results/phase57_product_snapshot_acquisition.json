@@ -1,0 +1,12 @@
+{
+  "phase": 57,
+  "mission": "EXPLICIT PRODUCT SNAPSHOT ACQUISITION BOUNDARY",
+  "acquisition_script": "scripts/acquire_phase17_product_snapshot.py",
+  "builder": "scripts/build_phase17_artifact.py",
+  "network_boundary": "ACQUISITION_ONLY",
+  "observed_label": "CALLER_SUPPLIED",
+  "credentials": false,
+  "state_changing": false,
+  "production_ready": false,
+  "status": "IMPLEMENTED_TESTED_VERIFIED"
+}

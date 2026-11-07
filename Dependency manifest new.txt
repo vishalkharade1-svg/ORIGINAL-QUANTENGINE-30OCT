@@ -1,0 +1,840 @@
+====================================================
+FILE
+====================================================
+
+core/market_structure/swing_engine.py
+
+TYPE
+----
+Institutional Analysis Engine
+
+STATUS
+------
+CANONICAL
+
+====================================================
+IMPORTS
+====================================================
+
+common.base_engine.BaseEngine
+(or core.common.base_engine.BaseEngine depending on project structure)
+
+core.market_structure.swing
+
+core.market_structure.swing_registry
+
+core.market_structure.swing_metrics
+
+core.scoring.swing_score_engine
+
+====================================================
+INHERITS
+====================================================
+
+BaseEngine
+
+====================================================
+PRODUCES
+====================================================
+
+PipelineContext.swings
+
+====================================================
+CONSUMES
+====================================================
+
+PipelineContext.candles
+
+====================================================
+PUBLIC METHODS
+====================================================
+
+analyze(context)
+
+scan(bars)
+
+latest()
+
+institutional()
+
+majors()
+
+highs()
+
+lows()
+
+reset()
+
+====================================================
+USED BY
+====================================================
+
+InstitutionalPipeline
+
+MarketStructureEngine
+
+TrendEngine
+
+StructureEngine
+
+Liquidity Engines
+
+====================================================
+PIPELINE PRIORITY
+====================================================
+
+100
+
+====================================================
+ACTION
+====================================================
+
+CANONICAL
+
+====================================================
+FILE
+====================================================
+
+core/market_structure/trend_engine.py
+
+TYPE
+----
+Pipeline Analysis Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+core.common.base_engine.BaseEngine
+
+PRIORITY
+--------
+110
+
+DEPENDS ON
+----------
+core/common/base_engine.py
+core/enums/__init__.py
+core/market_structure/trend.py
+core/market_structure/swing_registry.py
+
+READS
+-----
+PipelineContext.swings
+
+WRITES
+------
+PipelineContext.trend
+
+PUBLIC METHODS
+--------------
+analyze(context)
+update(registry)
+reset()
+
+USED BY
+-------
+InstitutionalPipeline
+MarketStructureEngine
+
+NEXT FILE
+---------
+core/market_structure/structure_engine.py
+
+====================================================
+FILE
+====================================================
+
+core/replay/pipeline_runner.py
+
+TYPE
+----
+Replay Coordinator
+
+STATUS
+------
+REPLACED
+
+DEPENDS ON
+----------
+core/events/event_bus.py
+core/pipeline/institutional_pipeline.py
+core/replay/replay_engine.py
+
+READS
+-----
+ReplayEngine
+
+WRITES
+------
+EventBus
+InstitutionalPipeline
+
+PUBLIC METHODS
+--------------
+run()
+
+USED BY
+-------
+Replay Tests
+Backtester
+Replay System
+
+ARCHITECTURE
+------------
+ReplayEngine
+      │
+      ▼
+EventBus
+      ▼
+InstitutionalPipeline
+      ▼
+Registered Engines
+
+====================================================
+FILE
+====================================================
+
+core/market_structure/structure_engine.py
+
+TYPE
+----
+Pipeline Analysis Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common.base_engine.BaseEngine
+
+PRIORITY
+--------
+120
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/enums/__init__.py
+core/market_structure/swing_registry.py
+
+READS
+-----
+PipelineContext.swings
+
+WRITES
+------
+PipelineContext.structure
+
+PUBLIC METHODS
+--------------
+analyze(context)
+update(registry)
+latest()
+bullish()
+bearish()
+reset()
+
+USED BY
+-------
+InstitutionalPipeline
+MarketStructureEngine
+BOSEngine
+CHoCHEngine
+
+====================================================
+FILE
+====================================================
+
+core/market_structure/bos_engine.py
+
+TYPE
+----
+Pipeline Analysis Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common/base_engine.BaseEngine
+
+PRIORITY
+--------
+130
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/enums/__init__.py
+core/market_structure/structure_engine.py
+
+READS
+-----
+PipelineContext.structure
+
+WRITES
+------
+PipelineContext.bos
+
+PUBLIC METHODS
+--------------
+analyze(context)
+update(structure_events)
+latest()
+bullish()
+bearish()
+reset()
+
+USED BY
+-------
+InstitutionalPipeline
+MarketStructureEngine
+CHoCHEngine
+
+====================================================
+FILE
+====================================================
+
+core/market_structure/choch_engine.py
+
+TYPE
+----
+Pipeline Analysis Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common/base_engine.BaseEngine
+
+PRIORITY
+--------
+140
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/market_structure/structure_engine.py
+core/market_structure/bos_engine.py
+
+READS
+-----
+PipelineContext.structure
+PipelineContext.bos
+
+WRITES
+------
+PipelineContext.choch
+
+PUBLIC METHODS
+--------------
+analyze(context)
+update(structure_events, bos_events)
+latest()
+bullish()
+bearish()
+reset()
+
+USED BY
+-------
+InstitutionalPipeline
+MarketStructureEngine
+
+====================================================
+FILE
+====================================================
+
+core/market_structure/market_structure_engine.py
+
+TYPE
+----
+Pipeline Aggregation Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common/base_engine.BaseEngine
+
+PRIORITY
+--------
+150
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/enums/__init__.py
+core/market_structure/state.py
+
+PIPELINE DEPENDENCIES
+---------------------
+SwingEngine
+TrendEngine
+StructureEngine
+BOSEngine
+CHoCHEngine
+
+READS
+-----
+PipelineContext.swings
+PipelineContext.trend
+PipelineContext.structure
+PipelineContext.bos
+PipelineContext.choch
+
+WRITES
+------
+PipelineContext.market.structure
+
+PUBLIC METHODS
+--------------
+analyze(context)
+reset()
+
+USED BY
+-------
+InstitutionalPipeline
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_pool.py
+
+TYPE
+----
+Institutional Market Object
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+core/objects/market_object.py
+
+DEPENDS ON
+----------
+core/objects/market_object.py
+
+USED BY
+-------
+LiquidityPoolEngine
+LiquiditySweepEngine
+LiquidityTargetEngine
+LiquidityRanker
+LiquidityScore
+LiquidityEngine
+
+PUBLIC METHODS
+--------------
+is_buy_side()
+is_sell_side()
+activate()
+deactivate()
+mark_swept()
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_target.py
+
+TYPE
+----
+Institutional Market Object
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+core/objects/market_object.py
+
+DEPENDS ON
+----------
+core/objects/market_object.py
+
+USED BY
+-------
+LiquidityTargetEngine
+LiquidityEngine
+
+PUBLIC METHODS
+--------------
+is_buy_side()
+is_sell_side()
+mark_reached()
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_sweep.py
+
+TYPE
+----
+Institutional Market Object
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+core/objects/market_object.py
+
+DEPENDS ON
+----------
+core/objects/market_object.py
+
+USED BY
+-------
+LiquiditySweepEngine
+LiquidityEngine
+
+PUBLIC METHODS
+--------------
+is_buy_side()
+is_sell_side()
+confirm()
+mitigate()
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_score.py
+
+TYPE
+----
+Institutional Scoring Engine
+
+STATUS
+------
+REPLACED
+
+DEPENDS ON
+----------
+core/liquidity/liquidity_pool.py
+
+USED BY
+-------
+LiquidityPoolEngine
+LiquidityRanker
+LiquidityEngine
+
+PUBLIC METHODS
+--------------
+calculate(pool, bars, current_price)
+score(pool, bars, current_price)   # Backward compatibility
+
+READS
+-----
+LiquidityPool.touches
+LiquidityPool.price
+LiquidityPool.active
+LiquidityPool.strength
+
+WRITES
+------
+LiquidityPool.score
+LiquidityPool.metadata
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_ranker.py
+
+TYPE
+----
+Institutional Ranking Engine
+
+STATUS
+------
+REPLACED
+
+DEPENDS ON
+----------
+core/liquidity/liquidity_score.py
+
+USED BY
+-------
+LiquidityPoolEngine
+LiquidityEngine
+
+PUBLIC METHODS
+--------------
+rank(pools, bars)
+best(pools, bars)
+top(pools, bars, limit=5)
+
+READS
+-----
+LiquidityPool.score
+LiquidityPool.strength
+LiquidityPool.touches
+
+WRITES
+------
+LiquidityPool.score (via LiquidityScore.calculate())
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_pool_engine.py
+
+TYPE
+----
+Pipeline Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common/base_engine.BaseEngine
+
+PRIORITY
+--------
+200
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/liquidity/liquidity_pool.py
+core/liquidity/liquidity_ranker.py
+
+PIPELINE DEPENDENCIES
+---------------------
+SwingEngine
+
+READS
+-----
+PipelineContext.swings
+PipelineContext.candles
+
+WRITES
+------
+PipelineContext.liquidity
+
+PUBLIC METHODS
+--------------
+analyze(context)
+update(registry, bars)
+reset()
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_target_engine.py
+
+TYPE
+----
+Pipeline Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common/base_engine.BaseEngine
+
+PRIORITY
+--------
+210
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/liquidity/liquidity_target.py
+
+PIPELINE DEPENDENCIES
+---------------------
+LiquidityPoolEngine
+
+READS
+-----
+PipelineContext.liquidity
+PipelineContext.candles
+
+WRITES
+------
+PipelineContext.liquidity_target
+
+PUBLIC METHODS
+--------------
+analyze(context)
+next_target(pools, current_price)
+reset()
+
+====================================================
+FILE
+====================================================
+
+core/liquidity/liquidity_sweep_engine.py
+
+TYPE
+----
+Pipeline Engine
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+common/base_engine.BaseEngine
+
+PRIORITY
+--------
+220
+
+DEPENDS ON
+----------
+common/base_engine.py
+core/liquidity/liquidity_sweep.py
+
+PIPELINE DEPENDENCIES
+---------------------
+LiquidityPoolEngine
+
+READS
+-----
+PipelineContext.candles
+PipelineContext.liquidity
+
+WRITES
+------
+PipelineContext.liquidity_sweeps
+
+PUBLIC METHODS
+--------------
+analyze(context)
+update(bars, buy_pools, sell_pools)
+latest()
+reset()
+
+====================================================
+FILE
+====================================================
+
+core/order_blocks/order_block.py
+
+TYPE
+----
+Market Object
+
+STATUS
+------
+REPLACED
+
+BASE CLASS
+----------
+core.common.base_market_object.BaseMarketObject
+
+DEPENDS ON
+----------
+dataclasses
+core.common.base_market_object
+
+IMPORTED BY
+-----------
+OrderBlockEngine
+MitigationEngine
+OrderBlockScoreEngine
+Execution
+Confluence
+
+PUBLIC METHODS
+--------------
+is_bullish()
+is_bearish()
+mark_mitigated(timestamp)
+mark_invalid(timestamp)
+touch()
+
+PUBLIC FIELDS
+-------------
+index
+timestamp
+timeframe
+direction
+open
+high
+low
+close
+strength
+displacement_strength
+volume_ratio
+institutional_score
+score
+bos_index
+choch_index
+swing_id
+fvg_index
+active
+mitigated
+invalidated
+broken
+touches
+metadata
+
+====================================================
+FILE
+====================================================
+
+core/order_blocks/order_block_score.py
+
+TYPE
+----
+Institutional Scoring Engine
+
+STATUS
+------
+REPLACED
+
+DEPENDS ON
+----------
+core/order_blocks/order_block.py
+
+IMPORTED BY
+-----------
+OrderBlockEngine
+
+PUBLIC METHODS
+--------------
+calculate(block)
+score(block)    # Backward compatibility
+
+READS
+-----
+OrderBlock.strength
+OrderBlock.displacement_strength
+OrderBlock.volume_ratio
+OrderBlock.fvg_index
+OrderBlock.mitigated
+OrderBlock.invalidated
+
+WRITES
+------
+OrderBlock.score
+OrderBlock.metadata
+
+
+

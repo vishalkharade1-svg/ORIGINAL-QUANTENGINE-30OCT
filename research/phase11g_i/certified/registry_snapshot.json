@@ -1,0 +1,17 @@
+{
+ "d3": {
+  "hash": 0,
+  "load": 0,
+  "read": 0
+ },
+ "datasets": [
+  "D1_BTC",
+  "D1_ETH",
+  "D2_BTC",
+  "D2_ETH",
+  "binance_um_trades_BTCUSDT_2026-09-05",
+  "oos_fresh"
+ ],
+ "sealed_source": "research/phase11f/datasets.py + phase11g/datasets.py",
+ "touches": []
+}

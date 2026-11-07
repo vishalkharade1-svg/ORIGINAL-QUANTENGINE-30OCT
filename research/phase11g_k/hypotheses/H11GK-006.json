@@ -1,0 +1,135 @@
+{
+ "ablations": [
+  {
+   "id": "A0",
+   "removed": "none (full hypothesis)"
+  },
+  {
+   "id": "A1",
+   "removed": "aggression requirement (sweep + displacement only)"
+  },
+  {
+   "id": "A2",
+   "removed": "sweep requirement (aggression + displacement only)"
+  }
+ ],
+ "causality_contract": {
+  "availability_rule": "aggression uses 1m windows ending at bar close with trailing medians from strictly prior windows; sweep/displacement use bars <= close; availability_time = signal bar close",
+  "forbidden": [
+   "future trades",
+   "future aggression state",
+   "future bars",
+   "future volatility",
+   "future thresholds",
+   "future regimes",
+   "D3",
+   "live state",
+   "book depth",
+   "resting liquidity"
+  ],
+  "property": "feature_available_at <= decision_time <= entry_time"
+ },
+ "cost_model": "11F ladder A/B/C/D (0 | 0.05%+2bp | 0.059%+5bp | 2xC), funding=0, certified accounting",
+ "d3_policy": "SEALED",
+ "dataset_policy": {
+  "allowed": "certified Binance UM aggTrades day(s) + same-provenance holding data",
+  "contamination": "11G-C/D sets NOT used for 11G-K economics",
+  "d3": "SEALED"
+ },
+ "deduplication": {
+  "cooldown_bars_after_exit": 30,
+  "rule": "one open position per symbol; signals while in position ignored"
+ },
+ "direction": "Sweep reclaim direction, confirmed by same-direction aggression burst within 3 bars.",
+ "entry": {
+  "model": "NEXT_BAR_OPEN",
+  "rule": "signal at confirmation bar close; market fill at next bar open",
+  "timing": "decision_time = confirmation bar close; entry_time = next bar open"
+ },
+ "event_definition": "Equal-level sweep + reclaim (11G-A frozen sweep semantics, tolerance 0.1 ATR) with a same-direction 1m trade-aggression burst (side volume >= 5x trailing-20 median) within 3 bars.",
+ "execution_model": "NEXT_BAR_OPEN (certified channel; SL-first ambiguity; single position)",
+ "falsification": "With sufficient evidence, pooled Cost-C expectancy <= 0 falsifies (FAIL).",
+ "feature_classification": {
+  "aggression_1m": "DERIVED_FROM_REAL",
+  "displacement_1m": "REAL (OHLCV structure)",
+  "sweep_1m": "REAL (OHLCV structure)"
+ },
+ "forbidden_information": [
+  "future trades",
+  "future aggression state",
+  "future bars",
+  "future volatility",
+  "future thresholds",
+  "future regimes",
+  "D3",
+  "live state",
+  "resting liquidity"
+ ],
+ "hypothesis_id": "H11GK-006",
+ "invalidation": "No confirming aggression within 3 bars.",
+ "lookback": {
+  "aggression_trail_windows": 20,
+  "aggression_volume_mult": 5.0,
+  "confirmation_bars": 3,
+  "tolerance_atr": 0.1
+ },
+ "market_state": {
+  "filter": "none (diagnostic regimes only)"
+ },
+ "max_holding_bars": 120,
+ "mechanism": "A swept level reclaimed on heavy one-sided aggressive flow indicates real initiative behind the reclaim, not a weak bounce.",
+ "minimum_evidence": {
+  "active_folds": 2,
+  "folds": 3,
+  "pooled_trades": 30,
+  "regime_cell_trades": 3
+ },
+ "monte_carlo": {
+  "bootstrap": 5000,
+  "seed_boot": 1107002,
+  "seed_shuffle": 1107001,
+  "shuffles": 5000
+ },
+ "negative_controls": [
+  "sweep without aggression (A1)",
+  "aggression without sweep (A2)",
+  "opposite-direction aggression (expect null)"
+ ],
+ "production_modification": false,
+ "promotion_policy": "NONE",
+ "random_baseline": {
+  "cap": 500,
+  "cost": "C",
+  "draws_per_fold": 500,
+  "exits": "frozen 2:1 with training-median distance",
+  "seeds": "1108000-1108499"
+ },
+ "regimes": {
+  "fit": "training data only",
+  "trend": "close vs SMA50",
+  "volatility": "ATR14/close terciles"
+ },
+ "required_features": [
+  "sweep_1m",
+  "aggression_1m",
+  "displacement_1m"
+ ],
+ "research_question": "Does aggression-confirmed sweep + displacement predict continuation?",
+ "status": "FROZEN",
+ "stop": {
+  "definition": "Beyond sweep extreme + 0.25x ATR14 buffer.",
+  "reference": "sweep extreme"
+ },
+ "target": {
+  "definition": "Fixed 2.0R from entry (frozen)."
+ },
+ "threshold_provenance": "Sweep tolerance 0.1 ATR = frozen 11G convention. Aggression 5x/20-window = frozen 11G-J definitional form. Displacement 2xATR = certified. Confirmation 3 bars = frozen window convention.",
+ "thresholds": {
+  "aggression_trail_windows": 20,
+  "aggression_volume_mult": 5.0,
+  "confirmation_bars": 3,
+  "displacement_atr": 2.0,
+  "tolerance_atr": 0.1
+ },
+ "version": "11gk-v1"
+}

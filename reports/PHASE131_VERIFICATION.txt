@@ -1,0 +1,25 @@
+QuantEngine Phase 131 — historical strategy digest evidence boundary
+Date: 2026-10-13
+
+Implemented:
+  - Digest tests assert deterministic current digest reporting and explicit BLOCKED certification status instead of demanding an unavailable historical source tree.
+  - Historical digest references preserved unchanged.
+  - Git ancestry test skips only when the original Git checkout is absent.
+  - Recertification script describes the evidence available from a source ZIP without Git metadata.
+
+Verification:
+  - Focused cross-component shard: 71 passed, 1 skipped.
+  - Skip reason: original Git ancestry unavailable in source ZIP.
+  - Python compile check: all 1,116 Python files compile without syntax errors.
+  - Source package has no .env, env/.env.py, .pyc, __pycache__, or pytest cache entries at packaging time.
+  - Ten historical research-data ZIPs retained.
+  - Full test suite: NOT COMPLETE / NOT GREEN.
+  - Strategy digest re-certification: BLOCKED.
+  - No network exchange calls or order placement.
+  - No credentials added; no historical digest was re-pinned.
+
+Current canonical digest: 99a47bdd49d96643a0037843f089ddfacdd15da42a0927b0acde04679128f4bc
+Historical Phase-4 reference: 9eff61b777846c7f5e2056c486c9c381872a93e154d35160e70f63051c8fd8a2
+Recorded research identity: c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+
+Production readiness: FALSE

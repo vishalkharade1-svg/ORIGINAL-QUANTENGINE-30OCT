@@ -1,0 +1,131 @@
+{
+  "build_procedure": {
+    "archive_bytes": "recorded in the detached record RELEASE_HASH_PHASE161.txt (beside the archive)",
+    "archive_members": "manifest entries + 1 (the manifest itself); recorded in the detached record RELEASE_HASH_PHASE161.txt",
+    "builder": "scripts/build_release.py (unchanged from Phase155; enforces the order)",
+    "manifest_entries": "recorded in BUILD_MANIFEST.sha256 and in the detached record",
+    "note": "the archive's own SHA-256 is deliberately not embedded here or anywhere inside the archive; an archive cannot truthfully contain a hash of itself, and any embedded copy would go stale on the next change",
+    "rule": "frozen ordering: write all text -> regenerate BUILD_MANIFEST.sha256 -> verify -> pack -> detached hash record -> extract-verify (the worktree suite log is written inside this ordering: its stub is covered by the pre-suite regeneration, the real log replaces it after the run, and the manifest is regenerated again before packing)"
+  },
+  "changes": [
+    {
+      "class": "environment (dependency adoption)",
+      "evidence": "requirements.txt; reports/PHASE161_DEPENDENCY_REVIEW.md; reports/PHASE161_OSV_SCAN.json",
+      "id": "REP-161-01",
+      "what": "python-dotenv 1.2.2, pyarrow 23.0.1 and pytest 9.0.3 adopted into requirements.txt and the installed environment (httpx 0.28.1, websockets 12.0, pandas 2.2.2 and numpy 2.1.1 carried); a fresh OSV query against the adopted pins clears the three recorded advisories and leaves none open against any pinned version",
+      "why": "the unblock BLOCK-160-06 declared as its own condition, on the evaluated zero-new-failure basis of reports/DEPENDENCY_UPGRADE_EVALUATION.md"
+    },
+    {
+      "class": "evidence (re-derivation)",
+      "evidence": "reports/PHASE161_FULL_SUITE_RUN.txt; reports/PHASE161_SECURITY_SCAN.md; reports/PHASE161_PRIVACY_SCAN.json; reports/PHASE161_RELEASE_GATES.json",
+      "id": "REP-161-02",
+      "what": "the whole evidence set re-derived under the adopted environment: the worktree and extracted-package suite runs, both scanners, the dataset reconstruction re-check under pyarrow 23.0.1, the manifest and this record set; the Phase160 run numbers remain only as the labelled pre-adoption baseline",
+      "why": "a changed environment without re-derived evidence would make the recorded verification_environment false for anything carried"
+    },
+    {
+      "class": "tooling (release consistency)",
+      "evidence": "tests/test_release_consistency_phase155.py (Phase161 note; constants advanced; checked record list grew)",
+      "id": "REP-161-03",
+      "what": "the release-internal-consistency constants advance to the Phase161 candidate and the checked record list grows by the Phase161 gate record (nothing removed)",
+      "why": "routine advance, recorded for completeness; unlike Phase159 this is not a repair -- there was no lag to fix (the Phase160 repair REP-160-03 made the mechanism explicit)"
+    }
+  ],
+  "generated_utc": "2026-10-18",
+  "historical_records": {
+    "reports/PHASE160_GIT_EVIDENCE_STATUS.json": {
+      "describes": "the Phase160 Git-evidence gate (mode SOURCE_ARCHIVE; 40 facts blocked)",
+      "disposition": "preserved unchanged; the Phase161 record (reports/PHASE161_GIT_EVIDENCE_STATUS.json) carries the identical fact set with fresh mode evidence"
+    },
+    "reports/PHASE160_RELEASE_GATES.json": {
+      "disposition": "preserved unchanged as the Phase160 gate record; this file supersedes it for the Phase161 candidate."
+    },
+    "reports/PHASE160_HARDENING.json": {
+      "describes": "the Phase160 scanner-boundary repairs (the three repairs closing the boundary declared by the Phase159 handoff)",
+      "disposition": "preserved unchanged; the Phase161 cycle builds on them without changing their bytes"
+    },
+    "reports/RELEASE_PROVENANCE_PHASE132.json": {
+      "describes": "the Phase132 release record",
+      "disposition": "preserved unchanged (renamed to this explicit name in Phase158; bytes unchanged).",
+      "sha256": "05df5fa91b4c0350aedf905f09eb3cdbc96d15abdfbed2876fbfa825f36e985e"
+    }
+  },
+  "input": {
+    "archive": "QuantEngine_PHASE160_RELEASE_CANDIDATE.zip",
+    "bytes": 56181774,
+    "identity_confirmed_against": [
+      "the detached record ../_phase160_superseded/RELEASE_HASH_PHASE160.txt",
+      "this cycle's fresh extraction verification (reports/PHASE161_ARCHIVE_INTEGRITY.json)"
+    ],
+    "members": 1885,
+    "manifest_entries": 1884,
+    "packaged_vs_worktree": "reports/PHASE161_SOURCE_DIFF.json",
+    "sha256": "83af6ccae74e26cc5dc26ee8ec25ca6ef4850cd0ed1ae82dc81700070321db8e",
+    "worktree_at_input": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE160_Repair (the Phase160 scanner-boundary build worktree; retained as historical reference on disk)"
+  },
+  "not_done": [
+    "no digest was re-pinned; the five strategy-digest failures remain red by contract (scripts/recertify_strategy_digest.py returns STATUS: BLOCKED), with the identical node multiset under the adopted environment",
+    "no test was weakened, deleted, blanket-skipped or xfailed; the record set gained the Phase161 records contract, the release-consistency constants advanced to the current candidate, and the 40 Git facts remain individually declared BLOCKED_EVIDENCE with the ancestry gate kept blocked",
+    "no order was placed and no order-capable script was run without --execute; live order placement remains disabled",
+    "no dataset byte, frozen pin, skip reason, or historical record was rewritten; the sealed Phase160 bytes were not touched (fresh byte-verified extraction)",
+    "no economic claim advanced; the edge remains NOT ESTABLISHED",
+    "no scoped development was added beyond the recorded changes: the cycle did exactly the declared dependency-environment step plus this record set (reports/PHASE161_ENVIRONMENT.json)"
+  ],
+  "output": {
+    "archive": "QuantEngine_PHASE161_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE161.txt",
+    "post_build_bundle": "QuantEngine_PHASE161_POST_BUILD/ - the self-audit against the final bytes, the extracted-package test log and the post-build verification JSON, none of which can live inside the archive they describe",
+    "sha256": "NOT_EMBEDDED - the final SHA-256 is recorded only in the detached record RELEASE_HASH_PHASE161.txt delivered beside the archive"
+  },
+  "phase": 161,
+  "release_records": [
+    "reports/PHASE161_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE161_SOURCE_DIFF.json",
+    "reports/PHASE161_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE161_FULL_SUITE_RUN.txt",
+    "reports/PHASE161_MANIFEST_AUDIT.json",
+    "reports/PHASE161_PROVENANCE.json",
+    "reports/PHASE161_SECURITY_SCAN.md",
+    "reports/PHASE161_PRIVACY_REVIEW.md",
+    "reports/PHASE161_PRIVACY_SCAN.json",
+    "reports/PHASE161_DEPENDENCY_REVIEW.md",
+    "reports/PHASE161_OSV_SCAN.json",
+    "reports/PHASE161_ENVIRONMENT.json",
+    "reports/PHASE161_RELEASE_GATES.json",
+    "reports/PHASE161_BLOCKERS.json",
+    "docs/BUILD_HANDOFF_PHASE161.md",
+    "NEXT_ACTIONS.md"
+  ],
+  "role": "release provenance for the Phase161 dependency-environment candidate",
+  "schema": "quantengine.release-provenance.v2",
+  "source_snapshot": {
+    "extraction_verification": "reports/PHASE161_ARCHIVE_INTEGRITY.json",
+    "what": "the input archive extracted byte-verified into F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE161_Repair (1,885/1,885 members verified; the shipped manifest reproduced byte-for-byte on the fresh copy), the environment then adopted and the evidence re-derived in place"
+  },
+  "supersedes": [
+    "QuantEngine_PHASE160_RELEASE_CANDIDATE.zip and its detached record (preserved as the Phase160 deliverable in _phase160_superseded/)",
+    "reports/PHASE160_RELEASE_GATES.json (preserved as the Phase160 gate record)"
+  ],
+  "test_evidence": {
+    "authoritative_post_adoption": "recorded in reports/PHASE161_FULL_SUITE_RUN.txt after the worktree run completes",
+    "command": "python -m pytest -q -p no:cacheprovider --tb=short -rfs (the canonical command; -rfs enums the full skip set for the worktree/extracted comparison)",
+    "extracted_package": "recorded in the post-build bundle (PHASE161_EXTRACTED_PACKAGE_TESTS.txt): the same command re-run against the extracted shipped bytes with the complete delivery beside it, compared in PHASE161_POST_BUILD_VERIFICATION.json",
+    "focused_evidence": "reports/PHASE161_ENVIRONMENT.json: the touched contracts run green after the manifest regeneration (the only pre-regeneration failures are the stale-manifest class)",
+    "note": "the suite stays NOT green: the five deliberate strategy-digest change detectors remain red by contract (BLOCK-161-01) and the 40 Git facts remain gated BLOCKED_EVIDENCE (BLOCK-161-04). Nothing in the environment-adoption cycle claims a green suite."
+  },
+  "verdict": "NOT_PRODUCTION_READY",
+  "verification_environment": {
+    "agreement": "requirements.txt, the installed environment and reports/PHASE161_RELEASE_GATES.json name the same versions; tests/test_dependency_pin_contract.py enforces it against the highest-numbered gates record. Unlike the pre-adoption phases, this candidate's evidence was produced under exactly this environment (the deliberate point of the cycle).",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "numpy": "2.1.1",
+      "pandas": "2.2.2",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3",
+      "python-dotenv": "1.2.2",
+      "websockets": "12.0"
+    },
+    "platform": "Windows-10-10.0.19045-SP0",
+    "pytest": "9.0.3",
+    "python": "3.12.10"
+  }
+}

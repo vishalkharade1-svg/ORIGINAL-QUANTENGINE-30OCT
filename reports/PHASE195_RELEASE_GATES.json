@@ -1,0 +1,72 @@
+{
+  "phase": 195,
+  "audit_title": "QuantEngine Phase 195 Exact-Payload Order Write Authorization",
+  "audit_timestamp": "2026-10-30T00:00:00+05:30",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "release_gate": "HOLD / TESTNET_WRITE_BLOCKED",
+  "supersedes": "reports/PHASE194_RELEASE_GATES.json",
+  "gates": {
+    "GATE-195-A": {
+      "name": "Exact-payload token binding",
+      "status": "PASS_FOCUSED_TESTS",
+      "verdict": "IMPLEMENTED_AND_FOCUSED_TESTED",
+      "details": "Live/testnet tokens carry a canonical JSON payload SHA-256. Adapter and raw signed-REST boundaries verify the exact payload before transport I/O. Testnet minting checks product/size and preserves reserved order constraints."
+    },
+    "GATE-195-B": {
+      "name": "Single-use write token",
+      "status": "PASS_FOCUSED_TESTS",
+      "verdict": "IMPLEMENTED_AND_FOCUSED_TESTED",
+      "details": "The raw signed-REST boundary atomically consumes each non-offline token; replay is rejected before a second transport write."
+    },
+    "GATE-195-C": {
+      "name": "Focused regression",
+      "status": "PASS",
+      "verdict": "120_PASSED_PLUS_9_SUBTESTS",
+      "details": "Phase 189-194 authorization, lifecycle, ledger, concurrency and safety suite passed. Expanded Delta execution/signing/experiment suite also passed 146 tests plus 6 subtests."
+    },
+    "GATE-195-D0": {
+      "name": "Full test collection",
+      "status": "PASS_COLLECTION_ONLY",
+      "verdict": "4875_COLLECTED",
+      "details": "4,875 tests collected in 5.62 seconds. Collection does not imply test execution or success."
+    },
+    "GATE-195-D": {
+      "name": "Full repository suite",
+      "status": "NOT_COMPLETED_TIMEOUT",
+      "verdict": "NO_FULL_SUITE_CLAIM",
+      "details": "Full pytest attempt was terminated by the 180-second execution timeout at approximately 5% progress."
+    },
+    "GATE-195-E": {
+      "name": "Pinned dependency environment",
+      "status": "FAIL_ENVIRONMENT_MISMATCH",
+      "verdict": "NOT_CERTIFIED",
+      "details": "Runtime is Python 3.13.5 / pytest 9.0.2 and lacks pyarrow; documented contract is Python 3.12, pytest 9.0.3 and pyarrow==23.0.1."
+    },
+    "GATE-195-F": {
+      "name": "Operator authorization provisioning",
+      "status": "BLOCKED",
+      "verdict": "OWNER_ACTION_REQUIRED",
+      "details": "No genuine operator public key or signed authorization was provisioned. Synthetic keys are test-only."
+    },
+    "GATE-195-G": {
+      "name": "Testnet order writes",
+      "status": "NOT_PERFORMED",
+      "verdict": "HOLD",
+      "details": "No exchange network calls or order writes were performed."
+    },
+    "GATE-195-H": {
+      "name": "Production clearance",
+      "status": "HOLD",
+      "verdict": "STRICTLY_PROHIBITED",
+      "details": "Strategy edge is not established, full suite is incomplete, dependency contract is uncertified, and historical credential remediation remains unverified."
+    }
+  },
+  "verification": {
+    "manifest": "PASS_0_PROBLEMS",
+    "secret_scan": "SECRET_SCAN_PASS",
+    "test_collection": "4875_COLLECTED_IN_5_62_SECONDS",
+    "full_suite": "NOT_COMPLETED_TIMEOUT"
+  },
+  "statement": "Phase 195 improves the order-write authorization boundary. It does not authorize testnet or production execution and does not establish strategy edge."
+}

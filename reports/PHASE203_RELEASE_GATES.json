@@ -1,0 +1,38 @@
+{
+  "phase": 203,
+  "implementation": "IMPLEMENTED",
+  "focused_regression": {
+    "status": "PASS",
+    "tests_passed": 87
+  },
+  "repository_test_collection": {
+    "status": "PASS_COLLECTION_ONLY",
+    "tests_collected": 4945
+  },
+  "compile_checks": "PASS",
+  "manifest": "PASS",
+  "secret_scan": "PASS",
+  "full_suite": "NOT_RUN",
+  "fresh_package": "PASS",
+  "venue_side_historical_window_filter": "NOT_IMPLEMENTED",
+  "historical_window_semantics": "CLIENT_SIDE_FILTER_OVER_PAGINATED_SNAPSHOT",
+  "venue_historical_exhaustiveness": "NOT_CERTIFIED",
+  "authenticated_venue_exercise": "NOT_PERFORMED",
+  "exchange_network_calls": 0,
+  "exchange_order_writes": 0,
+  "exchange_cancellations": 0,
+  "position_modifications": 0,
+  "automatic_action": "NONE",
+  "automatic_resume": "NEVER",
+  "strategy_edge": "NOT_ESTABLISHED",
+  "execution_decision": "HOLD",
+  "production_status": "NOT_PRODUCTION_READY",
+  "fresh_extraction_manifest": "PASS",
+  "fresh_extraction_secret_scan": "PASS",
+  "fresh_extraction_focused_tests": {
+    "status": "PASS",
+    "tests_passed": 87
+  },
+  "archive_crc": "PASS",
+  "env_files_in_archive": 0
+}

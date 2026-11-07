@@ -1,0 +1,134 @@
+{
+ "H11G-001|no-sweep|A": {
+  "expectancy": 0.11209742549877014,
+  "net": 0.5604871274938507,
+  "removed": "no-sweep",
+  "trades": 5
+ },
+ "H11G-001|no-sweep|C": {
+  "expectancy": -0.6829025745012298,
+  "net": -3.4145128725061493,
+  "removed": "no-sweep",
+  "trades": 5
+ },
+ "H11G-002|no-displacement|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-sweep|A": {
+  "expectancy": -0.07096240191595095,
+  "net": -0.5676992153276076,
+  "removed": "no-sweep",
+  "trades": 8
+ },
+ "H11G-002|no-sweep|C": {
+  "expectancy": -0.865962401915951,
+  "net": -6.927699215327608,
+  "removed": "no-sweep",
+  "trades": 8
+ },
+ "H11G-003|no-displacement|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-004|no-bos|A": {
+  "expectancy": -0.19598718038886045,
+  "net": -0.19598718038886045,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|C": {
+  "expectancy": -0.9909871803888605,
+  "net": -0.9909871803888605,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|A": {
+  "expectancy": -0.001342652283035708,
+  "net": -0.004027956849107124,
+  "removed": "no-breaker",
+  "trades": 3
+ },
+ "H11G-005|no-breaker|C": {
+  "expectancy": -0.7963426522830357,
+  "net": -2.389027956849107,
+  "removed": "no-breaker",
+  "trades": 3
+ },
+ "H11G-006|no-volume|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-008|no-htf|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "removed": "no-htf",
+  "trades": 0
+ }
+}

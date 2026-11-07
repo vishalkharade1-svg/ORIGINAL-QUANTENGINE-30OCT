@@ -1,0 +1,170 @@
+{
+ "H11G-001": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-002": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-003": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-004": {
+  "active_folds": 2,
+  "evidence": "INSUFFICIENT: pooled 2 < 30",
+  "metrics_C": {
+   "expectancy": -1.0658219050451452,
+   "fees": 0.5900000000000001,
+   "gross": -0.5416438100902904,
+   "losses": 2,
+   "maxdd": 2.1316438100902904,
+   "net": -2.1316438100902904,
+   "pf": 0.0,
+   "sharpe": -10.887691216992971,
+   "slippage": 1.0,
+   "sortino": -10.887691216992971,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 2,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-005": {
+  "active_folds": 2,
+  "evidence": "INSUFFICIENT: pooled 2 < 30",
+  "metrics_C": {
+   "expectancy": -0.7691853176301571,
+   "fees": 0.5900000000000001,
+   "gross": 0.051629364739685935,
+   "losses": 2,
+   "maxdd": 1.5383706352603141,
+   "net": -1.5383706352603141,
+   "pf": 0.0,
+   "sharpe": -1.4247759958810684,
+   "slippage": 1.0,
+   "sortino": -1.4247759958810684,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 2,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-006": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-007": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-008": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ }
+}

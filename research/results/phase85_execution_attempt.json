@@ -1,0 +1,33 @@
+{
+  "authenticated_rest_fills": "NOT_EXECUTED",
+  "blocker": "One or more required Delta Testnet hosts failed DNS resolution; no authenticated request or REAL evidence was attempted. Previously exposed credentials were not reused.",
+  "credentials_persisted": false,
+  "credentials_source": "environment_only",
+  "dns_probe": {
+    "cdn-ind.testnet.deltaex.org": {
+      "error": "gaierror: [Errno -3] Temporary failure in name resolution",
+      "status": "BLOCKED"
+    },
+    "socket-ind-pub.testnet.deltaex.org": {
+      "error": "gaierror: [Errno -3] Temporary failure in name resolution",
+      "status": "BLOCKED"
+    },
+    "socket-ind.testnet.deltaex.org": {
+      "error": "gaierror: [Errno -3] Temporary failure in name resolution",
+      "status": "BLOCKED"
+    }
+  },
+  "economic_certification": "BLOCKED",
+  "environment": "india_testnet",
+  "finished_at": "2026-10-10T13:08:34.124228+00:00",
+  "order_placement": "DISABLED",
+  "phase": 85,
+  "private_ws_fills": "NOT_EXECUTED",
+  "production_ready": false,
+  "real_public_l2": "NOT_EXECUTED",
+  "rest_ws_reconciliation": "BLOCKED",
+  "started_at": "2026-10-10T13:08:29.109053+00:00",
+  "status": "BLOCKED_NETWORK_DNS",
+  "symbol": "BTCUSD",
+  "title": "Delta Testnet non-trading evidence capture and reconciliation"
+}

@@ -1,0 +1,52 @@
+{
+ "H11GF-001": {
+  "status": "INSUFFICIENT"
+ },
+ "H11GF-002": {
+  "status": "INSUFFICIENT"
+ },
+ "H11GF-003": {
+  "status": "INSUFFICIENT"
+ },
+ "H11GF-004": {
+  "boot_mean_p5": -1.1637305092093728,
+  "boot_mean_p95": -0.9679133008809176,
+  "losing_streak_obs": 2,
+  "maxdd_obs": 2.1316438100902904,
+  "maxdd_p50": 2.1316438100902904,
+  "n": 2,
+  "observed": -2.1316438100902904,
+  "p5": -2.1316438100902904,
+  "p50": -2.1316438100902904,
+  "p95": -2.1316438100902904,
+  "p_dd_gt_obs": 0.0,
+  "p_loss": 1.0,
+  "p_profit": 0.0,
+  "status": "OK"
+ },
+ "H11GF-005": {
+  "boot_mean_p5": -0.7972406143046442,
+  "boot_mean_p95": -0.7411300209556699,
+  "losing_streak_obs": 2,
+  "maxdd_obs": 1.5383706352603141,
+  "maxdd_p50": 1.5383706352603141,
+  "n": 2,
+  "observed": -1.5383706352603141,
+  "p5": -1.5383706352603141,
+  "p50": -1.5383706352603141,
+  "p95": -1.5383706352603141,
+  "p_dd_gt_obs": 0.0,
+  "p_loss": 1.0,
+  "p_profit": 0.0,
+  "status": "OK"
+ },
+ "H11GF-006": {
+  "status": "INSUFFICIENT"
+ },
+ "H11GF-007": {
+  "status": "INSUFFICIENT"
+ },
+ "H11GF-008": {
+  "status": "INSUFFICIENT"
+ }
+}

@@ -1,0 +1,178 @@
+{
+ "H11GF-001|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-002|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-003|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-004|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-005|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-006|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-007|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-008|BTCUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-001|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-002|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-003|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-004|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-005|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-006|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-007|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ },
+ "H11GF-008|ETHUSDT": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY_SPARSE"
+ }
+}

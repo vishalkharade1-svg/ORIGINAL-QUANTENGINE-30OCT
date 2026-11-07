@@ -1,0 +1,18 @@
+{
+  "capture_id": "phase92-public-ethusd",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1791654988201,
+  "environment": "SANDBOX",
+  "evidence_sha256": "4b13d5e1572e0e8d722a13c11fd9e8873a1c4465ae27fce0f31ca414f3dae128",
+  "first_sequence": 25665,
+  "last_sequence": 25683,
+  "messages_seen": 19,
+  "observations_emitted": 19,
+  "sample_count": 19,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1791654898183,
+  "symbol": "ETHUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

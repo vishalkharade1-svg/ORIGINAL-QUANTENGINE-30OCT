@@ -1,0 +1,20 @@
+from enum import Enum
+
+
+class RegimeType(str, Enum):
+
+    UNKNOWN = "UNKNOWN"
+
+    TRENDING = "TRENDING"
+
+    RANGING = "RANGING"
+
+    REVERSAL = "REVERSAL"
+
+    ACCUMULATION = "ACCUMULATION"
+
+    DISTRIBUTION = "DISTRIBUTION"
+
+    COMPRESSION = "COMPRESSION"
+
+    EXPANSION = "EXPANSION"

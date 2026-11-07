@@ -1,0 +1,33 @@
+{
+  "phase": 69,
+  "name": "strict_venue_funding_evidence_gate",
+  "status": "IMPLEMENTED_AND_TESTED; REAL_VENUE_CAPTURE_BLOCKED_BY_NETWORK",
+  "baseline_checkpoint": "QuantEngine_PHASE68_FUNDING_HOLDING_PERIOD_ECONOMICS.zip",
+  "changes": [
+    "Added DeltaHistory.funding_evidence() as a strict venue-evidence path.",
+    "Strict path rejects malformed rows, empty responses, non-finite rates, and duplicate settlement timestamps instead of silently repairing provider evidence.",
+    "Strict path returns request identity, normalized events, event count, and deterministic SHA-256 evidence fingerprint.",
+    "Retained funding_rates() compatibility behavior for existing callers; production/OOS certification should use the strict path."
+  ],
+  "official_venue_basis": {
+    "source": "Delta Exchange API documentation",
+    "historical_endpoint": "GET /v2/history/candles",
+    "funding_symbol": "FUNDING:<symbol>",
+    "public_ws_channel": "funding_rate",
+    "wallet_transaction_type": "funding",
+    "note": "Documentation confirms the venue interfaces; it is not a captured historical data artifact."
+  },
+  "verification": {
+    "funding_and_delta_tests": "11 passed",
+    "compileall": "PASS",
+    "live_delta_capture": "BLOCKED/NOT EXECUTED because network access is unavailable in the current execution environment",
+    "production_ready": false
+  },
+  "safety": [
+    "No synthetic funding values added.",
+    "No duplicate provider timestamps are repaired in the strict evidence path.",
+    "No historical strategy hash was repinned.",
+    "No production readiness claim is made."
+  ],
+  "next_boundary": "capture genuine Delta funding series with source payload/hash -> bind funding evidence to OOS datasets -> rerun funding-aware multi-period OOS"
+}

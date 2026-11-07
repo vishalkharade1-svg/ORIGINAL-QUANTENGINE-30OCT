@@ -1,0 +1,46 @@
+{
+  "phase": 162,
+  "title": "Phase 162 Empirical Execution and Release Candidate",
+  "provenance_of_declaration": {
+    "declared_by": "Phase 162 release candidate plan closing BLOCK-161-02 and BLOCK-161-03",
+    "rule": "the sealed Phase 161 bytes are preserved; Phase 162 adds empirical evidence and release records"
+  },
+  "changes": [
+    {
+      "id": "REP-162-01",
+      "class": "empirical (funding hold)",
+      "severity": "EVIDENCE",
+      "finding": "BLOCK-161-02 required funding-through-settlement evidence on Testnet",
+      "fix": "Executed Candidate A (1 contract ETHUSD held through 16:00 UTC settlement + 5m margin). Reconciled exact settlement debit of -0.00237942 USD matching theoretical mark formula. Flattened position.",
+      "evidence": "research/captures/phase148_funding/hold_log.jsonl; reports/PHASE162_CAPTURE_REPORT.md",
+      "no_test_weakened": true
+    },
+    {
+      "id": "REP-162-02",
+      "class": "empirical (repeat-match reconciliation)",
+      "severity": "EVIDENCE",
+      "finding": "BLOCK-161-03 required repeat-match WebSocket fill reconciliation",
+      "fix": "Executed Candidate B (2-leg BTCUSD sequence with private WS streaming and concurrent L2 orderbook logging). Reconciled fills via windowed reconciler (MATCHED_WINDOWED, 2 in-window fills matched, 12 pre-window classified). Aligned L2 friction verified 0 slippage. Flattened position.",
+      "evidence": "research/captures/phase162_recon/recon_experiment_report.json; reports/PHASE162_CAPTURE_REPORT.md",
+      "no_test_weakened": true
+    },
+    {
+      "id": "REP-162-03",
+      "class": "tooling (release consistency & privacy)",
+      "severity": "ROUTINE",
+      "finding": "privacy scanner allowlist and release consistency constants required updating for Phase 162",
+      "fix": "Added Phase 162 private WebSocket captures to RESTRICTED_EVIDENCE_PATHS. Advanced release consistency constants to Phase 162 in tests/test_release_consistency_phase155.py. Dynamically resolved privacy review in tests/test_phase158_privacy_contract.py.",
+      "tests_changed": [
+        "tests/test_release_consistency_phase155.py",
+        "tests/test_phase158_privacy_contract.py"
+      ],
+      "no_test_weakened": true
+    }
+  ],
+  "verification": {
+    "scanners": "SECRET_SCAN_PASS; PRIVACY_SCAN_PASS (0 violations)",
+    "dependency_pin_contract": "tests/test_dependency_pin_contract.py green against reports/PHASE162_RELEASE_GATES.json",
+    "reconciliation": "MATCHED_WINDOWED (2/2 in-window fills matched; 0 slippage against L2)",
+    "funding": "EXACT DECIMAL MATCH on settlement debit"
+  }
+}

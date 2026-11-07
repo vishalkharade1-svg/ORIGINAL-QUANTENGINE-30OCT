@@ -1,0 +1,29 @@
+{
+ "comparison": {
+  "excluded_from_worktree_scan": [
+   "__pycache__",
+   ".pytest_cache",
+   ".venv",
+   "logs",
+   "QuantEngine_*.zip"
+  ],
+  "note": ".env is gitignored and unpackaged; it appears only in the worktree",
+  "packaged": "contents of QuantEngine_PHASE157_RELEASE_CANDIDATE.zip",
+  "worktree": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE131_Digest_Evidence_Repair"
+ },
+ "conclusion": "The worktree is byte-identical to the packaged source apart from .env, so the Phase157 archive is a faithful snapshot of the worktree it was built from.",
+ "counts": {
+  "modified": 0,
+  "only_in_packaged": 0,
+  "only_in_worktree": 1,
+  "packaged_files": 1820,
+  "worktree_files": 1821
+ },
+ "modified": [],
+ "only_in_packaged": [],
+ "only_in_worktree": [
+  ".env"
+ ],
+ "phase": 158,
+ "role": "packaged Phase157 source versus the Phase157 worktree"
+}

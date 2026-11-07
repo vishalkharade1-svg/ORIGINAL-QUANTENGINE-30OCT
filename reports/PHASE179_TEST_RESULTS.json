@@ -1,0 +1,193 @@
+{
+  "phase": 179,
+  "audit_title": "QuantEngine Phase 179 Full Test Suite Execution & Reconciliation",
+  "audit_timestamp": "2026-10-20T14:15:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "execution_metrics": {
+    "command": "python -m pytest tests -q -p no:cacheprovider --tb=line -rfs",
+    "exit_code": 1,
+    "duration_seconds": 2609.70,
+    "duration_formatted": "0:43:29",
+    "total_collected": 4498,
+    "passed": 4407,
+    "failed": 77,
+    "skipped": 14,
+    "subtests_passed": 400
+  },
+  "accounting_equation": "passed (4407) + failed (77) + skipped (14) = collected (4498)",
+  "test_suites_summary": {
+    "phase179_risk_enforcement_suite": {
+      "path": "tests/test_phase179_risk_enforcement.py",
+      "collected": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase178_artifact_audit_suite": {
+      "path": "tests/test_phase178_artifact_audit.py",
+      "collected": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase177_tick_remediation_suite": {
+      "path": "tests/test_phase177_tick_remediation.py",
+      "collected": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase176_contract_semantics_suite": {
+      "path": "tests/test_phase176_contract_semantics.py",
+      "collected": 41,
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase175_instrument_economics_suite": {
+      "path": "tests/test_phase175_instrument_economics.py",
+      "collected": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase175_release_records_suite": {
+      "path": "tests/test_release_records_phase175.py",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase174_economics_reconciliation_suite": {
+      "path": "tests/test_phase174_economics_reconciliation.py",
+      "collected": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase173_audit_reproduction_suite": {
+      "path": "tests/test_phase173_audit.py",
+      "collected": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase172_adversarial_suite": {
+      "path": "tests/test_maker_execution_phase172.py",
+      "collected": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase171_maker_baseline_suite": {
+      "path": "tests/test_maker_execution_phase171.py",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "focused_batch_total": {
+      "collected": 167,
+      "passed": 167,
+      "failed": 0,
+      "skipped": 0,
+      "pass_rate_percent": 100.0,
+      "status": "PASSED"
+    }
+  },
+  "failure_triage": {
+    "historical_strategy_digest_failures": {
+      "count": 5,
+      "category": "HISTORICAL_CHANGE_DETECTOR",
+      "blocker_id": "BLOCK-179-01",
+      "explanation": "Tests detect deviation from Phase 14 Windows CRLF digest (c52e648c...). Post-Phase-4 gate-80 fixes altered byte content. Preserved contractually without tampering.",
+      "nodes": [
+        "tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match",
+        "tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+        "tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+        "tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs",
+        "tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned"
+      ]
+    },
+    "git_ancestry_and_history_failures": {
+      "count": 26,
+      "category": "ENVIRONMENT_SOURCE_ARCHIVE_LIMITATION",
+      "blocker_id": "BLOCK-179-02",
+      "explanation": "Packaged delivery distributions do not carry complete historical .git commit ancestry (e.g., merge-base checks with Phase 12-14 commits).",
+      "nodes": [
+        "tests/test_researcher_11g_n.py::TestRepositoryHead::test_starting_head_ancestor",
+        "tests/test_researcher_11g_n.py::TestRepositoryHead::test_tree_clean_except_notes",
+        "tests/test_researcher_11g_n.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_o.py::TestRepositoryHead::test_starting_head_ancestor",
+        "tests/test_researcher_11g_o.py::TestRepositoryHead::test_tree_only_expected",
+        "tests/test_researcher_11g_o.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_p.py::TestRepositoryHead::test_starting_head_ancestor",
+        "tests/test_researcher_11g_p.py::TestRepositoryHead::test_tree_only_expected",
+        "tests/test_researcher_11g_p.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_q.py::TestStartingState::test_head_descends_from_p",
+        "tests/test_researcher_11g_q.py::TestStartingState::test_tree_only_expected",
+        "tests/test_researcher_11g_q.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_r.py::TestStartingState::test_head_descends_from_q",
+        "tests/test_researcher_11g_r.py::TestStartingState::test_tree_only_expected",
+        "tests/test_researcher_11g_r.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_s.py::TestStartingState::test_head_descends_from_r",
+        "tests/test_researcher_11g_s.py::TestStartingState::test_tree_only_expected",
+        "tests/test_researcher_11g_s.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_t.py::TestStartingState::test_head_descends_from_s",
+        "tests/test_researcher_11g_t.py::TestStartingState::test_tree_only_expected",
+        "tests/test_researcher_11g_t.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_11g_u.py::TestStartingState::test_head_descends_from_t",
+        "tests/test_researcher_11g_u.py::TestStartingState::test_tree_only_expected",
+        "tests/test_researcher_11g_u.py::TestProductionIsolation::test_no_production_paths",
+        "tests/test_researcher_15.py::TestMultipleTestingPreserved::test_no_new_hypothesis_family",
+        "tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_head_is_stage123_closure_descendant",
+        "tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_research_byte_unchanged"
+      ]
+    },
+    "active_worktree_manifest_and_release_consistency": {
+      "count": 11,
+      "category": "PRE_SEAL_WORKTREE_STATE",
+      "explanation": "Tests verify BUILD_MANIFEST and archive hash circularity against clean post-seal state. During active phase execution before manifest regeneration and packing, these checks detect working tree modifications.",
+      "nodes": [
+        "tests/test_phase158_manifest_contract.py (4 tests)",
+        "tests/test_phase158_snapshot_neutrality.py::TestSnapshotNeutrality::test_manifest_is_lf_only_and_reproduces_byte_for_byte",
+        "tests/test_release_consistency_phase155.py::TestReleaseConsistency155::test_worktree_verifies_against_manifest",
+        "tests/test_release_manifest_phase154.py::TestReleaseManifest154::test_manifest_verifies_clean",
+        "tests/test_release_consistency_phase155.py::TestReleaseConsistency155::test_no_text_artifact_embeds_own_archive_hash",
+        "tests/test_release_records_phase171.py::TestReleaseRecords171::test_current_records_do_not_embed_the_shipped_archive_hash",
+        "tests/test_release_records_phase172.py::TestReleaseRecords172::test_current_records_do_not_embed_the_shipped_archive_hash",
+        "tests/test_release_records_phase173.py::TestReleaseRecords173::test_current_records_do_not_embed_the_shipped_archive_hash",
+        "tests/test_release_records_phase174.py::TestReleaseRecords174::test_current_records_do_not_embed_the_shipped_archive_hash"
+      ]
+    },
+    "dependency_pin_and_privacy_review_contract": {
+      "count": 6,
+      "category": "PRE_SEAL_RECORD_ALIGNMENT",
+      "explanation": "Contract tests asserting exact environment and privacy review declarations before phase sealing.",
+      "nodes": [
+        "tests/test_dependency_pin_contract.py (4 tests)",
+        "tests/test_phase158_privacy_contract.py (2 tests + 25 subtests)"
+      ]
+    },
+    "pre_existing_simulator_logic_checks": {
+      "count": 2,
+      "category": "PRE_EXISTING_LEGACY_ASSERTIONS",
+      "explanation": "Pre-existing test asserting TradeSimulator with invalid breakeven setup (TP == Entry) rejected by simulator geometry, and ledger sequence check.",
+      "nodes": [
+        "tests/test_accounting_9q.py::TestBreakevenClassification::test_backtester_breakeven_via_simulator",
+        "tests/test_stage4_paper_certification.py::TestPaperAccounting::test_sequential_ledger_matches_registry"
+      ]
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "phase": "11D",
+  "subject": "Repository and Credential Hygiene Certification (pre-Phase-12 gate)",
+  "scope": "credential/history audit, secret untracking, tracked-venv/bytecode removal, import-time network isolation, reproducibility. No strategy, trading-logic, or LIVE changes.",
+  "credential_audit": {
+    "method": "full-history scan: git log -p over 114 commits (excl. .venv/__pycache__/*.pyc); filename scan for *.pem/*.key/.env*/secret*/token*/credential*; private-key pattern scan; non-empty assignment scan for DELTA_API_KEY/DELTA_API_SECRET/CONTROL_API_TOKEN/REMOTE_*_TOKEN/QENGINE_CLIENT_TOKEN",
+    "real_secrets_found": [
+      {"where": "tracked .env (5 commits: 63cd4f1, e686ccd, d5846fc, e49f61e, 2f9bf0e; unchanged value; present in HEAD until 11D)", "keys": ["DELTA_API_KEY (31 chars)", "DELTA_API_SECRET (62 chars)"], "status": "ASSUME COMPROMISED UNTIL ROTATED"}
+    ],
+    "not_real_secrets": [
+      "certifi cacert.pem bundles inside tracked .venv (public CA certs)",
+      "packaging/pygments *tokenizer* module names (filename false positives)",
+      "CONTROL_API_TOKEN='...' placeholder, 'change-me-strong-secret' example scripts, 'tok'/'abc'/TOKEN test fixtures",
+      "code references to env var names (os.getenv) without values"
+    ],
+    "private_keys_in_history": 0,
+    "other_real_credentials_in_history": 0,
+    "remote_exposure": "origin https://github.com/vishalkharade1-svg/quantengine-spring-41.git exists - pushed history may expose the .env secrets; rotation is mandatory regardless of local purge"
+  },
+  "remediation_done": {
+    "env_untracked": true,
+    "env_working_copy_preserved_on_disk": true,
+    "env_example_added": ".env.example (placeholders only, tracked)",
+    "gitignore_verified": [".env line 6", ".env.* line 7", "!.env.example line 8", ".venv/ line 22", "__pycache__/ + *.py[cod] lines 14-15"],
+    "tracked_venv_removed": 7215,
+    "tracked_bytecode_removed": 22,
+    "tracked_files_before": 7958,
+    "tracked_files_after": 742,
+    "import_time_network_isolated": ["tests/test_contract_loader.py (was: loader.load() at import)", "tests/test_delta_contract.py (was: loader.load() at import)", "tests/test_replay_engine.py (was: HistoryDatabase().get() at import)"],
+    "isolation_mechanism": "offline unit tests by default; original live/demo behavior under __main__ + QE_LIVE_SMOKE=1 opt-in"
+  },
+  "reproducibility": {
+    "requirements": {"httpx": "0.27.2", "websockets": "12.0", "python-dotenv": "1.0.1", "loguru": "0.7.2", "pandas": "2.2.2", "numpy": "2.1.1", "pyarrow": "18.0.0", "pytest": "8.4.2"},
+    "installed_match_pins": true,
+    "removed_unused": ["aiohttp", "orjson"],
+    "kept_transitive": ["pyarrow (pandas parquet I/O)"],
+    "pytest_config": "pytest.ini, bare collection deterministic"
+  },
+  "verification": {
+    "collect_bare": 1921,
+    "collect_tests_dir": 1921,
+    "passed": 1921,
+    "failed": 0,
+    "skipped": 0,
+    "collection_errors": 0,
+    "duration_s": 441.04,
+    "new_tests_11d": 3,
+    "settings_load": {"ALLOW_LIVE": false, "LIVE_EXECUTE": false, "PAPER_MODE": true},
+    "tracked_secret_paths_remaining": 0,
+    "git_status": "clean except pre-existing untracked 'muse suggetions.md'"
+  },
+  "deferred_gate": {
+    "item": "history purge (remove .env secrets from all git history) + force-push to origin",
+    "reason_deferred": "origin exists: local-only rewrite gives false cleanliness; rotation must come first (purge does not neutralize already-pushed secrets); rewrite invalidates all prior evidence hashes (requires old-to-new hash remap); git filter-repo not installed",
+    "operator_steps": [
+      "1. Rotate/revoke the Delta API key + secret in the Delta dashboard (do this FIRST)",
+      "2. Confirm no live system depends on the old pair",
+      "3. Run history purge (e.g. git filter-repo --path .env --invert-paths, or equivalent) and verify with the 11D audit scans",
+      "4. Record old-to-new commit hash mapping for Phase 10/11A/11B/11C evidence commits",
+      "5. Force-push to origin and confirm GitHub secret scanning is clean",
+      "6. Never put replacement credentials in the repository (.env stays untracked)"
+    ],
+    "blocks": "LIVE readiness (not Phase-12 research planning)"
+  },
+  "commits": {"hygiene": "131660f", "evidence": "this commit (see git log)"},
+  "verdict": "PHASE 11D: GREEN (HYGIENE) - CLOSED with one deferred operator gate: credential rotation + history purge before LIVE readiness. Phase 12 NOT STARTED. LIVE trading remains disabled."
+}

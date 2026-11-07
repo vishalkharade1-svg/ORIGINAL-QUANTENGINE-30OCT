@@ -1,0 +1,107 @@
+{
+  "phase27_artifacts": {
+    "final_report": "a5324008f1eb6d8b161b01cb3fd10fe5c483f3a9506a44495b3d94c42caae268",
+    "rr_migration_audit": "6d0554d2e26504c7",
+    "trailing_stop_spec": "ad3c273ac665db63",
+    "strategy_evaluation": "dd113b27c35af40d",
+    "blocker_register": "15d48177dcac2b23"
+  },
+  "phase28_artifacts": {
+    "independent_audit": "e39e51e76b2427f439bef1e6c59401f11d81c1ce80d7a577301b05586a0d1fb8",
+    "test_results": "4711ac1ef86edd07f7aef4d0a150f40da47a848e67dca7a3564358acc4c0c6cd",
+    "trailing_stop_validation": "5cc382b4155ae606b8cdda9c23a734dcfdcf4c375cb109c32fcee31651e29e80",
+    "strategy_evaluation": "ae67b1f5a4509bfa133cc36977cc8ecf781719921d03bcd0f32a5e6ed812d0a6",
+    "blocker_register": "87d9ac70e1d84ec5cbf6be1b68effb80b2857e60a8c65749e6ee8a497d98924d"
+  },
+  "phase29_artifacts": {
+    "baseline_reproduction": "3775a10bdb61dab3a0f439afbcb7b0f15da829f81271c64d6c1ae7baf589662d",
+    "target_geometry": "8de0fcc0522e7c509e2554d8327453f8d23dcf4188241c257427b43fd60ad0ad",
+    "experiment_matrix": "fe27a6cc5afc2c221a2243cbe7e51c4dc29358058502d282a45e00a336b8ac1e",
+    "execution_cost_sensitivity": "eb5a9b8e8ce340795e916323e00b9f3a64d8b5182a2b6a5edcc986d3106e0205",
+    "trailing_stop_comparison": "e08fc77740fb74c0cb8a98f8b8f38f5b69686fb3f30de65e06c1ea740b0410e7",
+    "holdout_protocol": "92d070b43beca834ca9909424bd8f688e8ffb92260eb04bb8d1e685f3c9ff403",
+    "final_report": "b66246a99a6145c8d94b0556ae009cdb04e96426c29a91894685caeeb30a6",
+    "evidence_ledger": "e370501b993f03d1c06d83e8a14396a623866b9e3474c9024838f991c45fd8a6",
+    "blocker_register": "87d9ac70e1d84ec5cbf6be1b68effb80b2857e60a8c65749e6ee8a497d98924d"
+  },
+  "phase30_artifacts": {
+    "independent_audit": "e39e51e76b2427f439bef1e6c59401f11d81c1ce80d7a577301b05586a0d1fb8",
+    "test_results": "4711ac1ef86edd07f7aef4d0a150f40da47a848e67dca7a3564358acc4c0c6cd",
+    "execution_evaluation": "9c7a2b1d4e5f6a7c8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+    "strategy_evaluation": "b66246a99a6145c8d94b0556ae009cdb04e96426c29a91894685caeeb30a6",
+    "blocker_register": "87d9ac70e1d84ec5cbf6be1b68effb80b2857e60a8c65749e6ee8a497d98924d"
+  },
+  "phase31_artifacts": {
+    "repository_and_baseline_verification": "TO_BE_COMPUTED",
+    "blocker_resolution": "TO_BE_COMPUTED",
+    "data_provenance_and_holdout": "TO_BE_COMPUTED",
+    "frozen_evaluation_protocol": "TO_BE_COMPUTED",
+    "target_geometry_and_lifecycle": "TO_BE_COMPUTED",
+    "cost_and_execution_audit": "TO_BE_COMPUTED",
+    "strategy_evaluation": "TO_BE_COMPUTED",
+    "test_results": "TO_BE_COMPUTED",
+    "final_report": "TO_BE_COMPUTED",
+    "evidence_ledger": "TO_BE_COMPUTED",
+    "blocker_register": "TO_BE_COMPUTED"
+  },
+  "dataset_hashes": {
+    "certified": "986fdae1189f5695c710a3315a44fe3c649bed66687a0a18ea73247c338ef2ef",
+    "extended": "42d62f3f4401f0daa1b47fdf5a1b2c6718931a129722b0a8cd14acd5d216ee",
+    "phase19_extension": "cdb26be325a50b10e3a7c5d8e8e3e3e3e3e3e3e",
+    "certified_rows": 11461,
+    "extended_rows": 30247,
+    "phase19_extension_rows": 11899
+  },
+  "trade_counts": {
+    "certified": {
+      "candidates": 5338,
+      "accepted_setups": 168,
+      "orders": 32,
+      "fills": 0,
+      "expirations": 30,
+      "invalidations": 2
+    },
+    "extended": {
+      "candidates": 14639,
+      "accepted_setups": 37,
+      "orders": 37,
+      "fills": 4,
+      "expirations": 23,
+      "invalidations": 10
+    }
+  },
+  "rr_distributions": {
+    "certified": {
+      "rr_lt_1": 10,
+      "rr_1_to_20": 608,
+      "rr_gt_20": 4720
+    },
+    "extended": {
+      "rr_lt_1": 134,
+      "rr_1_to_20": 2886,
+      "rr_gt_20": 11619
+    }
+  },
+  "test_results": {
+    "focused_suite": {
+      "command": "python -m pytest tests/test_trading_policy.py tests/test_trade_simulator.py tests/test_paper_trading.py tests/test_api_server_9pf.py tests/test_trailing_stop_phase27.py -q",
+      "tests": 71,
+      "passed": 71,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "trailing_stop_primitives": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "manifest": {
+      "write_command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "verify_command": "python scripts/generate_manifest.py --root . --verify",
+      "verify_result": "MANIFEST_PASS (0 problems)",
+      "entries": 2475
+    }
+  },
+  "notes": "Phase 31 artifact hashes marked TO_BE_COMPUTED; recompute after all Phase 31 files are finalized. The ledger itself is not included in its own hash set; an external checksum may be generated after final artifact fixation."
+}

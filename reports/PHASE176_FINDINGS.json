@@ -1,0 +1,79 @@
+{
+  "phase": 176,
+  "audit_title": "QuantEngine Phase 176 Forensic Findings — Contract Semantics, Economics & Release Integrity",
+  "audit_timestamp": "2026-10-20T07:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-176-01",
+      "category": "CONTRACT_SEMANTICS",
+      "severity": "DOCUMENTATION_INCONSISTENCY",
+      "title": "Tick Size Narrative Error: 0.50 Documented vs 0.10 Authoritative",
+      "description": "The FeeScheduleProvenance data class in core/execution/maker_execution_model.py documents the BTCUSD tick size as 0.50 in its verified_contract string ('BTCUSD (multiplier=0.001, tick=0.50, step=1)'). The authoritative MCP product payload (data/fixtures/delta/delta_mcp_public_products_20260925.json) records tick_size=0.1. The discrepancy has zero impact on fee or P&L calculations (which depend only on price, multiplier, and quantity) but may cause order validation to incorrectly reject valid prices that are multiples of 0.10 but not 0.50 (e.g., $82,000.10). Repair required before live order validation is enabled."
+    },
+    {
+      "id": "FINDING-176-02",
+      "category": "FEE_REPRODUCTION",
+      "severity": "INFORMATIONAL_OBSERVATION",
+      "title": "Round-Trip Fee $0.03871580 Has Unspecified Exit Price",
+      "description": "The Phase 175 canonical round-trip maker fee of $0.03871580 cannot be exactly reproduced from the 4.5-pt canonical example (entry $82,000.00, exit $82,004.50). Back-solving shows the exact fee requires an exit price near $82,050.85. The published fee is internally consistent with an $82k entry basis and is correct in order of magnitude. However, the narrative does not specify which exit price generates the $0.03871580 figure. This is a minor documentation ambiguity — not a code defect."
+    },
+    {
+      "id": "FINDING-176-03",
+      "category": "ECONOMIC_VERIFICATION",
+      "severity": "CONFIRMED_CORRECT",
+      "title": "Contract Multiplier 0.001 Correctly Applied Across All Code Paths",
+      "description": "Independently verified that the contract multiplier of 0.001 BTC/contract is consistently applied in: (1) leg notional construction in calculate_round_trip() and calculate_asymmetric_round_trip(), (2) default parameter in FrictionHurdleGate.evaluate(), (3) default in PaperOrder.multiplier, (4) FeeScheduleProvenance narrative, (5) FeeScheduleProvenance.verified_contract string. No double-application, no omission, no unit inconsistency found."
+    },
+    {
+      "id": "FINDING-176-04",
+      "category": "ECONOMIC_VERIFICATION",
+      "severity": "CONFIRMED_CORRECT",
+      "title": "P&L Formula is Correctly Linear (Not Inverse, Not Quanto)",
+      "description": "The BTCUSD contract is confirmed as a linear vanilla perpetual (notional_type='vanilla', is_quanto=false). Code implements gross_pnl = (exit - entry) * multiplier * qty [USD], which is the correct linear formula. No inversion step (which would apply to inverse contracts), no FX cross-currency adjustment (which would apply to quanto contracts). Dimensional analysis confirmed: all intermediate quantities produce USD output."
+    },
+    {
+      "id": "FINDING-176-05",
+      "category": "ECONOMIC_VERIFICATION",
+      "severity": "CONFIRMED_CORRECT",
+      "title": "GST Application Correct: 18% on Commissions, Zero on Rebates",
+      "description": "GST of 18% is correctly applied to brokerage commissions (base_fee > 0 branch) and correctly withheld on rebates (base_fee < 0 branch applies gst=0). This is consistent with Indian Goods and Services Tax treatment of financial services commissions vs. rebates. Effective maker rate of 2.36 bps and taker rate of 5.90 bps independently reproduced and confirmed."
+    },
+    {
+      "id": "FINDING-176-06",
+      "category": "GATE_ARCHITECTURE",
+      "severity": "CONFIRMED_CORRECT",
+      "title": "Hurdle Gate Rule 1 Strictly Subsumes Rule 2 — Independently Verified",
+      "description": "Independently reproduced the Phase 175 mathematical proof: Rule 1 (fee_ratio <= 40%) implies breakeven_multiple = 1/fee_ratio >= 2.50, which strictly dominates Rule 2 threshold of 2.00x. Any setup passing Rule 1 is guaranteed to pass Rule 2. Rule 2 retained for serialized output compatibility. Rule 3 (post-fee R:R >= 1.25) is independently binding because it introduces stop-loss distance as a new variable."
+    },
+    {
+      "id": "FINDING-176-07",
+      "category": "SAFETY_VERIFICATION",
+      "severity": "CONFIRMED_CORRECT",
+      "title": "Fail-Closed Gate Safety Verified Across All Edge Cases",
+      "description": "Independently traced fail-closed behavior for: None inputs, NaN, Infinity, non-positive prices, zero price distances, non-positive quantity, non-positive multiplier. All cases invoke _fail_closed() helper returning HurdleVerdict(allowed=False) with a descriptive rejection_reason. No code path can produce allowed=True from malformed inputs."
+    },
+    {
+      "id": "FINDING-176-08",
+      "category": "DATA_INTEGRITY",
+      "severity": "CONFIRMED_LIMITATION",
+      "title": "Zero Temporal Overlap Between Candle and L2 Datasets Confirmed",
+      "description": "Confirmed that 1m.parquet covers September 5, 2026 and delta_ob_updates_archive.json covers October 19, 2026 — a 44-day gap with zero temporal overlap. Synchronized signal-to-execution backtesting using these two datasets is mathematically impossible. This limitation was first documented in Phase 175 and is independently confirmed here."
+    },
+    {
+      "id": "FINDING-176-09",
+      "category": "RELEASE_INTEGRITY",
+      "severity": "INFORMATIONAL_VERIFICATION",
+      "title": "Phase 175 Archive Integrity Verified",
+      "description": "QuantEngine_PHASE175_RELEASE_CANDIDATE.zip SHA-256 verified as 16aacbde562d3a39078e15d62d120810b2d72b0f426526856fd7d274b16954b4. Matches RELEASE_HASH_PHASE175.txt. All Phase 175 reports referenced in PHASE175_RELEASE_GATES.json are present and non-empty. 18/18 Phase 175 regression tests pass with code exit 0."
+    },
+    {
+      "id": "FINDING-176-10",
+      "category": "PRIVACY",
+      "severity": "CONFIRMED_CLEAN",
+      "title": "Zero Credential or PII Exposure",
+      "description": "Privacy scan across 2,145+ files confirms zero exposed API keys, credentials, PII, or private keys. .env contains only placeholder values. Evidence files contain trade mechanics data only (fill IDs, order IDs, timestamps, amounts) — no authentication material."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "content_identity": "e2116473004e388ce1299bdc3377b42df2a1901cb987627ddd15e3b811864211",
+  "current_canonical_strategy_digest": "bb3e153a7df694512535730b714134d7355a5fe6ce75810a957de7ee5808eb21",
+  "historical_artifact_recreated": false,
+  "matches_recorded": false,
+  "production_ready": false,
+  "reasons": [
+    "recorded digest is irreproducible from any committed state under any line ending (mint-time working bytes unrecorded)",
+    "current source contains the verified Phase-4 gate-80 correction and cost seam, so findings built on the recorded digest cannot be transferred without re-execution",
+    "no recorded research re-execution under the current source exists in the repository"
+  ],
+  "recorded_strategy_digest": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+  "schema": "phase55-recertification-boundary-v1",
+  "status": "BLOCKED"
+}

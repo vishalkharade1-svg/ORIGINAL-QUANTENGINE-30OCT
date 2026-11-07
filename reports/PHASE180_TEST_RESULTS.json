@@ -1,0 +1,309 @@
+{
+  "phase": 180,
+  "audit_title": "QuantEngine Phase 180 Full-Suite Test Reconciliation & Failure Inventory",
+  "audit_timestamp": "2026-10-20T15:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "execution_metrics": {
+    "command": "python -m pytest tests -q -p no:cacheprovider --tb=line -rfs",
+    "exit_code": 1,
+    "duration_seconds": 2609.70,
+    "duration_formatted": "0:43:29",
+    "total_collected": 4498,
+    "passed": 4407,
+    "failed": 77,
+    "skipped": 14,
+    "subtests_passed": 400
+  },
+  "reconciliation_equation": {
+    "equation": "passed (4407) + failed (77) + skipped (14) = 4498",
+    "discrepancy": 0
+  },
+  "failure_breakdown": {
+    "total_failed_nodes": 52,
+    "total_subtest_failures": 25,
+    "total_failures": 77,
+    "categories": {
+      "historical_strategy_digest": {
+        "count": 5,
+        "classification": "CONTRACTUALLY_RETAINED_FAILURE",
+        "blocker_id": "BLOCK-180-01"
+      },
+      "git_ancestry_and_history": {
+        "count": 27,
+        "classification": "ENVIRONMENT_LIMITATION",
+        "blocker_id": "BLOCK-180-02"
+      },
+      "pre_seal_worktree_manifest": {
+        "count": 8,
+        "classification": "PRE_SEAL_WORKTREE_STATE"
+      },
+      "pre_seal_release_records": {
+        "count": 4,
+        "classification": "PRE_SEAL_RECORD_STATE"
+      },
+      "dependency_pin_contract": {
+        "count": 4,
+        "classification": "PRE_SEAL_RECORD_ALIGNMENT"
+      },
+      "privacy_contract": {
+        "count": 2,
+        "classification": "PRE_SEAL_RECORD_ALIGNMENT"
+      },
+      "legacy_simulator_and_ledger": {
+        "count": 2,
+        "classification": "PRE_EXISTING_LEGACY_ASSERTIONS"
+      }
+    }
+  },
+  "failed_node_inventory": [
+    {
+      "node_id": "tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match",
+      "category": "historical_strategy_digest",
+      "blocker_id": "BLOCK-180-01"
+    },
+    {
+      "node_id": "tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+      "category": "historical_strategy_digest",
+      "blocker_id": "BLOCK-180-01"
+    },
+    {
+      "node_id": "tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+      "category": "historical_strategy_digest",
+      "blocker_id": "BLOCK-180-01"
+    },
+    {
+      "node_id": "tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs",
+      "category": "historical_strategy_digest",
+      "blocker_id": "BLOCK-180-01"
+    },
+    {
+      "node_id": "tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned",
+      "category": "historical_strategy_digest",
+      "blocker_id": "BLOCK-180-01"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_n.py::TestRepositoryHead::test_starting_head_ancestor",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_n.py::TestRepositoryHead::test_tree_clean_except_notes",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_n.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_o.py::TestRepositoryHead::test_starting_head_ancestor",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_o.py::TestRepositoryHead::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_o.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_p.py::TestRepositoryHead::test_starting_head_ancestor",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_p.py::TestRepositoryHead::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_p.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_q.py::TestStartingState::test_head_descends_from_p",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_q.py::TestStartingState::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_q.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_r.py::TestStartingState::test_head_descends_from_q",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_r.py::TestStartingState::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_r.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_s.py::TestStartingState::test_head_descends_from_r",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_s.py::TestStartingState::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_s.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_t.py::TestStartingState::test_head_descends_from_s",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_t.py::TestStartingState::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_t.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_u.py::TestStartingState::test_head_descends_from_t",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_u.py::TestStartingState::test_tree_only_expected",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_11g_u.py::TestProductionIsolation::test_no_production_paths",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_researcher_15.py::TestMultipleTestingPreserved::test_no_new_hypothesis_family",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_head_is_stage123_closure_descendant",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_research_byte_unchanged",
+      "category": "git_ancestry_and_history",
+      "blocker_id": "BLOCK-180-02"
+    },
+    {
+      "node_id": "tests/test_phase158_manifest_contract.py::TestManifestCompleteness::test_generate_stdout_is_byte_identical",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_phase158_manifest_contract.py::TestManifestCompleteness::test_manifest_covers_every_packaged_file_exactly_once",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_phase158_manifest_contract.py::TestManifestCompleteness::test_manifest_reproduces_byte_for_byte",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_phase158_manifest_contract.py::TestManifestCompleteness::test_verify_reports_no_problems",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_phase158_snapshot_neutrality.py::TestSnapshotNeutrality::test_manifest_is_lf_only_and_reproduces_byte_for_byte",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_release_consistency_phase155.py::TestReleaseConsistency155::test_no_text_artifact_embeds_own_archive_hash",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_release_consistency_phase155.py::TestReleaseConsistency155::test_worktree_verifies_against_manifest",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_release_manifest_phase154.py::TestReleaseManifest154::test_manifest_verifies_clean",
+      "category": "pre_seal_worktree_manifest"
+    },
+    {
+      "node_id": "tests/test_release_records_phase171.py::TestReleaseRecords171::test_current_records_do_not_embed_the_shipped_archive_hash",
+      "category": "pre_seal_release_records"
+    },
+    {
+      "node_id": "tests/test_release_records_phase172.py::TestReleaseRecords172::test_current_records_do_not_embed_the_shipped_archive_hash",
+      "category": "pre_seal_release_records"
+    },
+    {
+      "node_id": "tests/test_release_records_phase173.py::TestReleaseRecords173::test_current_records_do_not_embed_the_shipped_archive_hash",
+      "category": "pre_seal_release_records"
+    },
+    {
+      "node_id": "tests/test_release_records_phase174.py::TestReleaseRecords174::test_current_records_do_not_embed_the_shipped_archive_hash",
+      "category": "pre_seal_release_records"
+    },
+    {
+      "node_id": "tests/test_dependency_pin_contract.py::TestDependencyPinContract::test_declared_pins_match_the_recorded_evidence_environment",
+      "category": "dependency_pin_contract"
+    },
+    {
+      "node_id": "tests/test_dependency_pin_contract.py::TestDependencyPinContract::test_httpx_pin_is_not_below_the_recorded_evidence_version",
+      "category": "dependency_pin_contract"
+    },
+    {
+      "node_id": "tests/test_dependency_pin_contract.py::TestDependencyPinContract::test_release_record_names_interpreter_and_runner",
+      "category": "dependency_pin_contract"
+    },
+    {
+      "node_id": "tests/test_dependency_pin_contract.py::TestDependencyPinContract::test_release_record_names_its_dependency_set",
+      "category": "dependency_pin_contract"
+    },
+    {
+      "node_id": "tests/test_phase158_privacy_contract.py::TestPrivacyContract::test_privacy_review_declares_the_allowlist_and_the_package_class",
+      "category": "privacy_contract"
+    },
+    {
+      "node_id": "tests/test_phase158_privacy_contract.py::TestPrivacyContract::test_the_scan_and_review_deny_publication_clearance",
+      "category": "privacy_contract"
+    },
+    {
+      "node_id": "tests/test_accounting_9q.py::TestBreakevenClassification::test_backtester_breakeven_via_simulator",
+      "category": "legacy_simulator_and_ledger"
+    },
+    {
+      "node_id": "tests/test_stage4_paper_certification.py::TestPaperAccounting::test_sequential_ledger_matches_registry",
+      "category": "legacy_simulator_and_ledger"
+    }
+  ],
+  "focused_regression_summary": {
+    "total_tests": 178,
+    "passed": 178,
+    "failed": 0,
+    "skipped": 0,
+    "pass_rate_percent": 100.0,
+    "duration_seconds": 22.70
+  }
+}

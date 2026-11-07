@@ -1,0 +1,222 @@
+{
+ "H11GF-001|no-sweep|BTCUSDT|A": {
+  "net": 5.693278633384,
+  "removed": "no-sweep",
+  "trades": 11
+ },
+ "H11GF-001|no-sweep|BTCUSDT|C": {
+  "net": -3.051721366616001,
+  "removed": "no-sweep",
+  "trades": 11
+ },
+ "H11GF-001|no-sweep|ETHUSDT|A": {
+  "net": 1.0721201523323605,
+  "removed": "no-sweep",
+  "trades": 12
+ },
+ "H11GF-001|no-sweep|ETHUSDT|C": {
+  "net": -8.46787984766764,
+  "removed": "no-sweep",
+  "trades": 12
+ },
+ "H11GF-002|no-displacement|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-002|no-displacement|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-002|no-displacement|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-002|no-displacement|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-002|no-sweep|BTCUSDT|A": {
+  "net": 3.4983894292382267,
+  "removed": "no-sweep",
+  "trades": 11
+ },
+ "H11GF-002|no-sweep|BTCUSDT|C": {
+  "net": -5.246610570761774,
+  "removed": "no-sweep",
+  "trades": 11
+ },
+ "H11GF-002|no-sweep|ETHUSDT|A": {
+  "net": -3.026294451110681,
+  "removed": "no-sweep",
+  "trades": 7
+ },
+ "H11GF-002|no-sweep|ETHUSDT|C": {
+  "net": -8.59129445111068,
+  "removed": "no-sweep",
+  "trades": 7
+ },
+ "H11GF-003|no-displacement|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-003|no-displacement|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-003|no-displacement|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-003|no-displacement|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11GF-003|no-fvg|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11GF-003|no-fvg|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11GF-003|no-fvg|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11GF-003|no-fvg|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11GF-003|no-sweep|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11GF-003|no-sweep|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11GF-003|no-sweep|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11GF-003|no-sweep|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11GF-004|no-bos|BTCUSDT|A": {
+  "net": -0.04035807676353263,
+  "removed": "no-bos",
+  "trades": 2
+ },
+ "H11GF-004|no-bos|BTCUSDT|C": {
+  "net": -1.6303580767635326,
+  "removed": "no-bos",
+  "trades": 2
+ },
+ "H11GF-004|no-bos|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11GF-004|no-bos|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11GF-005|no-breaker|BTCUSDT|A": {
+  "net": -0.04740381871412819,
+  "removed": "no-breaker",
+  "trades": 2
+ },
+ "H11GF-005|no-breaker|BTCUSDT|C": {
+  "net": -1.6374038187141284,
+  "removed": "no-breaker",
+  "trades": 2
+ },
+ "H11GF-005|no-breaker|ETHUSDT|A": {
+  "net": -0.015677840819138745,
+  "removed": "no-breaker",
+  "trades": 3
+ },
+ "H11GF-005|no-breaker|ETHUSDT|C": {
+  "net": -2.4006778408191387,
+  "removed": "no-breaker",
+  "trades": 3
+ },
+ "H11GF-006|no-volume|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-006|no-volume|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-006|no-volume|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-006|no-volume|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-007|no-volume|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-007|no-volume|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-007|no-volume|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-007|no-volume|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11GF-008|no-htf|BTCUSDT|A": {
+  "net": 0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11GF-008|no-htf|BTCUSDT|C": {
+  "net": 0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11GF-008|no-htf|ETHUSDT|A": {
+  "net": 0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11GF-008|no-htf|ETHUSDT|C": {
+  "net": 0,
+  "removed": "no-htf",
+  "trades": 0
+ }
+}

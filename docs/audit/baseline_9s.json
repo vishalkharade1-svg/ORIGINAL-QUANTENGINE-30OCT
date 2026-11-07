@@ -1,0 +1,75 @@
+{
+  "dataset": {
+    "n": 500,
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "start_ts": 1704067200,
+    "end_ts": 1704097140,
+    "start_iso": "2024-01-01 00:00:00",
+    "end_iso": "2024-01-01 08:19:00"
+  },
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "timeframe": "1m",
+  "date_range": [
+    1704067200,
+    1704097140
+  ],
+  "config": {
+    "starting_balance": 2000,
+    "risk_per_trade": 0.01,
+    "max_allocation": 500,
+    "leverage": 10.0,
+    "entry_mode": "BREAKOUT_CONTINUATION",
+    "max_wait_bars": 30,
+    "entry_delay_bars": 1
+  },
+  "code_version": "044d4e1",
+  "fees": {
+    "commission_per_trade": 0.0,
+    "commission_rate": 0.0,
+    "slippage_bps": 0.0
+  },
+  "fill_model": "conservative SL-first, ambiguous flagged, limit touch low<=entry<=high, next-bar-open for BREAKOUT",
+  "n_bars": 500,
+  "elapsed_seconds": 0.034,
+  "setups": 0,
+  "signals": 0,
+  "orders": 0,
+  "fills": 0,
+  "expirations": 0,
+  "invalidations": 0,
+  "rejected_orders": 0,
+  "pending_orders": 0,
+  "filled_orders": 0,
+  "wins": 0,
+  "losses": 0,
+  "breakevens": 0,
+  "gross_profit": 0,
+  "gross_loss": 0,
+  "gross_pnl": 0,
+  "net_pnl": 0,
+  "return_pct": 0.0,
+  "max_drawdown": 0.0,
+  "max_drawdown_pct": 0.0,
+  "sharpe": 0.0,
+  "sortino": 0.0,
+  "expectancy": 0.0,
+  "profit_factor": 0.0,
+  "payoff_ratio": 0.0,
+  "win_rate": 0.0,
+  "avg_win": 0.0,
+  "avg_loss": 0.0,
+  "avg_bars_held": 0.0,
+  "best_trade": 0.0,
+  "worst_trade": 0.0,
+  "ambiguous_trades": 0,
+  "rejected_trades": 0,
+  "risk_stats": {
+    "starting_balance": 2000.0,
+    "final_equity": 2000.0,
+    "peak_equity": 2000.0
+  },
+  "notes": "Post-9Q Wilder ATR, causal displacement, canonical accounting, breakeven, timestamp canonical, CandleBuilder RLock, settings type safety, position sizing explicit, capital floor, intrabar conservative, walk-forward disjoint, Sharpe on returns, REST 429, WS reconnect. Zero-cost baseline (commission/slippage 0) \u2014 explicit, not misreported as live."
+}

@@ -1,0 +1,19 @@
+{
+  "extraction": {
+    "byte_verified": 1852,
+    "crc_test": "no corrupt member",
+    "directory": "F:/vishal 3/latestoriginalquant/QuantEngine_PHASE159_Repair",
+    "members_extracted": 1852,
+    "mismatched": [],
+    "post_extract_verify": true
+  },
+  "identity": "revision 2 of the Phase158 release-repair build (self-audited 2026-10-17, PHASE158_REV2_AUDIT_REPORT.md beside the delivery)",
+  "input": {
+    "archive": "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip",
+    "manifest_entries": 1851,
+    "members": 1852,
+    "sha256": "b283332a8b8651e2d3e82acdf8b958bb1df43f5979dce905d9c0312778676beb"
+  },
+  "phase": 159,
+  "what": "input archive extracted byte-verified for the Phase159 hardening cycle"
+}

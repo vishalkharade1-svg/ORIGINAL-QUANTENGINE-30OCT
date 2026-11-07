@@ -1,0 +1,123 @@
+{
+  "phase": "11E",
+  "title": "Strategy Edge & Out-of-Sample Certification — pre-registered specification",
+  "registered_before_oos": true,
+  "hypothesis": {
+    "primary": "BREAKOUT_CONTINUATION generates positive risk-adjusted economic expectancy out-of-sample after realistic transaction costs and execution assumptions.",
+    "null": "Any observed OOS performance is explained by costs, luck (trade order/sample noise), regime accident, or trivial baselines."
+  },
+  "frozen_baseline": {
+    "strategy": "BREAKOUT_CONTINUATION",
+    "pipeline": "core.pipeline.institutional_pipeline.InstitutionalPipeline",
+    "git_head": "1e2d3cf8722a017f481aa346df90d9a6853a91db",
+    "instrument": "BTCUSDT",
+    "timeframe": "1m",
+    "data_source": "Delta Exchange /v2/history/candles via DeltaHistory",
+    "entry_model": "BreakoutContinuationEntryModel (NEXT_BAR_OPEN fills)",
+    "exit_model": "stop-loss / take-profit via TradeSimulator (SL-first ambiguity rule)",
+    "order_expiry": "MAX_WAIT_BARS=30, ENTRY_DELAY_BARS=1",
+    "starting_balance": 2000,
+    "risk_per_trade": 0.01,
+    "max_allocation_notional": 500,
+    "leverage": 10,
+    "commission_per_trade": 0.0,
+    "commission_rate": 0.0,
+    "slippage_bps": 0.0,
+    "gate_a_fingerprint": {
+      "dataset": "docs/audit/baseline_9s_delta_5000_raw.json",
+      "orders": 27, "fills": 11, "wins": 6, "losses": 5, "breakevens": 0,
+      "net_pnl": 0.117534, "deterministic": true
+    }
+  },
+  "datasets": {
+    "D1_gatea": {
+      "path": "docs/audit/baseline_9s_delta_5000_raw.json",
+      "role": "frozen fingerprint + IS statistics only (regime cutoffs, random-entry k). CONTAMINATED by definition (certification dataset). Never OOS evidence.",
+      "bars": 5000, "range": ["2026-09-01T22:25:00Z", "2026-09-05T09:44:00Z"]
+    },
+    "D2_phase7": {
+      "path": "data/history/BTCUSDT_1m_oos.json",
+      "role": "secondary OOS mechanics + sample size. CONTAMINATION STATUS: used by Phase 7 breakout research — treat as lineage-contaminated, disclosed.",
+      "bars": 10000, "range": ["2026-08-24T12:45:00Z", "2026-08-31T11:24:00Z"]
+    },
+    "D3_fresh": {
+      "path": "research/phase11e/data/oos_fresh.json",
+      "role": "PRIMARY clean OOS: fetched after strategy freeze, unseen by any development. Recorded fetch time + sha256.",
+      "bars": "as fetched (>=2000 required, else DATA INSUFFICIENT for primary OOS)",
+      "range": ["2026-09-05T09:44:00Z", "fetch time"]
+    }
+  },
+  "folds": {
+    "design": "contiguous non-overlapping folds, fresh engine per fold (cold start documented, no state carried), no selection (single frozen config)",
+    "F1": {"data": "D2", "bars": [0, 3333]},
+    "F2": {"data": "D2", "bars": [3333, 6666]},
+    "F3": {"data": "D2", "bars": [6666, 10000]},
+    "F4": {"data": "D3", "bars": "all (primary clean OOS)"},
+    "pooled_oos": ["F1", "F2", "F3", "F4"]
+  },
+  "costs": {
+    "model": "commission = CPT + PV*RATE; slippage = 2*PV*BPS/10000 (production path, post-hoc application exact: fills do not depend on costs)",
+    "A_zero": {"COMMISSION_PER_TRADE": 0.0, "COMMISSION_RATE": 0.0, "SLIPPAGE_BPS": 0.0},
+    "B_small": {"COMMISSION_PER_TRADE": 0.0, "COMMISSION_RATE": 0.0002, "SLIPPAGE_BPS": 1.0},
+    "C_moderate": {"COMMISSION_PER_TRADE": 0.0, "COMMISSION_RATE": 0.0005, "SLIPPAGE_BPS": 2.0},
+    "D_adverse": {"COMMISSION_PER_TRADE": 0.0, "COMMISSION_RATE": 0.00059, "SLIPPAGE_BPS": 5.0},
+    "primary_lens": "C_moderate"
+  },
+  "sensitivity_grid": {
+    "rule": "pre-registered neighborhood only; report full matrix; no selection",
+    "variants": [
+      {"name": "baseline", "overrides": {}},
+      {"name": "wait25", "overrides": {"MAX_WAIT_BARS": 25}},
+      {"name": "wait35", "overrides": {"MAX_WAIT_BARS": 35}},
+      {"name": "delay2", "overrides": {"ENTRY_DELAY_BARS": 2}},
+      {"name": "width008", "overrides": {"MIN_RISK_WIDTH_ATR": 0.08}},
+      {"name": "width012", "overrides": {"MIN_RISK_WIDTH_ATR": 0.12}}
+    ],
+    "excluded": {"ENTRY_DELAY_BARS": 0},
+    "exclusion_reason": "same-candle fills violate the no-lookahead rule"
+  },
+  "execution_variations": {
+    "rule": "arithmetic overlays on realized scenario-C trades; fills assumed unchanged (documented first-order approximation; V2 occupancy feedback noted)",
+    "V1_entry_adverse_0p5bp": {"pnl_shift": "-PV*0.00005"},
+    "V2_missed_fills_10pct": {"method": "seeded drop 10% of trades", "seed": 1107},
+    "V3_exits_adverse_1bp": {"pnl_shift": "-PV*0.0001"}
+  },
+  "baselines": {
+    "buy_hold": {"method": "buy $2000 BTC at OOS start close, hold to end; report gross + net of one round trip at scenario C rate"},
+    "random_timing": {"method": "500 seeded draws; n=strategy trade count; entry bars uniform over OOS; stop=k*ATR14, TP=2k*ATR14 with k=frozen IS median(stop_dist/ATR14); $500 notional cap; scenario-C costs; same touch/SL-first exit semantics", "seeds": "1108000..1108499"},
+    "no_trade": {"net": 0.0}
+  },
+  "monte_carlo": {
+    "trade_order_shuffle": {"sims": 5000, "seed": 1107001, "input": "pooled OOS scenario-C net returns"},
+    "bootstrap_expectancy": {"sims": 5000, "seed": 1107002},
+    "report": ["P(net<0)", "p5/p50/p95 final", "maxDD distribution", "P(DD>observed)", "losing-streak distribution"]
+  },
+  "regimes": {
+    "volatility": {"indicator": "ATR14/close at entry bar (past bars only)", "cutoffs": "33/66pct quantiles from D1+D2 pooled IS", "buckets": ["low", "mid", "high"]},
+    "trend": {"indicator": "close vs SMA50 at entry bar (past bars only)", "buckets": ["above", "below"]}
+  },
+  "gates": {
+    "E1_data_integrity": {"pass": "all datasets pass validation (chronological, unique ts, C1-E OHLC/volume rules, gaps enumerated)"},
+    "E2_no_lookahead": {"pass": "frozen pipeline, folds strictly chronological, regime cutoffs from strictly-prior data, no full-sample normalization"},
+    "E3_independent_oos": {"pass": "D3 exists with >=2000 bars AND pooled OOS exists; contamination of D1/D2 disclosed"},
+    "E4_walkforward": {"pass": "folds execute with no leakage (methodological); economics judged under E5/E6"},
+    "E5_cost_robustness": {"pass": "pooled OOS net(C_moderate) > 0"},
+    "E6_sample_adequacy": {"pass": "pooled OOS trades >= 30 for EDGE claims; E6 gates GREEN/YELLOW-EDGE only, never RED-via-costs"},
+    "E7_regime": {"pass": "no single regime holds >70% of pooled net AND every reported cell has >=3 trades, else INSUFFICIENT/FAIL"},
+    "E8_execution": {"pass": "net(C + variation) > 0 for V1, V2, V3 separately"},
+    "E9_montecarlo": {"pass": "P(net<0) < 5% AND P(DD > observed) < 10% at scenario C"},
+    "E10_baselines": {"pass": "strategy net(C) > random-timing median AND > 0 (B&H reported for context, non-gating)"},
+    "E11_reproducibility": {"pass": "two processes agree on deterministic parts; seeded MC reproduces"},
+    "E12_datamining": {"pass": "prior experimentation honestly documented (disclosure gate)"}
+  },
+  "verdict_rules": {
+    "GREEN": "E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12 all PASS",
+    "YELLOW": "E6 INSUFFICIENT, or mixed/weak evidence short of RED triggers",
+    "RED": "E5 FAIL (costs destroy edge) OR walk-forward economics fail OR isolated-trade dependence OR execution variations destroy economics OR baseline failure"
+  },
+  "research_boundary": {
+    "area": "research/phase11e/ (new code) + scripts-style runners importing production read-only",
+    "forbidden": ["production strategy/risk/execution/safety/config modification", "exchange orders", "LIVE enablement", "auto-promotion of findings"],
+    "config_overrides": "mock.patch of risk_settings inside research runs only, restored via finally (same pattern as scripts/cost_sensitivity_11b.py)"
+  }
+}

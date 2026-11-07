@@ -1,0 +1,122 @@
+{
+ "H11F-001": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-002": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-003": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-004": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-005": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-006": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-007": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "sortino": 0.0
+  },
+  "n_folds": 4,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11F-008": {
+  "active_folds": 8,
+  "evidence": "SUFFICIENT",
+  "metrics_C": {
+   "expectancy": -0.4706046033530729,
+   "maxdd": 57.51051527126535,
+   "net": -55.060738592309534,
+   "pf": 0.279396574914279,
+   "sharpe": -5.787845679614433,
+   "sortino": -15.83404357339616
+  },
+  "n_folds": 4,
+  "n_pooled": 117,
+  "verdict": "FAIL"
+ }
+}

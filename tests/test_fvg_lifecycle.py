@@ -1,0 +1,79 @@
+from config.settings import settings
+
+from data.historical_loader import HistoricalLoader
+from data.candle_builder import CandleBuilder
+
+from core.indicators.indicator_engine import IndicatorEngine
+from core.indicators.atr import ATR
+
+from core.displacement.displacement_scanner import DisplacementScanner
+from core.fvg.fvg_scanner import FVGScanner
+from core.fvg.fvg_lifecycle import FVGLifecycle
+
+
+def main():
+
+    loader = HistoricalLoader()
+
+    builder = CandleBuilder()
+
+    history = loader.candles(
+        settings.SYMBOLS[0]
+    )
+
+    builder.load_history(
+        list(reversed(history["result"]))
+    )
+
+    bars = list(builder.history)
+
+    indicators = IndicatorEngine()
+
+    indicators.register(
+        ATR(14)
+    )
+
+    cache = indicators.calculate(bars)
+
+    atr = cache.latest("ATR_14")
+
+    displacement = DisplacementScanner().scan(
+        bars,
+        atr,
+    )
+
+    registry = FVGScanner().scan(
+        bars,
+        displacement,
+    )
+
+    FVGLifecycle().update(
+        bars,
+        registry,
+    )
+
+    print()
+
+    print("=" * 70)
+    print("FVG LIFECYCLE")
+    print("=" * 70)
+
+    print("Active :", len(registry.active()))
+    print("Filled :", len(registry.filled()))
+
+    print()
+
+    for gap in registry.last(10):
+
+        print(
+            gap.direction,
+            "Active=", gap.active,
+            "Filled=", gap.filled,
+            "Score=", round(gap.score, 2),
+        )
+
+    loader.close()
+
+
+if __name__ == "__main__":
+    main()

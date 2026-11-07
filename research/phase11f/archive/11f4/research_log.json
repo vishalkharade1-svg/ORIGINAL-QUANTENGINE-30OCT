@@ -1,0 +1,216 @@
+{
+  "policy": "Every hypothesis/variant evaluated is logged here with an immutable ID. Failed candidates are never deleted. Counts feed the multiple-testing audit.",
+  "registration_timestamp": "2026-09-07T00:00:00Z",
+  "registration_note": "11F-1 architecture registration only. No candidate research executed; variants_tested remains 0 and result null for all entries.",
+  "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+  "entries": [
+    {
+      "id": "H11F-001",
+      "name": "Liquidity Sweep Reversal",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "a14131a0a6d552a240f5147bf1f03696e591c125196d26424cba16abe648c399",
+      "parameter_spec_hash": "f12291478b709f86d6024d9ddf04450870d68ff4ad7acff43b94e9326acd1171",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-002",
+      "name": "Sweep Displacement FVG Retest",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "0e5c011f26284985bd4af4aa5d860ec900d773dbecd3c4f6ecdd74f6e3fc2483",
+      "parameter_spec_hash": "d3a691c4252cc7143f0d999d2208211036f08a6ed9eda951224b186cbb256135",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 3,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-003",
+      "name": "Wyckoff Spring",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "0c20bd81a81827694b85d3523c72a173eb92b7abe6c4d6afdf80d8c08d79880a",
+      "parameter_spec_hash": "6a571f3cfc8aca32b14a3deb3121faee2940b4f531f80b1340e491edc3720492",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-004",
+      "name": "Wyckoff Upthrust",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "7a79c03da403f3f50323be57bec6331a66c6f2b79a13a57644c922c20fe23bb7",
+      "parameter_spec_hash": "e71ebefebe56ea9c84612d78f479c4c5d4a15a0e61928a86ec0f6efde51e725a",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-005",
+      "name": "Order Block Sweep Displacement",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "0e7160f37c552682273845430501eb48faeda090b132657b66182fd49de83c33",
+      "parameter_spec_hash": "d3a691c4252cc7143f0d999d2208211036f08a6ed9eda951224b186cbb256135",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 2,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-006",
+      "name": "Breaker Structure Retest",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "3b6f5a9e1426b3e21974434ddbd6529f7fb37de6f29657a9d1879b9f87da8c12",
+      "parameter_spec_hash": "255d0f36df1660164007b47b51f963b8a7ed037b10be66163ed1a7bc1142fab1",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-007",
+      "name": "Trend Displacement FVG Continuation",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "f5de0ac4c76b067707ab9762f55fd7fd13217865830a12e2c53a7902ae4bf120",
+      "parameter_spec_hash": "26968523e389fc24ef3d3e779e2471a08701b260348fe3af91afbe867f710951",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 3,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-008",
+      "name": "Range Extreme RSI Fade",
+      "status": "FAIL",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "ffe5cf241280768498dfe21ffec317e01ea0831b3ac6fefc54645a06aedac4bf",
+      "parameter_spec_hash": "f3aadf2a9aa06dc2e1893ad1a6d922b1519bb6f66ad03faa9a2796c318714c55",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "FAIL",
+        "n_pooled": 117,
+        "active_folds": 8,
+        "pooled_net": {
+          "A": 37.954261407690474,
+          "B": -14.695738592309528,
+          "C": -55.060738592309534,
+          "D": -148.07573859230953
+        },
+        "pooled_expectancy_C": -0.4706046033530729,
+        "profit_factor_C": 0.279396574914279,
+        "sharpe_C": -5.787845679614433,
+        "maxdd_C": 57.51051527126535
+      },
+      "failure_reason": "pooled net(C)<=0 with sufficient evidence"
+    }
+  ]
+}

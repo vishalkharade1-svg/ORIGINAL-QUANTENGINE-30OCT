@@ -1,0 +1,112 @@
+{
+  "phase": 178,
+  "audit_title": "QuantEngine Phase 178 Test Results & Accounting Reconciliation",
+  "audit_timestamp": "2026-10-20T12:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "accounting_equation": "passed + failed + skipped + xfailed + xpassed = collected",
+  "test_suites_summary": {
+    "phase178_artifact_audit_suite": {
+      "path": "tests/test_phase178_artifact_audit.py",
+      "collected": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase177_tick_remediation_suite": {
+      "path": "tests/test_phase177_tick_remediation.py",
+      "collected": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase176_contract_semantics_suite": {
+      "path": "tests/test_phase176_contract_semantics.py",
+      "collected": 41,
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase175_instrument_economics_suite": {
+      "path": "tests/test_phase175_instrument_economics.py",
+      "collected": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase175_release_records_suite": {
+      "path": "tests/test_release_records_phase175.py",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase174_economics_reconciliation_suite": {
+      "path": "tests/test_phase174_economics_reconciliation.py",
+      "collected": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase173_audit_reproduction_suite": {
+      "path": "tests/test_phase173_audit.py",
+      "collected": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase172_adversarial_suite": {
+      "path": "tests/test_maker_execution_phase172.py",
+      "collected": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "phase171_maker_baseline_suite": {
+      "path": "tests/test_maker_execution_phase171.py",
+      "collected": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "focused_batch_total": {
+      "collected": 149,
+      "passed": 149,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASSED"
+    },
+    "historical_change_detectors": {
+      "collected": 118,
+      "passed": 113,
+      "failed": 5,
+      "skipped": 0,
+      "status": "CONTRACTUALLY_RETAINED_FAILURES",
+      "blocker_id": "BLOCK-178-01"
+    },
+    "full_workspace_collection": {
+      "collected": 4439,
+      "notes": "Full test suite collection across 147 test modules"
+    }
+  },
+  "reconciliation": {
+    "question": "Reconciliation between focused regression suites (149 tests passed) and 5 historical change-detector failures",
+    "explanation": "The focused regression batch verifies all unit, integration, and property invariants for Phase 171 through Phase 178 (149/149 passed). The 5 historical change-detector failures in legacy test modules assert an uncommitted pre-Phase-4 Windows CRLF digest (c52e648c...). Per Safety Rule #7, historical pins and digests are preserved without modification, and these failures are contractually tracked under BLOCK-178-01.",
+    "exact_failing_node_ids": [
+      "tests.test_oos_feasibility_17.TestStrategyIdentity.test_nine_file_hash_exact_match",
+      "tests.test_oos_validation_18.TestStrategyIdentity.test_nine_file_hash_exact_match",
+      "tests.test_oos_validation_18.TestStrategyIdentity.test_no_strategy_mutation_after_runs",
+      "tests.test_oos_data_extension_19.TestFrozenBaseline.test_nine_file_hash_exact_match",
+      "tests.test_readiness_16.TestFrozenRecords.test_strategy_hash_pinned"
+    ]
+  }
+}

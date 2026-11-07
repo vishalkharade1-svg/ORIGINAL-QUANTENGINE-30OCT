@@ -1,0 +1,105 @@
+{
+  "counts": {
+    "disconnects": {},
+    "engine": {
+      "last_route_error": "",
+      "reconcile_errors": 0,
+      "registry_count": 1,
+      "route_errors": 0,
+      "routed": 1,
+      "unrouted": 0
+    },
+    "frames_ingested": 235,
+    "frames_input": 235,
+    "gaps": {
+      "statuses": {
+        "DELTA:BTCUSD:1m": {
+          "gaps": [],
+          "missing_candles": 0,
+          "status": "CONTINUOUS"
+        }
+      }
+    },
+    "log_verdicts": {
+      "PIPELINE_ADDED": 1
+    },
+    "paper": {
+      "equity_end": 2000.0,
+      "equity_start": 2000.0,
+      "orders_placed": 0,
+      "trades_closed": 0
+    },
+    "pipeline": {
+      "candles_processed": 1,
+      "registry_symbols": [
+        "BTCUSD"
+      ]
+    },
+    "risk": {
+      "decision_accepted_rr": [],
+      "decision_accepted_total": 0,
+      "decision_rejected_total": 0,
+      "orders_created_placed": 0,
+      "setups_seen_total": 0
+    },
+    "skipped_for_gap": 0,
+    "stream": {
+      "applied": 234,
+      "duplicates_or_old": 1,
+      "rejected": 0,
+      "unhandled": 0
+    },
+    "synthetic_frames_injected": 0,
+    "transport": {
+      "closed_delivered": 1,
+      "forming_delivered": 78,
+      "frames_ingested": 235,
+      "runtime_rejections": {},
+      "unrouted": 0
+    },
+    "unrouted_during_outage": 0,
+    "workers": {
+      "BTCUSD": {
+        "delivered": 1,
+        "duplicates": 0,
+        "forming_skipped": 78,
+        "out_of_order": 0,
+        "received": 79,
+        "status": "LIVE"
+      }
+    }
+  },
+  "deterministic": true,
+  "endpoint": "wss://public-socket.india.delta.exchange",
+  "evidence_class": "CAPTURED",
+  "faults_applied": [],
+  "non_deterministic": {
+    "latency_ms": {
+      "max": 1.67,
+      "mean": 0.099,
+      "p50": 0.079,
+      "p95": 0.238
+    },
+    "memory_peak_mb": 0.116,
+    "runtime_seconds": 0.047
+  },
+  "observations": [
+    {
+      "decision_accepted": 0,
+      "decision_accepted_rr": [],
+      "decision_rejected": [],
+      "ingest_status": "APPLIED",
+      "orders_placed_delta": 0,
+      "ordinal": 106,
+      "risk_order": false,
+      "setups": 0,
+      "symbol": "BTCUSD",
+      "synthetic": false
+    }
+  ],
+  "schema": "quantengine.verified-transport-replay.v1",
+  "seed": null,
+  "source_path": "F:\\vishal 3\\near final\\QuantEngine_HANDOVER_PHASE161\\DELIVERY\\QuantEngine_PHASE161_RELEASE_CANDIDATE\\data\\fixtures\\delta\\observed_india_btcusd_trades_candles_rollover_20260916.json",
+  "speed": 0.0,
+  "symbol": null
+}

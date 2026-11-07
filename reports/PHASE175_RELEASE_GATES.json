@@ -1,0 +1,69 @@
+{
+  "phase": 175,
+  "audit_title": "QuantEngine Phase 175 Formal Release Gates Assessment",
+  "audit_timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "gates": {
+    "gate_01_baseline_archive_integrity": {
+      "name": "Phase 174 Baseline Archive & Detached Record Integrity",
+      "status": "PASS",
+      "evidence": "reports/PHASE175_PROVENANCE.json",
+      "notes": "QuantEngine_PHASE174_RELEASE_CANDIDATE.zip verified against RELEASE_HASH_PHASE174.txt (d0057024...)"
+    },
+    "gate_02_notional_basis_reconciliation": {
+      "name": "Forensic Notional & Entry Price Discrepancy Resolution",
+      "status": "PASS",
+      "evidence": "reports/PHASE175_NOTIONAL_FEE_RECONCILIATION.md",
+      "notes": "Proved that published 0.0387 USD maker fee strictly requires $82,000 entry price ($82 notional); $42,082 was a narrative header typo"
+    },
+    "gate_03_contract_specification_linear_invariants": {
+      "name": "Authoritative Linear Contract Specifications & Multiplier Invariants",
+      "status": "PASS",
+      "evidence": "reports/PHASE175_INSTRUMENT_ECONOMICS_AUDIT.md",
+      "notes": "Product ID 84 BTCUSD verified as linear vanilla contract (contract_value: 0.001 BTC, settled in USD)"
+    },
+    "gate_04_hurdle_gate_enforcement_and_proof": {
+      "name": "Friction Hurdle Gate Hierarchy Proof & Fail-Closed Safety",
+      "status": "PASS",
+      "evidence": "reports/PHASE175_HURDLE_GATE_AUDIT.md",
+      "notes": "Mathematically proved Rule 1 strictly subsumes Rule 2; fail-closed on all non-finite/invalid inputs"
+    },
+    "gate_05_privacy_and_secrets_clean": {
+      "name": "Secrets Scanner Clearance & Zero Credential Exposure",
+      "status": "PASS",
+      "evidence": "reports/PHASE175_PRIVACY_REVIEW.md",
+      "notes": "scan_privacy.py passed across 2,145 inspected files; zero API keys or credentials exposed"
+    },
+    "gate_06_paper_dispatch_safety_isolation": {
+      "name": "Paper Dispatch Isolation & Zero Live Adapter Invocation",
+      "status": "PASS",
+      "evidence": "reports/PHASE175_CANONICAL_PNL_RESULTS.md",
+      "notes": "assert_no_live_adapter_invocation() verified; rejected orders halt before dispatch"
+    },
+    "gate_07_queue_dynamics_empirical_calibration": {
+      "name": "Queue Dynamics Empirical Calibration",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-175-02",
+      "notes": "Classified strictly as SIMULATION_ASSUMPTION pending high-frequency MBO order-level feeds"
+    },
+    "gate_08_synchronized_data_lineage": {
+      "name": "Synchronized Signal-to-Execution Temporal Overlap",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-175-03",
+      "notes": "September 2026 candles and October 2026 L2 updates are temporally disjoint windows"
+    },
+    "gate_09_authenticated_execution_power": {
+      "name": "Statistical Sample Size Power (N >= 30)",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-175-04",
+      "notes": "Only N=2 valid authenticated fills exist in the repository; underpowered for statistical claims"
+    },
+    "gate_10_historical_change_detector_preservation": {
+      "name": "Historical Change-Detector Invariants Preservation",
+      "status": "BLOCKED",
+      "blocker_id": "BLOCK-175-01",
+      "notes": "Five historical line-ending change-detector tests remain contractually preserved failing red"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "phase": "81",
+  "title": "Authenticated Delta private WebSocket execution evidence",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "live_readiness": false,
+  "real_private_capture": "NOT_EXECUTED",
+  "authenticated_credentials_available": false,
+  "network_capture": "NOT_EXECUTED",
+  "implementation": [
+    "Delta key-auth signature generation for GET + timestamp + /live",
+    "v2/user_trades subscription and strict normalization",
+    "per-symbol sequence continuity validation",
+    "duplicate fill detection",
+    "authenticated REST-vs-WebSocket fill reconciliation",
+    "tamper-evident private WebSocket raw-frame archive",
+    "independent archive replay and fingerprint verification"
+  ],
+  "evidence_boundary": [
+    "Fixtures and caller-supplied frames cannot become REAL",
+    "Authentication failure produces no REAL evidence",
+    "Sequence gaps reject the private capture",
+    "REST/WebSocket disagreement rejects reconciliation",
+    "v2/user_trades does not supply commission, so commission remains sourced from authenticated REST fills",
+    "No authenticated private venue capture was available in this environment"
+  ],
+  "tests": {
+    "phase81_focused": 10,
+    "phase80_and_prior_targeted_before_known_legacy_mismatch": 56,
+    "known_legacy_mismatch": "tests/test_versioned_economics_phase6.py::TestVersionedEconomics::test_eroded_trade_is_rejected",
+    "compileall": "PASS"
+  },
+  "external_source": "Delta official WebSocket documentation confirms key-auth on wss://socket.india.delta.exchange and v2/user_trades with per-symbol seq_no; documentation is not captured venue evidence.",
+  "next": "Execute authenticated private capture in an authorized network environment, persist raw v2/user_trades frames, capture authenticated REST fills, reconcile exact fill IDs/order IDs/prices/sizes/roles, then bind commissions and realized slippage to genuine contemporaneous market-friction evidence."
+}

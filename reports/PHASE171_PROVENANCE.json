@@ -1,0 +1,26 @@
+{
+  "phase": 171,
+  "date": "2026-10-20",
+  "input": {
+    "archive": "QuantEngine_PHASE170_RELEASE_CANDIDATE.zip",
+    "sha256": "ae8033a740da52d9fd4dd4799a3ef69a0fd0e862112b232d247e654f9ed2ac3b",
+    "git_head": "ffefa14a8729f6d2160db3735a06257cbb6ab48b"
+  },
+  "output": {
+    "archive": "QuantEngine_PHASE171_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE171.txt"
+  },
+  "lineage": {
+    "phase168_sha256": "727dd8422a4d220231e742f18c953ac0ca2c1ed3574404ca61c91c4e72a90295",
+    "phase169_sha256": "be9b0c0d9f307669a9888690432d0c9dd025dc25919cc9917d4151346971b989",
+    "phase170_sha256": "ae8033a740da52d9fd4dd4799a3ef69a0fd0e862112b232d247e654f9ed2ac3b"
+  },
+  "changes": [
+    "Created core/execution/maker_execution_model.py modeling maker vs taker fees, GST decomposition, and breakeven spread capture hurdles.",
+    "Created core/research/queue_dynamics.py modeling top-of-book L2 queue depth, Poisson arrival fill probability, and adverse selection.",
+    "Created core/execution/friction_hurdle_gate.py filtering trade setups based on friction hurdles, fee-to-target ratios, and post-fee R:R.",
+    "Created scripts/run_phase171_maker_research.py executing deterministic offline research and generating research/results/phase171_maker_execution_research.json.",
+    "Created tests/test_maker_execution_phase171.py (8/8 passed) and tests/test_release_records_phase171.py.",
+    "Maintained historical strategy digest change detector pins failing red by contract (BLOCK-171-01)."
+  ]
+}

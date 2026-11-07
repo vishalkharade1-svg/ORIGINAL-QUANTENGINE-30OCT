@@ -1,0 +1,16 @@
+{
+ "bonferroni_reference": 0.00625,
+ "note": "no ranking selection; single passes are hypothesis-generating",
+ "passes": 0,
+ "q": 0.1,
+ "verdicts": {
+  "H11GF-001": "INSUFFICIENT_EVIDENCE",
+  "H11GF-002": "INSUFFICIENT_EVIDENCE",
+  "H11GF-003": "INSUFFICIENT_EVIDENCE",
+  "H11GF-004": "INSUFFICIENT_EVIDENCE",
+  "H11GF-005": "INSUFFICIENT_EVIDENCE",
+  "H11GF-006": "INSUFFICIENT_EVIDENCE",
+  "H11GF-007": "INSUFFICIENT_EVIDENCE",
+  "H11GF-008": "INSUFFICIENT_EVIDENCE"
+ }
+}

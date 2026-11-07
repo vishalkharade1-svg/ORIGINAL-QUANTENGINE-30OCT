@@ -1,0 +1,35 @@
+{
+  "overall": "NOT_PRODUCTION_READY",
+  "unresolved": [
+    {
+      "id": "B01-no-git-history",
+      "status": "BLOCKED",
+      "detail": "No .git in archive or worktree; 18 ancestry-dependent tests fail. Nothing fabricated."
+    },
+    {
+      "id": "B02-digest-lineage",
+      "status": "BLOCKED",
+      "detail": "Canonical digest moved by intended repairs; historical pins preserved, never re-pinned. 23 hash-pin tests fail."
+    },
+    {
+      "id": "B03-mcp-config",
+      "status": "FAIL-preserved",
+      "detail": ".vscode/mcp.json absent in all authentic sources; 5 errors preserved, no fabrication."
+    },
+    {
+      "id": "B04-live-env-secrets",
+      "status": "OPERATOR",
+      "detail": "Worktree .env with live Testnet secrets trips 2 guard tests by design; operator rotation/review required."
+    },
+    {
+      "id": "B05-economics-certification",
+      "status": "BLOCKED",
+      "detail": "Funding-through-settlement + repeated WS-match outstanding."
+    },
+    {
+      "id": "B06-formal-scans",
+      "status": "BLOCKED",
+      "detail": "pip-audit/bandit unavailable in env."
+    }
+  ]
+}

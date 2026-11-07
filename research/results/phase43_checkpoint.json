@@ -1,0 +1,29 @@
+{
+  "phase": "43",
+  "name": "research_boundary_and_frozen_handoff_checkpoint",
+  "status": "IMPLEMENTED_TESTED_VERIFIED",
+  "research_only": true,
+  "production_ready": false,
+  "changes": [
+    "ConditionalMlReport canonical identity now covers all persisted report-defining surfaces.",
+    "ConditionalMlReport.from_dict provides strict canonical reload and tamper detection.",
+    "Explicit NineLSelection admission binds supported 9L recovery/entry findings to HypothesisRecord provenance.",
+    "Explicit 9L selection to FrozenPreregistration handoff added.",
+    "OosValidationEngine.run_preregistered enforces frozen preregistration identity, dataset identity, protocol identity, and exact hypothesis ordering.",
+    "Research import boundary tests reject direct production runtime imports from OOS/readiness/conditional-ML research packages."
+  ],
+  "focused_tests": {
+    "count": 85,
+    "result": "PASS"
+  },
+  "compileall": "PASS",
+  "full_suite": "NOT_CERTIFIED",
+  "full_suite_known_blockers": [
+    "historical Phase-17/18 frozen strategy hash differs from current source",
+    "historical artifact byte identities differ",
+    "legacy Phase-17 fresh fixture is restored only from the recovered Phase-29 workspace and is not an independent venue re-acquisition"
+  ],
+  "oos_state": "BLOCKED",
+  "edge_status": "NOT_ESTABLISHED",
+  "is_production_ready": false
+}

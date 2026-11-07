@@ -1,0 +1,90 @@
+{
+  "phase": 174,
+  "audit_title": "QuantEngine Phase 174 Independent Economics Reconciliation, Gate Integrity & Evidence-Calibrated Execution Findings",
+  "auditor": "Independent Quantitative Execution & Economics Auditor",
+  "timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-174-01",
+      "severity": "CRITICAL",
+      "category": "BASELINE_PROVENANCE",
+      "summary": "Phase 172 and Phase 173 release candidate archives verified byte-for-byte against detached records",
+      "description": "QuantEngine_PHASE172_RELEASE_CANDIDATE.zip (56,809,944 bytes, SHA-256 67d3e60e88f21c7c53fd5c0d0b5fbfc7f789df65099fe9636c2b6ffc8d33571c) and QuantEngine_PHASE173_RELEASE_CANDIDATE.zip (56,845,919 bytes, SHA-256 db88433208b4059369734c6e6f2e9c7aa1fc7c6193bed93c5d6392e79bae0e8e) independently audited. ZIP integrity, CRC checksums, member paths, and detached hash records match byte-for-byte with zero corruption or path traversal.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_01_provenance_phase172_and_phase173_archives",
+      "disposition": "VERIFIED_PRISTINE",
+      "mitigation": "Preserve baseline release records unchanged in parent directory."
+    },
+    {
+      "id": "FINDING-174-02",
+      "severity": "HIGH",
+      "category": "PNL_RECONCILIATION_50PT",
+      "summary": "50-point setup historical discrepancy (-$0.0051 vs -$0.0248) conclusively resolved",
+      "description": "Proved that -$0.00511580 USD in phase172_post_cost_backtest_results.json derives from the Symmetric Maker model ($0.0500 gross - $0.03871580 maker fees - $0.01640000 adverse selection). Proved that -$0.02480000 USD in PHASE172_FRICTION_GATE_BACKTEST.md derives from a flat $0.07480000 USD cost allowance ($0.0584 fee baseline + $0.0164 adverse selection) applied across all micro-setups (<50 pts). Both formulas reproduced to 8 decimal places.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_03_reconcile_50_point_setup_discrepancy",
+      "disposition": "RECONCILED_AND_PROVEN",
+      "mitigation": "Document the distinct assumptions of both models explicitly in P&L reconciliation reports."
+    },
+    {
+      "id": "FINDING-174-03",
+      "severity": "HIGH",
+      "category": "PNL_RECONCILIATION_150PT",
+      "summary": "150-point setup rounding convention audited; non-fill drag proven counterfactual",
+      "description": "Recalculated 0.1500 - 0.06782050 - 0.01640000 - 0.01380420 = 0.05197530 USD. Proved that published +$0.0519 USD reflects 4-decimal truncation (floor rounding), while standard ROUND_HALF_UP produces +$0.0520 USD. Proved that $0.01380420 USD non-fill drag is a counterfactual benchmark comparison metric, NOT an observed cashflow or balance debit.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_04_reconcile_150_point_setup_rounding_and_counterfactual_drag",
+      "disposition": "AUDITED_AND_SEPARATED",
+      "mitigation": "Enforce explicit precision rounding policy (ROUND_HALF_UP) and prohibit deducting counterfactual opportunity drag from realized ledger equity."
+    },
+    {
+      "id": "FINDING-174-04",
+      "severity": "HIGH",
+      "category": "PNL_RECONCILIATION_SWING_TREND",
+      "summary": "400-point and 1000-point setups reconciled between Symmetric Maker and Asymmetric models",
+      "description": "Reconciled 400-pt (+0.3448 vs +0.3017) and 1000-pt (+0.9447 vs +0.9016). Proved that the ~$0.0430 USD delta corresponds exactly to the taker exit fee surcharge (3.54 bps on notional = ~$0.0292 USD) plus the counterfactual non-fill penalty ($0.0138 USD). All intermediate fee, tax, and adverse selection components verified.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_05_reconcile_400_and_1000_point_setups",
+      "disposition": "DECOMPOSED_AND_PROVEN",
+      "mitigation": "Maintain clear scenario labels when comparing pure maker liquidity provision against taker-exit protective brackets."
+    },
+    {
+      "id": "FINDING-174-05",
+      "severity": "MEDIUM",
+      "category": "GATE_INTEGRITY",
+      "summary": "Friction hurdle rule subsumption formally proved; fail-closed safety fortified",
+      "description": "Mathematically proved that Rule 1 (Fee Ratio <= 40%) strictly subsumes Rule 2 (Target Multiple >= 2.0x <=> Fee Ratio <= 50%). Proved Rule 3 (Post-Fee R:R >= 1.25) acts as an independent constraint. Fortified evaluate_friction_hurdle to safely fail closed on NaN, Inf, None, negative prices, and non-positive quantities without crashing.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_06_friction_hurdle_rule_subsumption_and_independence",
+      "disposition": "FORTIFIED_AND_PROVEN",
+      "mitigation": "Enforce fail-closed verification across all candidate evaluation pipelines."
+    },
+    {
+      "id": "FINDING-174-06",
+      "severity": "HIGH",
+      "category": "QUEUE_DYNAMICS_AUDIT",
+      "summary": "Queue dynamics 7 operational questions answered; block-hazard assumption formalized",
+      "description": "Formally audited queue mathematics: lambda represents contract volume arrival rate (contracts/sec); Q represents estimated depth ahead; formula 1 - exp(-lambda*t/Q) represents a memoryless exponential block hazard, which yields 86.47% any-fill and 86.20% complete-fill. Contrasted against an Erlang-Q Poisson count model (>99.9999%), proving the block-hazard model is a conservative simulation assumption. Retained strictly as SIMULATION_ASSUMPTION.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_08_queue_dynamics_mathematical_audit",
+      "disposition": "AUDITED_AND_CLASSIFIED",
+      "mitigation": "Never classify queue dynamics results as empirical observations without high-frequency Market-by-Order (MBO) order-level feeds."
+    },
+    {
+      "id": "FINDING-174-07",
+      "severity": "CRITICAL",
+      "category": "PAPER_ENGINE_ISOLATION",
+      "summary": "Paper trading engine isolation verified; zero live adapter invocation proved",
+      "description": "QueueAwarePaperExecutionEngine verified through complete order lifecycle (CREATED -> VALIDATED -> RESTING -> PARTIALLY_FILLED -> FILLED). Invariant assert_no_live_adapter_invocation() tested and confirmed passing with zero live adapter calls.",
+      "reproduction_command": "python -m unittest tests/test_phase174_economics_reconciliation.py:TestPhase174EconomicsReconciliation.test_09_paper_engine_isolation_and_boundary_safety",
+      "disposition": "ISOLATION_VERIFIED",
+      "mitigation": "Retain hard-coded zero live adapter guards across all paper trading and backtest runners."
+    },
+    {
+      "id": "FINDING-174-08",
+      "severity": "HIGH",
+      "category": "HISTORICAL_PIN_INTEGRITY",
+      "summary": "Five historical strategy change-detector test failures contractually preserved failing red",
+      "description": "The 5 historical change-detector tests in test_oos_feasibility_17, test_oos_validation_18, test_oos_data_extension_19, and test_readiness_16 pin pre-Phase-4 Windows uncommitted digest c52e648c... Working tree is 9c56f3ff... (disk raw) and ba17582d... (LF canonical). Retained failing red by contract per Safety Rule #7 under BLOCK-174-01.",
+      "reproduction_command": "python -m unittest tests/test_oos_feasibility_17.py tests/test_oos_validation_18.py tests/test_oos_data_extension_19.py",
+      "disposition": "CONTRACTUALLY_PRESERVED_RED",
+      "mitigation": "Do not rewrite historical test pins or claim a green full suite when 5 tests fail by design."
+    }
+  ]
+}

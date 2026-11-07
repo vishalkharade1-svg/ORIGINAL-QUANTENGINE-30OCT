@@ -1,0 +1,77 @@
+{
+ "advisories": {
+  "httpx": [],
+  "numpy": [],
+  "pandas": [],
+  "pyarrow": [
+   {
+    "aliases": [
+     "CVE-2026-25087",
+     "PYSEC-2026-113"
+    ],
+    "id": "GHSA-rgxp-2hwp-jwgg",
+    "modified": "2026-09-10T03:50:35.750182003Z",
+    "summary": "Apache Arrow: Potential use-after-free when reading IPC file with pre-buffering"
+   },
+   {
+    "aliases": [
+     "CVE-2026-25087",
+     "GHSA-rgxp-2hwp-jwgg"
+    ],
+    "id": "PYSEC-2026-113",
+    "modified": "2026-06-10T17:01:40.430051819Z",
+    "summary": ""
+   }
+  ],
+  "pytest": [
+   {
+    "aliases": [
+     "CVE-2025-71176",
+     "PYSEC-2026-1845"
+    ],
+    "id": "GHSA-6w46-j5rx-g56g",
+    "modified": "2026-09-10T03:50:32.768043789Z",
+    "summary": "pytest has vulnerable tmpdir handling"
+   },
+   {
+    "aliases": [
+     "CVE-2025-71176",
+     "GHSA-6w46-j5rx-g56g"
+    ],
+    "id": "PYSEC-2026-1845",
+    "modified": "2026-07-07T17:47:51.848748359Z",
+    "summary": "pytest has vulnerable tmpdir handling"
+   }
+  ],
+  "python-dotenv": [
+   {
+    "aliases": [
+     "CVE-2026-28684",
+     "PYSEC-2026-2270"
+    ],
+    "id": "GHSA-mf9w-mj56-hr94",
+    "modified": "2026-09-10T03:51:02.363430883Z",
+    "summary": "python-dotenv: Symlink following in set_key allows arbitrary file overwrite via cross-device rename fallback"
+   },
+   {
+    "aliases": [
+     "CVE-2026-28684",
+     "GHSA-mf9w-mj56-hr94"
+    ],
+    "id": "PYSEC-2026-2270",
+    "modified": "2026-07-13T07:15:44.015809613Z",
+    "summary": ""
+   }
+  ],
+  "websockets": []
+ },
+ "pins": {
+  "httpx": "0.28.1",
+  "numpy": "2.1.1",
+  "pandas": "2.2.2",
+  "pyarrow": "18.0.0",
+  "pytest": "8.4.2",
+  "python-dotenv": "1.0.1",
+  "websockets": "12.0"
+ }
+}

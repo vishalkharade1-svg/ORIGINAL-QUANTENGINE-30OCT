@@ -1,0 +1,185 @@
+{
+ "build_procedure": {
+  "archive_bytes": "recorded in the detached record RELEASE_HASH_PHASE158.txt (beside the archive)",
+  "archive_members": "manifest entries + 1 (the manifest itself); recorded in the detached record RELEASE_HASH_PHASE158.txt",
+  "builder": "scripts/build_release.py (unchanged from Phase155; enforces the order)",
+  "manifest_entries": "recorded in BUILD_MANIFEST.sha256 and in the detached record",
+  "note": "the archive's own SHA-256 is deliberately not embedded here or anywhere inside the archive; an archive cannot truthfully contain a hash of itself, and any embedded copy would go stale on the next change",
+  "rule": "frozen ordering: write all text -> regenerate BUILD_MANIFEST.sha256 -> verify -> pack -> detached hash record -> extract-verify"
+ },
+ "generated_utc": "2026-10-17",
+ "historical_records": {
+  "reports/PHASE154_ARCHIVE_INTEGRITY.json": {
+   "describes": "the Phase153 archive's member inventory",
+   "disposition": "preserved unchanged. One recorded member hash (data/runtime/risk_policy_overrides.json) is the post-drift CRLF form; revision 2 restored that file to its earlier Phase131 LF pin -- see reports/PHASE158_AUDIT_REPAIRS.json. The record is not edited: it describes the Phase153 archive as it was."
+  },
+  "reports/PHASE157_RELEASE_GATES.json": {
+   "disposition": "preserved unchanged as the Phase157 gate record."
+  },
+  "reports/PHASE157_SELF_AUDIT.md": {
+   "describes": "the superseded 1,817-member Phase157 build (sha256 72fe28e0f0362d9ba717f4d4ffc2f869f0f402a5d844f70bf365542381bd7002)",
+   "disposition": "preserved byte-for-byte; Phase158 does not rewrite it. Its own subject was a superseded revision, which is why the Phase158 provenance record exists and why the self-audit against the shipped bytes lives beside the archive in the post-build bundle.",
+   "note": "it also predates the Phase158 repairs; its failure counts (23 hash + 18 git) are corrected by this phase to 22 + 19 after per-fact enumeration (one test uses `git grep` and had been miscounted).",
+   "sha256": "b83553cb914ab26e58492fab8cf291beefc9859335eb886edaa421ac598774a4"
+  },
+  "reports/PHASE157_SELF_AUDIT.md#scope": {
+   "disposition": "the Phase158 snapshot audit reports/PHASE158_SNAPSHOT_AUDIT.md and the post-build PHASE158_SELF_AUDIT.md supersede it as statements about the shipped bytes."
+  },
+  "reports/RELEASE_PROVENANCE_PHASE132.json": {
+   "describes": "the Phase132 release record",
+   "disposition": "renamed from the ambiguous generic name reports/RELEASE_PROVENANCE.json; bytes unchanged.",
+   "former_name": "reports/RELEASE_PROVENANCE.json",
+   "sha256": "05df5fa91b4c0350aedf905f09eb3cdbc96d15abdfbed2876fbfa825f36e985e"
+  }
+ },
+ "input": {
+  "archive": "QuantEngine_PHASE157_RELEASE_CANDIDATE.zip",
+  "bytes": 55841869,
+  "identity_confirmed_against": [
+   "the detached record ../RELEASE_HASH_PHASE157.txt",
+   "the Phase157 self-audit's prompt-supplied value (independently recomputed, all three agree)"
+  ],
+  "members": 1820,
+  "packaged_vs_worktree": "reports/PHASE158_SOURCE_DIFF.json (byte-identical apart from the worktree-only .env)",
+  "sha256": "d43051a468e7d91d4a2be6b1cfe484fc0a13ac7f6d3fea6735c7b494ccfb00ad",
+  "worktree_at_input": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE131_Digest_Evidence_Repair (the Phase157 build worktree; retained as historical reference)"
+ },
+ "not_done": [
+  "no digest was re-pinned; the five strategy-digest failures remain red by contract (scripts/recertify_strategy_digest.py returns STATUS: BLOCKED)",
+  "no test was weakened, deleted, blanket-skipped or xfailed; the 40 Git facts are individually declared BLOCKED_EVIDENCE with reasons and the ancestry gate stays blocked",
+  "no order was placed and no order-capable script was run without --execute; live order placement remains disabled",
+  "no dataset byte was synthesised: the reconstruction is a derivation from data already in the archive, disclosed as such",
+  "no economic claim advanced; the edge remains NOT ESTABLISHED",
+  "no historical digest or record was rewritten",
+  "no audit finding was dismissed without a verified disposition (reports/PHASE158_AUDIT_REPAIRS.json: authentic-byte restoration, LF-explicit manifest and persistence, session snapshot guard, publication-clearance statement)"
+ ],
+ "output": {
+  "archive": "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip",
+  "detached_record": "RELEASE_HASH_PHASE158.txt",
+  "post_build_bundle": "QuantEngine_PHASE158_POST_BUILD/ \u2014 the self-audit against the final bytes, the extracted-package test log and the post-build verification JSON, none of which can live inside the archive they describe",
+  "sha256": "NOT_EMBEDDED \u2014 the final SHA-256 is recorded only in the detached record RELEASE_HASH_PHASE158.txt delivered beside the archive"
+ },
+ "phase": 158,
+ "release_records": [
+  "reports/PHASE158_BASELINE_INVENTORY.md",
+  "reports/PHASE158_ARCHIVE_INTEGRITY.json",
+  "reports/PHASE158_SOURCE_DIFF.json",
+  "reports/PHASE158_HASH_FAILURE_TRIAGE.json",
+  "reports/PHASE158_GIT_EVIDENCE_STATUS.json",
+  "reports/PHASE158_FULL_SUITE_RUN.txt",
+  "reports/PHASE158_MANIFEST_AUDIT.json",
+  "reports/PHASE158_PROVENANCE.json",
+  "reports/PHASE158_SECURITY_SCAN.md",
+  "reports/PHASE158_PRIVACY_REVIEW.md",
+  "reports/PHASE158_DEPENDENCY_REVIEW.md",
+  "reports/PHASE158_OSV_SCAN.json",
+  "reports/PHASE158_RELEASE_GATES.json",
+  "reports/PHASE158_BLOCKERS.json",
+  "reports/PHASE158_SNAPSHOT_AUDIT.md",
+  "reports/PHASE158_AUDIT_REPAIRS.json",
+  "docs/BUILD_HANDOFF_PHASE158.md",
+  "docs/CLAUDE_PHASE158_INDEPENDENT_AUDIT_PROMPT.md",
+  "NEXT_ACTIONS.md"
+ ],
+ "repairs": [
+  {
+   "class": "representation",
+   "evidence": "every restored file reproduces its recorded pin exactly; tests/test_phase158_frozen_representation.py",
+   "failures_addressed": 7,
+   "id": "REP-158-01",
+   "root_cause_group": "R3+R4",
+   "what": "LF restoration of 10 research/phase11f inputs pinned by raw-byte SHA-256 and 5 byte-canonical research/results JSON artifacts",
+   "why": "an LF-to-CRLF conversion between the phase11f mint and Phase131 broke raw-byte pins without changing content"
+  },
+  {
+   "class": "missing-input",
+   "evidence": "rows hash to the frozen extended_span.dataset_hash 4feccebb3c546de365927b16668195fe871c0cca088b7b1cef8c0bf755aaaab1 and equal the first 11899 rows of the recorded topup",
+   "failures_addressed": 10,
+   "id": "REP-158-02",
+   "root_cause_group": "R1",
+   "what": "reconstruction of data/history/BTCUSDT_1m_phase19_extension.json with an explicit disclosure block",
+   "why": "the file is gitignored by the project's own packaging contract and shipped in no archive from Phase131 onward; ten tests depended on it"
+  },
+  {
+   "class": "evidence-honesty",
+   "evidence": "reports/PHASE158_GIT_EVIDENCE_STATUS.json; tests/test_git_evidence_mode_contract.py",
+   "failures_addressed": 19,
+   "id": "REP-158-03",
+   "root_cause_group": "GIT",
+   "what": "Git evidence-mode contract: 40 facts gated as BLOCKED_EVIDENCE via tests/evidence_mode.py, with a positive control in a throwaway repository",
+   "why": "19 facts failed loudly and 21 passed VACUOUSLY (empty git output satisfying assertions), including a credential scan and a research-byte check"
+  },
+  {
+   "class": "evidence-honesty",
+   "evidence": "tests/test_release_records_phase158.py",
+   "failures_addressed": 0,
+   "id": "REP-158-04",
+   "root_cause_group": "RECORDS",
+   "what": "stale-evidence labelling: Phase157 self-audit preserved and labelled; Phase132 provenance renamed",
+   "why": "the shipped self-audit described a superseded build, and a Phase132 record travelled under a generic current-sounding name"
+  },
+  {
+   "class": "privacy",
+   "evidence": "scripts/security/scan_privacy.py; reports/PHASE158_PRIVACY_REVIEW.md; tests/test_phase158_privacy_contract.py",
+   "failures_addressed": 0,
+   "id": "REP-158-05",
+   "root_cause_group": "PRIVACY",
+   "what": "privacy scanner + review: account-identifier confinement to six enumerated raw captures, raw order ids kept out of aggregate artifacts",
+   "why": "raw private captures ship deliberately as evidence of record while reports described them only as 'restricted'"
+  },
+  {
+   "class": "tooling",
+   "evidence": "negative-control tests in tests/test_phase158_manifest_contract.py; reports/PHASE158_MANIFEST_AUDIT.json",
+   "failures_addressed": 0,
+   "id": "REP-158-06",
+   "root_cause_group": "MANIFEST",
+   "what": "manifest verifier hardening: duplicate and malformed manifest lines are now reported instead of silently collapsing or raising",
+   "why": "a duplicated path silently overwrote its entry in the expected map, so verification could pass with a corrupt manifest"
+  },
+  {
+   "class": "authenticity",
+   "evidence": "reports/PHASE158_AUDIT_REPAIRS.json; tests/test_phase158_snapshot_neutrality.py; tests/conftest.py; tests/test_phase158_manifest_contract.py",
+   "failures_addressed": 0,
+   "id": "REP-158-07",
+   "root_cause_group": "AUDIT",
+   "what": "post-audit revision 2: data/runtime/risk_policy_overrides.json restored byte-for-byte to its Phase131 LF pin with LF-explicit persistence; BUILD_MANIFEST.sha256 regenerated LF-only with byte-exact file and stdout regeneration; a session snapshot guard (tests/conftest.py); an explicit publication-clearance statement on the privacy scan; the dataset ordering qualification",
+   "why": "the revision-1 independent audit found platform-dependent bytes (a re-drifted CRLF runtime file and a CRLF manifest that could not be regenerated byte-for-byte on platforms using LF conventions) and a privacy verdict that could be misread as publication clearance"
+  }
+ ],
+ "role": "release provenance for the Phase158 repaired candidate",
+ "schema": "quantengine.release-provenance.v2",
+ "source_snapshot": {
+  "extraction_verification": "reports/PHASE158_ARCHIVE_INTEGRITY.json",
+  "input_inventory": "reports/PHASE158_INPUT_INVENTORY.sha256",
+  "what": "the input archive extracted byte-verified into F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair (1,820/1,820 members verified), then repaired in place"
+ },
+ "supersedes": [
+  "reports/PHASE157_RELEASE_GATES.json (preserved as the Phase157 record)",
+  "reports/PHASE157_SELF_AUDIT.md (preserved; described a superseded build)"
+ ],
+ "test_evidence": {
+  "authoritative_post_repair": "5 failed, 4033 passed, 50 skipped in 3268.03s (0:54:28), exit code 1 -- the five failures are the deliberate strategy-digest change detectors (BLOCK-158-01); the 50 skips are 40 Git-evidence facts gated as BLOCKED_EVIDENCE and 10 pre-existing conditional skips inherited from the input archive. The run adds -rfs, so the complete skip set is enumerated and compared with the extracted-package run",
+  "baseline_pre_repair": "42 failed, 3974 passed, 10 skipped in 2645.54s (0:44:05), exit code 1 (pre-repair, byte-verified pristine extraction)",
+  "command": "python -m pytest -q -p no:cacheprovider --tb=short -rfs (the canonical command; the post-repair runs add -rfs for the skip enumeration)",
+  "extracted_package": "recorded in the post-build bundle (PHASE158_EXTRACTED_PACKAGE_TESTS.txt): the same command re-run against the extracted shipped bytes with the complete delivery beside it, compared with the authoritative run in PHASE158_POST_BUILD_VERIFICATION.json",
+  "failure_dispositions": "reports/PHASE158_HASH_FAILURE_TRIAGE.json + reports/PHASE158_BLOCKERS.json",
+  "focused_suites": "revision-2 focused validation: 66 passed, 0 failed in 56.85s across the eight files covering every repaired area, every new contract and the release-record contracts, plus 20 passed in 15.35s on the manifest and snapshot contracts alone; the five deliberate strategy-digest failures are change detectors that only the full-suite files exercise and appear only there",
+  "note": "the suite is NOT green and no record in this archive claims it is. The deliberate failures are the five strategy-digest change detectors (BLOCK-158-01) and the Git-evidence gates (BLOCK-158-04). The session snapshot guard reported the tree pristine at session start, zero restores and no files added by the suite (SNAPSHOT_GUARD_SUMMARY, 4,088 tests collected)."
+ },
+ "verdict": "NOT_PRODUCTION_READY",
+ "verification_environment": {
+  "agreement": "requirements.txt, the installed environment and reports/PHASE158_RELEASE_GATES.json name the same versions; tests/test_dependency_pin_contract.py enforces it",
+  "dependencies": {
+   "httpx": "0.28.1",
+   "numpy": "2.1.1",
+   "pandas": "2.2.2",
+   "pyarrow": "18.0.0",
+   "pytest": "8.4.2",
+   "python-dotenv": "1.0.1",
+   "websockets": "12.0"
+  },
+  "platform": "Windows-10-10.0.19045-SP0",
+  "pytest": "8.4.2",
+  "python": "3.12.10"
+ }
+}

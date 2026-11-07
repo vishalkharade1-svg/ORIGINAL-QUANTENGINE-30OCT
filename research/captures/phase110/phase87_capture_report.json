@@ -1,0 +1,36 @@
+{
+  "authenticated_rest_fills": "EMPTY_RESPONSE",
+  "credentials_persisted": false,
+  "credentials_source": "environment_only",
+  "dns_probe": {
+    "cdn-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind-pub.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    }
+  },
+  "economic_certification": "BLOCKED",
+  "environment": "india_testnet",
+  "finished_at": "2026-10-11T08:06:10.661530+00:00",
+  "l2_observation_count": 10,
+  "order_placement": "DISABLED",
+  "phase": 85,
+  "private_ws_error": "ValueError: no v2/user_trades frames",
+  "private_ws_fills": "FAILED_OR_NO_FILLS",
+  "production_ready": false,
+  "real_public_l2": "CAPTURED",
+  "rest_fill_count": 0,
+  "rest_fills_note": "Authenticated /v2/fills returned no rows for this symbol; no fill artifact written.",
+  "rest_ws_reconciliation": "BLOCKED",
+  "started_at": "2026-10-11T08:05:08.728135+00:00",
+  "status": "CAPTURE_COMPLETED_WITH_GAPS",
+  "symbol": "BTCUSD",
+  "title": "Delta Testnet non-trading evidence capture and reconciliation"
+}

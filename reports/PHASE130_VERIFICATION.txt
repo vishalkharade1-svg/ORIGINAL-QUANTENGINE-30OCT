@@ -1,0 +1,26 @@
+QuantEngine Phase 130 — test-baseline triage
+Date: 2026-10-12
+
+Implemented:
+  - Fixed risk-policy API display-key round-trip after Phase 129 symbol normalization.
+  - Preserved canonical matching internally while preserving the operator's display spelling in snapshots/persistence.
+  - Persisted policy collisions after normalization now fail closed.
+  - Added regression for duplicate normalized persisted keys.
+
+Verification:
+  - Test collection: 3954 tests collected.
+  - Focused regression shard: 113 passed, 2 skipped.
+  - Python compileall: PASS.
+  - Full suite: NOT GREEN / NOT COMPLETE.
+  - Full-suite attempt timed out after 20 minutes at approximately 26%, with failures/setup errors visible.
+  - Fail-fast rerun after fixing the first API regression: 107 passed, then failed on the pre-existing forensic strategy digest pin.
+
+Digest failure (pin not changed):
+  actual   99a47bdd49d96643a0037843f089ddfacdd15da42a0927b0acde04679128f4bc
+  expected 9eff61b777846c7f5e2056c486c9c381872a93e154d35160e70f63051c8fd8a2
+  test: tests/test_authoritative_path_phase7.py::TestNormalizedStrategyDigest::test_digest_matches_forensic_baseline
+
+Environment:
+  Python 3.13.5 / pytest 9.0.2; not the documented pinned Python 3.12 environment.
+
+No network exchange calls or order placement were performed. No production readiness or profitability is claimed.

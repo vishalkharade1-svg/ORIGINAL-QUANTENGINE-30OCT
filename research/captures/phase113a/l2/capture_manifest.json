@@ -1,0 +1,18 @@
+{
+  "capture_id": "phase113-paxg",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1791707770235,
+  "environment": "SANDBOX",
+  "evidence_sha256": "b49248e2ba4626e73e3d126512e0b034a6eac7c62653b645ca1ace23d3b68da8",
+  "first_sequence": 34898,
+  "last_sequence": 34902,
+  "messages_seen": 5,
+  "observations_emitted": 5,
+  "sample_count": 5,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1791707758438,
+  "symbol": "PAXGUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

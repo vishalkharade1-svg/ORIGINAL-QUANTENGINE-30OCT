@@ -1,0 +1,49 @@
+{
+  "phase": 85,
+  "title": "Delta Testnet non-trading evidence capture and reconciliation",
+  "status": "IMPLEMENTED_TESTED_BLOCKED_EXTERNAL",
+  "production_ready": false,
+  "order_placement": "DISABLED",
+  "implementation": {
+    "runner": "scripts/run_phase85_delta_testnet_capture.py",
+    "capabilities": [
+      "environment and endpoint consistency validation",
+      "DNS preflight for REST, public WebSocket, and private WebSocket",
+      "environment-variable-only credentials",
+      "authenticated REST /v2/fills capture",
+      "public ob_updates L2 capture and archive verification",
+      "private v2/user_trades capture and hash-chain verification",
+      "REST/WebSocket fill reconciliation",
+      "secret redaction in errors",
+      "reporting without synthetic evidence"
+    ],
+    "credentials_persisted": false,
+    "previously_exposed_credentials_reused": false
+  },
+  "execution": {
+    "status": "BLOCKED_NETWORK_DNS",
+    "observed_at_utc": "2026-10-10T13:08:29Z",
+    "hosts": {
+      "cdn-ind.testnet.deltaex.org": "BLOCKED: gaierror: [Errno -3] Temporary failure in name resolution",
+      "socket-ind.testnet.deltaex.org": "BLOCKED: gaierror: [Errno -3] Temporary failure in name resolution",
+      "socket-ind-pub.testnet.deltaex.org": "BLOCKED: gaierror: [Errno -3] Temporary failure in name resolution"
+    },
+    "authenticated_rest_fills": "NOT_EXECUTED",
+    "private_ws_fills": "NOT_EXECUTED",
+    "public_l2": "NOT_EXECUTED",
+    "rest_ws_reconciliation": "BLOCKED",
+    "economic_certification": "BLOCKED",
+    "real_evidence_written": false
+  },
+  "tests": {
+    "focused_phase75_85_and_certification": "47 passed, 0 failed",
+    "compileall_targeted": "PASS"
+  },
+  "known_limitations": [
+    "No live network request was possible from this execution environment.",
+    "REST signing and the full capture orchestration are code-reviewed and offline-tested but not venue-verified.",
+    "No order was placed and no test fill was manufactured.",
+    "Economic certification still requires genuine fee/funding coverage and time-aligned L2 plus reconciled fills."
+  ],
+  "next": "Run from a network-enabled authorized machine with a freshly rotated, least-privilege Testnet key set as DELTA_API_KEY and DELTA_API_SECRET; capture existing testnet fills only. Do not place orders merely to generate evidence."
+}

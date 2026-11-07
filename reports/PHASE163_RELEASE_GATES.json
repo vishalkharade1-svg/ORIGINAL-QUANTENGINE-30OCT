@@ -1,0 +1,79 @@
+{
+  "phase": 163,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "Phase 163 builds remaining QuantEngine local systems: MultiStreamMultiplexer with cross-symbol state isolation, ProtectiveBracketIntent with mandatory Stop Loss and trailing latency simulation, and MobilePushGateway with token authentication and secret redaction. Six external blockers carried explicitly.",
+  "supersedes": "reports/PHASE162_RELEASE_GATES.json (preserved unchanged)",
+  "gates": {
+    "archive_integrity": "PASS-input-byte-verified-and-output-extract-verified",
+    "manifest_completeness": "PASS-all-regular-files-covered-negative-controls-retained",
+    "manifest_determinism": "PASS-lf-only-and-regenerates-byte-for-byte",
+    "provenance_correctness": "PASS-detached-hash-only-no-self-reference",
+    "release_internal_consistency": "PASS-advanced-to-phase163-candidate",
+    "multi_stream_multiplexer": "PASS-isolated-symbol-buffers-fail-closed-gap-detection-verified",
+    "protective_bracket_orders": "PASS-mandatory-stop-loss-and-rr-boundary-enforced-latency-simulated",
+    "mobile_telemetry_gateway": "PASS-token-authenticated-secret-redacted-non-blocking-queues-verified",
+    "frozen_representation": "PASS-all-strategy-files-carried-unchanged-zero-re-pinning",
+    "dataset_reconstruction": "PASS-unchanged-dataset_hash-4feccebb-recomputed-under-pyarrow-23.0.1",
+    "snapshot_neutrality": "PASS-session-guard-clean-tree-verified",
+    "git_evidence_mode_contract": "PASS-40-facts-carried-fresh-mode-evidence",
+    "git_ancestry_evidence": "BLOCKED-source-archive-mode-cannot-establish-ancestry",
+    "strategy_digest_recertification": "BLOCKED-requires-original-git-checkout-see-BLOCK-163-01",
+    "full_test_suite": "NOT-GREEN-5-deliberate-strategy-digest-failures-plus-git-evidence-gates-see-reports/PHASE163_FULL_SUITE_RUN.txt",
+    "security_secret_scan": "PASS-content-decoding-carried-zero-secrets-detected",
+    "privacy_scan": "PASS-zero-new-leakage-historical-baseline-enumerated-publication-clearance-not-cleared",
+    "packaging_hygiene": "PASS-no-temp-caches-or-credentials",
+    "dependency_advisory_review": "PASS-adopted-pins-retained-zero-open-advisories",
+    "trading_safety": "PASS-bounded-testnet-only-zero-unauthorized-order-actions",
+    "live_order_placement": "NOT PERFORMED",
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "independent_audit": "PENDING_EXTERNAL-vendor-independence-not-discharged-see-BLOCK-163-03",
+    "funding_through_settlement_evidence": "UNVERIFIABLE_EXTERNAL-see-BLOCK-163-05",
+    "repeat_match_evidence": "PARTIAL_MATCHED_WINDOWED-see-BLOCK-163-06"
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "9.0.3",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  },
+  "final_archive": {
+    "name": "QuantEngine_PHASE163_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED - an archive cannot truthfully contain a hash of itself; the value is recorded only in the detached record RELEASE_HASH_PHASE163.txt delivered beside the archive",
+    "members": "recorded in the detached record RELEASE_HASH_PHASE163.txt",
+    "detached_record": "RELEASE_HASH_PHASE163.txt (beside the archive, never inside it)",
+    "post_build_bundle": "QuantEngine_PHASE163_POST_BUILD/ (self-audit, extracted-package test log, post-build verification)"
+  },
+  "test_evidence": {
+    "baseline": "the Phase162 suite baseline (5 failed / 4,065 passed / 57 skipped)",
+    "authoritative_post_adoption": "reports/PHASE163_FULL_SUITE_RUN.txt",
+    "failure_disposition": "reports/PHASE163_BLOCKERS.json"
+  },
+  "blockers": "reports/PHASE163_BLOCKERS.json",
+  "records": [
+    "reports/PHASE163_RELEASE_GATES.json",
+    "reports/PHASE163_BLOCKERS.json",
+    "reports/PHASE163_PROVENANCE.json",
+    "reports/PHASE163_SOURCE_DIFF.json",
+    "reports/PHASE163_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE163_FULL_SUITE_RUN.txt",
+    "reports/PHASE163_SECURITY_SCAN.md",
+    "reports/PHASE163_PRIVACY_REVIEW.md",
+    "reports/PHASE163_ARCHITECTURE_AUDIT.md",
+    "reports/PHASE163_MULTI_INSTRUMENT_AUDIT.md",
+    "reports/PHASE163_PROTECTIVE_ORDERS_AUDIT.md",
+    "reports/PHASE163_MOBILE_TELEMETRY_AUDIT.md",
+    "reports/PHASE163_DOCUMENTATION_RECONCILIATION.md",
+    "docs/BUILD_HANDOFF_PHASE163.md",
+    "docs/CLAUDE_PHASE163_INDEPENDENT_AUDIT_PROMPT.md",
+    "NEXT_ACTIONS.md"
+  ],
+  "statement": "Every gate above is either PASS with reproduced evidence, or explicitly blocked with the reason it cannot be established from this archive. No test was weakened, deleted, blanket-skipped or xfailed."
+}

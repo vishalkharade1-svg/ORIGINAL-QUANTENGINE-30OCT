@@ -1,0 +1,70 @@
+{
+  "phase": 173,
+  "audit_title": "QuantEngine Phase 173 Independent Audit, Queue Model Validation & Post-Cost Result Reproduction Findings",
+  "auditor": "Independent Quantitative Execution Auditor",
+  "timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-173-01",
+      "severity": "CRITICAL",
+      "category": "BASELINE_VERIFICATION",
+      "summary": "Phase 172 release candidate independently verified against detached record and manifest",
+      "description": "QuantEngine_PHASE172_RELEASE_CANDIDATE.zip (56,809,944 bytes, SHA-256 67d3e60e88f21c7c53fd5c0d0b5fbfc7f789df65099fe9636c2b6ffc8d33571c) verified byte-for-byte against RELEASE_HASH_PHASE172.txt. All 2,077 ZIP members (2,076 manifest entries + BUILD_MANIFEST.sha256) checked with zero path traversals, zero duplicate members, and zero hash mismatches.",
+      "reproduction_command": "python -m unittest tests/test_phase173_audit.py:TestPhase173AuditAndReproduction.test_01_phase172_archive_and_detached_hash_reproduction",
+      "disposition": "VERIFIED_PRISTINE",
+      "mitigation": "Baseline integrity certified prior to downstream quantitative analysis."
+    },
+    {
+      "id": "FINDING-173-02",
+      "severity": "HIGH",
+      "category": "RESULT_REPRODUCTION",
+      "summary": "All six setup rows reproduced; 150-pt setup P&L difference mathematically derived",
+      "description": "Recalculated Micro-Scalp (4.5), Tight Scalp (15), Small Intraday (50), Standard Intraday (150), Swing (400), and Wide Trend (1000) setups to 8 decimal places. Proved that on the 150-pt setup, Conservative Maker (+0.0519 USD) underperforms Taker (+0.0532 USD) because adverse selection (0.0164 USD) and non-fill opportunity cost (0.0138 USD) total 0.0302 USD, exceeding the 0.0290 USD entry commission saving.",
+      "reproduction_command": "python -m unittest tests/test_phase173_audit.py:TestPhase173AuditAndReproduction.test_02_reproduce_all_six_setup_calculations",
+      "disposition": "REPRODUCED_AND_PROVEN",
+      "mitigation": "Enforce explicit fee, adverse selection, and opportunity cost modeling in strategy evaluation."
+    },
+    {
+      "id": "FINDING-173-03",
+      "severity": "HIGH",
+      "category": "QUEUE_MATHEMATICS_AUDIT",
+      "summary": "Poisson queue fill probabilities formally proven as exponential block-waiting model assumptions",
+      "description": "Audited queue dynamics formula 1 - exp(-lambda*t/Q) producing P(any) = 86.47% and P(complete) = 86.20% for 100 contracts ahead, 20 contracts/sec, 10s horizon. Proved that this formula represents the CDF of a single exponential waiting-time block, whereas a unit Poisson process (Erlang-100) would yield > 99.9999% probability. Confirmed and retained classification as SIMULATION_ASSUMPTION.",
+      "reproduction_command": "python -m unittest tests/test_phase173_audit.py:TestPhase173AuditAndReproduction.test_03_audit_poisson_queue_mathematics",
+      "disposition": "MATHEMATICALLY_CLASSIFIED",
+      "mitigation": "Forbid presenting uncalibrated Poisson arrival calculations as observed empirical venue fill probabilities."
+    },
+    {
+      "id": "FINDING-173-04",
+      "severity": "MEDIUM",
+      "category": "FRICTION_GATE_HIERARCHY",
+      "summary": "Mathematical rule hierarchy established: Rule 1 strictly subsumes Rule 2",
+      "description": "Demonstrated that Rule 2 (Target >= 2.0 * Breakeven) is mathematically equivalent to Fees / Target <= 50.0%. Because Rule 1 requires Fees / Target <= 40.0%, Rule 1 is strictly stricter than Rule 2. Any trade violating Rule 2 will always fail Rule 1 first. Rule 3 (Post-Fee R:R >= 1.25) acts as the active binding gate for mid-range intraday targets.",
+      "reproduction_command": "python -m unittest tests/test_phase173_audit.py:TestPhase173AuditAndReproduction.test_07_friction_hurdle_rule_hierarchy",
+      "disposition": "FORMALIZED_HIERARCHY",
+      "mitigation": "Track multi-rule rejections in TradeSelectionTally to prevent erroneous double-counting."
+    },
+    {
+      "id": "FINDING-173-05",
+      "severity": "HIGH",
+      "category": "DATA_LINEAGE_BOUNDARY",
+      "summary": "Historical datasets verified as temporally disjoint; multi-year tick depth confirmed blocked",
+      "description": "Verified that data/history/BTCUSDT/1m.parquet (1,440 continuous rows from 2026-09-05/06) and research/captures/phase167_recon/l2/delta_ob_updates_archive.json (113 frames from 2026-10-19) represent completely disjoint observation windows. Multi-year (2024-2026) continuous tick depth remains unsupplied and retained as BLOCKED_EVIDENCE (BLOCK-172-05).",
+      "reproduction_command": "python -m unittest tests/test_phase173_audit.py:TestPhase173AuditAndReproduction.test_08_data_provenance_and_boundaries",
+      "disposition": "LINEAGE_BOUNDED",
+      "mitigation": "Require ingestion of raw tick/depth datasets before claiming empirical backtest validation."
+    },
+    {
+      "id": "FINDING-173-06",
+      "severity": "MEDIUM",
+      "category": "TEST_ACCOUNTING_RECONCILIATION",
+      "summary": "Test suite accounting reconciled across upstream audit, new audit tests, and historical pins",
+      "description": "Audited test collection: test_upstream_hypothesis_audit.py has 14 tests (all 14 passed). test_phase173_audit.py has 9 tests (all 9 passed). test_maker_execution_phase172.py has 23 tests (all 23 passed). test_release_records_phase172.py has 8 tests (all 8 passed). Exactly 5 historical change-detector tests fail on pre-Phase-4 Windows uncommitted digest c52e648c... (BLOCK-172-01) and are preserved red by contract per rule #7.",
+      "reproduction_command": "python -m unittest tests/test_phase173_audit.py:TestPhase173AuditAndReproduction.test_09_historical_test_accounting_reconciliation",
+      "disposition": "RECONCILED_AND_PRESERVED",
+      "mitigation": "Never alter historical strategy pins or weaken assertions to disguise known baseline failures."
+    }
+  ]
+}

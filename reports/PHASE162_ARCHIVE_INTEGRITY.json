@@ -1,0 +1,20 @@
+{
+  "extraction": {
+    "byte_verified": 1901,
+    "crc_test": "no corrupt member",
+    "directory": "F:/vishal 3/near final/QuantEngine_HANDOVER_PHASE161/DELIVERY/QuantEngine_PHASE161_RELEASE_CANDIDATE",
+    "members_extracted": 1901,
+    "mismatched": [],
+    "post_extract_manifest_verify": "MANIFEST_PASS (0 problems)",
+    "post_extract_verify": true
+  },
+  "identity": "the sealed Phase161 dependency-environment candidate; its detached record RELEASE_HASH_PHASE161.txt travels beside it",
+  "input": {
+    "archive": "QuantEngine_PHASE161_RELEASE_CANDIDATE.zip",
+    "manifest_entries": 1900,
+    "members": 1901,
+    "sha256": "ce95884b5c34c47f19e58c7b02267b8afa49b0bbb871a56785697c5d2230d8f5"
+  },
+  "phase": 162,
+  "what": "input archive verified for the Phase162 empirical execution and release cycle"
+}

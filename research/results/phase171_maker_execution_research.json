@@ -1,0 +1,153 @@
+{
+  "phase": 171,
+  "research_title": "Passive Maker Execution & Friction Mitigation Research",
+  "phase168_trade_style_comparison": {
+    "gross_pnl": "0.00450000",
+    "taker": {
+      "total_fees": "0.09678095",
+      "net_pnl": "-0.09228095",
+      "breakeven_points": "96.78",
+      "fee_to_gross_ratio": "21.5069"
+    },
+    "maker": {
+      "total_fees": "0.03871238",
+      "net_pnl": "-0.03421238",
+      "breakeven_points": "38.71",
+      "fee_to_gross_ratio": "8.6028",
+      "fee_savings_usd": "0.05806857",
+      "fee_reduction_pct": "60.00"
+    },
+    "rebate_vip": {
+      "total_fees": "-0.01640355",
+      "net_pnl": "0.02090355",
+      "breakeven_points": "-16.40",
+      "fee_to_gross_ratio": "-3.6452",
+      "fee_savings_usd": "0.11318450"
+    }
+  },
+  "breakeven_spread_curve": [
+    {
+      "target_points": 1,
+      "gross_profit_usd": "0.00100000",
+      "taker_fees_usd": "0.09677889",
+      "taker_net_pnl_usd": "-0.09577889",
+      "taker_fee_ratio_pct": "9677.8900",
+      "maker_fees_usd": "0.03871155",
+      "maker_net_pnl_usd": "-0.03771155",
+      "maker_fee_ratio_pct": "3871.1600"
+    },
+    {
+      "target_points": 2,
+      "gross_profit_usd": "0.00200000",
+      "taker_fees_usd": "0.09677948",
+      "taker_net_pnl_usd": "-0.09477948",
+      "taker_fee_ratio_pct": "4838.9700",
+      "maker_fees_usd": "0.03871179",
+      "maker_net_pnl_usd": "-0.03671179",
+      "maker_fee_ratio_pct": "1935.5900"
+    },
+    {
+      "target_points": 5,
+      "gross_profit_usd": "0.00500000",
+      "taker_fees_usd": "0.09678125",
+      "taker_net_pnl_usd": "-0.09178125",
+      "taker_fee_ratio_pct": "1935.6300",
+      "maker_fees_usd": "0.03871250",
+      "maker_net_pnl_usd": "-0.03371250",
+      "maker_fee_ratio_pct": "774.2500"
+    },
+    {
+      "target_points": 10,
+      "gross_profit_usd": "0.01000000",
+      "taker_fees_usd": "0.09678420",
+      "taker_net_pnl_usd": "-0.08678420",
+      "taker_fee_ratio_pct": "967.8400",
+      "maker_fees_usd": "0.03871368",
+      "maker_net_pnl_usd": "-0.02871368",
+      "maker_fee_ratio_pct": "387.1400"
+    },
+    {
+      "target_points": 20,
+      "gross_profit_usd": "0.02000000",
+      "taker_fees_usd": "0.09679010",
+      "taker_net_pnl_usd": "-0.07679010",
+      "taker_fee_ratio_pct": "483.9500",
+      "maker_fees_usd": "0.03871604",
+      "maker_net_pnl_usd": "-0.01871604",
+      "maker_fee_ratio_pct": "193.5800"
+    },
+    {
+      "target_points": 50,
+      "gross_profit_usd": "0.05000000",
+      "taker_fees_usd": "0.09680780",
+      "taker_net_pnl_usd": "-0.04680780",
+      "taker_fee_ratio_pct": "193.6200",
+      "maker_fees_usd": "0.03872312",
+      "maker_net_pnl_usd": "0.01127688",
+      "maker_fee_ratio_pct": "77.4500"
+    },
+    {
+      "target_points": 100,
+      "gross_profit_usd": "0.10000000",
+      "taker_fees_usd": "0.09683730",
+      "taker_net_pnl_usd": "0.00316270",
+      "taker_fee_ratio_pct": "96.8400",
+      "maker_fees_usd": "0.03873492",
+      "maker_net_pnl_usd": "0.06126508",
+      "maker_fee_ratio_pct": "38.7300"
+    },
+    {
+      "target_points": 200,
+      "gross_profit_usd": "0.20000000",
+      "taker_fees_usd": "0.09689630",
+      "taker_net_pnl_usd": "0.10310370",
+      "taker_fee_ratio_pct": "48.4500",
+      "maker_fees_usd": "0.03875852",
+      "maker_net_pnl_usd": "0.16124148",
+      "maker_fee_ratio_pct": "19.3800"
+    },
+    {
+      "target_points": 500,
+      "gross_profit_usd": "0.50000000",
+      "taker_fees_usd": "0.09707330",
+      "taker_net_pnl_usd": "0.40292670",
+      "taker_fee_ratio_pct": "19.4100",
+      "maker_fees_usd": "0.03882932",
+      "maker_net_pnl_usd": "0.46117068",
+      "maker_fee_ratio_pct": "7.7700"
+    }
+  ],
+  "l2_orderbook_metrics": {
+    "total_frames_inspected": 113,
+    "avg_top_bid_depth": "1312.53",
+    "avg_top_ask_depth": "686.10",
+    "post_only_accepts": 52,
+    "post_only_rejections": 102
+  },
+  "queue_dynamics_simulation": {
+    "queue_depth_ahead": "100",
+    "fill_probability_10s": "0.861958",
+    "expected_wait_seconds": "5.00",
+    "adverse_selection_cost_usd": "0.01640000",
+    "net_maker_benefit_usd": "0.03090981"
+  },
+  "decision_hurdle_verdicts": {
+    "phase168_scalp_taker": {
+      "allowed": false,
+      "rejection_reason": "Friction hurdle failed: round-trip fees (0.0968 USD) consume 2150.7% of gross target (0.0045 USD), exceeding max allowed 40.0%",
+      "fee_to_target_pct": "2150.69",
+      "breakeven_points": "96.78"
+    },
+    "wide_target_taker": {
+      "allowed": false,
+      "fee_to_target_pct": "48.44",
+      "post_fee_rr": "0.52",
+      "breakeven_points": "96.88"
+    }
+  },
+  "blocker_disposition": {
+    "blocker_id": "BLOCK-171-05",
+    "finding": "Taker friction on sub-10-point scalps consumes > 100% of gross profit. Passive maker or wider hurdle (> 100 pts) required to establish viable mathematical expectancy.",
+    "status": "RESEARCH_PROVEN"
+  }
+}

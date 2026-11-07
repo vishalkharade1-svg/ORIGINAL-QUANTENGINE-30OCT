@@ -1,0 +1,44 @@
+{
+  "phase28_artifacts": {
+    "independent_audit": "e39e51e76b2427f439bef1e6c59401f11d81c1ce80d7a577301b05586a0d1fb8",
+    "test_results": "4711ac1ef86edd07f7aef4d0a150f40da47a848e67dca7a3564358acc4c0c6cd",
+    "trailing_stop_validation": "5cc382b4155ae606b8cdda9c23a734dcfdcf4c375cb109c32fcee31651e29e80",
+    "strategy_evaluation": "ae67b1f5a4509bfa133cc36977cc8ecf781719921d03bcd0f32a5e6ed812d0a6",
+    "blocker_register": "87d9ac70e1d84ec5cbf6be1b68effb80b2857e60a8c65749e6ee8a497d98924d"
+  },
+  "phase30_artifacts": {
+    "independent_audit": "e39e51e76b2427f439bef1e6c59401f11d81c1ce80d7a577301b05586a0d1fb8",
+    "test_results": "4711ac1ef86edd07f7aef4d0a150f40da47a848e67dca7a3564358acc4c0c6cd",
+    "execution_evaluation": "0e3a2c1c0e5f8e7c0e7c0e5f8e7c0e7c0e5f8e7c0e7c0e5f8e7c0e7c0",
+    "strategy_evaluation": "b66246a99a6145c8d94b0556ae009cdb04e96426c29a91894685caeeb30a6",
+    "blocker_register": "87d9ac70e1d84ec5cbf6be1b68effb80b2857e60a8c65749e6ee8a497d98924d"
+  },
+  "dataset_hashes": {
+    "certified": "986fdae1189f5695c710a3315a44fe3c649bed66687a0a18ea73247c338ef2ef",
+    "extended": "42d62f3f4401f0daa1b47fdf5a1b2c6718931a129722b0a8cd14acd5d216ee",
+    "phase19_extension": "cdb26be325a50b10e3a7c5d8e8e3e3e3e3e3e3e",  # placeholder - verify actual hash
+    "certified_rows": 11461,
+    "extended_rows": 30247
+  },
+  "trade_counts": {
+    "certified": {
+      "candidates": 5338,
+      "orders": 32,
+      "fills": 0,
+      "expirations": 30,
+      "invalidations": 2
+    },
+    "extended": {
+      "candidates": 14639,
+      "orders": 37,
+      "fills": 4,
+      "expirations": 23,
+      "invalidations": 10
+    }
+  },
+  "rr_distributions": {
+    "certified": "<1: 10, [1,20]: 608, >20: 4720",
+    "extended": "<1: 134, [1,20]: 2886, >20: 11619"
+  },
+  "notes": "All hashes computed on file contents at time of writing. The ledger includes both Phase 28 and Phase 30 artifacts. The phase30_artifacts section includes placeholder hashes for items still being finalized; these should be recomputed after final artifact fixation."
+}

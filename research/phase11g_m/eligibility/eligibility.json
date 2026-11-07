@@ -1,0 +1,110 @@
+{
+ "code_hash": "ce1519bec6a9b6c522dccb4ce6b0b4151637fa35d45449dae74cf96a45c53456",
+ "d3_counters_after": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "d3_counters_before": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "eligible_set": [],
+ "family_denominator": 8,
+ "freeze_hash": "f803fe7d8aae896e0be855bba0bfdb9a59528d62ac8818696c98a82c6b16df93",
+ "hypotheses": {
+  "H11GK-001": {
+   "branch": "SUB_ELIGIBLE_PERMISSION_ABSENT",
+   "dev_n_pooled": 6,
+   "dev_net_C": -5.964351715453645,
+   "dev_verdict": "INSUFFICIENT_EVIDENCE",
+   "eligible": false,
+   "hypothesis_hash": "91662270dbdc0fae8db471fd4493dcaea97ccd840cd7d19927917713d0a9caa9",
+   "promotion_policy": "NONE",
+   "reason": "frozen promotion_policy='NONE'; INSUFFICIENT hypotheses proceed only with explicit permission"
+  },
+  "H11GK-002": {
+   "branch": "SUB_ELIGIBLE_PERMISSION_ABSENT",
+   "dev_n_pooled": 2,
+   "dev_net_C": -2.4128092606326503,
+   "dev_verdict": "INSUFFICIENT_EVIDENCE",
+   "eligible": false,
+   "hypothesis_hash": "bf4af9e09080d1b18a64fac30d09df64f74afc5952241179d5261a65465fdde5",
+   "promotion_policy": "NONE",
+   "reason": "frozen promotion_policy='NONE'; INSUFFICIENT hypotheses proceed only with explicit permission"
+  },
+  "H11GK-003": {
+   "branch": "SUB_ELIGIBLE_PERMISSION_ABSENT",
+   "dev_n_pooled": 1,
+   "dev_net_C": -1.1006108811432256,
+   "dev_verdict": "INSUFFICIENT_EVIDENCE",
+   "eligible": false,
+   "hypothesis_hash": "447362498be2515e9c6eb05b81ec296321a32e297bfaecbae0e88c6a60b1e7af",
+   "promotion_policy": "NONE",
+   "reason": "frozen promotion_policy='NONE'; INSUFFICIENT hypotheses proceed only with explicit permission"
+  },
+  "H11GK-004": {
+   "branch": "RESURRECTION_BARRED",
+   "dev_n_pooled": 43,
+   "dev_net_C": -33.05068683006951,
+   "dev_verdict": "FAIL",
+   "eligible": false,
+   "hypothesis_hash": "f3776773ab3ad0e86ff34b1dacec1e10701033cd71ca3bc238b14203dee0d3ed",
+   "promotion_policy": "NONE",
+   "reason": "11G-L FAIL with sufficient evidence; holdout retest would be resurrection"
+  },
+  "H11GK-005": {
+   "branch": "ZERO_EVENTS_NOT_PROMOTED",
+   "dev_n_pooled": 0,
+   "dev_net_C": 0,
+   "dev_verdict": "INSUFFICIENT_EVIDENCE",
+   "eligible": false,
+   "hypothesis_hash": "49c8be243a3fd10088bf13b3b94beec2f032f0c8d800c883a717b1fec0a01493",
+   "promotion_policy": "NONE",
+   "reason": "11G-L zero pooled events; promotion would be discovery, not validation"
+  },
+  "H11GK-006": {
+   "branch": "ZERO_EVENTS_NOT_PROMOTED",
+   "dev_n_pooled": 0,
+   "dev_net_C": 0,
+   "dev_verdict": "INSUFFICIENT_EVIDENCE",
+   "eligible": false,
+   "hypothesis_hash": "8057b9f45543b5a0815b0fabf3848bc24c36ee6ff6cad90a304467f29008810e",
+   "promotion_policy": "NONE",
+   "reason": "11G-L zero pooled events; promotion would be discovery, not validation"
+  },
+  "H11GK-007": {
+   "branch": "RESURRECTION_BARRED",
+   "dev_n_pooled": 43,
+   "dev_net_C": -35.50917429662887,
+   "dev_verdict": "FAIL",
+   "eligible": false,
+   "hypothesis_hash": "a71ff1f6492a611ee0f328d73eb6679529d744b0fe045bc1a3e5121e4d5908c1",
+   "promotion_policy": "NONE",
+   "reason": "11G-L FAIL with sufficient evidence; holdout retest would be resurrection"
+  },
+  "H11GK-008": {
+   "branch": "ZERO_EVENTS_NOT_PROMOTED",
+   "dev_n_pooled": 0,
+   "dev_net_C": 0,
+   "dev_verdict": "INSUFFICIENT_EVIDENCE",
+   "eligible": false,
+   "hypothesis_hash": "705daadd74151c0464b900bea880a366295c6b1ee0b50383837ad06bc8ea2119",
+   "promotion_policy": "NONE",
+   "reason": "11G-L zero pooled events; promotion would be discovery, not validation"
+  }
+ },
+ "inputs": {
+  "freeze_manifest": "ed73a1bd4d27868e94c3cd20191c812eb24da553a15995d44f2f42f510fc1527",
+  "primary_results": "f5ba4ccdf6c2929519a07854fffce8036169c7cd15b666f58cd16601bf36d4e5"
+ },
+ "phase": "11G-M",
+ "rule": "mechanical \u00a79 on 11G-L outcomes + frozen promotion_policy"
+}

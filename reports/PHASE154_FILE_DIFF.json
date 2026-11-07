@@ -1,0 +1,40 @@
+{
+ "added": [
+  "reports/PHASE153_LEDGER.md",
+  "reports/PHASE154_ARCHIVE_INTEGRITY.json",
+  "reports/PHASE154_BASELINE_INVENTORY.md",
+  "reports/PHASE154_FULL_SUITE_RUN.txt",
+  "reports/PHASE154_LEDGER_EVIDENCE_AUDIT.md",
+  "reports/PHASE154_MCP_CONFIG_REPAIR.md",
+  "reports/PHASE154_PROVENANCE.json",
+  "scripts/generate_manifest.py",
+  "tests/test_delta_delete_signing_phase154.py",
+  "tests/test_fill_error_taxonomy_phase154.py",
+  "tests/test_order_script_safety_phase154.py",
+  "tests/test_release_manifest_phase154.py"
+ ],
+ "removed": [],
+ "modified": [
+  "NEXT_ACTIONS.md",
+  "research/economics/delta_fill_evidence.py",
+  "scripts/bounded_testnet_reconciled_experiment.py",
+  "scripts/funding_settlement_hold.py",
+  "scripts/run_phase85_delta_testnet_capture.py"
+ ],
+ "old_manifest_mismatches": [
+  "NEXT_ACTIONS.md",
+  "core/backtesting/accounting.py",
+  "core/backtesting/trade_simulator.py",
+  "core/exchanges/delta/delta_auth.py",
+  "core/execution/economics.py",
+  "core/live/broker_engine.py",
+  "core/paper_trading/paper_trading_engine.py",
+  "data/runtime/risk_policy_overrides.json",
+  "docs/BUILD_HANDOFF_PHASE130.md",
+  "scripts/bounded_testnet_reconciled_experiment.py",
+  "scripts/recertify_strategy_digest.py",
+  "scripts/security/scan_secrets.py",
+  "tests/test_authoritative_path_phase7.py",
+  "tests/test_digest_recertification_phase8.py"
+ ]
+}

@@ -1,0 +1,193 @@
+{
+  "dataset": {
+    "dataset_identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+    "end": 1790427360,
+    "row_provenance_identity": "2b07b61a2f6716430ea66e5938ed0ffd1f899538d8e6c560d61bca4401666c9c",
+    "rows": 30247,
+    "start": 1788601500
+  },
+  "discovery_boundary": 1788601440,
+  "edge_status": "NOT_ESTABLISHED",
+  "evidence_classification": "GENUINE_VENUE_HISTORICAL_OHLCV_REPLAY",
+  "frozen_strategy": true,
+  "hypotheses_tested": 0,
+  "limitations": [
+    "No 9L hypothesis was revalidated because no current 9L finding was preregistered against this dataset.",
+    "Only 3 completed trades were observed; 60 are required by the locked 9M protocol.",
+    "Only 0 of 6 periods reached the 10-trade settling threshold.",
+    "OHLCV-only evidence; microstructure, funding, and venue fee schedule remain unavailable or unverified.",
+    "This artifact does not establish profitability or production readiness."
+  ],
+  "mission": "Accumulate executable observations for the frozen 9M protocol; no promotion.",
+  "name": "Fresh genuine OOS evidence accumulation",
+  "nine_m_protocol": {
+    "current_status": "OOS_BLOCKED",
+    "minimum_surviving_periods": 5,
+    "minimum_total_trades": 60,
+    "minimum_trades_per_period": 10,
+    "reason": "insufficient completed trades for 9M validation",
+    "required_periods": 6
+  },
+  "periods": [
+    {
+      "actual_fill_rr": [],
+      "bars": 5041,
+      "breakeven": 0,
+      "directional": {
+        "BULLISH/EXPIRED": 1
+      },
+      "end": 1788903900,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "index_end": 5041,
+      "index_start": 0,
+      "losses": 0,
+      "orders": 1,
+      "period_id": "OOS_01",
+      "reason": "below 10-trade settling gate",
+      "start": 1788601500,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 1
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 5041,
+      "breakeven": 0,
+      "directional": {},
+      "end": 1789206360,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "index_end": 10082,
+      "index_start": 5041,
+      "losses": 0,
+      "orders": 0,
+      "period_id": "OOS_02",
+      "reason": "no orders or fills in period",
+      "start": 1788903960,
+      "status": "UNAVAILABLE",
+      "terminal": {},
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 5041,
+      "breakeven": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 1
+      },
+      "end": 1789512540,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "index_end": 15123,
+      "index_start": 10082,
+      "losses": 0,
+      "orders": 1,
+      "period_id": "OOS_03",
+      "reason": "below 10-trade settling gate",
+      "start": 1789206420,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 1
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "bars": 5041,
+      "breakeven": 0,
+      "directional": {
+        "BULLISH/EXPIRED": 6
+      },
+      "end": 1789815180,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "index_end": 20164,
+      "index_start": 15123,
+      "losses": 0,
+      "orders": 6,
+      "period_id": "OOS_04",
+      "reason": "below 10-trade settling gate",
+      "start": 1789512600,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 6
+      },
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [
+        1.4651162790697674
+      ],
+      "bars": 5041,
+      "breakeven": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 5,
+        "BEARISH/FILLED": 1,
+        "BULLISH/INVALIDATED": 1
+      },
+      "end": 1790119440,
+      "fills": 1,
+      "gross_pnl": 0.241542,
+      "index_end": 25205,
+      "index_start": 20164,
+      "losses": 0,
+      "orders": 7,
+      "period_id": "OOS_05",
+      "reason": "below 10-trade settling gate",
+      "start": 1789815240,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "EXPIRED": 5,
+        "FILLED": 1,
+        "INVALIDATED": 1
+      },
+      "wins": 1
+    },
+    {
+      "actual_fill_rr": [
+        1.0650887573964498,
+        1.5769230769230769
+      ],
+      "bars": 5042,
+      "breakeven": 0,
+      "directional": {
+        "BEARISH/FILLED": 2,
+        "BEARISH/INVALIDATED": 4
+      },
+      "end": 1790427360,
+      "fills": 2,
+      "gross_pnl": -0.46123493000000004,
+      "index_end": 30247,
+      "index_start": 25205,
+      "losses": 2,
+      "orders": 6,
+      "period_id": "OOS_06",
+      "reason": "below 10-trade settling gate",
+      "start": 1790119500,
+      "status": "INCONCLUSIVE",
+      "terminal": {
+        "FILLED": 2,
+        "INVALIDATED": 4
+      },
+      "wins": 0
+    }
+  ],
+  "phase": 30,
+  "production_ready": false,
+  "strategy_parameters_changed": false,
+  "symbol": "BTCUSDT",
+  "tier": "A-DIRECT",
+  "timeframe": "1m",
+  "totals": {
+    "completed_trades": 3,
+    "gross_pnl": -0.21969293000000004,
+    "losses": 2,
+    "orders": 21,
+    "settled_periods": 0,
+    "wins": 1
+  },
+  "venue": "DELTA"
+}

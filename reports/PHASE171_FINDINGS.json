@@ -1,0 +1,50 @@
+{
+  "phase": 171,
+  "audit_title": "QuantEngine Phase 171 Independent Audit & Maker Research Findings",
+  "auditor": "Independent Quantitative Execution Auditor",
+  "timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-171-01",
+      "severity": "HIGH",
+      "category": "EXECUTION_FRICTION",
+      "summary": "Taker fees consume >100% of gross profit on sub-10-point scalps",
+      "description": "On a 1-contract BTCUSD position with 0.001 multiplier, round-trip taker fees with 18% GST equal 0.0968 USD (96.78 points). A 4.50-point scalp (+0.0045 USD gross) incurs 0.0871 to 0.0968 USD in fees, generating a guaranteed loss (-0.0826 USD net).",
+      "reproduction_command": "python scripts/run_phase171_maker_research.py",
+      "disposition": "RESOLVED_VIA_GATING",
+      "mitigation": "Implemented core/execution/friction_hurdle_gate.py which automatically rejects any trade setup where fees exceed 40% of target profit."
+    },
+    {
+      "id": "FINDING-171-02",
+      "severity": "MEDIUM",
+      "category": "MAKER_EXECUTION_ADVANTAGE",
+      "summary": "Passive maker execution cuts exchange friction by 60.0%",
+      "description": "Under Delta India fee schedule, maker fees are 0.02% base (vs 0.05% taker), yielding an effective round-trip fee of 0.0387 USD (38.71 points). Moving to passive limit orders saves 0.0581 USD per contract and drops breakeven hurdle by 60%.",
+      "reproduction_command": "python -m unittest tests/test_maker_execution_phase171.py",
+      "disposition": "PROVEN_OFFLINE",
+      "mitigation": "Designed core/execution/maker_execution_model.py and post-only boundary guards."
+    },
+    {
+      "id": "FINDING-171-03",
+      "severity": "MEDIUM",
+      "category": "QUEUE_DYNAMICS",
+      "summary": "L2 orderbook queue depth permits 86.2% fill probability in 10s with 2.0 bps adverse selection drag",
+      "description": "Top-of-book depth on BTCUSD averages 1,312.53 bid contracts and 686.10 ask contracts. A modeled queue position of 100 contracts has expected wait time of 5.0 seconds. Even after 2.0 bps adverse selection penalty (0.0164 USD), maker execution preserves a net +0.0309 USD benefit over taker crossing.",
+      "reproduction_command": "python scripts/run_phase171_maker_research.py",
+      "disposition": "DOCUMENTED",
+      "mitigation": "Integrated queue dynamics and adverse selection penalty modeling in core/research/queue_dynamics.py."
+    },
+    {
+      "id": "FINDING-171-04",
+      "severity": "HIGH",
+      "category": "PROVENANCE_PIN_INTEGRITY",
+      "summary": "Historical strategy digest change detectors intentionally kept red by contract (BLOCK-171-01)",
+      "description": "5 historical tests in test_oos_feasibility_17, test_oos_validation_18, test_oos_data_extension_19, and test_readiness_16 pin pre-Phase-4 Windows uncommitted digest c52e648c... Working tree is 9c56f3ff... (disk raw) and ba17582d... (LF canonical). Pins are strictly preserved unchanged.",
+      "reproduction_command": "python -m pytest tests/test_oos_feasibility_17.py tests/test_oos_validation_18.py tests/test_oos_data_extension_19.py tests/test_readiness_16.py",
+      "disposition": "CONTRACTUALLY_RETAINED",
+      "mitigation": "Preserved red tests under BLOCK-171-01. Used decoupled versioned identity architecture."
+    }
+  ]
+}

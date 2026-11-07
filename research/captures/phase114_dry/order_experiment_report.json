@@ -1,0 +1,56 @@
+{
+  "capture_id": "exp-20261011T085153Z",
+  "environment": "india_testnet",
+  "evidence_sha256": "bdef5ab5afbbb8d4d784abbcb62e591a2d66a880de3c58dd1e1bee8df17838b8",
+  "mode": "dry-run",
+  "order_placement": "DISABLED",
+  "plan": {
+    "legs": [
+      {
+        "price": 83050.0,
+        "side": "buy"
+      },
+      {
+        "price": 83046.0,
+        "side": "sell"
+      }
+    ],
+    "max_orders": 2,
+    "size_contracts": 1
+  },
+  "production_ready": false,
+  "schema": "quantengine.testnet-order-experiment.v1",
+  "steps": [
+    {
+      "product_id": 84,
+      "step": "product_verified",
+      "t": "2026-10-11T08:51:53.902359+00:00",
+      "tick": 0.1
+    },
+    {
+      "btcusd_open": 0,
+      "step": "positions_checked",
+      "t": "2026-10-11T08:51:54.117767+00:00"
+    },
+    {
+      "open": 0,
+      "step": "open_orders_checked",
+      "t": "2026-10-11T08:51:54.304941+00:00"
+    },
+    {
+      "ask": 83050.0,
+      "bid": 83046.0,
+      "buy_px": 83050.0,
+      "est_notional": 83.05,
+      "sell_px": 83046.0,
+      "step": "touch",
+      "t": "2026-10-11T08:51:55.110714+00:00"
+    },
+    {
+      "note": "no writes performed; re-run with --execute only when authorized",
+      "step": "dry_run_complete",
+      "t": "2026-10-11T08:51:55.110714+00:00"
+    }
+  ],
+  "symbol": "BTCUSD"
+}

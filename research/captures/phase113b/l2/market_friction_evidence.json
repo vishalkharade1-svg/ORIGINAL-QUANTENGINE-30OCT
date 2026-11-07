@@ -1,0 +1,39 @@
+{
+  "alignment_ms": 1000,
+  "captured_at": "2026-10-11T08:37:17.472468+00:00",
+  "evidence_sha256": "13f4f982ef39c987f0401d0b7ef81b228fc6b04a9c5a128ec82eb643ba6069c7",
+  "provenance_status": "REAL",
+  "samples": [
+    {
+      "best_ask": "0.24738",
+      "best_bid": "0.24724",
+      "midpoint": "0.24731",
+      "spread": "0.00014",
+      "spread_bps": "5.660911406736484574016416643",
+      "symbol": "ADAUSD",
+      "timestamp_ms": 1791707814850
+    },
+    {
+      "best_ask": "0.24738",
+      "best_bid": "0.24724",
+      "midpoint": "0.24731",
+      "spread": "0.00014",
+      "spread_bps": "5.660911406736484574016416643",
+      "symbol": "ADAUSD",
+      "timestamp_ms": 1791707829853
+    },
+    {
+      "best_ask": "0.24738",
+      "best_bid": "0.24724",
+      "midpoint": "0.24731",
+      "spread": "0.00014",
+      "spread_bps": "5.660911406736484574016416643",
+      "symbol": "ADAUSD",
+      "timestamp_ms": 1791707834854
+    }
+  ],
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "symbol": "ADAUSD",
+  "venue": "delta"
+}

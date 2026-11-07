@@ -1,0 +1,89 @@
+{
+  "capture_id": "exp-20261015T190653Z",
+  "cleanup": {
+    "cancelled": [],
+    "open_orders": 0,
+    "positions_flat": true
+  },
+  "environment": "india_testnet",
+  "fill_friction_binding": {
+    "binding_sha256": "de66250da6ef0ae38d63ce02ac744d690d9b9202e15ab9c83fbfac607cb99916",
+    "bindings": [
+      {
+        "alignment_delta_ms": 55,
+        "fill_id": "b1732151f4db45fb8ce7c41602551b41",
+        "fill_price": "82496.5",
+        "fill_timestamp": 1792091227425,
+        "friction_timestamp": 1792091227480,
+        "reference_price": "82493.5",
+        "slippage": "3.0",
+        "slippage_bps": "0.3636749352204021638658645614"
+      },
+      {
+        "alignment_delta_ms": 129,
+        "fill_id": "e16d4e1842b843139700c4f79b209550",
+        "fill_price": "82492.5",
+        "fill_timestamp": 1792091241663,
+        "friction_timestamp": 1792091241792,
+        "reference_price": "82489.5",
+        "slippage": "-3.0",
+        "slippage_bps": "-0.3636738330615881636289799555"
+      }
+    ],
+    "fill_evidence_sha256": "4964b1e3c69d83c7862dccd81d60847a307a57ef8f649fb0bbacab8d8027c558",
+    "friction_evidence_sha256": "cc58b5238344c8116995aea5a02c5fc1a029169c598e4eff111941b61e8edd51"
+  },
+  "l2": {
+    "evidence_sha256": "cc58b5238344c8116995aea5a02c5fc1a029169c598e4eff111941b61e8edd51",
+    "observations": 87,
+    "range_ms": [
+      1792091220449,
+      1792091292768
+    ],
+    "status": "CAPTURED"
+  },
+  "legs": [
+    {
+      "filled": true,
+      "n": 1,
+      "order_id": "2175475317",
+      "price": 82496.5,
+      "side": "buy"
+    },
+    {
+      "filled": true,
+      "n": 2,
+      "order_id": "2175475319",
+      "price": 82492.5,
+      "side": "sell"
+    }
+  ],
+  "mode": "execute",
+  "prechecks": {
+    "ask": 82496.5,
+    "bid": 82492.5,
+    "flat": true,
+    "product_id": 84
+  },
+  "production_ready": false,
+  "reconciliation": {
+    "fill_count": 2,
+    "fill_ids": [
+      "b1732151f4db45fb8ce7c41602551b41",
+      "e16d4e1842b843139700c4f79b209550"
+    ],
+    "rest_evidence_sha256": "4964b1e3c69d83c7862dccd81d60847a307a57ef8f649fb0bbacab8d8027c558",
+    "status": "MATCHED",
+    "websocket_first_seq": null,
+    "websocket_last_seq": null
+  },
+  "rest_fills": 2,
+  "schema": "quantengine.testnet-reconciled-experiment.v1",
+  "scrub_hits": 0,
+  "symbol": "BTCUSD",
+  "ws": {
+    "authenticated": true,
+    "frames": 4,
+    "listen_s": 75.2
+  }
+}

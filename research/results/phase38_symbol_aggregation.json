@@ -1,0 +1,37 @@
+{
+  "aggregation": {
+    "aggregation_id": "5cff51dc786d5ae4004023677c5286d82de549766f759b3bb6b91e1be0688a70",
+    "cross_symbol_evidence": "UNAVAILABLE",
+    "missing_required_symbols": 1,
+    "observed_symbols": 1,
+    "required_symbols": 2,
+    "schema_version": "oos-symbol-aggregation-v1",
+    "status_counts": {
+      "INCONCLUSIVE": 1,
+      "PROMISING": 0,
+      "REJECTED": 0,
+      "UNAVAILABLE": 0,
+      "VALIDATED": 0
+    },
+    "symbol_results": [
+      {
+        "rows": 30247,
+        "status": "INCONCLUSIVE",
+        "symbol": "BTCUSDT",
+        "trades": 0
+      }
+    ]
+  },
+  "is_production_ready": false,
+  "limitations": [
+    "aggregation does not create absent symbol evidence",
+    "one observed symbol cannot establish cross-symbol consistency",
+    "UNAVAILABLE and REJECTED remain distinct states",
+    "OOS trade-count and multi-period gates remain independently unsatisfied"
+  ],
+  "phase": 38,
+  "production_ready": false,
+  "purpose": "preserve independent per-symbol OOS evidence during aggregation",
+  "source_audit_id": "0536c63d02c5eb3fda2e39ad29cc631e87ee1d43d83039ebdf792cdd3ec903f1",
+  "universal_validation": false
+}

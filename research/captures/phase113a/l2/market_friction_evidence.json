@@ -1,0 +1,57 @@
+{
+  "alignment_ms": 1000,
+  "captured_at": "2026-10-11T08:36:18.559609+00:00",
+  "evidence_sha256": "b49248e2ba4626e73e3d126512e0b034a6eac7c62653b645ca1ace23d3b68da8",
+  "provenance_status": "REAL",
+  "samples": [
+    {
+      "best_ask": "4187.29",
+      "best_bid": "4187.25",
+      "midpoint": "4187.27",
+      "spread": "0.04",
+      "spread_bps": "0.09552763495069579941107213053",
+      "symbol": "PAXGUSD",
+      "timestamp_ms": 1791707758438
+    },
+    {
+      "best_ask": "4187.29",
+      "best_bid": "4187.25",
+      "midpoint": "4187.27",
+      "spread": "0.04",
+      "spread_bps": "0.09552763495069579941107213053",
+      "symbol": "PAXGUSD",
+      "timestamp_ms": 1791707762454
+    },
+    {
+      "best_ask": "4187.29",
+      "best_bid": "4187.25",
+      "midpoint": "4187.27",
+      "spread": "0.04",
+      "spread_bps": "0.09552763495069579941107213053",
+      "symbol": "PAXGUSD",
+      "timestamp_ms": 1791707764211
+    },
+    {
+      "best_ask": "4187.29",
+      "best_bid": "4187.25",
+      "midpoint": "4187.27",
+      "spread": "0.04",
+      "spread_bps": "0.09552763495069579941107213053",
+      "symbol": "PAXGUSD",
+      "timestamp_ms": 1791707768227
+    },
+    {
+      "best_ask": "4187.29",
+      "best_bid": "4187.25",
+      "midpoint": "4187.27",
+      "spread": "0.04",
+      "spread_bps": "0.09552763495069579941107213053",
+      "symbol": "PAXGUSD",
+      "timestamp_ms": 1791707770235
+    }
+  ],
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "symbol": "PAXGUSD",
+  "venue": "delta"
+}

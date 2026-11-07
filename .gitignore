@@ -1,0 +1,57 @@
+# ====================================================
+# QuantEngine .gitignore
+# ====================================================
+
+# Secrets -- NEVER commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.secret
+
+# Python bytecode / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data artifacts
+data/history/
+*.parquet
+*.log
+logs/
+
+# IDE / OS
+.idea/
+.vscode/
+# The MCP config is required by the release test contract and carries no
+# secrets (testnet-only env, no credentials) -- keep it tracked.
+!.vscode/mcp.json
+*.swp
+.DS_Store
+Thumbs.db
+# Runtime operator policy state
+data/runtime/
+
+# ====================================================
+# Phase 21 (research-freeze compat, owner-approved Option A completion)
+# Untracked research run-products accumulated across Phases ~87-192
+# (results summaries, live capture archives, operator-run economics and
+# integration sessions).  The research RECORD that the 11G freeze tests
+# protect is the TRACKED content under research/; these untracked
+# run-products must never trip ``git status --porcelain -- research/``.
+# Tracked files inside these directories stay tracked, BUILD_MANIFEST
+# coverage is unchanged, and nothing is deleted by these rules.
+# ====================================================
+research/results/
+research/captures/
+research/economics/
+research/integrations/

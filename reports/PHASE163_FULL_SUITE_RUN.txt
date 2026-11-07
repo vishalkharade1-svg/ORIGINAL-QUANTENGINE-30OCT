@@ -1,0 +1,66 @@
+# Authoritative full-suite run -- Phase 163 (Local Engineering Build & Component Release)
+
+Command (the project's canonical command plus `-rfs`, so the complete skip set
+is enumerated for the extraction run's comparison):
+
+    python -m pytest -q -p no:cacheprovider --tb=short -rfs
+
+Executed in the build worktree on the adopted-environment, manifest-verified
+tree (BUILD_MANIFEST.sha256 regenerates byte-for-byte; tree pristine at session
+start), before the candidate was packed. A log cannot contain itself, so this
+file was written into the tree after the run finished and the manifest was
+regenerated again before packing; the extracted-package run is recorded beside
+the archive in QuantEngine_PHASE163_POST_BUILD/reports/
+PHASE163_EXTRACTED_PACKAGE_TESTS.txt and compared with this run in that
+bundle's PHASE163_POST_BUILD_VERIFICATION.json.
+
+The session snapshot guard (tests/conftest.py) reported the tree pristine at
+session start, zero restores during the run and no files added by the suite:
+
+    SNAPSHOT_GUARD_SUMMARY {"covered_files": 1963, "files_added_by_tests": [],
+    "restores": {}, "start_problems": [], "tests": 4162,
+    "tree_pristine_at_session_start": true}
+
+Result:
+
+    5 failed, 4100 passed, 57 skipped, 403 subtests passed
+
+pytest exit code: 1, as required by the five deliberate failures.
+
+Disposition of the five failures: all are the strategy-digest change detectors,
+left red deliberately (BLOCK-163-01 in reports/PHASE163_BLOCKERS.json), with
+the identical node multiset as the Phase 161 and Phase 162 runs:
+
+    tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match
+    tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs
+    tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned
+
+All five fail asserting the historical digest pin:
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+
+Skip census (57):
+
+     40  BLOCKED_EVIDENCE: the 40 gated Git facts, each skipped with an
+         explicit reason by tests/evidence_mode.py (the full fact list is
+         reports/PHASE163_GIT_EVIDENCE_STATUS.json)
+      6  Phase-17 product cache absent (clean checkout)
+      2  git unavailable (tests/test_security_12.py)
+      1  requires live public network (test_paper_preview_15)
+      1  historical ancestry verification requires the original Git checkout
+         (test_authoritative_path_phase7)
+      7  release-record sibling checks in this pre-seal worktree configuration:
+        tests/test_release_records_phase158.py:143 (the revision-2/redesigned sibling archive deliberately absent: the superseded deliverable moved to ../_phase158_audited/),
+        tests/test_release_records_phase159.py:107 (its declared Phase158 input archive likewise moved to ../_phase158_audited/ after its identity was verified at extraction time),
+        tests/test_release_records_phase159.py:144 (its own archive does not exist before the pack step; it is cross-checked in the post-build runs),
+        tests/test_release_records_phase160.py:107 (the declared Phase159 input archive, moved to ../_phase159_superseded/ after its identity was verified at extraction time),
+        tests/test_release_records_phase160.py:144 (the sealed Phase160 deliverable moved to ../_phase160_superseded/ before this run; it was cross-checked in the Phase160 post-build runs),
+        tests/test_release_records_phase161.py:107 (the declared Phase160 input archive, moved to ../_phase160_superseded/ after its identity was verified at extraction time),
+        tests/test_release_records_phase161.py:144 (its own archive does not exist before the pack step; it is cross-checked in the post-build runs)
+
+Relation to the Phase 162 baseline (5 failed, 4,065 passed, 57 skipped):
+- Exactly +35 passing tests added in Phase 163 (18 unit tests + 17 contract/isolation tests).
+- Failures: identical multiset (5 deliberate strategy-digest change detectors).
+- Skips: identical census (57 skips, 40 Git facts gated).
+- Every failure and skip is accounted for with its explicit reason. Nothing red was silenced.

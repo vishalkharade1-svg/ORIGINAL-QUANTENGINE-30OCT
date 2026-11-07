@@ -1,0 +1,45 @@
+{
+  "phase": 79,
+  "name": "Delta live capture execution runner",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "live_readiness": false,
+  "real_venue_capture": "BLOCKED_ENVIRONMENT_DNS",
+  "network_capture": "ATTEMPTED_FAILED_CLOSED",
+  "implementation": [
+    "Added an executable Delta public WebSocket LIVE_CAPTURE runner using the pinned websockets dependency.",
+    "Subscribes to the documented ob_updates channel for one explicit symbol and ignores only heartbeat/subscription acknowledgements.",
+    "Routes provider frames through the Phase-76 sequence-safe state machine and Phase-77 capture session.",
+    "Builds the Phase-78 tamper-evident frame archive and market-friction artifact only after complete replay/binding verification.",
+    "Writes artifact/archive/manifest only after the complete verification path succeeds; socket/DNS/provider failures write no REAL evidence."
+  ],
+  "tests": {
+    "phase79": 6,
+    "phases75_78_regression": 28,
+    "failed": 0,
+    "compileall": "PASS",
+    "full_suite_collected": "3875",
+    "full_suite_status": "BLOCKED_BY_EXISTING_FROZEN_STRATEGY_DIGEST_MISMATCH",
+    "full_suite_first_failure": {
+      "test": "tests/test_authoritative_path_phase7.py::TestNormalizedStrategyDigest::test_digest_matches_forensic_baseline",
+      "current_digest": "60b96e84cbda3d6cc25004a6aa275e1c39d286b84074aaf97deb539becb99c0c",
+      "frozen_digest": "9eff61b777846c7f5e2056c486c9c381872a93e154d35160e70f63051c8fd8a2",
+      "action": "NOT_REPINNED"
+    }
+  },
+  "execution": {
+    "endpoint": "wss://public-socket.india.delta.exchange",
+    "symbol": "BTCUSD",
+    "capture_id": "phase79-live-attempt",
+    "result": "FAILED_CLOSED",
+    "error": "gaierror: [Errno -3] Temporary failure in name resolution",
+    "evidence_files_written": false
+  },
+  "evidence_boundary": [
+    "No genuine Delta WebSocket market-friction evidence exists from this environment.",
+    "The failed network attempt cannot be converted into REAL provenance.",
+    "Public orderbook evidence still cannot prove realized private execution slippage or authenticated fees.",
+    "Economics/OOS certification remains blocked pending genuine venue capture and private execution evidence."
+  ],
+  "next": "Use a network-enabled authorized environment to execute the Phase-79 runner, then independently verify archive/artifact hashes and bind the exact capture interval/product identity into economics certification. In parallel, build the strict authenticated private-fill evidence path without fabricating credentials or fills."
+}

@@ -1,0 +1,145 @@
+{
+  "commit": "c72cc52",
+  "cost_sensitivity": {
+    "fee_grounding": "delta.exchange/fees + reviews, Sept 2026: futures maker 0.02%, taker 0.05%, +18% GST on fees (India). Slippage figures are modeled assumptions, not exchange quotes.",
+    "fills_identical_across_scenarios": true,
+    "note": "Triggers/entries/exits identical (costs apply at booking only -- no feedback into sizing/signals). Accounting reconciles exactly: net == gross - commission - slippage in every scenario.",
+    "A_zero": {
+      "assumption": "canonical zero-cost baseline",
+      "breakevens": 0,
+      "drawdown": 1.042746,
+      "expectancy": 0.346263,
+      "fills": 11,
+      "final_balance": 2003.80889,
+      "gross_pnl": 3.80889,
+      "losses": 5,
+      "net_pnl": 3.80889,
+      "orders": 27,
+      "profit_factor": 3.298203,
+      "return_pct": 0.190444,
+      "sharpe": 0.596929,
+      "sortino": 1.453169,
+      "total_commission": 0.0,
+      "total_slippage": 0.0,
+      "wins": 6
+    },
+    "B_small": {
+      "assumption": "maker-like 0.02% + 1bp slippage (assumed)",
+      "breakevens": 0,
+      "drawdown": 18.19111,
+      "expectancy": -1.653737,
+      "fills": 11,
+      "final_balance": 1981.80889,
+      "gross_pnl": 3.80889,
+      "losses": 10,
+      "net_pnl": -18.19111,
+      "orders": 27,
+      "profit_factor": 0.078944,
+      "total_commission": 11.0,
+      "total_slippage": 11.0,
+      "wins": 1
+    },
+    "C_moderate": {
+      "assumption": "taker-like 0.05% + 2bp slippage (assumed)",
+      "breakevens": 0,
+      "drawdown": 45.69111,
+      "expectancy": -4.153737,
+      "fills": 11,
+      "final_balance": 1954.30889,
+      "gross_pnl": 3.80889,
+      "losses": 11,
+      "net_pnl": -45.69111,
+      "orders": 27,
+      "profit_factor": 0.0,
+      "total_commission": 27.5,
+      "total_slippage": 22.0,
+      "wins": 0
+    },
+    "D_adverse": {
+      "assumption": "0.059% all-in India taker + 5bp slippage (assumed)",
+      "breakevens": 0,
+      "drawdown": 83.64111,
+      "expectancy": -7.603737,
+      "fills": 11,
+      "final_balance": 1916.35889,
+      "gross_pnl": 3.80889,
+      "losses": 11,
+      "net_pnl": -83.64111,
+      "orders": 27,
+      "profit_factor": 0.0,
+      "total_commission": 32.45,
+      "total_slippage": 55.0,
+      "wins": 0
+    }
+  },
+  "discovered_defects_fixed": [
+    {
+      "fix": "Account.reset() rebuilds state in place; Backtester/BrokerEngine/PaperTradingEngine reset() call it instead of swapping the object.",
+      "impact": "Gate A/cost runs now report final_balance = starting + net (2003.80889); callers holding the account see booked state.",
+      "severity": "medium",
+      "what": "Backtester/BrokerEngine/PaperTradingEngine reset() replaced self.account with a fresh object, so the caller-passed Account was never booked (analyze showed final_balance == starting)."
+    },
+    {
+      "fix": "audit() clamps negative quantity to 0.0 with reason; rejects entry <= 0 with reason (both flow into valid=False; open_trade drops qty<=0).",
+      "severity": "low",
+      "what": "PositionManager.audit propagated negative quantity onto the corrected copy and passed through non-positive entries (only open_trade's qty<=0 check saved it)."
+    }
+  ],
+  "documented_non_defects": [
+    "Trade.result is trigger-based (SL-first naming) while canonical WIN/LOSS/BE is pnl-based via classify_pnl; backtester books via classify_pnl so economics are correct.",
+    "Walk-forward folds are gapless (test starts where train ends): no overlap, no leakage; a custom step < test_size would overlap TEST windows (operator choice, documented).",
+    "Sharpe/Sortino are trade-based position-return metrics (sample std n-1, sqrt(N), downside includes zeros, not annualized) -- must never be compared to standard annualized Sharpe. Verified by independent recomputation in tests."
+  ],
+  "gate_a": {
+    "byte_identical_stdout_sha256": "ba908c89c57dc851cc559d4b71b9b88aa954f37f515052cbe2b92c7912bd2522",
+    "config": {
+      "entry_delay_bars": 1,
+      "entry_mode": "BREAKOUT_CONTINUATION",
+      "leverage": 10,
+      "max_allocation": 500,
+      "max_wait_bars": 30,
+      "risk_per_trade": 0.01,
+      "starting_balance": 2000
+    },
+    "dataset": {
+      "bars": 5000,
+      "symbol": "BTCUSDT",
+      "timeframe": "1m"
+    },
+    "determinism": "two separate processes, byte-identical stdout",
+    "result": "PASS x2 (orders 27, fills 11, wins 6, losses 5, breakevens 0, net 3.80889, IDs identical)"
+  },
+  "live_orders": 0,
+  "live_trading_enabled": false,
+  "mutation_proof": [
+    {
+      "failed": 5,
+      "guard_removed": "sizer quantity formula (/ -> *)",
+      "reverted": true
+    },
+    {
+      "failed": 5,
+      "guard_removed": "accounting long-PnL sign flip",
+      "reverted": true
+    }
+  ],
+  "parent_commit": "20af32e",
+  "phase": "11B",
+  "regressions": {
+    "compileall_core": "clean",
+    "full_suite": {
+      "command": "python -m pytest tests --ignore=_archive --ignore=examples -q",
+      "failed": 0,
+      "passed": 1835
+    },
+    "quant_math_file": {
+      "command": "python -m pytest tests/test_quant_math_11b.py -q",
+      "failed": 0,
+      "passed": 67
+    }
+  },
+  "test_command": "python -m pytest tests/test_quant_math_11b.py -v",
+  "tests_failed": 0,
+  "tests_passed": 67,
+  "tests_run": 67
+}

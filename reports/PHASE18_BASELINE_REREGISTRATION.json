@@ -1,0 +1,34 @@
+{
+  "record_type": "baseline_reregistration_provenance",
+  "phase": 18,
+  "date": "2026-10-23",
+  "approval": "Owner approved Option B (provenance re-registration of the canonical baseline to the adopted decontaminated lineage) in this session; nothing else was changed: no git mutation, no replace/graft, no gc/prune, no bundle, no push.",
+  "statement": "The nine ancestry test expectations recorded object IDs from the ORIGINAL chain, which is preserved in the object store but unreachable from every ref. The shipped repository history lives on the ADOPTED chain, a subject/timestamp-preserving decontaminated re-record of the original. This record re-points each expectation to the position-aligned replica of the same object on the adopted chain. The original chain remains in place, untouched and unreachable; its early positions carry a top-level .env (contents never read); no backup, bundle, or published artifact carries it.",
+  "verification_basis": {
+    "aligned_positions": 154,
+    "subject_equality": "154/154 matched positions between the original chain (root 63cd4f1d) and the adopted chain (root 7a63a0a)",
+    "timestamp_equality": "author and committer epochs equal at aligned positions",
+    "tree_equality": "trees byte-identical for aligned positions index 114..153 (40 positions), including ALL eight phase-11g seed positions (143..150) and the Stage-123 closure (153); tree 46e16c934 identical on both chains at the closure",
+    "tree_mismatch_region": "index 0..113 (114 positions): exactly the region where the original chain carries a top-level .env and the adopted chain does not",
+    "evidence_document": "reports/PHASE18_LINEAGE_EVIDENCE.md"
+  },
+  "replacements": [
+    {"label": "11g_n", "original_commit": "004b2bcbe5f3ea8ab0b4d2be246bbb25dde61db2", "replica_commit": "acab874d1a2cf256ab5f63a1b7fce5d061069b2d", "file": "tests/test_researcher_11g_n.py", "test": "TestRepositoryHead::test_starting_head_ancestor"},
+    {"label": "11g_o", "original_commit": "7c9d156d6076b0cc974fb5e0cf24bbe40c2ec3d2", "replica_commit": "5c95fd623f33eb79db7d195fb75c28ef8ac3739e", "file": "tests/test_researcher_11g_o.py", "test": "TestRepositoryHead::test_starting_head_ancestor"},
+    {"label": "11g_p", "original_commit": "501f082d1b037f1d9461d243310d68b95282a2a7", "replica_commit": "6a961459aed7051564c17a4ab88cdf0814ee5b1a", "file": "tests/test_researcher_11g_p.py", "test": "TestRepositoryHead::test_starting_head_ancestor"},
+    {"label": "11g_q", "original_commit": "57c22e1c68dcf0480c37cebbad494eaf8490afe9", "replica_commit": "e1483a1090ce04afb8533ced9f1d1acf6c542bff", "file": "tests/test_researcher_11g_q.py", "test": "TestStartingState::test_head_descends_from_p"},
+    {"label": "11g_r", "original_commit": "29959c536610be610653bf34ac7fd331270d96fa", "replica_commit": "bd21e9ac06b33857f2b314925f25e528ecf0ea2b", "file": "tests/test_researcher_11g_r.py", "test": "TestStartingState::test_head_descends_from_q"},
+    {"label": "11g_s", "original_commit": "217a82553cd91dd886cb060e7f7ebc8245b7caa2", "replica_commit": "d77af19e8574b76f065ded1b2b2c09601aa110de", "file": "tests/test_researcher_11g_s.py", "test": "TestStartingState::test_head_descends_from_r"},
+    {"label": "11g_t", "original_commit": "2942b57f85957e7a48546f9baea935d6437f39bd", "replica_commit": "e235663d2a49a0272ee804c8da4759773ee0847f", "file": "tests/test_researcher_11g_t.py", "test": "TestStartingState::test_head_descends_from_s"},
+    {"label": "11g_u", "original_commit": "e88c3a0b39997de440cc56543141c096ee4ed4f7", "replica_commit": "0e4d3f04ce139dfd64c5819b63a63601c3793bd8", "file": "tests/test_researcher_11g_u.py", "test": "TestStartingState::test_head_descends_from_t"},
+    {"label": "closure", "original_commit": "fad7329b24d614794b35deb0b6926e5dd138977a", "replica_commit": "b42e8181406091bf06af18e312508a93924dcc37", "file": "tests/test_stage4_paper_certification.py", "test": "TestRepoIntegrity::test_head_is_stage123_closure_descendant"}
+  ],
+  "scope_guard": "Each file contained EXACTLY ONE occurrence of the original hex (verified by regex count before edit). Assertions were not weakened; the merge-base --is-ancestor contract is intact. Research-freeze and status nodes are untouched and remain governed by the current working tree.",
+  "validation": {
+    "status": "EXECUTED",
+    "per_file_run": "pytest over the 9 re-pointed files: 18 failed / 453 passed in 1070.13s, rc=1; the 18 failures are exactly the research-freeze/status hold-out nodes (16 across the 11g files) + stage4 research-byte check + F4 sequential-ledger node (pre-existing census items, intentionally unchanged)",
+    "full_suite_run_14": "34 -> 25 failed / 4725 passed / 14 skipped / 458 subtests in 2697.81s, rc=1, stderr 0 bytes",
+    "census_delta_vs_run13": "dropped EXACTLY the 9 ancestry nodes listed in this record's replacements (all TestRepositoryHead::test_starting_head_ancestor x3, TestStartingState::test_head_descends_from_{p,q,r,s,t} x5, TestRepoIntegrity::test_head_is_stage123_closure_descendant x1); 0 added; 0 other nodes changed",
+    "conclusion": "Option B executed as designed: the nine ancestry nodes are satisfied by provenance re-registration alone; every other census item retains its independent root cause; gates were not touched by this change"
+  }
+}

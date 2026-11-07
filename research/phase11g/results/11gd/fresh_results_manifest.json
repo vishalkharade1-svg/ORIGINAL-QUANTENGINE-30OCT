@@ -1,0 +1,58 @@
+{
+ "fresh_comparison_11gc.json": {
+  "sha256": "585f7bd38408e3adeee8bc36fcea5a593aec8ac2d9e0b6bf040d21310ca0ab4d",
+  "size": 2175
+ },
+ "fresh_cost_results.json": {
+  "sha256": "bc7c2ccc53536474dcc7e9635329cdde5645b4e7c4a0c9b0f1ed1e7acd540946",
+  "size": 5475
+ },
+ "fresh_data_audit.json": {
+  "sha256": "13b8a60e6fef0edf74146ca6391ceadb695c2bf4d4d6149c9f90c4e199e8bf22",
+  "size": 1191
+ },
+ "fresh_data_manifest.json": {
+  "sha256": "3c93b5e3f1af7d48e3c0420cd02b8869fff63291ad927dd14c11bb3505763056",
+  "size": 333
+ },
+ "fresh_execution_robustness.json": {
+  "sha256": "7786614dc9ed9b6dc97f6d6620f4440527b2bed12e155a10cf09b020c5edd012",
+  "size": 1035
+ },
+ "fresh_fold_results.json": {
+  "sha256": "2db829f23f27efa81b947b1d865bf1b8352e5e1205ff5346f1796be53e0238bd",
+  "size": 4835
+ },
+ "fresh_monte_carlo_results.json": {
+  "sha256": "3b12a5cf9826c851ba5748445910c21b43f7fe8ab4db0531ff621e6547cce77f",
+  "size": 459
+ },
+ "fresh_multiple_testing.json": {
+  "sha256": "75e08dfdba34396398da4fe4b7263528a8129ff09b44164751bceac87ae4fd9d",
+  "size": 439
+ },
+ "fresh_primary_results.json": {
+  "sha256": "726d7a73f35f6f01be8aa0e3149f3da6e68c17a3b9c98a548159215b894f5a58",
+  "size": 1619
+ },
+ "fresh_random_baseline_results.json": {
+  "sha256": "1e73f1a7177aec4f462cf7d87ae9bf4768943cff708951ef260b8ae31b048a25",
+  "size": 395
+ },
+ "fresh_regime_results.json": {
+  "sha256": "f85fe3acf6d0fe9920164166d3c782b403e4a3f6cb35ad74643127f423898c6b",
+  "size": 523
+ },
+ "fresh_reproducibility.json": {
+  "sha256": "d6bd29d43e5495d328035e33b09440e1accce221516392d00b731e113c552928",
+  "size": 1008
+ },
+ "fresh_setup_rates.json": {
+  "sha256": "7564d4c60518862fb10f419a55f20993a39a7a615e10c8d23f269a27433d4a0a",
+  "size": 1531
+ },
+ "run_manifest.json": {
+  "sha256": "c6567282cf9172cce9e1d7ffe4e35c4b0c63f4a8e5fc8a45a84a114626437383",
+  "size": 769
+ }
+}

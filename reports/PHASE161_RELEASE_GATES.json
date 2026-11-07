@@ -1,0 +1,79 @@
+{
+  "phase": 161,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "environment-adoption cycle on the sealed Phase160 bytes: the deliberate dependency-environment step BLOCK-160-06 declared as its unblock is executed (adopt python-dotenv 1.2.2, pyarrow 23.0.1 and pytest 9.0.3; httpx 0.28.1, websockets 12.0, pandas 2.2.2 and numpy 2.1.1 carried), a fresh OSV query against the adopted pins clears every recorded advisory, and the whole release evidence set is re-derived under the adopted environment and re-sealed; no other scope",
+  "supersedes": "reports/PHASE160_RELEASE_GATES.json (preserved unchanged as the Phase160 gate record; and through it the Phase159 record before that)",
+  "gates": {
+    "archive_integrity": "PASS-input-byte-verified-and-output-extract-verified",
+    "manifest_completeness": "PASS-negative-controls-retained",
+    "manifest_determinism": "PASS-lf-only-and-regenerates-byte-for-byte",
+    "provenance_correctness": "PASS-detached-hash-only-no-self-reference",
+    "release_internal_consistency": "PASS-advanced-to-the-phase161-candidate",
+    "frozen_representation": "PASS-no-frozen-fork-rep-derived-all-10-research/phase11f-pins-and-5-canonical-artifacts-carried-unchanged-and-change-detectors-re-run-under-the-phase161-environment",
+    "dataset_reconstruction": "PASS-unchanged-dataset_hash-4feccebb-recomputed-under-the-phase161-environment-pyarrow-23.0.1",
+    "snapshot_neutrality": "PASS-session-guard-carried-verified-alongside",
+    "git_evidence_mode_contract": "PASS-40-facts-carried-fresh-mode-evidence-in-the-phase161-record",
+    "git_ancestry_evidence": "BLOCKED-archive-mode-cannot-establish-ancestry",
+    "strategy_digest_recertification": "BLOCKED-documented-contract-requires-the-original-repository",
+    "full_test_suite": "NOT-GREEN-5-deliberate-strategy-digest-failures-plus-git-evidence-gates-see-reports/PHASE161_FULL_SUITE_RUN.txt",
+    "security_secret_scan": "PASS-content-decoding-carried-and-re-run-under-the-phase161-environment",
+    "privacy_scan": "PASS-zero-new-leakage-historical-baseline-enumerated-content-coverage-declared-opaque-publication-clearance-not-cleared",
+    "packaging_hygiene": "PASS-in-the-packaged-tree",
+    "dependency_advisory_review": "EXECUTED-adopted-the-three-evaluated-upgrades-fresh-osv-query-clears-all-advisories-against-the-adopted-pins",
+    "trading_safety": "PASS-no-order-capable-script-ran-and-none-can-run-without-execute",
+    "live_order_placement": "NOT PERFORMED",
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "independent_audit": "PENDING_EXTERNAL-vendor-independence-not-discharged-the-phase160-handoff-and-its-release-side-round-2-continuation-are-prepared-and-preserved-with-the-superseded-delivery-see-reports/PHASE161_BLOCKERS.json",
+    "funding_through_settlement_evidence": "BLOCKED-external-ip-whitelist",
+    "repeat_match_evidence": "BLOCKED-external-ip-whitelist"
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "9.0.3",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  },
+  "final_archive": {
+    "name": "QuantEngine_PHASE161_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED - an archive cannot truthfully contain a hash of itself; the value is recorded only in the detached record RELEASE_HASH_PHASE161.txt delivered beside the archive",
+    "members": "recorded in the detached record RELEASE_HASH_PHASE161.txt",
+    "detached_record": "RELEASE_HASH_PHASE161.txt (beside the archive, never inside it)",
+    "post_build_bundle": "QuantEngine_PHASE161_POST_BUILD/ (self-audit against the final bytes, extracted-package test log, post-build verification)"
+  },
+  "test_evidence": {
+    "baseline": "the Phase160 runs are the pre-adoption baseline (worktree 5 failed / 4,058 passed / 55 skipped; extraction 5 failed / 4,059 passed / 54 skipped; recorded in reports/PHASE160_FULL_SUITE_RUN.txt and the Phase160 post-build bundle)",
+    "authoritative_post_adoption": "reports/PHASE161_FULL_SUITE_RUN.txt",
+    "extracted_package": "PHASE161_EXTRACTED_PACKAGE_TESTS.txt in the post-build bundle",
+    "failure_disposition": "reports/PHASE161_BLOCKERS.json",
+    "focused_evidence": "reports/PHASE161_ENVIRONMENT.json",
+    "audit_disposition_of_the_source_phase": "the Phase160 rounds are dispositioned with the superseded delivery: the release-side round-2 continuation was executed 2026-10-18 (PHASE160_AUDIT_CONTINUATION.json in the Phase160 post-build bundle, preserved in _phase160_superseded/), and the scanner-boundary repairs it builds on remain dispositioned in reports/PHASE160_HARDENING.json"
+  },
+  "blockers": "reports/PHASE161_BLOCKERS.json",
+  "records": [
+    "reports/PHASE161_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE161_SOURCE_DIFF.json",
+    "reports/PHASE161_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE161_FULL_SUITE_RUN.txt",
+    "reports/PHASE161_MANIFEST_AUDIT.json",
+    "reports/PHASE161_PROVENANCE.json",
+    "reports/PHASE161_SECURITY_SCAN.md",
+    "reports/PHASE161_PRIVACY_REVIEW.md",
+    "reports/PHASE161_PRIVACY_SCAN.json",
+    "reports/PHASE161_DEPENDENCY_REVIEW.md",
+    "reports/PHASE161_OSV_SCAN.json",
+    "reports/PHASE161_ENVIRONMENT.json",
+    "reports/PHASE161_RELEASE_GATES.json",
+    "reports/PHASE161_BLOCKERS.json",
+    "docs/BUILD_HANDOFF_PHASE161.md",
+    "NEXT_ACTIONS.md"
+  ],
+  "statement": "Every gate above is either PASS with reproduced evidence, or explicitly blocked with the reason it cannot be established from this archive. No gate was downgraded by wording, and no test was weakened, deleted, blanket-skipped or xfailed to reach these states."
+}

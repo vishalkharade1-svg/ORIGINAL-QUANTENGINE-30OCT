@@ -1,0 +1,284 @@
+{
+  "schema": "quantengine.phase25-evidence-ledger.v1",
+  "phase": 25,
+  "generated_at": "2026-10-28T10:05:00Z",
+  "code_revision": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+  "baseline_manifest": {
+    "file": "BUILD_MANIFEST.sha256",
+    "baseline_status": "MANIFEST_PASS (0 problems)",
+    "baseline_entries": 2403,
+    "note": "final Phase-25 regeneration performed at phase close; no writes after"
+  },
+  "evidence_classes_used": [
+    "EXCHANGE_SOURCED_PAPER_SIMULATION",
+    "SYNTHETIC_FIXTURE",
+    "GENUINE_VENUE_HISTORICAL_OHLCV_REPLAY",
+    "GENUINE_VENUE_FUNDING_EVIDENCE",
+    "CONFIGURED_SIMULATION"
+  ],
+  "artifacts": [
+    {
+      "id": "P25-PAPER-HARNESS",
+      "path": "data/paper_session/paper_session.py",
+      "sha256_16": "ad6ba86552753971",
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 25 implementation",
+      "tests": "tests/test_paper_session_phase25.py (15/15 passing)"
+    },
+    {
+      "id": "P25-SESSION-CLI",
+      "path": "scripts/run_paper_session.py",
+      "sha256_16": "05aa8960a6f375a1",
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 25 implementation",
+      "exercised": "both modes live"
+    },
+    {
+      "id": "P25-FUNDING-CAPTURE-CLI",
+      "path": "scripts/capture_funding_evidence.py",
+      "sha256_16": "3a88b9536df2a6cf",
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 25 implementation",
+      "last_run_rc": 0
+    },
+    {
+      "id": "P25-FROZEN-OOS-CLI",
+      "path": "scripts/run_phase25_frozen_oos.py",
+      "sha256_16": "14fd4aaf14eb15bf",
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 25 implementation",
+      "last_run_rc": 0
+    },
+    {
+      "id": "P25-SESSION-TESTS",
+      "path": "tests/test_paper_session_phase25.py",
+      "sha256_16": "a8319bc4e05a5ff0",
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 25 implementation",
+      "result": "15 passed (~30 s)"
+    },
+    {
+      "id": "P24-REPLAY-FIX",
+      "path": "data/realtime/verified_replay.py",
+      "sha256_16": "46a3da9a160e4a74",
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 25 fix (load_capture synthetic-label + evidence_class) on Phase-24 file",
+      "regression": "tests/test_verified_transport_replay_phase25.py::test_explicitly_synthetic_file_bundle_keeps_synthetic_label; Phase-24 suite 36/36; seam battery 82 passed 1 skipped"
+    },
+    {
+      "id": "P25-LIVE-SESSION",
+      "path": "reports/PAPER_SESSIONS/P25-20261028T093215Z-BTCUSDT-1m/session_report.json",
+      "sha256_16": "978cc9fa9c820fe0",
+      "evidence_class": "EXCHANGE_SOURCED_PAPER_SIMULATION",
+      "status": "INDEPENDENTLY VERIFIED",
+      "generated_by": "scripts/run_paper_session.py --run-seconds 600 --symbols BTCUSDT --timeframe 1m",
+      "key_facts": {
+        "delivered": 1445,
+        "ascending": true,
+        "duplicates": 0,
+        "window_aligned": true,
+        "internal_missing_buckets": 0,
+        "rest_calls": 39,
+        "rest_errors": 0,
+        "routed": 1445,
+        "unrouted": 0,
+        "route_errors": 0,
+        "reconciled": true,
+        "orders_placed": 0,
+        "completed_trades": 0,
+        "cost_profile": "p25-conservative-assumption (rate 0.0005, slippage 5 bps)",
+        "preliminary": true
+      },
+      "side_artifacts": [
+        "reports/PAPER_SESSIONS/P25-20261028T093215Z-BTCUSDT-1m/delivered_candles.jsonl (1446 lines: 1445 candles + header)",
+        "reports/PAPER_SESSIONS/P25-20261028T093215Z-BTCUSDT-1m/session_summary.md"
+      ]
+    },
+    {
+      "id": "P25-REPLAY-SESSION",
+      "path": "reports/PAPER_SESSIONS/P25-REPLAY-20261028T094330Z/session_report.json",
+      "sha256_16": "cd7b6ac4b24a3006",
+      "evidence_class": "SYNTHETIC_FIXTURE",
+      "status": "INDEPENDENTLY VERIFIED",
+      "generated_by": "scripts/run_paper_session.py --mode replay --synthetic-seed 99 --synthetic-candles 600 --fault duplicate@120 --fault gap@300:2",
+      "key_facts": {
+        "frames_ingested": 598,
+        "duplicates_or_old": 1,
+        "gap_status": "DATA_GAP_UNREPAIRED (2 missing candles)",
+        "routed": 299,
+        "unrouted": 0,
+        "orders_placed": 1,
+        "trades_closed": 1,
+        "equity_start": 2000.0,
+        "equity_end": 2000.5905863520793,
+        "rr_gate": "1 accepted (3.205485), 6 rejected"
+      }
+    },
+    {
+      "id": "P25-FUNDING-CAPTURE",
+      "path": "research/captures/phase25/global_btcusdt_funding_1h.json",
+      "sha256_16": "f85fc9106459825a",
+      "evidence_class": "GENUINE_VENUE_FUNDING_EVIDENCE",
+      "status": "INDEPENDENTLY VERIFIED",
+      "generated_by": "scripts/capture_funding_evidence.py (live GET https://api.delta.exchange/v2/history/candles, resolution=1h, symbol=FUNDING:BTCUSDT)",
+      "key_facts": {
+        "events": 502,
+        "coverage": [
+          1788624000,
+          1790427600
+        ],
+        "first_event_utc": "2026-09-05T16:00:00Z",
+        "source": "delta global public funding history"
+      }
+    },
+    {
+      "id": "P25-FUNDING-BOUND-OOS",
+      "path": "reports/evidence/phase25/btcusdt_funding_bound_to_oos.json",
+      "sha256_16": "67c33b5538994d18",
+      "evidence_class": "GENUINE_VENUE_FUNDING_EVIDENCE",
+      "status": "INDEPENDENTLY VERIFIED",
+      "generated_by": "strict binding via research.economics.funding_evidence (load_and_verify passes against data/history/BTCUSDT_1m_oos_topup.json)",
+      "key_facts": {
+        "market_data_sha256_16": "42d62f3f4401f0da",
+        "funding_evidence_sha256_16": "063e8d89fa44c282",
+        "events": 502
+      }
+    },
+    {
+      "id": "P25-FUNDING-BOUND-P18",
+      "path": "reports/evidence/phase25/btcusdt_funding_bound_to_phase18.json",
+      "sha256_16": "494d17a2821e6c82",
+      "evidence_class": "GENUINE_VENUE_FUNDING_EVIDENCE",
+      "status": "INDEPENDENTLY VERIFIED",
+      "generated_by": "rebinding of the same verified funding events to the Phase-18 certified dataset bytes (load_and_verify passes against data/history/BTCUSDT_1m_phase17_fresh.json)",
+      "key_facts": {
+        "events": 502
+      }
+    },
+    {
+      "id": "P25-FROZEN-OOS-REPORT",
+      "path": "research/results/phase25_frozen_oos_validation.json",
+      "sha256_16": "31c1184a13b229d4",
+      "evidence_class": "GENUINE_VENUE_HISTORICAL_OHLCV_REPLAY",
+      "status": "INDEPENDENTLY VERIFIED",
+      "generated_by": "scripts/run_phase25_frozen_oos.py (read-only; core.research.oos_validation.execution.run_frozen_oos)",
+      "key_facts": {
+        "phase18_reproduction_match": true,
+        "phase18_funnel_match": true,
+        "per_period_orders": [
+          2,
+          0,
+          2,
+          3,
+          8,
+          0
+        ],
+        "global_orders": 32,
+        "completed_trades": 0,
+        "funding_applied": 0.0,
+        "funding_head_gap_seconds": 22500,
+        "phase30_reproduced": false,
+        "phase30_classification": "different-revision evidence",
+        "edge_status": "EDGE NOT ESTABLISHED",
+        "final_decision": "OOS_BLOCKED"
+      }
+    },
+    {
+      "id": "P25-OOS-DATASET-P18",
+      "path": "data/history/BTCUSDT_1m_phase17_fresh.json",
+      "sha256_16": "986fdae1189f5695",
+      "evidence_class": "GENUINE_VENUE_HISTORICAL_OHLCV (frozen, read-only)",
+      "status": "INDEPENDENTLY VERIFIED",
+      "key_facts": {
+        "rows": 11461,
+        "range": [
+          1788601500,
+          1789289100
+        ],
+        "sorted_rows_identity_16": "247d8f11dcd34d49",
+        "matches_recorded_phase18_dataset_hash": true,
+        "fresh_after": 1788601440
+      }
+    },
+    {
+      "id": "P25-OOS-DATASET-TOPUP",
+      "path": "data/history/BTCUSDT_1m_oos_topup.json",
+      "sha256_16": "42d62f3f4401f0da",
+      "evidence_class": "GENUINE_VENUE_HISTORICAL_OHLCV (frozen, read-only)",
+      "status": "INDEPENDENTLY VERIFIED",
+      "key_facts": {
+        "rows": 30247,
+        "range": [
+          1788601500,
+          1790427360
+        ],
+        "sorted_rows_identity_16": "520b849b6612335d",
+        "matches_phase37_manifest_identity": true
+      }
+    },
+    {
+      "id": "P25-SECURITY-SCAN",
+      "path": ".env (finding metadata only)",
+      "evidence_class": "SECRET_SCAN",
+      "status": "FAILED (owner-blocked)",
+      "generated_by": "python scripts/security/scan_secrets.py",
+      "key_facts": {
+        "rc": 1,
+        "findings": [
+          "path=.env line=1 rule=non_empty_known_secret",
+          "path=.env line=2 rule=non_empty_known_secret"
+        ],
+        "redaction": "values never printed"
+      }
+    },
+    {
+      "id": "P25-CONTROL-API-AUTH",
+      "path": "core/monitoring/api_server.py",
+      "evidence_class": "CODE_REVIEW + TEST SUITE",
+      "status": "INDEPENDENTLY VERIFIED",
+      "key_facts": {
+        "bearer": "constant-time check; empty token refuses all requests",
+        "public_routes": "data-free dashboard shell only (PUBLIC_GET_PATHS)",
+        "tests": "Phase-15 suite (24 tests) within Phase-24 seam battery"
+      }
+    },
+    {
+      "id": "P25-LIVE-BLOCK",
+      "path": "data/paper_session/paper_session.py:refuse_live_execution",
+      "evidence_class": "DIRECT PROBE",
+      "status": "INDEPENDENTLY VERIFIED",
+      "key_facts": {
+        "LIVE_MODE=1": "REFUSED rc=REFUSED: live execution flags detected",
+        "EXECUTION_MODE=LIVE": "REFUSED rc=REFUSED: live execution flags detected"
+      }
+    }
+  ],
+  "prohibitions_respected": {
+    "no_live_orders": true,
+    "no_gate_changes": true,
+    "strategy_frozen": true,
+    "no_oos_tuning_or_selection": true,
+    "funding_never_defaulted_to_zero_over_holding_intervals": true,
+    "synthetic_never_labelled_as_live": true
+  },
+  "final_verification": {
+    "full_suite": "4838 passed, 14 skipped, 466 subtests passed; exit 0; 4852 tests collected",
+    "snapshot_guard": "tree_pristine_at_session_start=true, files_added_by_tests=[], start_problems=[]",
+    "manifest": {
+      "entries": 2423,
+      "baseline_entries": 2403,
+      "delta": "20 Phase-25 files",
+      "verify": "MANIFEST_PASS (0 problems), exit 0",
+      "regenerated_after_last_content_write": true
+    },
+    "frozen_research_status": "git status -- research/ empty (guards 17/17 passing)",
+    "phase25_suite": "15 passed",
+    "seam_battery_phase24_regression": "82 passed, 1 skipped"
+  }
+}

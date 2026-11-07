@@ -1,0 +1,224 @@
+# Authoritative full-suite run -- Phase 162 (Forensic Audit, Hardening & Empirical Release)
+
+Command (the project's canonical command plus `-rfs`, so the complete skip set
+is enumerated for the extraction run's comparison):
+
+    python -m pytest -q -p no:cacheprovider --tb=short -rfs
+
+Executed in the build worktree on the adopted-environment, manifest-verified
+tree (BUILD_MANIFEST.sha256 regenerates byte-for-byte; tree pristine at session
+start), before the candidate was packed.  A log cannot contain itself, so this
+file was written into the tree after the run finished and the manifest was
+regenerated again before packing; the extracted-package run is recorded beside
+the archive in QuantEngine_PHASE162_POST_BUILD/reports/
+PHASE162_EXTRACTED_PACKAGE_TESTS.txt and compared with this run in that
+bundle's PHASE162_POST_BUILD_VERIFICATION.json.
+
+The session snapshot guard (tests/conftest.py) reported the tree pristine at
+session start, zero restores during the run and no files added by the suite:
+
+    SNAPSHOT_GUARD_SUMMARY {"covered_files": 1941, "files_added_by_tests": [],
+    "restores": {}, "start_problems": [], "tests": 4127,
+    "tree_pristine_at_session_start": true}
+
+Result:
+
+    5 failed, 4065 passed, 57 skipped, 399 subtests passed in 2316.34s (0:38:36)
+
+pytest exit code: 1, as required by the five deliberate failures.
+
+Disposition of the five failures: all are the strategy-digest change detectors,
+left red deliberately (BLOCK-162-01 in reports/PHASE162_BLOCKERS.json), with
+the identical node multiset as the Phase161 runs:
+
+    tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match
+    tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs
+    tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned
+
+Skip census (57):
+
+     40  BLOCKED_EVIDENCE: the 40 gated Git facts, each skipped with an
+         explicit reason by tests/evidence_mode.py (the full fact list is
+         reports/PHASE162_GIT_EVIDENCE_STATUS.json)
+      6  Phase-17 product cache absent (clean checkout)
+      2  git unavailable (tests/test_security_12.py)
+      1  requires live public network (test_paper_preview_15)
+      1  historical ancestry verification requires the original Git checkout
+         (test_authoritative_path_phase7)
+      7  release-record sibling checks in this pre-seal worktree configuration:
+        tests/test_release_records_phase158.py:143 (the revision-2/redesigned sibling archive deliberately absent: the superseded deliverable moved to ../_phase158_audited/),
+        tests/test_release_records_phase159.py:107 (its declared Phase158 input archive likewise moved to ../_phase158_audited/ after its identity was verified at extraction time),
+        tests/test_release_records_phase159.py:144 (its own archive does not exist before the pack step; it is cross-checked in the post-build runs),
+        tests/test_release_records_phase160.py:107 (the declared Phase159 input archive, moved to ../_phase159_superseded/ after its identity was verified at extraction time),
+        tests/test_release_records_phase160.py:144 (the sealed Phase160 deliverable moved to ../_phase160_superseded/ before this run; it was cross-checked in the Phase160 post-build runs),
+        tests/test_release_records_phase161.py:107 (the declared Phase160 input archive, moved to ../_phase160_superseded/ after its identity was verified at extraction time),
+        tests/test_release_records_phase161.py:144 (its own archive does not exist before the pack step; it is cross-checked in the post-build runs)
+
+Relation to the Phase161 baseline (5 failed, 4,065 passed, 57 skipped):
+failures identical multiset; pass and skip census identical. Every failure and skip
+is accounted for with its explicit reason. Nothing red was silenced.
+
+## Raw log
+
+The complete raw output of the run follows, verbatim:
+
+```
+........................................................................ [  1%]
+....................................s............................ [  3%]
+........................................................................ [  5%]
+........................................................................ [  6%]
+........................................................................ [  8%]
+........................................................................ [ 10%]
+................................................................. [ 11%]
+........................................................................ [ 13%]
+......................................................... [ 14%]
+........................................................................ [ 16%]
+............................................................... [ 18%]
+................................................................................. [ 20%]
+.......................................................... [ 21%]
+........................................................................ [ 23%]
+........................................................................ [ 25%]
+........................................................................ [ 26%]
+........................................................................ [ 28%]
+............................................................... [ 30%]
+........................................................................ [ 31%]
+...............................F........................................ [ 33%]
+...................F...................................................F [ 35%]
+F....................................................................... [ 37%]
+........................................................................ [ 38%]
+......................................s................................. [ 40%]
+........................................................................ [ 42%]
+........................................................................ [ 44%]
+........................................................................ [ 45%]
+................................................................................... [ 47%]
+........................................................................ [ 49%]
+........................................................................ [ 51%]
+........................................................................ [ 53%]
+.........................ssssss......................................... [ 54%]
+........................................................................ [ 56%]
+..................................F..................................... [ 58%]
+................................................................ [ 59%]
+.........s.......s..s.....s..s.....s..s......................... [ 61%]
+........................................................................ [ 63%]
+........................................................................ [ 64%]
+..................................................................sss... [ 66%]
+..................................s.sss................................. [ 68%]
+.........s...sss........................................s...sss......... [ 70%]
+...........................................s..sss....................... [ 71%]
+.....................s..sss............................................. [ 73%]
+......s..sss............................................s..sss.......... [ 75%]
+......................................s.........................s....... [ 77%]
+........................................................................ [ 78%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+........................................................................ [ 84%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+........................................................................ [ 89%]
+........................................................................ [ 91%]
+.....................s.s............................................ [ 92%]
+...................................................s.s.s................ [ 94%]
+.........................................s........................................................ [ 96%]
+..........s..s.s........................................................ [ 98%]
+..........................................................           [100%]SNAPSHOT_GUARD_SUMMARY {"covered_files": 1941, "files_added_by_tests": [], "restores": {}, "start_problems": [], "tests": 4127, "tree_pristine_at_session_start": true}
+
+================================== FAILURES ===================================
+_____________ TestFrozenBaseline.test_nine_file_hash_exact_match ______________
+tests\test_oos_data_extension_19.py:95: in test_nine_file_hash_exact_match
+    self.assertEqual(hashlib.sha256(joined.encode()).hexdigest(),
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+____________ TestStrategyIdentity.test_nine_file_hash_exact_match _____________
+tests\test_oos_feasibility_17.py:113: in test_nine_file_hash_exact_match
+    self.assertEqual(digest, STRATEGY_HASH)
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+____________ TestStrategyIdentity.test_nine_file_hash_exact_match _____________
+tests\test_oos_validation_18.py:74: in test_nine_file_hash_exact_match
+    self.assertEqual(digest, STRATEGY_HASH)
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+__________ TestStrategyIdentity.test_no_strategy_mutation_after_runs __________
+tests\test_oos_validation_18.py:101: in test_no_strategy_mutation_after_runs
+    self.assertEqual(hashlib.sha256(joined.encode()).hexdigest(),
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+_________________ TestFrozenRecords.test_strategy_hash_pinned _________________
+tests\test_readiness_16.py:557: in test_strategy_hash_pinned
+    self.assertEqual(art["strategy_hash"], digest)
+E   AssertionError: 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6' != 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4'
+E   - c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+E   + f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+=========================== short test summary info ===========================
+FAILED tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match
+FAILED tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+FAILED tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+FAILED tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs
+FAILED tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned
+SKIPPED [1] tests\test_authoritative_path_phase7.py:134: historical ancestry verification requires the original Git checkout
+SKIPPED [1] tests\test_paper_preview_15.py:414: requires live public network
+SKIPPED [1] tests\test_product_snapshot_evidence_phase10.py:32: Phase-17 product cache absent (clean checkout)
+SKIPPED [1] tests\test_product_snapshot_evidence_phase10.py:42: Phase-17 product cache absent (clean checkout)
+SKIPPED [1] tests\test_product_snapshot_evidence_phase10.py:51: Phase-17 product cache absent (clean checkout)
+SKIPPED [1] tests\test_product_snapshot_evidence_phase10.py:65: Phase-17 product cache absent (clean checkout)
+SKIPPED [1] tests\test_product_snapshot_evidence_phase10.py:78: Phase-17 product cache absent (clean checkout)
+SKIPPED [1] tests\test_product_snapshot_evidence_phase10.py:92: Phase-17 product cache absent (clean checkout)
+SKIPPED [1] tests\test_release_records_phase158.py:143: no archive/detached record beside this tree (extracted package): the non-circularity invariant above is the applicable check here
+SKIPPED [1] tests\test_release_records_phase159.py:144: no archive/detached record beside this tree (pre-seal build tree or extracted package): the non-circularity invariant above is the applicable check
+SKIPPED [1] tests\test_release_records_phase159.py:107: input archive not beside this tree (revision-2 deliverable moved to _phase158_audited/)
+SKIPPED [1] tests\test_release_records_phase160.py:144: no archive/detached record beside this tree (pre-seal build tree or extracted package): the non-circularity invariant above is the applicable check
+SKIPPED [1] tests\test_release_records_phase160.py:107: input archive not beside this tree (the Phase159 deliverable moved to _phase159_superseded/)
+SKIPPED [1] tests\test_release_records_phase161.py:144: no archive/detached record beside this tree (pre-seal build tree or extracted package): the non-circularity invariant above is the applicable check
+SKIPPED [1] tests\test_release_records_phase161.py:107: input archive not beside this tree (the Phase160 deliverable moved to _phase160_superseded/)
+SKIPPED [1] tests\test_researcher_11g_n.py:71: BLOCKED_EVIDENCE: git fact test_researcher_11g_n::TestRepositoryHead::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_n.py:64: BLOCKED_EVIDENCE: git fact test_researcher_11g_n::TestRepositoryHead::test_starting_head_ancestor cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_n.py:77: BLOCKED_EVIDENCE: git fact test_researcher_11g_n::TestRepositoryHead::test_tree_clean_except_notes cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_n.py:484: BLOCKED_EVIDENCE: git fact test_researcher_11g_n::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_o.py:80: BLOCKED_EVIDENCE: git fact test_researcher_11g_o::TestRepositoryHead::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_o.py:73: BLOCKED_EVIDENCE: git fact test_researcher_11g_o::TestRepositoryHead::test_starting_head_ancestor cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_o.py:86: BLOCKED_EVIDENCE: git fact test_researcher_11g_o::TestRepositoryHead::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_o.py:522: BLOCKED_EVIDENCE: git fact test_researcher_11g_o::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_p.py:80: BLOCKED_EVIDENCE: git fact test_researcher_11g_p::TestRepositoryHead::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_p.py:73: BLOCKED_EVIDENCE: git fact test_researcher_11g_p::TestRepositoryHead::test_starting_head_ancestor cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_p.py:86: BLOCKED_EVIDENCE: git fact test_researcher_11g_p::TestRepositoryHead::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_p.py:514: BLOCKED_EVIDENCE: git fact test_researcher_11g_p::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_q.py:83: BLOCKED_EVIDENCE: git fact test_researcher_11g_q::TestStartingState::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_q.py:76: BLOCKED_EVIDENCE: git fact test_researcher_11g_q::TestStartingState::test_head_descends_from_p cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_q.py:89: BLOCKED_EVIDENCE: git fact test_researcher_11g_q::TestStartingState::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_q.py:601: BLOCKED_EVIDENCE: git fact test_researcher_11g_q::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_r.py:84: BLOCKED_EVIDENCE: git fact test_researcher_11g_r::TestStartingState::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_r.py:77: BLOCKED_EVIDENCE: git fact test_researcher_11g_r::TestStartingState::test_head_descends_from_q cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_r.py:90: BLOCKED_EVIDENCE: git fact test_researcher_11g_r::TestStartingState::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_r.py:535: BLOCKED_EVIDENCE: git fact test_researcher_11g_r::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_s.py:84: BLOCKED_EVIDENCE: git fact test_researcher_11g_s::TestStartingState::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_s.py:77: BLOCKED_EVIDENCE: git fact test_researcher_11g_s::TestStartingState::test_head_descends_from_r cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_s.py:90: BLOCKED_EVIDENCE: git fact test_researcher_11g_s::TestStartingState::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_s.py:624: BLOCKED_EVIDENCE: git fact test_researcher_11g_s::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_t.py:84: BLOCKED_EVIDENCE: git fact test_researcher_11g_t::TestStartingState::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_t.py:77: BLOCKED_EVIDENCE: git fact test_researcher_11g_t::TestStartingState::test_head_descends_from_s cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_t.py:90: BLOCKED_EVIDENCE: git fact test_researcher_11g_t::TestStartingState::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_t.py:514: BLOCKED_EVIDENCE: git fact test_researcher_11g_t::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_u.py:84: BLOCKED_EVIDENCE: git fact test_researcher_11g_u::TestStartingState::test_branch_main cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_u.py:77: BLOCKED_EVIDENCE: git fact test_researcher_11g_u::TestStartingState::test_head_descends_from_t cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_u.py:90: BLOCKED_EVIDENCE: git fact test_researcher_11g_u::TestStartingState::test_tree_only_expected cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_11g_u.py:552: BLOCKED_EVIDENCE: git fact test_researcher_11g_u::TestProductionIsolation::test_no_production_paths cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_researcher_15.py:380: BLOCKED_EVIDENCE: git fact test_researcher_15::TestMultipleTestingPreserved::test_no_new_hypothesis_family cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_security_12.py:57: git unavailable
+SKIPPED [1] tests\test_security_12.py:51: git unavailable
+SKIPPED [1] tests\test_stage123_operational.py:714: BLOCKED_EVIDENCE: git fact test_stage123_operational::TestProductionIsolation::test_security_scan_no_real_credentials cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_stage4_paper_certification.py:145: BLOCKED_EVIDENCE: git fact test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_stage4_paper_certification.py:154: BLOCKED_EVIDENCE: git fact test_stage4_paper_certification::TestRepoIntegrity::test_research_byte_unchanged cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_stage4_paper_certification.py:1380: BLOCKED_EVIDENCE: git fact test_stage4_paper_certification::TestSecretScan::test_no_live_format_assignments_tracked cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_upstream_hypothesis_audit.py:49: BLOCKED_EVIDENCE: git fact test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_coercion_constructs_records_in_core cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_upstream_hypothesis_audit.py:112: BLOCKED_EVIDENCE: git fact test_upstream_hypothesis_audit::TestPersistedRealCounts::test_no_consumable_real_hypothesis_persisted cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+SKIPPED [1] tests\test_upstream_hypothesis_audit.py:138: BLOCKED_EVIDENCE: git fact test_upstream_hypothesis_audit::TestFixtureRealSeparation::test_fixture_ids_never_occur_in_tracked_records cannot be established from a source archive (mode=SOURCE_ARCHIVE; rev-parse --is-inside-work-tree returned 128). The fact is recorded as blocked, not verified, in reports/PHASE162_GIT_EVIDENCE_STATUS.json.
+5 failed, 4065 passed, 57 skipped, 399 subtests passed in 2316.34s (0:38:36)
+EXITCODE=1
+
+```

@@ -1,0 +1,282 @@
+{
+ "H11G-001": {
+  "hypothesis_id": "H11G-001",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11G-002": {
+  "hypothesis_id": "H11G-002",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11G-003": {
+  "hypothesis_id": "H11G-003",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11G-004": {
+  "hypothesis_id": "H11G-004",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11G-005": {
+  "hypothesis_id": "H11G-005",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 1,
+    "n_orders": 1,
+    "n_expired": 0,
+    "n_invalidated": 1
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 1,
+    "n_orders": 1,
+    "n_expired": 0,
+    "n_invalidated": 1
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 1,
+    "n_orders": 1,
+    "n_expired": 0,
+    "n_invalidated": 1
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 1,
+    "n_orders": 1,
+    "n_expired": 0,
+    "n_invalidated": 1
+   }
+  }
+ },
+ "H11G-006": {
+  "hypothesis_id": "H11G-006",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11G-007": {
+  "hypothesis_id": "H11G-007",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11G-008": {
+  "hypothesis_id": "H11G-008",
+  "symbol": "BTCUSDT",
+  "bars": 2499,
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ }
+}

@@ -1,0 +1,37 @@
+{
+ "H11F-001": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-002": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-003": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-004": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-005": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-006": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-007": {
+  "status": "INSUFFICIENT"
+ },
+ "H11F-008": {
+  "boot_mean_p5": -0.5954492923803126,
+  "boot_mean_p95": -0.33191560044401025,
+  "losing_streak_obs": 15,
+  "maxdd_obs": 57.51051527126535,
+  "maxdd_p50": 55.36462798337187,
+  "n": 117,
+  "p5": -55.060738592309534,
+  "p50": -55.06073859230951,
+  "p95": -55.06073859230949,
+  "p_dd_gt_obs": 0.1888,
+  "p_loss": 1.0,
+  "status": "OK"
+ }
+}

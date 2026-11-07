@@ -1,0 +1,402 @@
+{
+ "H11GK-001": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": -0.19905861924227428,
+   "fees": 0.0,
+   "gross": -1.1943517154536456,
+   "losses": 5,
+   "net": -1.1943517154536456,
+   "pf": 0.07484957021895455,
+   "slippage": 0.0,
+   "trades": 6,
+   "wins": 1
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": -0.6490586192422744,
+   "fees": 1.5,
+   "gross": -1.1943517154536456,
+   "losses": 6,
+   "net": -3.894351715453646,
+   "pf": 0.0,
+   "slippage": 1.2000000000000002,
+   "trades": 6,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": -0.9940586192422742,
+   "fees": 1.7700000000000002,
+   "gross": -1.1943517154536454,
+   "losses": 6,
+   "net": -5.964351715453645,
+   "pf": 0.0,
+   "slippage": 3.0,
+   "trades": 6,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": -1.7890586192422744,
+   "fees": 3.5400000000000005,
+   "gross": -1.1943517154536458,
+   "losses": 6,
+   "net": -10.734351715453647,
+   "pf": 0.0,
+   "slippage": 6.0,
+   "trades": 6,
+   "wins": 0
+  }
+ },
+ "H11GK-002": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": -0.4114046303163252,
+   "fees": 0.0,
+   "gross": -0.8228092606326504,
+   "losses": 2,
+   "net": -0.8228092606326504,
+   "pf": 0.0,
+   "slippage": 0.0,
+   "trades": 2,
+   "wins": 0
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": -0.8614046303163252,
+   "fees": 0.5,
+   "gross": -0.8228092606326505,
+   "losses": 2,
+   "net": -1.7228092606326504,
+   "pf": 0.0,
+   "slippage": 0.4,
+   "trades": 2,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": -1.2064046303163252,
+   "fees": 0.5900000000000001,
+   "gross": -0.8228092606326504,
+   "losses": 2,
+   "net": -2.4128092606326503,
+   "pf": 0.0,
+   "slippage": 1.0,
+   "trades": 2,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": -2.0014046303163253,
+   "fees": 1.1800000000000002,
+   "gross": -0.8228092606326503,
+   "losses": 2,
+   "net": -4.002809260632651,
+   "pf": 0.0,
+   "slippage": 2.0,
+   "trades": 2,
+   "wins": 0
+  }
+ },
+ "H11GK-003": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": -0.3056108811432255,
+   "fees": 0.0,
+   "gross": -0.3056108811432255,
+   "losses": 1,
+   "net": -0.3056108811432255,
+   "pf": 0.0,
+   "slippage": 0.0,
+   "trades": 1,
+   "wins": 0
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": -0.7556108811432254,
+   "fees": 0.25,
+   "gross": -0.3056108811432254,
+   "losses": 1,
+   "net": -0.7556108811432254,
+   "pf": 0.0,
+   "slippage": 0.2,
+   "trades": 1,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": -1.1006108811432256,
+   "fees": 0.29500000000000004,
+   "gross": -0.30561088114322554,
+   "losses": 1,
+   "net": -1.1006108811432256,
+   "pf": 0.0,
+   "slippage": 0.5,
+   "trades": 1,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": -1.8956108811432255,
+   "fees": 0.5900000000000001,
+   "gross": -0.30561088114322543,
+   "losses": 1,
+   "net": -1.8956108811432255,
+   "pf": 0.0,
+   "slippage": 1.0,
+   "trades": 1,
+   "wins": 0
+  }
+ },
+ "H11GK-004": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": 0.026379376044895188,
+   "fees": 0.0,
+   "gross": 1.1343131699304931,
+   "losses": 24,
+   "net": 1.1343131699304931,
+   "pf": 1.294201740642505,
+   "slippage": 0.0,
+   "trades": 43,
+   "wins": 19
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": -0.42362062395510486,
+   "fees": 10.75,
+   "gross": 1.1343131699304931,
+   "losses": 41,
+   "net": -18.215686830069508,
+   "pf": 0.047552640480059305,
+   "slippage": 8.6,
+   "trades": 43,
+   "wins": 2
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": -0.7686206239551049,
+   "fees": 12.685000000000002,
+   "gross": 1.1343131699304934,
+   "losses": 42,
+   "net": -33.05068683006951,
+   "pf": 0.009671633571057676,
+   "slippage": 21.5,
+   "trades": 43,
+   "wins": 1
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": -1.563620623955105,
+   "fees": 25.370000000000005,
+   "gross": 1.1343131699304925,
+   "losses": 43,
+   "net": -67.23568683006951,
+   "pf": 0.0,
+   "slippage": 43.0,
+   "trades": 43,
+   "wins": 0
+  }
+ },
+ "H11GK-005": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  }
+ },
+ "H11GK-006": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  }
+ },
+ "H11GK-007": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": -0.030794751084392214,
+   "fees": 0.0,
+   "gross": -1.3241742966288652,
+   "losses": 24,
+   "net": -1.3241742966288652,
+   "pf": 0.6916574429897308,
+   "slippage": 0.0,
+   "trades": 43,
+   "wins": 19
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": -0.4807947510843922,
+   "fees": 10.75,
+   "gross": -1.3241742966288654,
+   "losses": 43,
+   "net": -20.674174296628863,
+   "pf": 0.0,
+   "slippage": 8.6,
+   "trades": 43,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": -0.8257947510843924,
+   "fees": 12.685000000000002,
+   "gross": -1.3241742966288648,
+   "losses": 43,
+   "net": -35.50917429662887,
+   "pf": 0.0,
+   "slippage": 21.5,
+   "trades": 43,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": -1.6207947510843923,
+   "fees": 25.370000000000005,
+   "gross": -1.3241742966288657,
+   "losses": 43,
+   "net": -69.69417429662887,
+   "pf": 0.0,
+   "slippage": 43.0,
+   "trades": 43,
+   "wins": 0
+  }
+ },
+ "H11GK-008": {
+  "A": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "B": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "C": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  },
+  "D": {
+   "breakevens": 0,
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "net": 0,
+   "pf": 0.0,
+   "slippage": 0,
+   "trades": 0,
+   "wins": 0
+  }
+ }
+}

@@ -1,0 +1,22 @@
+====================================================
+FILE
+====================================================
+
+core/replay/pipeline_runner.py
+
+TYPE
+----
+Replay Coordinator
+
+STATUS
+------
+REPLACE
+
+REASON
+------
+Duplicates Pipeline responsibilities.
+
+Should coordinate ReplayEngine and EventBus only.
+
+Must not modify PipelineContext directly.
+

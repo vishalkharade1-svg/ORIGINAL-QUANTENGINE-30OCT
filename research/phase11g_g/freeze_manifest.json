@@ -1,0 +1,39 @@
+{
+ "D3_status": "SEALED (read 0, hash 0, load 0)",
+ "cost_contract": "11F ladder A/B/C/D, funding=0",
+ "execution_contract": "NEXT_BAR_OPEN family-wide",
+ "family": "frozen 11G-F registry by reference",
+ "family_count": 8,
+ "family_sha256": "6181496e2551fc5a478a008d9c397cdd3fdb13014871ef8d43f2d64810f8e356",
+ "family_source": "research/phase11g_f/hypotheses/hypotheses.json",
+ "freeze_timestamp": "2026-09-08T15:51:36Z",
+ "fresh_datasets": {
+  "BTCUSDT": {
+   "acquired_at": "2026-09-08T15:50:20.046450+00:00",
+   "bars": 2099,
+   "file": "research/phase11g_g/data/fresh_11gg_gap_btcusdt.json",
+   "sha256": "a3965c790440facbf16e875c11d24f505b833dcd7d6e3c18089c14ea16703c58"
+  },
+  "ETHUSDT": {
+   "acquired_at": "2026-09-08T15:50:22.455959+00:00",
+   "bars": 2099,
+   "file": "research/phase11g_g/data/fresh_11gg_gap_ethusdt.json",
+   "sha256": "2baaf484e632cb473b23e7d831bdfe7f9119a3a114fd0f44ead807e6fc146ef3"
+  }
+ },
+ "fresh_window": {
+  "end": 1788301440,
+  "rule": "strictly after D2/phase-7 end, strictly before Gate-A start",
+  "start": 1788175500
+ },
+ "git_head": "56b777cc153cc901a7dab356fc58bf985e6224a6",
+ "live_status": "DISABLED",
+ "mc_seeds": "1107001/1107002",
+ "phase": "11G-G",
+ "production_status": "UNMODIFIED",
+ "python": "3.12.10",
+ "random_seeds": "1108000-1108499",
+ "risk_contract": "2000/0.01/10x/500",
+ "stage": "PREREGISTERED_REPLICATION",
+ "walk_forward_contract": "expanding-origin; WF_INFEASIBLE below 6175 bars (diagnostic slice only)"
+}

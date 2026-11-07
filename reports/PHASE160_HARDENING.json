@@ -1,0 +1,64 @@
+{
+  "phase": 160,
+  "title": "Phase160 repairs (scanner-model boundary closure, declared by the Phase159 vendor-audit handoff)",
+  "provenance_of_findings": {
+    "declared_by": "PHASE159_AUDIT_HANDOFF.md, prepared 2026-10-18 beside the Phase159 delivery and preserved with it in ../_phase159_superseded/",
+    "declaration_summary": "both scanners selected members by a declared suffix allowlist and decoded them as UTF-8 (BOM-tolerant as of Phase159); the 12 carried UTF-16LE members and the suffix-excluded members were therefore outside every content rule, with a reproduction recipe included in the handoff",
+    "rule": "repairs were forbidden on the sealed Phase159 bytes; this cycle started from a fresh byte-verified extraction of the sealed archive (reports/PHASE160_ARCHIVE_INTEGRITY.json) and closed the boundary in the new tree instead, never by editing sealed bytes",
+    "machine_readable": "the handoff note itself (the boundary was declared proactively; no separate findings JSON exists for it, unlike the revision-2 audit observations of Phase159)"
+  },
+  "repairs": [
+    {
+      "id": "REP-160-01",
+      "class": "tooling (secret scanner)",
+      "severity": "LOW (declared condition; the affected class was verified to carry zero credential hits both before and after the fix)",
+      "finding": "scripts/security/scan_secrets.py selected members by a declared suffix set and decoded them as UTF-8 (utf-8-sig since Phase159). 12 carried UTF-16LE members -- core_tree.txt, project_tree_clean.txt, root_tests.txt, tests_list.txt and 8 reports/*.txt suite logs written by Windows tooling -- arrived NUL-interleaved and matched no rule, and members outside the suffix set (.sha256 inventories, the .jsonl capture journal, .checksum sidecars) were never read at all",
+      "root_cause": "Windows tooling (PowerShell redirection / Out-File) commonly writes UTF-16LE; the scanner assumed its allowlist plus UTF-8 encoded the whole tree",
+      "fix": "scripts/security/text_decode.py (new): the encoding is decided by the bytes -- UTF-8 with optional BOM, UTF-16 LE/BE with or without a BOM (BOM-less sniffed by NUL parity, threshold max(4, sample/4)), UTF-32 BOMs checked first; a replacement-ratio guard plus a never-guess rule mean a member that is neither valid UTF-8 nor a consistent UTF-16/UTF-32 pattern is classified binary rather than decoded as garbage. scripts/security/scan_secrets.py applies every rule to every member that decodes as text; selection is by content, not by suffix",
+      "tests_added": [
+        "tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_utf16_bom_first_line_secret_is_found",
+        "tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_bomless_utf16_le_secret_is_found",
+        "tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_bomless_utf16_be_secret_is_found",
+        "tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_utf32_bom_secret_is_found",
+        "tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_binary_member_is_not_scanned_as_garbage"
+      ],
+      "test_strength": "every encoding fixture asserts its own bytes (BOM prefix present / BOM-less) before scanning, so a regression cannot silently pass against different bytes; the tree-wide scan re-runs on every suite execution"
+    },
+    {
+      "id": "REP-160-02",
+      "class": "privacy",
+      "severity": "LOW (declared condition; the affected class probed clean member-by-member during handoff preparation)",
+      "finding": "scripts/security/scan_privacy.py read only suffix-selected members as UTF-8: the same 12 UTF-16LE members and the suffix-excluded members were outside content rules A and B. The affected class carried zero hits for the account identifier, the harvested order ids and credential patterns, but the scanner could not have proven that statement against its own model",
+      "root_cause": "identical selection model to the secret scanner",
+      "fix": "scan_privacy.py decodes by content through the shared decoder, so rules A and B read every text member; and a new rule E -- content coverage -- requires every member to be either content-inspected or a member of a declared opaque class (DECLARED_OPAQUE_PATTERNS = *.zip, *.parquet). A binary member outside every declared class fails the scan as opaque_member_not_declared. The report schema advances to quantengine.privacy-scan.v2 with a content_coverage block; each run prints every declared opaque member by path (the 10 retained acquisition archives and the 1 acquisition parquet)",
+      "tests_added": [
+        "tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_utf16_capture_and_aggregate_order_ids_are_still_detected",
+        "tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_bomless_utf16_capture_id_is_harvested",
+        "tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_utf16_account_identifier_leak_is_reported",
+        "tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_undeclared_opaque_member_fails_the_coverage_rule",
+        "tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_declared_opaque_classes_are_reported_not_failed"
+      ],
+      "test_strength": "the encoding fixtures assert their BOM/BOM-less bytes; the coverage tests prove both directions (an undeclared binary fails, a declared one is enumerated and passes); the tree-wide scan re-runs in every suite execution and reports its inspected/declared-opaque split in reports/PHASE160_PRIVACY_SCAN.json"
+    },
+    {
+      "id": "REP-160-03",
+      "class": "tooling (release consistency)",
+      "severity": "OBSERVATION",
+      "finding": "tests/test_release_consistency_phase155.py still named the Phase158 archives in the Phase159 candidate. The Phase158 revision-2 build had advanced these constants to its own candidate; the Phase159 cycle did not. The live cross-check therefore degraded to the absence-invariant branch (which still held: no orphan detached record was present), so nothing failed and the lag was invisible",
+      "root_cause": "the constants advance with each rebuild by convention, not by a test that would notice a lag; the absence branch is a genuine invariant, so a stale name does not fail",
+      "fix": "the constants advance to the Phase160 candidate; the record list checked by the same test now additionally covers the Phase159 and Phase160 gate records (nothing was removed from it); a Phase160 note in the test records the lag and the repair",
+      "tests_changed": [
+        "tests/test_release_consistency_phase155.py"
+      ],
+      "evidence": "the Phase158 revision-2 tree's copy of this file names PHASE158 (its own candidate), confirming the lag was introduced by the Phase159 cycle and was exactly one phase wide",
+      "no_test_weakened": true
+    }
+  ],
+  "verification": {
+    "focused": "tests/test_secret_scan_phase0.py + tests/test_phase158_privacy_contract.py + tests/test_packaging_no_secrets_phase132.py + tests/test_release_consistency_phase155.py: the touched contracts run green after the manifest regeneration; the count and command set are recorded in reports/PHASE160_MANIFEST_AUDIT.json (the only pre-regeneration failures seen were the stale-manifest class, i.e. the tree's BUILD_MANIFEST.sha256 still described the Phase159 bytes at that moment)",
+    "scanners_after_fix": "SECRET_SCAN_PASS; PRIVACY_SCAN_PASS with publication_clearance NOT_CLEARED; the scan report enumerates the declared opaque members and carries the content_coverage block (reports/PHASE160_PRIVACY_SCAN.json)",
+    "boundary_probes": "the classification probe over the build tree: every member decoded as text except the 11 binary members (exactly the 10 retained acquisition archives and the 1 acquisition parquet), zero unreadable; before the fix the same probe put the 12 UTF-16LE members and every suffix-excluded member outside all content rules",
+    "full_suite": "executed twice on the sealed candidate bytes (worktree and extraction runs), recorded in reports/PHASE160_FULL_SUITE_RUN.txt and the post-build bundle"
+  },
+  "next_time": "any future revision starting from this tree must re-derive its own diff vs the Phase160 archive and re-run both scanners and the manifest contract from scratch"
+}

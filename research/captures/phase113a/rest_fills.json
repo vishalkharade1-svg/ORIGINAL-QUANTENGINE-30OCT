@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-10-11T08:35:57.120176+00:00",
+  "environment": "INDIA_TESTNET",
+  "evidence_sha256": "acea2d0149a93dbb1781b15a0d486027dcabe2645e14cd49dbdec881f8ed2589",
+  "fills": [
+    {
+      "commission": "0.00889241",
+      "fill_id": "4d1d625507754a33a8e52e0cc51cdfca",
+      "fill_type": "normal",
+      "order_id": "2175077367",
+      "price": "4186.63",
+      "role": "maker",
+      "side": "buy",
+      "size": "20",
+      "symbol": "PAXGUSD",
+      "timestamp": 1791706341988
+    },
+    {
+      "commission": "0.00889244",
+      "fill_id": "3f554327731d45f4a0f1c7907be8e6c2",
+      "fill_type": "normal",
+      "order_id": "2175077531",
+      "price": "4186.64",
+      "role": "taker",
+      "side": "sell",
+      "size": "20",
+      "symbol": "PAXGUSD",
+      "timestamp": 1791706384391
+    }
+  ],
+  "provenance_status": "REAL",
+  "request_params": {
+    "page_size": 100,
+    "symbol": "PAXGUSD",
+    "symbol_rows_kept": 2,
+    "symbol_rows_seen": 8
+  },
+  "schema_version": 1,
+  "source_endpoint": "https://cdn-ind.testnet.deltaex.org/v2/fills",
+  "symbol": "PAXGUSD",
+  "venue": "delta"
+}

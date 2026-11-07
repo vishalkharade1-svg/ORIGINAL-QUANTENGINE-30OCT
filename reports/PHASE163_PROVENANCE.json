@@ -1,0 +1,70 @@
+{
+  "build_procedure": {
+    "archive_bytes": "recorded in the detached record RELEASE_HASH_PHASE163.txt (beside the archive)",
+    "archive_members": "manifest entries + 1 (the manifest itself); recorded in the detached record RELEASE_HASH_PHASE163.txt",
+    "builder": "scripts/build_release.py",
+    "manifest_entries": "recorded in BUILD_MANIFEST.sha256 and in the detached record",
+    "note": "the archive's own SHA-256 is deliberately not embedded here or anywhere inside the archive; an archive cannot truthfully contain a hash of itself",
+    "rule": "frozen ordering: write all text -> regenerate BUILD_MANIFEST.sha256 -> verify -> pack -> detached hash record -> extract-verify"
+  },
+  "changes": [
+    {
+      "class": "feature (market data multiplexing)",
+      "evidence": "core/runtime/multi_stream_multiplexer.py; tests/test_multi_stream_multiplexer_phase163.py; reports/PHASE163_MULTI_INSTRUMENT_AUDIT.md",
+      "id": "FEAT-163-01",
+      "what": "Implemented MultiStreamMultiplexer: thread-safe multi-instrument candle ingestion and state tracking with per-symbol gap detection, unfinalized candle rejection, and strict cross-symbol state isolation.",
+      "why": "Fulfills remaining QuantEngine multi-instrument runtime foundation without touching frozen strategy files."
+    },
+    {
+      "class": "feature (protective bracket orders & trailing stop latency)",
+      "evidence": "core/execution/protective_bracket.py; tests/test_protective_bracket_phase163.py; reports/PHASE163_PROTECTIVE_ORDERS_AUDIT.md",
+      "id": "FEAT-163-02",
+      "what": "Implemented ProtectiveBracketIntent and TrailingStopSimulator: enforces mandatory Stop Loss on all intents, validates directional geometry (1:1 .. 20:1 R:R), and models trailing stop execution friction under venue latency delays (0ms..1000ms).",
+      "why": "Guarantees fail-closed order safety and models realistic execution friction."
+    },
+    {
+      "class": "feature (mobile telemetry gateway)",
+      "evidence": "core/monitoring/mobile_push_gateway.py; tests/test_mobile_push_gateway_phase163.py; reports/PHASE163_MOBILE_TELEMETRY_AUDIT.md",
+      "id": "FEAT-163-03",
+      "what": "Implemented MobilePushGateway: token-authenticated, non-blocking telemetry event broadcasting with secret redaction and explicit provenance labeling ('OBSERVED' vs 'PAPER_MODELLED').",
+      "why": "Provides authenticated mobile and remote control monitoring without engine performance impact."
+    },
+    {
+      "class": "release integrity",
+      "evidence": "tests/test_release_records_phase163.py; reports/PHASE163_*; docs/BUILD_HANDOFF_PHASE163.md",
+      "id": "REL-163-01",
+      "what": "Created full Phase 163 release contracts, audits, and documentation reconciliation. Carried all 6 external blockers explicitly.",
+      "why": "Preserves release integrity and prevents unverified claims."
+    }
+  ],
+  "generated_utc": "2026-10-19",
+  "historical_records": {
+    "reports/PHASE161_ENVIRONMENT.json": {
+      "describes": "the Phase161 environment adoption record, preserved unchanged",
+      "sha256": "ae9671c03ac166596df9da0c9be6e89e56e5d4e269e68c3eeb489fc1f2fa0251"
+    },
+    "reports/PHASE161_RELEASE_GATES.json": {
+      "describes": "the Phase161 release gates, preserved unchanged",
+      "sha256": "d1e0663b35455c3b5fae9b1bd13fbc37e5ba27b2e4d5e3f5a6fb888bc6abd898"
+    },
+    "reports/PHASE162_RELEASE_GATES.json": {
+      "describes": "the Phase162 release gates, preserved unchanged",
+      "sha256": "f94aff1f1723c37527975850b733257d0ca26443dbcf81672f7429bd65a668b2"
+    },
+    "reports/PHASE162_BLOCKERS.json": {
+      "describes": "the Phase162 blockers record, preserved unchanged",
+      "sha256": "5d053de948f7e0a07eae1b24022d2f4cd7d03f7ca92d819b79bd2aceff0fc626"
+    }
+  },
+  "input": {
+    "archive": "QuantEngine_PHASE162_RELEASE_CANDIDATE.zip",
+    "description": "the Phase162 forensic audit and safe repair release candidate"
+  },
+  "output": {
+    "archive": "QuantEngine_PHASE163_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE163.txt",
+    "post_build_bundle": "QuantEngine_PHASE163_POST_BUILD",
+    "sha256": "NOT_EMBEDDED - an archive cannot truthfully contain a hash of itself"
+  },
+  "phase": 163
+}

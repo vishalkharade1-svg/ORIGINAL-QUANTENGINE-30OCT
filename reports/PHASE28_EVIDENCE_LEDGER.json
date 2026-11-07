@@ -1,0 +1,49 @@
+{
+  "phase27_artifacts": {
+    "final_report": "d322bdb63e6fd10a6846e588ff4c0ff82d8d54b312cf4264778500f21563102f",
+    "rr_migration_audit": "9d0151b74c99050ace434ce399fd7639c6e7bde361574f1b55306fc128a85db1",
+    "trailing_stop_spec": "fc9197ad6c8fdff52e737e4a4c737fb77f977afa5e8594066020d2037e04517e",
+    "strategy_evaluation": "3b38ab62264853496bec102b95d153fa5e011097c48873a04f654a7066811a14",
+    "blocker_register": "851718cb08bdda9fd8091f470ac4939febcc331b8deac533876db19fb075b161"
+  },
+  "phase28_artifacts": {
+    "independent_audit": "TO_BE_COMPUTED_AFTER_FINALIZATION",
+    "test_results": "TO_BE_COMPUTED_AFTER_FINALIZATION",
+    "trailing_stop_validation": "TO_BE_COMPUTED_AFTER_FINALIZATION",
+    "strategy_evaluation": "TO_BE_COMPUTED_AFTER_FINALIZATION",
+    "blocker_register": "TO_BE_COMPUTED_AFTER_FINALIZATION"
+  },
+  "dataset_hashes": {
+    "certified": "TODO: compute sha256 of data/history/BTCUSDT_1m_phase17_fresh.json raw rows",
+    "extended": "TODO: compute sha256 of data/history/BTCUSDT_1m_oos_topup.json raw rows",
+    "certified_rows": 11461,
+    "extended_rows": 30247
+  },
+  "test_outcomes": {
+    "focused_suite": "71 passed, 0 failed, exit code 0",
+    "trailing_primitive_tests": "3 passed, 0 failed",
+    "full_suite": "N/A (too slow; background job recommended)"
+  },
+  "trade_counts": {
+    "certified": {
+      "candidates": 5338,
+      "accepted_setups": 168,
+      "orders": 32,
+      "fills": 0,
+      "expirations": 30,
+      "invalidations": 2
+    },
+    "extended": {
+      "candidates": 14639,
+      "orders": 37,
+      "fills": 4,
+      "expirations": 23,
+      "invalidations": 10
+    }
+  },
+  "rr_distributions": {
+    "certified": "<1: 10, [1,20]: 608, >20: 4720",
+    "extended": "<1: 134, [1,20]: 2886, >20: 11619"
+  },
+  "notes": "All hashes to be recomputed after final artifact fixation. The ledger itself is not included in the artifact-hash set; external checksum recommended after all Phase 28 files are finalized."
+}

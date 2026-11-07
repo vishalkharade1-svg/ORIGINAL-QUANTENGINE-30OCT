@@ -1,0 +1,30 @@
+{
+ "D3": {
+  "hash": 0,
+  "load": 0,
+  "read": 0
+ },
+ "dataset": "binance_um_aggtrades_BTCUSDT_2026-09-05",
+ "dataset_hash": "440c91912a27c0da",
+ "family_count": 8,
+ "feature_version": "real-trade-features-v1",
+ "freeze_timestamp": "2026-09-09T04:36:00Z",
+ "git_head": "ad6c3735e300dc6618ff98a99bd4e398f7a41328",
+ "hypothesis_hashes": {
+  "H11GK-001": "91662270dbdc0fae8db471fd4493dcaea97ccd840cd7d19927917713d0a9caa9",
+  "H11GK-002": "bf4af9e09080d1b18a64fac30d09df64f74afc5952241179d5261a65465fdde5",
+  "H11GK-003": "447362498be2515e9c6eb05b81ec296321a32e297bfaecbae0e88c6a60b1e7af",
+  "H11GK-004": "f3776773ab3ad0e86ff34b1dacec1e10701033cd71ca3bc238b14203dee0d3ed",
+  "H11GK-005": "49c8be243a3fd10088bf13b3b94beec2f032f0c8d800c883a717b1fec0a01493",
+  "H11GK-006": "8057b9f45543b5a0815b0fabf3848bc24c36ee6ff6cad90a304467f29008810e",
+  "H11GK-007": "a71ff1f6492a611ee0f328d73eb6679529d744b0fe045bc1a3e5121e4d5908c1",
+  "H11GK-008": "705daadd74151c0464b900bea880a366295c6b1ee0b50383837ad06bc8ea2119"
+ },
+ "live": "DISABLED",
+ "phase": "11G-K",
+ "production": "UNMODIFIED",
+ "python": "3.12.10",
+ "schema_version": "11ge-v1",
+ "stage": "FROZEN_PREREGISTRATION",
+ "transformation": "um-aggTrades-csv->canonical-TradeEvent v1 (11gi-v1)"
+}

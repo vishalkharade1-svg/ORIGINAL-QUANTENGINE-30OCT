@@ -1,0 +1,50 @@
+{
+ "H11GK-001": {
+  "V1_entry_adverse_0p5bp": -6.114038013878245,
+  "V2_missed_10pct": -5.964351715453645,
+  "V3_exits_adverse_1bp": -6.263724312302846,
+  "baseline_C": -5.964351715453645
+ },
+ "H11GK-002": {
+  "V1_entry_adverse_0p5bp": -2.4627817242631003,
+  "V2_missed_10pct": -2.4128092606326503,
+  "V3_exits_adverse_1bp": -2.51275418789355,
+  "baseline_C": -2.4128092606326503
+ },
+ "H11GK-003": {
+  "V1_entry_adverse_0p5bp": -1.1256108789132255,
+  "V2_missed_10pct": -1.1006108811432256,
+  "V3_exits_adverse_1bp": -1.1506108766832255,
+  "baseline_C": -1.1006108811432256
+ },
+ "H11GK-004": {
+  "V1_entry_adverse_0p5bp": -34.12435445043851,
+  "V2_missed_10pct": -29.783495634583954,
+  "V3_exits_adverse_1bp": -35.19802207080751,
+  "baseline_C": -33.05068683006951
+ },
+ "H11GK-005": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11GK-006": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ },
+ "H11GK-007": {
+  "V1_entry_adverse_0p5bp": -36.583171523422315,
+  "V2_missed_10pct": -31.76393764415243,
+  "V3_exits_adverse_1bp": -37.65716875021576,
+  "baseline_C": -35.50917429662886
+ },
+ "H11GK-008": {
+  "V1_entry_adverse_0p5bp": 0,
+  "V2_missed_10pct": 0.0,
+  "V3_exits_adverse_1bp": 0,
+  "baseline_C": 0
+ }
+}

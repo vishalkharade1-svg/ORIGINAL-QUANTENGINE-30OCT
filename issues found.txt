@@ -1,0 +1,112 @@
+Issue Found (Minor)
+
+The file documentation says:
+
+Produces:
+    context.liquidity_target
+
+But PipelineContext (the version you showed earlier) does not currently contain:
+
+liquidity_target
+
+This isn't an error today because Python dataclasses without slots=True would allow dynamic attributes—but your PipelineContext uses slots=True.
+
+That means this field must exist in PipelineContext, otherwise you'll eventually get:
+
+AttributeError:
+'PipelineContext' object has no attribute 'liquidity_target'
+
+This is not part of AM-0001. We'll fix it during the upcoming PipelineContext migration so ownership stays consistent.
+...............................................................................
+⚠ Issue Found
+
+This is the first real architecture issue we've found in the engine reviews.
+
+The scanner currently does:
+
+atr = context.indicators.latest("ATR_14")
+
+That assumes:
+
+context.indicators
+
+is an IndicatorCache.
+
+However, earlier your pipeline does:
+
+context.indicators = self.indicators
+
+which stores the IndicatorEngine.
+
+Later it also does:
+
+context.indicator_cache = self.indicators.update(...)
+
+So currently there are two competing ownership models:
+
+Model A
+
+context.indicators
+        │
+        ▼
+IndicatorEngine
+
+and
+
+Model B
+
+context.indicator_cache
+        │
+        ▼
+IndicatorCache
+
+This is exactly the inconsistency that caused your earlier indicator_cache errors.
+
+AM-0001 Decision (Confirmed)
+
+After reviewing the engines, I am locking the architecture to a single ownership model:
+
+IndicatorEngine
+        │
+owns
+        ▼
+IndicatorCache
+        │
+published into
+        ▼
+context.indicators
+
+Therefore:
+
+❌ context.indicator_cache will be removed.
+✅ context.indicators will always be an IndicatorCache.
+✅ Engines continue using:
+context.indicators.latest(...)
+
+without modification.
+
+This confirms our migration plan.
+
+Manifest Update
+Subsystem:
+Displacement
+
+Engine:
+DisplacementScanner
+
+Consumes:
+- context.candles
+- context.indicators (IndicatorCache)
+
+Produces:
+- context.displacement
+
+Owner:
+DisplacementScanner
+
+Status:
+Architecture Compliant
+
+AM-0001:
+Compatible with final IndicatorCache ownership model.
+................................................

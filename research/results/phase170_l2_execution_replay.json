@@ -1,0 +1,423 @@
+{
+  "archive_source": "delta_ob_updates_archive.json",
+  "methodological_disclosures": {
+    "strategy_edge": "Low execution slippage does NOT imply strategy profitability or alpha existence.",
+    "synthetic_nature": "All fills in this simulation are modeled against archived L2 quotes and do not represent exchange trades.",
+    "unobserved_queue_position": "Passive maker executions cannot be inferred exactly without private order tracking."
+  },
+  "modeling_parameters": {
+    "fee_schedule": {
+      "gst_pct": "18.0",
+      "maker_effective_pct": "0.0236",
+      "taker_base_pct": "0.05",
+      "taker_effective_pct": "0.059"
+    },
+    "latencies_ms_tested": [
+      0,
+      50,
+      200
+    ],
+    "order_sizes_contracts": [
+      1,
+      5,
+      10,
+      50
+    ]
+  },
+  "replay_results": {
+    "10_contracts": {
+      "btc_quantity": "0.010",
+      "evaluations": [
+        {
+          "buy_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "sell_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82007.5",
+            "unfilled_contracts": 0,
+            "vwap": "82007.50"
+          },
+          "snapshot_index": 0,
+          "taker_fee_usd": "0.48386785",
+          "timestamp_us": 1792419968771514
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "1.3408",
+            "status": "FILLED",
+            "top_of_book_price": "82042.0",
+            "unfilled_contracts": 0,
+            "vwap": "82053.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82049.0",
+            "unfilled_contracts": 0,
+            "vwap": "82049.00"
+          },
+          "snapshot_index": 28,
+          "taker_fee_usd": "0.48411270",
+          "timestamp_us": 1792419983590620
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "0.4877",
+            "status": "FILLED",
+            "top_of_book_price": "82012.0",
+            "unfilled_contracts": 0,
+            "vwap": "82016.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "snapshot_index": 84,
+          "taker_fee_usd": "0.48389440",
+          "timestamp_us": 1792420020489889
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 5,
+            "slippage_bps": null,
+            "status": "INSUFFICIENT_DEPTH",
+            "unfilled_contracts": 5,
+            "vwap": null
+          },
+          "sell_execution": {
+            "filled_contracts": 10,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "81993.5",
+            "unfilled_contracts": 0,
+            "vwap": "81993.50"
+          },
+          "snapshot_index": 112,
+          "taker_fee_usd": "0E-8",
+          "timestamp_us": 1792420043101633
+        }
+      ],
+      "order_size_contracts": 10,
+      "samples_evaluated": 4
+    },
+    "1_contracts": {
+      "btc_quantity": "0.001",
+      "evaluations": [
+        {
+          "buy_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "sell_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82007.5",
+            "unfilled_contracts": 0,
+            "vwap": "82007.50"
+          },
+          "snapshot_index": 0,
+          "taker_fee_usd": "0.04838678",
+          "timestamp_us": 1792419968771514
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "1.3408",
+            "status": "FILLED",
+            "top_of_book_price": "82042.0",
+            "unfilled_contracts": 0,
+            "vwap": "82053.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82049.0",
+            "unfilled_contracts": 0,
+            "vwap": "82049.00"
+          },
+          "snapshot_index": 28,
+          "taker_fee_usd": "0.04841127",
+          "timestamp_us": 1792419983590620
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.4877",
+            "status": "FILLED",
+            "top_of_book_price": "82012.0",
+            "unfilled_contracts": 0,
+            "vwap": "82016.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "snapshot_index": 84,
+          "taker_fee_usd": "0.04838944",
+          "timestamp_us": 1792420020489889
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "81995.7",
+            "unfilled_contracts": 0,
+            "vwap": "81995.70"
+          },
+          "sell_execution": {
+            "filled_contracts": 1,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "81993.5",
+            "unfilled_contracts": 0,
+            "vwap": "81993.50"
+          },
+          "snapshot_index": 112,
+          "taker_fee_usd": "0.04837746",
+          "timestamp_us": 1792420043101633
+        }
+      ],
+      "order_size_contracts": 1,
+      "samples_evaluated": 4
+    },
+    "50_contracts": {
+      "btc_quantity": "0.050",
+      "evaluations": [
+        {
+          "buy_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "sell_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82007.5",
+            "unfilled_contracts": 0,
+            "vwap": "82007.50"
+          },
+          "snapshot_index": 0,
+          "taker_fee_usd": "2.41933925",
+          "timestamp_us": 1792419968771514
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "1.3408",
+            "status": "FILLED",
+            "top_of_book_price": "82042.0",
+            "unfilled_contracts": 0,
+            "vwap": "82053.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82049.0",
+            "unfilled_contracts": 0,
+            "vwap": "82049.00"
+          },
+          "snapshot_index": 28,
+          "taker_fee_usd": "2.42056350",
+          "timestamp_us": 1792419983590620
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "0.4877",
+            "status": "FILLED",
+            "top_of_book_price": "82012.0",
+            "unfilled_contracts": 0,
+            "vwap": "82016.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "snapshot_index": 84,
+          "taker_fee_usd": "2.41947200",
+          "timestamp_us": 1792420020489889
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 5,
+            "slippage_bps": null,
+            "status": "INSUFFICIENT_DEPTH",
+            "unfilled_contracts": 45,
+            "vwap": null
+          },
+          "sell_execution": {
+            "filled_contracts": 50,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "81993.5",
+            "unfilled_contracts": 0,
+            "vwap": "81993.50"
+          },
+          "snapshot_index": 112,
+          "taker_fee_usd": "0E-8",
+          "timestamp_us": 1792420043101633
+        }
+      ],
+      "order_size_contracts": 50,
+      "samples_evaluated": 4
+    },
+    "5_contracts": {
+      "btc_quantity": "0.005",
+      "evaluations": [
+        {
+          "buy_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "sell_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82007.5",
+            "unfilled_contracts": 0,
+            "vwap": "82007.50"
+          },
+          "snapshot_index": 0,
+          "taker_fee_usd": "0.24193392",
+          "timestamp_us": 1792419968771514
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "1.3408",
+            "status": "FILLED",
+            "top_of_book_price": "82042.0",
+            "unfilled_contracts": 0,
+            "vwap": "82053.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82049.0",
+            "unfilled_contracts": 0,
+            "vwap": "82049.00"
+          },
+          "snapshot_index": 28,
+          "taker_fee_usd": "0.24205635",
+          "timestamp_us": 1792419983590620
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.4877",
+            "status": "FILLED",
+            "top_of_book_price": "82012.0",
+            "unfilled_contracts": 0,
+            "vwap": "82016.00"
+          },
+          "sell_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "82011.5",
+            "unfilled_contracts": 0,
+            "vwap": "82011.50"
+          },
+          "snapshot_index": 84,
+          "taker_fee_usd": "0.24194720",
+          "timestamp_us": 1792420020489889
+        },
+        {
+          "buy_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "81995.7",
+            "unfilled_contracts": 0,
+            "vwap": "81995.70"
+          },
+          "sell_execution": {
+            "filled_contracts": 5,
+            "levels_consumed": 1,
+            "slippage_bps": "0.0000",
+            "status": "FILLED",
+            "top_of_book_price": "81993.5",
+            "unfilled_contracts": 0,
+            "vwap": "81993.50"
+          },
+          "snapshot_index": 112,
+          "taker_fee_usd": "0.24188732",
+          "timestamp_us": 1792420043101633
+        }
+      ],
+      "order_size_contracts": 5,
+      "samples_evaluated": 4
+    }
+  },
+  "schema_version": "quantengine.l2-replay.v1",
+  "total_archive_frames": 113
+}

@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-10-11T08:36:55.976279+00:00",
+  "environment": "INDIA_TESTNET",
+  "evidence_sha256": "6e8fb39bf7ae69d3cc3279180f59409178890361065ee6912d36c5d827e98dd9",
+  "fills": [
+    {
+      "commission": "0.07357181",
+      "fill_id": "a4ad823d95454c1f9dfaaa6fee1968f5",
+      "fill_type": "normal",
+      "order_id": "2175077415",
+      "price": "0.24724",
+      "role": "maker",
+      "side": "buy",
+      "size": "1401",
+      "symbol": "ADAUSD",
+      "timestamp": 1791706323921
+    },
+    {
+      "commission": "0.18370633",
+      "fill_id": "e0a53caf343549a4aef1dd7060486f4d",
+      "fill_type": "normal",
+      "order_id": "2175077529",
+      "price": "0.24694",
+      "role": "taker",
+      "side": "sell",
+      "size": "1401",
+      "symbol": "ADAUSD",
+      "timestamp": 1791706379277
+    }
+  ],
+  "provenance_status": "REAL",
+  "request_params": {
+    "page_size": 100,
+    "symbol": "ADAUSD",
+    "symbol_rows_kept": 2,
+    "symbol_rows_seen": 8
+  },
+  "schema_version": 1,
+  "source_endpoint": "https://cdn-ind.testnet.deltaex.org/v2/fills",
+  "symbol": "ADAUSD",
+  "venue": "delta"
+}

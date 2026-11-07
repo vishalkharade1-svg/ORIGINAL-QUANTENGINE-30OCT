@@ -1,0 +1,65 @@
+{
+  "phase": 175,
+  "audit_title": "QuantEngine Phase 175 Forensic Findings — Contract Multiplier, Notional & Fee-Basis",
+  "audit_timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-175-01",
+      "category": "ECONOMIC_RECONCILIATION",
+      "severity": "CRITICAL_RESOLUTION",
+      "title": "Forensic Resolution of the $42,082 vs $82 Notional Basis Discrepancy",
+      "description": "Independently audited the reported canonical entry price. Proved that the published round-trip maker fee of $0.03871580 USD mathematically requires an entry price of $82,000.00 USD (yielding a fee-bearing notional of $82.00000 USD at 0.001 multiplier). Proved that an entry price of $42,082.00 USD yields an entry notional of $42.08200 USD and round-trip maker fees of $0.01987450 USD. Confirmed that all executable code and JSON artifacts strictly use $82,000.00 USD, and that '$42,082.00' was an accidental transcription typo in the narrative table header of the Phase 174 summary for the contemporaneous Level-2 order book ask price ($82,082.50 USD)."
+    },
+    {
+      "id": "FINDING-175-02",
+      "category": "CONTRACT_SPECIFICATION",
+      "severity": "INFORMATIONAL_VERIFICATION",
+      "title": "Authoritative Delta Exchange India BTCUSD Contract Specifications",
+      "description": "Verified from data/fixtures/delta/delta_mcp_public_products_20260925.json that BTCUSD (Product ID 84) is a vanilla linear perpetual futures contract (notional_type: 'vanilla', is_quanto: false) with contract_value = 0.001 BTC, settled and quoted in USD. One contract represents 0.001 BTC. P&L is linear: (exit - entry) * multiplier * quantity."
+    },
+    {
+      "id": "FINDING-175-03",
+      "category": "DIMENSIONAL_INTEGRITY",
+      "severity": "INFORMATIONAL_VERIFICATION",
+      "title": "Exact Single-Application of Multiplier, Quantity, and Notional",
+      "description": "Verified that contract multiplier (0.001) and quantity are applied exactly once during notional construction in core/execution/maker_execution_model.py (leg1_notional = ep * cm * qty). Fees are evaluated strictly on single-leg notionals with zero double-counting or unit inconsistencies."
+    },
+    {
+      "id": "FINDING-175-04",
+      "category": "TAX_AND_ARITHMETIC",
+      "severity": "INFORMATIONAL_VERIFICATION",
+      "title": "Deterministic Tax and Monetary Precision Stability",
+      "description": "Verified that Indian Goods and Services Tax (GST) of 18% is applied strictly to broker commissions using Decimal ROUND_HALF_UP quantization to 8 decimal places. Rebate tiers pay zero GST. Effective maker rate is 2.36 bps; effective taker rate is 5.90 bps."
+    },
+    {
+      "id": "FINDING-175-05",
+      "category": "GATE_ARCHITECTURE",
+      "severity": "MATHEMATICAL_PROOF",
+      "title": "Friction Hurdle Gate Rule Hierarchy & Subsumption Proof",
+      "description": "Formally proved that Rule 1 (fee-to-target ratio <= 40%) strictly subsumes Rule 2 (target multiple >= 2.0x breakeven) under codebase definitions, because Target Multiple = 1 / Fee Ratio, and 1 / 0.40 = 2.50x >= 2.00x. Rule 2 is retained for backwards compatibility and serialized diagnostics. Rule 3 (post-fee R:R >= 1.25) is an independent binding constraint depending on stop loss distance."
+    },
+    {
+      "id": "FINDING-175-06",
+      "category": "DISPATCH_SAFETY",
+      "severity": "SECURITY_VERIFICATION",
+      "title": "Fail-Closed Boundary Hardening & Zero Live Adapter Invocation",
+      "description": "Verified that evaluate_friction_hurdle fails closed safely on None, NaN, Inf, negative prices, zero quantities, and zero target distances. Verified that rejected signals halt order dispatch immediately, and assert_no_live_adapter_invocation() passes across all test executions."
+    },
+    {
+      "id": "FINDING-175-07",
+      "category": "DATA_INTEGRITY",
+      "severity": "EVIDENCE_CONSTRAINT",
+      "title": "Temporal Non-Overlap of Available Candle and L2 Datasets",
+      "description": "Audited data lineage and proved that 1m.parquet (1,440 continuous rows from September 5, 2026) and delta_ob_updates_archive.json (113 L2 frames from October 19, 2026) are temporally disjoint windows with zero overlap. Synchronized signal-to-execution claims remain prohibited."
+    },
+    {
+      "id": "FINDING-175-08",
+      "category": "STATISTICAL_RIGOR",
+      "severity": "METHODOLOGICAL_PRECISION",
+      "title": "Strict Scope of Unprofitability & Expectancy Classifications",
+      "description": "Distinguished between a strategy failing a specific modeled cost scenario versus being universally unprofitable. Proved that while 4.5-pt, 15-pt, and 50-pt setups fail under 2.36 bps maker fees, this does not imply universal impossibility under negative maker rebate tiers or zero-fee venues. Classified queue dynamics strictly as SIMULATION_ASSUMPTION."
+    }
+  ]
+}

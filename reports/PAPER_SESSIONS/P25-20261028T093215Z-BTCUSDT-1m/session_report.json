@@ -1,0 +1,168 @@
+{
+  "config": {
+    "lookback_days": 1,
+    "poll_interval_seconds": 15.0,
+    "refresh_interval_seconds": 60.0,
+    "run_seconds": 600.0,
+    "starting_balance_default": 2000,
+    "symbols": [
+      "BTCUSDT"
+    ],
+    "timeframe": "1m",
+    "window_seconds": 60
+  },
+  "cost_economics": {
+    "classification": "CONFIGURED_SIMULATION",
+    "known": true,
+    "per_trade": 0.0,
+    "profile_name": "p25-conservative-assumption",
+    "rate": 0.0005,
+    "slippage_bps": 5.0,
+    "venue_realistic": false,
+    "venue_source": ""
+  },
+  "decisions": {
+    "PIPELINE_ADDED": 1
+  },
+  "engine": {
+    "last_route_error": "",
+    "pipelines": 1,
+    "reconcile_errors": 0,
+    "route_errors": 0,
+    "routed": 1445,
+    "unrouted": 0
+  },
+  "evidence_class": "EXCHANGE_SOURCED_PAPER_SIMULATION",
+  "fills_are": "SIMULATED_PAPER_FILL",
+  "heartbeats": [],
+  "instrument_metadata": "SYNTHETIC_SPOT_FALLBACK",
+  "market_data": {
+    "delivered_quality": {
+      "BTCUSDT": {
+        "ascending": true,
+        "delivered": 1445,
+        "duplicate_buckets": 0,
+        "expected_buckets_in_span": 1445,
+        "first_bucket_ts": 1793093820,
+        "internal_missing_buckets": 0,
+        "last_bucket_ts": 1793180460,
+        "unique_buckets": 1445,
+        "window_aligned": true
+      }
+    },
+    "live_delivered": {
+      "BTCUSDT": 10
+    },
+    "rest_history": {
+      "calls": 39,
+      "errors": 0,
+      "last_error": "",
+      "raw_sample_rows": [
+        {
+          "close": 81461.5,
+          "high": 81461.5,
+          "low": 81461.5,
+          "open": 81461.5,
+          "time": 1793179920,
+          "volume": 0.0
+        },
+        {
+          "close": 81461.5,
+          "high": 81461.5,
+          "low": 81461.5,
+          "open": 81461.5,
+          "time": 1793179860,
+          "volume": 0.0
+        },
+        {
+          "close": 81461.5,
+          "high": 81461.5,
+          "low": 81461.5,
+          "open": 81461.5,
+          "time": 1793179800,
+          "volume": 0.0
+        },
+        {
+          "close": 81461.5,
+          "high": 81461.5,
+          "low": 81461.5,
+          "open": 81461.5,
+          "time": 1793179740,
+          "volume": 0.0
+        },
+        {
+          "close": 81461.5,
+          "high": 81461.5,
+          "low": 81461.5,
+          "open": 81461.5,
+          "time": 1793179680,
+          "volume": 0.0
+        }
+      ],
+      "rows_seen": 55811,
+      "sample_truncated": true
+    },
+    "transport_stats": {
+      "BTCUSDT": {
+        "delivered": 1445,
+        "failures": 0,
+        "last_error": null,
+        "last_ok": 1793180562.8589776,
+        "polls": 38,
+        "subscribed": false,
+        "watermark": 1793180460
+      }
+    },
+    "warmup_delivered": {
+      "BTCUSDT": 1435
+    }
+  },
+  "market_data_endpoint": "https://api.delta.exchange/v2/history/candles",
+  "market_data_source": "delta_global_public_rest_history_candles",
+  "operational_errors": [],
+  "preliminary": true,
+  "provenance": {
+    "code_revision": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+    "stop_reason": "run_seconds_elapsed",
+    "utc_end": "2026-10-28T09:42:57Z",
+    "utc_start": "2026-10-28T09:32:57Z",
+    "wall_seconds": 600.001
+  },
+  "reconciliation": {
+    "consistent": true,
+    "symbols": {
+      "BTCUSDT": {
+        "completed_trades": 0,
+        "equity": 2000.0,
+        "equity_minus_start_minus_realized": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 0,
+        "reconciled": true,
+        "starting_balance": 2000.0
+      }
+    }
+  },
+  "runtimes": [
+    {
+      "balance": 2000.0,
+      "equity": 2000.0,
+      "exchange": "DELTA",
+      "instrument_id": "BTCUSDT",
+      "intents": [],
+      "key": [
+        "DELTA",
+        "BTCUSDT"
+      ],
+      "open_position": false,
+      "orders_placed": 0,
+      "processed_bars": 1445,
+      "retired": false,
+      "symbol": "BTCUSDT",
+      "trades": [],
+      "trades_total": 0
+    }
+  ],
+  "schema": "quantengine.phase25-paper-session-report.v1",
+  "session_id": "P25-20261028T093215Z-BTCUSDT-1m",
+  "session_mode": "authoritative_paper_session"
+}

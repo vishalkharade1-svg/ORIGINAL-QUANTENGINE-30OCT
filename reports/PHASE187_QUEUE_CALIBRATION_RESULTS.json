@@ -1,0 +1,366 @@
+{
+  "audit_timestamp_utc": "2026-10-21T04:38:30Z",
+  "holdout_evaluation": {
+    "calibration_samples": 68,
+    "empirical_calibration_depth_avg": "14079.45",
+    "empirical_calibration_spread_avg": "336.82",
+    "evaluation_grid_results": [
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 3.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.9642,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 3.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 3.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 3.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 2.4,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.9845,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 2.4,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 2.4,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 2.4,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 2.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.9932,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 2.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 2.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 2.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.1
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 15.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.4865,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 15.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 0.8646,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 15.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 0.9817,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 15.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 0.9997,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 12.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.5654,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 12.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 0.9179,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 12.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 0.9933,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 12.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 10.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.6321,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 10.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 0.9502,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 10.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 0.9975,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 10.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 1.0,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.5
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 27.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.3095,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 27.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 0.6708,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 27.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 0.8916,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.0,
+        "expected_wait_seconds": 27.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 0.9883,
+        "scenario": "CONSERVATIVE",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 21.6,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.3706,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 21.6,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 0.7506,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 21.6,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 0.9378,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 0.5,
+        "expected_wait_seconds": 21.6,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 0.9961,
+        "scenario": "CENTRAL",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 18.0,
+        "horizon_seconds": 10.0,
+        "predicted_fill_probability": 0.4262,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 18.0,
+        "horizon_seconds": 30.0,
+        "predicted_fill_probability": 0.8111,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 18.0,
+        "horizon_seconds": 60.0,
+        "predicted_fill_probability": 0.9643,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.9
+      },
+      {
+        "adverse_selection_drag_usd": "0.0164",
+        "cancellation_credit": 1.0,
+        "expected_wait_seconds": 18.0,
+        "horizon_seconds": 120.0,
+        "predicted_fill_probability": 0.9987,
+        "scenario": "OPTIMISTIC",
+        "theta_priority": 0.9
+      }
+    ],
+    "falsifiable_conclusion": "Fill probabilities vary from 0.04 (theta=0.90, Conservative, H=10s) to 1.00 (theta=0.10, Optimistic, H=120s). Without venue fill labels, the true parameter pair (theta, c) is unidentifiable. Production models must use conservative lower-bound fill probabilities.",
+    "holdout_samples": 69,
+    "symbol": "BTCUSD",
+    "total_frames": 137
+  },
+  "identifiability_audit": {
+    "calibration_status": "UNCALIBRATED_PARTIALLY_OBSERVABLE",
+    "conservative_default_recommendation": {
+      "assumed_queue_priority": 1.0,
+      "cancellation_credit": 0.0,
+      "scenario": "CONSERVATIVE",
+      "timeout_policy": "Strict 120s cancellation without market order conversion"
+    },
+    "mathematical_identifiability": {
+      "fundamental_underdetermination": "In passive L2 updates, Delta S(p, t) = A_new - V_trades - C_cancels. Because C_cancels and A_new are conflated, and because queue priority theta cannot be observed without venue order tracking, queue depletion Q_ahead(t) is structurally underdetermined. Any parameter optimization without authenticated execution fill labels is simulated circularity and mathematically falsified.",
+      "observed_variables": [
+        "S(p, t): Total displayed liquidity at price p at time t",
+        "Delta S(p, t): Net change in displayed depth between updates",
+        "V_trade(p, t): Trade prints at price p (when public trades channel active)",
+        "spread(t): Top-of-book bid/ask spread"
+      ],
+      "unobserved_variables": [
+        "theta_i: Initial relative queue priority of incoming maker order in [0, 1]",
+        "C_ahead(t): Quantity of cancellations occurring strictly ahead of our order",
+        "A_ahead(t): Queue modifications or amends by competing participants ahead",
+        "H(p, t): Undisplayed or hidden liquidity at price p",
+        "Y_true: Genuine matching engine fill timestamp and filled size"
+      ]
+    },
+    "model_name": "maker_queue_depletion_model",
+    "scientific_conclusion": "EMPIRICAL_CALIBRATION_BLOCKED_PENDING_ORDER_LABELS"
+  },
+  "phase": 187
+}

@@ -1,0 +1,73 @@
+{
+  "phase": 194,
+  "audit_title": "QuantEngine Phase 194 Cryptographic Testnet Authorization Hardening",
+  "audit_timestamp": "2026-10-30T00:00:00+05:30",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "release_gate": "HOLD / TESTNET_WRITE_BLOCKED_PENDING_OPERATOR_KEY_PROVISIONING_AND_FULL_REGRESSION",
+  "supersedes": "reports/PHASE185_RELEASE_GATES.json",
+  "gates": {
+    "GATE-194-A": {
+      "name": "Ed25519 authorization verification",
+      "status": "PASS_FOCUSED_TESTS",
+      "verdict": "IMPLEMENTED_AND_FOCUSED_TESTED",
+      "details": "Authorization validity requires a configured base64 raw Ed25519 public key, valid ed25519:<base64> signature over canonical authorization fields and complete experiment scope, explicit approval state, timezone-aware issue/expiry timestamps, expiry after current time, and no issue time more than 60 seconds in the future."
+    },
+    "GATE-194-B": {
+      "name": "Adversarial cryptographic regression tests",
+      "status": "PASS_FOCUSED_TESTS",
+      "verdict": "70_PASSED",
+      "details": "Focused Phase 189\u2013194 authorization, ledger, lifecycle, concurrency and execution-safety suites: 70 passed, 9 subtests passed; two multiprocessing fork deprecation warnings. Tests use synthetic keys and no exchange transport."
+    },
+    "GATE-194-C": {
+      "name": "Full test suite",
+      "status": "NOT_RUN",
+      "verdict": "BLOCKED_PENDING_BATCHED_RUN",
+      "details": "The full repository suite has not been executed. The current Python 3.13 environment lacks pyarrow and has pytest 9.0.2 while requirements pins pytest 9.0.3; it is not a complete project verification environment."
+    },
+    "GATE-194-D": {
+      "name": "Operator public-key provisioning and signed authorization issuance",
+      "status": "BLOCKED",
+      "verdict": "OPERATOR_ACTION_REQUIRED",
+      "details": "QUANTENGINE_TESTNET_AUTH_PUBLIC_KEY must be provisioned with the base64-encoded 32-byte Ed25519 public key matching the operator approval workflow. The private key must remain outside QuantEngine. No real authorization was generated or used."
+    },
+    "GATE-194-E": {
+      "name": "Testnet order write",
+      "status": "NOT_PERFORMED",
+      "verdict": "HOLD",
+      "details": "No exchange network calls or order writes were performed in this phase."
+    },
+    "GATE-194-F": {
+      "name": "Production trading clearance",
+      "status": "HOLD",
+      "verdict": "STRICTLY_PROHIBITED",
+      "details": "Strategy edge remains unestablished; credential-history remediation and other existing release blockers remain unresolved."
+    },
+    "GATE-194-G": {
+      "name": "Dependency pin contract",
+      "status": "FAIL_ENVIRONMENT_MISMATCH",
+      "verdict": "NOT_CERTIFIED",
+      "details": "The release dependency contract was not accepted as evidence because this runtime lacks pyarrow and runs pytest 9.0.2 instead of the pinned 9.0.3. The prior passing run used declared pins rather than actual installed packages and is superseded by this correction."
+    }
+  },
+  "verification_environment": {
+    "python": "3.13.5",
+    "pytest": "9.0.2",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "dependencies": {
+      "cryptography": "46.0.4",
+      "httpx": "0.28.1",
+      "websockets": "16.0",
+      "python-dotenv": "unknown",
+      "pandas": "2.2.3",
+      "numpy": "2.3.5"
+    }
+  },
+  "runtime_observations": {
+    "pyarrow_installed": false,
+    "requirements_pytest_pin": "9.0.3",
+    "actual_pytest": "9.0.2",
+    "cryptography_installed": "46.0.4"
+  },
+  "statement": "Only the focused authorization and execution-safety suites were run. The dependency pin contract is currently failing due to runtime mismatch; full-suite success, testnet execution, strategy profitability, and production readiness are not claimed."
+}

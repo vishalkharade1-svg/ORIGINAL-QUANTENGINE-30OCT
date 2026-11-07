@@ -1,0 +1,85 @@
+{
+  "phase": 157,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "post-Phase156: dependency-advisory evaluation, windowed private-fill reconciliation for bounded captures, release rebuild",
+  "supersedes": "reports/PHASE156_RELEASE_GATES.json (preserved as the Phase156 record)",
+  "gates": {
+    "archive_integrity": "PASS",
+    "manifest_completeness": "PASS",
+    "provenance_correctness": "PASS-detached-hash-only",
+    "release_internal_consistency": "PASS-repaired-and-regression-tested",
+    "source_evidence_completeness": "PASS",
+    "security_privacy_packaging": "PASS",
+    "security_tooling": "EXECUTED-with-findings",
+    "dependency_advisory_evaluation": "EXECUTED-NO-REGRESSION-FOUND-upgrades-not-adopted",
+    "mcp_configuration_contract": "PASS-operator-provided-config-restored",
+    "evidence_error_handling": "PASS",
+    "http_signing_compatibility": "PASS",
+    "funding_script_settlement_targeting": "PASS-defect-fixed-with-regression",
+    "funding_through_settlement_evidence": "BLOCKED-external-ip-whitelist",
+    "windowed_reconciliation": "PASS-added-with-negative-case-regression",
+    "repeat_match_evidence": "BLOCKED-external-ip-whitelist (needs an authorized order run)",
+    "targeted_regression_suites": "PASS-worktree-post-pack-verified",
+    "authoritative_full_suite": "FAIL-43-preexisting-unchanged-in-kind",
+    "extracted_package_verification": "PASS-extracted-post-pack-verified",
+    "self_audit": "EXECUTED-ONE-RECORD-GAP-FOUND-AND-FIXED (reports/PHASE157_SELF_AUDIT.md; NOT a substitute for independence)",
+    "independent_forensic_audit": "PENDING-claude-review"
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "8.4.2",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.0.1",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "18.0.0",
+      "pytest": "8.4.2"
+    },
+    "note": "Versions actually used for the worktree and extracted-package focused runs reported in this record, and the environment that produced the last two full-suite runs. The httpx entry is a corrected pin: it was declared 0.27.2 while every evidence-producing environment ran 0.28.1 (see reports/DEPENDENCY_PIN_DRIFT_RESOLUTION.md). The dependency evaluation ran in an isolated venv on the same Python 3.12.10 with pytest 9.0.3, documented in reports/DEPENDENCY_UPGRADE_EVALUATION.md. No other interpreter or pytest version is claimed anywhere in this record; a claim of 3.13.x or 9.0.x for the authoritative runs would be false. The agreement between this map and requirements.txt is enforced by tests/test_dependency_pin_contract.py."
+  },
+  "post_pack_verification_note": "The frozen ordering rule packs before extraction, so the worktree and extracted-package rows above describe runs executed against the shipped bytes AFTER the pack. Their counts, and the hash of the archive they were run against, are recorded only in the detached record ../RELEASE_HASH_PHASE157.txt. Those rows are not pre-claims: a failure there would force a rebuild, never a rewritten claim.",
+  "dependency_advisory_evaluation": {
+    "method": "isolated temp venv: requirements.txt pins, then ONLY the three advisory packages upgraded; httpx aligned to 0.28.1 to match the authoritative environment so any difference is attributable to the three packages",
+    "upgrades_tested": {
+      "python-dotenv": {"from": "1.0.1", "to": "1.2.2", "advisory": "PYSEC-2026-2270"},
+      "pyarrow": {"from": "18.0.0", "to": "23.0.1", "advisory": "PYSEC-2026-113"},
+      "pytest": {"from": "8.4.2", "to": "9.0.3", "advisory": "PYSEC-2026-1845"}
+    },
+    "versions_verified_on_pypi": true,
+    "affected_surface_first": "40 passed, 0 baseline failures in those files; parquet round-trip ok under pyarrow 23 + pandas 2.2.2; pytest 9 collected all 4009 tests",
+    "full_suite_under_upgrades": "43 failed, 3956 passed, 10 skipped, 0 errors in 2210.75s (0:36:50)",
+    "new_failures": 0,
+    "failure_categories_identical": {"hash-or-digest-pin": 23, "no-git-ancestry": 18, "live-env-guard": 2},
+    "adopted": false,
+    "adoption_note": "requirements.txt pins are the reproducibility contract; a pin change deserves its own deliberate step with a post-change full run. This evaluation is the evidence that such a step would not regress the suite.",
+    "evidence": ["reports/DEPENDENCY_UPGRADE_EVALUATION.md",
+                 "reports/DEPENDENCY_UPGRADE_EVAL_SUITE.txt",
+                 "reports/DEPENDENCY_UPGRADE_EVAL_FAILURES.json",
+                 "reports/DEPENDENCY_UPGRADE_EVAL_FREEZE.txt"]
+  },
+  "windowed_reconciliation": {
+    "closes": "standing 'repeat-match robustness' blocker, recorded as reconciliation blocked on exact-set window semantics (Phase125 6 pre-window REST-only fills; Phase152 same class)",
+    "module": "research/economics/delta_private_fill_capture.py",
+    "function": "reconcile_with_rest_windowed (strict reconcile_with_rest unchanged)",
+    "contract": "in-window REST/socket sets must match exactly; every REST fill classified pre/in/post window and out-of-window ids reported, never dropped; status MATCHED_WINDOWED so it cannot be confused with the account-level certificate; window and classification bound by reconciliation_sha256",
+    "unit_trap": "socket fills are venue microseconds, REST fills are milliseconds; the window is always milliseconds and an undeclared socket unit is refused, never guessed",
+    "not_a_relaxation": ["in-window REST fill missing from socket", "socket fill absent from REST", "extra in-window REST fill", "field mismatch inside window", "phantom socket fill"],
+    "tests": "tests/test_private_fill_windowed_reconciliation.py (13 passed); module consumers 56 passed total, no regressions",
+    "honest_limit": "certifies a window, not the account; out-of-window fills are classified but not reconciled"
+  },
+  "full_suite": {
+    "command": "python -m pytest -q -p no:cacheprovider --tb=short",
+    "last_authoritative_execution": "reports/PHASE155_FULL_SUITE_RUN2.txt — 46 failed, 3944 passed, 10 skipped, 0 errors (pre-Phase156 tree)",
+    "latest_execution": "reports/DEPENDENCY_UPGRADE_EVAL_SUITE.txt — 43 failed, 3956 passed, 10 skipped, 0 errors (this tree, upgraded pins in an isolated venv)",
+    "note": "The 43 pre-existing failures are unchanged in kind and remain the Gate A blocker. Neither run makes the suite green.",
+    "triage": "reports/PHASE155_TEST_TRIAGE.json + reports/DEPENDENCY_UPGRADE_EVAL_FAILURES.json"
+  },
+  "final_archive": {
+    "name": "QuantEngine_PHASE157_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED — see detached record ../RELEASE_HASH_PHASE157.txt",
+    "note": "Rebuilt from the Phase156 candidate under the frozen ordering rule (write all text -> regen manifest -> verify -> pack -> detached hash -> extract-verify). Phase132/149/153/154/155/156 zips are preserved as historical evidence. An archive cannot embed a truthful hash of itself; the final SHA-256 and the extraction-verification result live only in the detached record."
+  }
+}

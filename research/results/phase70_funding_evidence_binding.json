@@ -1,0 +1,22 @@
+{
+  "phase": 70,
+  "title": "Funding evidence capture and market-data binding",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "changes": [
+    "Added immutable funding-evidence artifact schema with provenance status.",
+    "Bound every funding artifact to the exact SHA-256 bytes of the market-data artifact used by OOS/replay.",
+    "Added deterministic funding-evidence fingerprint verification on reload.",
+    "Added strict replay validation for schema, ordering, market-data hash, and funding fingerprint.",
+    "Prevented FIXTURE/UNKNOWN funding artifacts from being promoted to executable FundingSchedule instances.",
+    "Added a venue-evidence source identity to executable funding events."
+  ],
+  "verification": {
+    "focused_funding_suite": "15 passed",
+    "compileall": "PENDING"
+  },
+  "real_venue_capture": "NOT_EXECUTED",
+  "external_economics": "NOT_VERIFIED",
+  "live_readiness": false,
+  "notes": "The machinery is ready to capture genuine Delta funding, but no live/provider response is represented as REAL in this checkpoint. No synthetic funding artifact is used as production evidence."
+}

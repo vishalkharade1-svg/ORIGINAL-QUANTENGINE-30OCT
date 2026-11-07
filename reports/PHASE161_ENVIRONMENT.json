@@ -1,0 +1,52 @@
+{
+  "phase": 161,
+  "title": "Phase161 environment step (the deliberate dependency-environment re-derivation declared as BLOCK-160-06's unblock)",
+  "provenance_of_declaration": {
+    "declared_by": "reports/PHASE160_BLOCKERS.json BLOCK-160-06 (ACCEPTED_RISK_DEFERRED): the block states its unblock as 'a phase whose scope includes re-deriving the evidence environment'; the evaluation that prepared it is reports/DEPENDENCY_UPGRADE_EVALUATION.md (isolated venv, zero new failures against the Phase157 evaluation tree), re-confirmed by the Phase159 and Phase160 fresh OSV queries",
+    "declaration_summary": "three advisory upgrades were evaluated and deliberately not adopted at the pre-adoption pins: python-dotenv 1.0.1 -> 1.2.2 (set_key symlink following, unreachable here), pyarrow 18.0.0 -> 23.0.1 (IPC use-after-free, unreachable here), pytest 8.4.2 -> 9.0.3 (tmpdir handling, test tool only, accepted); all three advisories stood open against the pinned versions",
+    "rule": "the sealed Phase160 bytes were never edited; this cycle started from a fresh byte-verified extraction of the sealed archive (reports/PHASE161_ARCHIVE_INTEGRITY.json) and changed the environment and the new tree only",
+    "machine_readable": "reports/PHASE160_BLOCKERS.json (the block as carried), reports/DEPENDENCY_UPGRADE_EVALUATION.md (the evaluated basis), reports/PHASE160_OSV_SCAN.json (the pre-adoption query)"
+  },
+  "changes": [
+    {
+      "id": "REP-161-01",
+      "class": "environment (dependency adoption)",
+      "severity": "LOW (the evaluated basis: zero new failures in the isolated venv; two advisories unreachable from this codebase; the third test-tool-only)",
+      "finding": "the three advisories recorded in reports/PHASE160_DEPENDENCY_REVIEW.md were open against the pinned versions, and BLOCK-160-06 carried them as accepted risk deferred pending exactly this phase",
+      "fix": "requirements.txt adopts python-dotenv 1.2.2, pyarrow 23.0.1 and pytest 9.0.3 (httpx 0.28.1, websockets 12.0, pandas 2.2.2, numpy 2.1.1 carried unchanged); the installed environment was upgraded to match; a fresh OSV query against the adopted pins clears every advisory for all seven packages (reports/PHASE161_OSV_SCAN.json), and the reachability greps remain clean",
+      "tests_changed": [],
+      "evidence": "reports/PHASE161_DEPENDENCY_REVIEW.md; reports/PHASE161_OSV_SCAN.json; reports/DEPENDENCY_UPGRADE_EVALUATION.md (the evaluated basis)",
+      "no_test_weakened": true
+    },
+    {
+      "id": "REP-161-02",
+      "class": "evidence (re-derivation under the adopted environment)",
+      "severity": "OBSERVATION",
+      "finding": "every suite number, scanner verdict and gate verdict in the chain was produced under the pre-adoption environment; adopting pins without re-deriving the evidence under them would make this candidate's recorded verification_environment false for anything carried",
+      "fix": "the entire evidence set for this candidate is produced under the adopted environment: the worktree and extracted-package full-suite runs (reports/PHASE161_FULL_SUITE_RUN.txt and the post-build bundle), both scanners (reports/PHASE161_SECURITY_SCAN.md, reports/PHASE161_PRIVACY_SCAN.json), the dataset reconstruction re-check (13 checks, 0 failures, canonical hash 4feccebb matched under pyarrow 23.0.1), the manifest regeneration and the record set; the Phase160 run numbers remain recorded as the pre-adoption baseline in reports/PHASE160_FULL_SUITE_RUN.txt",
+      "tests_changed": [],
+      "evidence": "reports/PHASE161_FULL_SUITE_RUN.txt; reports/PHASE161_RELEASE_GATES.json; reports/PHASE161_DEPENDENCY_REVIEW.md",
+      "no_test_weakened": true
+    },
+    {
+      "id": "REP-161-03",
+      "class": "tooling (release consistency)",
+      "severity": "ROUTINE",
+      "finding": "the release-internal-consistency constants named the Phase160 candidate",
+      "fix": "the constants advance to the Phase161 candidate and the checked record list grows by the Phase161 gate record (nothing removed); this is the routine advance the Phase160 repair made mechanical -- no lag to record this time",
+      "tests_changed": [
+        "tests/test_release_consistency_phase155.py"
+      ],
+      "evidence": "tests/test_release_consistency_phase155.py (Phase161 note); reports/PHASE160_HARDENING.json (REP-160-03, the repair this routine advance completes)",
+      "no_test_weakened": true
+    }
+  ],
+  "verification": {
+    "focused": "the touched contracts (release-records 158/159/160/161, release consistency, dependency pin contract, secret-scan and privacy contracts, packaging hygiene) re-run green on the manifest-regenerated tree; the count and command set are recorded in reports/PHASE161_MANIFEST_AUDIT.json",
+    "scanners_after_adoption": "SECRET_SCAN_PASS; PRIVACY_SCAN_PASS with publication_clearance NOT_CLEARED; both re-run on the final pre-worktree tree (reports/PHASE161_SECURITY_SCAN.md, reports/PHASE161_PRIVACY_SCAN.json)",
+    "dependency_pin_contract": "tests/test_dependency_pin_contract.py green against the highest-numbered gates record (reports/PHASE161_RELEASE_GATES.json): requirements.txt, the installed environment and the recorded evidence environment name the same versions",
+    "dataset_recheck": "the Phase158 reconstruction contract re-computed independently under the adopted environment: 13 checks, 0 failures, canonical hash 4feccebb... matched; the same recomputation ran in Phase160 under the pre-adoption pins and is re-proved, not assumed",
+    "full_suite": "executed twice on the sealed candidate bytes (worktree and extraction runs), recorded in reports/PHASE161_FULL_SUITE_RUN.txt and the post-build bundle"
+  },
+  "next_time": "any future revision starting from this tree must re-derive its own diff vs the Phase161 archive and re-run both scanners and the manifest contract from scratch"
+}

@@ -1,0 +1,42 @@
+{
+  "phase": 159,
+  "what": "manifest regeneration and verification record for the Phase159 candidate",
+  "procedure": [
+    {
+      "step": 1,
+      "when": "2026-10-17, after every Phase159 record, document and test file was finalised (with reports/PHASE159_FULL_SUITE_RUN.txt in its registered pre-run stub form)",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1866,
+      "verification": "python scripts/generate_manifest.py --root . --verify -> MANIFEST_PASS (0 problems)"
+    },
+    {
+      "step": 2,
+      "when": "2026-10-17, immediately after this record itself was written (so these stages are covered too)",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1867,
+      "verification": "MANIFEST_PASS (0 problems)"
+    },
+    {
+      "step": 3,
+      "when": "2026-10-17, after the privacy scanner caught the record set itself: reports/PHASE159_HARDENING.json and reports/PHASE159_PRIVACY_REVIEW.md no longer reproduce a real harvested id in prose (the value stays only in the audit materials beside the delivery), the privacy review carries the exact clearance wording, and the superseded revision-2 deliverable moved to ../_phase158_audited/ with revision-1 before it",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": "1867",
+      "verification": "MANIFEST_PASS (0 problems), re-verified after the change; focused contracts re-run green (69 passed, 3 skipped)"
+    },
+    {
+      "step": 4,
+      "when": "2026-10-17, after the worktree full-suite run completed (5 failed, 4041 passed, 53 skipped in 2801.92s): reports/PHASE159_FULL_SUITE_RUN.txt was replaced by the real run log and this record's history was extended, exactly as declared up front before the run started",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": "1867",
+      "verification": "MANIFEST_PASS (0 problems), executed immediately before packing and then by scripts/build_release.py again over the quiesced tree (its frozen step 1-2)"
+    }
+  ],
+  "self_caught_note": "step 3 exists because the privacy scanner flagged the Phase159 record set itself: the first drafts of reports/PHASE159_HARDENING.json and reports/PHASE159_PRIVACY_REVIEW.md quoted the real historical venue order id inside the package. That is exactly the rule those records teach (reports/PHASE159_PRIVACY_SCAN.json, rule raw_order_id_in_aggregate_artifact); the wording was fixed, the values came out, and the scan is green against the final texts. The scanner caught its own authors' prose before anything shipped.",
+  "planned_later_steps_declared_up_front": {
+    "why": "the frozen ordering rule requires that every file the manifest covers was finalised before the generation that covers it; the only files that change after the worktree suite runs are named here before the run, and they are the only reasons a further regeneration exists",
+    "step_4": "after the worktree full-suite run completes, reports/PHASE159_FULL_SUITE_RUN.txt is replaced with the real run log and this record's history is extended with the post-run regeneration; BUILD_MANIFEST.sha256 is regenerated and verified again before anything is packed",
+    "step_5": "the packed archive therefore carries the manifest covering the real run log; the extracted-package run verifies it independently"
+  },
+  "label_change_note": "the verifier's wording for a listed-but-absent file changed in this phase from 'manifest-extra:' to 'missing:' (reports/PHASE159_HARDENING.json, AUD-OBS-158-02); no step above depended on the old wording and the negative-control contract pins the new one",
+  "statement": "BUILD_MANIFEST.sha256 is LF-only, self-excluded, byte-exact to a fresh generation, and every step above was verified MANIFEST_PASS at the time it was made."
+}

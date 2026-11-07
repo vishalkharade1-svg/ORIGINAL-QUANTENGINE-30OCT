@@ -1,0 +1,35 @@
+{
+ "D3_counters": {
+  "hash": 0,
+  "load": 0,
+  "read": 0
+ },
+ "costs": "A/B/C/D frozen",
+ "execution": "NEXT_BAR_OPEN",
+ "family_hash": "6181496e2551fc5a478a008d9c397cdd3fdb13014871ef8d43f2d64810f8e356",
+ "fold_geometry": "single cold-start diagnostic per symbol (WF_INFEASIBLE: 2099 < 6175)",
+ "fresh_btc": {
+  "acquired_at": "2026-09-08T15:50:20.046450+00:00",
+  "bars": 2099,
+  "file": "research/phase11g_g/data/fresh_11gg_gap_btcusdt.json",
+  "sha256": "a3965c790440facbf16e875c11d24f505b833dcd7d6e3c18089c14ea16703c58"
+ },
+ "fresh_eth": {
+  "acquired_at": "2026-09-08T15:50:22.455959+00:00",
+  "bars": 2099,
+  "file": "research/phase11g_g/data/fresh_11gg_gap_ethusdt.json",
+  "sha256": "2baaf484e632cb473b23e7d831bdfe7f9119a3a114fd0f44ead807e6fc146ef3"
+ },
+ "git_head": "56b777cc153cc901a7dab356fc58bf985e6224a6",
+ "live_status": "DISABLED",
+ "mc_seeds": "1107001/1107002 (unused: vacuous)",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "production_status": "UNMODIFIED",
+ "python": "3.12.10",
+ "random_seeds": "1108000-1108499 (unused: no fills)",
+ "risk": "2000/0.01/10x/500",
+ "symbols": [
+  "BTCUSDT",
+  "ETHUSDT"
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "H11G-001": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-002": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-003": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-004": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-005": {
+  "events": 1,
+  "signals": 1,
+  "orders": 1,
+  "expired": 0,
+  "invalidated": 1,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-006": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-007": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ },
+ "H11G-008": {
+  "events": 0,
+  "signals": 0,
+  "orders": 0,
+  "expired": 0,
+  "invalidated": 0,
+  "fills": 0,
+  "trades": 0,
+  "rate_per_1k": 0.0,
+  "sparsity": "VERY SPARSE"
+ }
+}

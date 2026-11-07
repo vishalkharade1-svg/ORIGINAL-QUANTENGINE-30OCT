@@ -1,0 +1,92 @@
+{
+  "phase": 170,
+  "overall": "NOT_PRODUCTION_READY",
+  "statement": "Every entry below is an active blocker or verified provenance status. None has been downgraded by wording, and no test was silenced to fabricate a passing suite.",
+  "blockers": [
+    {
+      "id": "BLOCK-170-01",
+      "area": "strategy digest re-certification",
+      "status": "BLOCKED_EVIDENCE",
+      "what": "Five tests pin historical strategy digest c52e648ca24f... and remain failing change detectors against this tree.",
+      "why": "The digest reflects the pre-Phase-4 baseline minted from an uncommitted working tree on Windows. Phase 168 forensic reconstruction mapped the exact Git blob evolution across commits 3f19895, fbeb860, and ffefa14. Decoupled Alpha Strategy Core (v1.1) and Runtime Infrastructure (v1.1) are established in core/research/strategy_identity.py. Legitimate recertification of the new versioned identities requires running the complete out-of-sample research pipeline.",
+      "effect": "The five historical tests remain red deliberately. Overwriting the pin without full pipeline execution would falsify research provenance.",
+      "unblock": "Operator re-execution of research pipeline with newly established versioned strategy identities.",
+      "evidence": [
+        "reports/PHASE168_STRATEGY_HISTORICAL_RECONSTRUCTION.md",
+        "core/research/historical_reconstruction.py",
+        "core/research/strategy_identity.py",
+        "tests/test_strategy_historical_reconstruction_phase168.py"
+      ]
+    },
+    {
+      "id": "BLOCK-170-02",
+      "area": "historical ADAUSD position attribution and closure",
+      "status": "NON_ATTRIBUTABLE_CURRENT_ACCOUNT_HISTORICAL_UNVERIFIABLE",
+      "what": "Historical ADAUSD LONG 1 @ 0.23327 position is not attributable to the currently configured account. Historical closure on the original old account remains UNVERIFIABLE from archive bytes alone.",
+      "why": "Authenticated read-only positions query against the configured API account on Delta India Testnet confirmed ADAUSD size=0, entry_price=None (books flat, 0 open orders). The historical ADAUSD open position was held on an old pre-rotation account. No authentic venue order/fill capture artifact of the historical closure on that original old account exists in the archive.",
+      "effect": "The historical ADAUSD position is confirmed non-attributable to the current API account. Historical closure on the original old account remains unverified.",
+      "unblock": "Obtain and archive an authentic Delta exchange order/fill capture showing closure on the original old account.",
+      "evidence": [
+        "reports/PHASE167_INDEPENDENT_AUDIT.md",
+        "reports/PHASE169_EXECUTION_ECONOMICS_RECONCILIATION.md",
+        "reports/PHASE162_CAPTURE_REPORT.md",
+        "NEXT_ACTIONS.md"
+      ]
+    },
+    {
+      "id": "BLOCK-170-03",
+      "area": "zero live exchange access authorization",
+      "status": "OPERATOR_GATED_PRODUCTION_DISABLED",
+      "what": "Live production order routing remains hard-disabled; zero live credentials present.",
+      "why": "System architecture enforces hard-disabled live execution until regulatory, legal, and formal capital risk gates are unlocked by human operators.",
+      "effect": "All live orders refused by safety gates; paper trading and testnet-only research mode active.",
+      "unblock": "Operator-gated production authorization, production key provisioning, risk clearance.",
+      "evidence": [
+        "config/trading_policy.py",
+        "core/execution/execution_engine.py",
+        "tests/test_paper_trading.py"
+      ]
+    },
+    {
+      "id": "BLOCK-170-04",
+      "area": "sample size 1 execution experiment",
+      "status": "EDGE_NOT_ESTABLISHED",
+      "what": "Reconciled execution economics represents exactly N=1 testnet trade roundtrip (1 contract BTCUSD).",
+      "why": "A single order roundtrip successfully proves runtime pipeline mechanics, REST/WS fill alignment, and fee ledger attribution, but provides zero statistical evidence of positive expectancy or trading edge.",
+      "effect": "Strategy status remains strictly EDGE NOT ESTABLISHED.",
+      "unblock": "Multi-trade out-of-sample statistical evaluation across varied market regimes.",
+      "evidence": [
+        "research/results/phase169_execution_economics_reconciliation.json",
+        "research/results/phase170_execution_economics_reconciliation.json",
+        "research/results/phase170_l2_execution_replay.json",
+        "reports/PHASE170_INDEPENDENT_AUDIT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-170-05",
+      "area": "negative fee drag on micro-lots",
+      "status": "MICRO_LOT_FEE_DRAG_CONFIRMED",
+      "what": "Roundtrip experiment realized gross P&L of +0.0045 USD but paid 0.08710286 USD in fees, yielding net -0.08260286 USD.",
+      "why": "Exchange taker fees (0.05% base + 18% GST = 0.059% effective per leg) and minimum tick economics create severe fee drag on 1-contract micro-lot sizes that exceed gross spread capture.",
+      "effect": "Demonstrates that taker crossing on minimum-lot contracts cannot generate positive net cashflows under standard fee tiers.",
+      "unblock": "Maker-only execution strategies, volume-tiered fee discounts, or larger notional position sizing where edge exceeds friction.",
+      "evidence": [
+        "reports/PHASE170_RECONCILIATION_RESULTS.json",
+        "reports/PHASE170_INDEPENDENT_AUDIT.md"
+      ]
+    },
+    {
+      "id": "BLOCK-170-06",
+      "area": "restricted venue capture distribution",
+      "status": "CONFIDENTIAL_RESTRICTED_EVIDENCE",
+      "what": "Raw exchange payloads and websocket frame captures contain internal venue metadata not cleared for public release.",
+      "why": "Security and privacy policy strictly requires raw venue captures to remain isolated in internal research paths, excluded from public distribution packages.",
+      "effect": "Release candidate is marked 'Publication clearance: none' and restricted to internal audit distribution.",
+      "unblock": "Sanitization and formal privacy review by compliance officers prior to any public distribution.",
+      "evidence": [
+        "reports/PHASE170_PRIVACY_REVIEW.md",
+        "scripts/security/scan_privacy.py"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "capture_id": "phase113-eth",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1791707879575,
+  "environment": "SANDBOX",
+  "evidence_sha256": "c10c69381ac09a97891f4f6f0d0d013b92a0ed2903e1fbe5d088bc02333f48df",
+  "first_sequence": 36231,
+  "last_sequence": 36235,
+  "messages_seen": 5,
+  "observations_emitted": 5,
+  "sample_count": 5,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1791707859571,
+  "symbol": "ETHUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

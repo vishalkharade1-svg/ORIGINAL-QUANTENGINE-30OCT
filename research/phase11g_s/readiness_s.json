@@ -1,0 +1,171 @@
+{
+ "availability": {
+  "latest_available_day": "2026-09-08",
+  "observed": "2026-09-09",
+  "probe": "HTTP status of daily aggTrades CHECKSUM URLs",
+  "result": "DATA_NOT_YET_AVAILABLE",
+  "unavailable_days": [
+   "2026-09-09",
+   "2026-09-10",
+   "2026-09-11",
+   "2026-09-12",
+   "2026-09-13",
+   "2026-09-14",
+   "2026-09-15",
+   "2026-09-16",
+   "2026-09-17",
+   "2026-09-18",
+   "2026-09-19"
+  ]
+ },
+ "code_hash": "1181d1ce4d67416254877f1b78587be39e2dc1067fc56eee54e7f4f80f3b24fa",
+ "contiguity": {
+  "BTC": {
+   "contiguous": 2676,
+   "expected": 2676,
+   "first": 1788751440,
+   "gap_count": 0,
+   "largest_gap_minutes": 0,
+   "last": 1788911940,
+   "total": 2676,
+   "unique": 2676
+  },
+  "ETH": {
+   "contiguous": 2880,
+   "expected": 2880,
+   "first": 1788739200,
+   "gap_count": 0,
+   "largest_gap_minutes": 0,
+   "last": 1788911940,
+   "total": 2880,
+   "unique": 2880
+  }
+ },
+ "cutoffs": {
+  "fresh_start_s": 1788912000,
+  "pre_cutoff": 1788751380,
+  "rule": "qualifying events require timestamp >= fresh_start_s"
+ },
+ "decision": "DATA_STILL_INSUFFICIENT",
+ "economics_executed": false,
+ "freshness": {
+  "BTC": {
+   "classification": "REUSED",
+   "d3_overlap": "UNKNOWN_BY_SEAL (never inspected)",
+   "overlapping_sets": []
+  },
+  "ETH": {
+   "classification": "REUSED",
+   "d3_overlap": "UNKNOWN_BY_SEAL (never inspected)",
+   "overlapping_sets": []
+  }
+ },
+ "gate": {
+  "fresh_cutoff": 1788912000,
+  "met": false,
+  "required_bars": 6175,
+  "symbols": {
+   "BTC": {
+    "contiguous_fresh_bars": 0,
+    "fresh_bars": 0,
+    "gap_count": 0,
+    "gate_met": false,
+    "reference_bars": 2676,
+    "reference_builder_ok": false,
+    "shortfall_vs_6175": 6175
+   },
+   "ETH": {
+    "contiguous_fresh_bars": 0,
+    "fresh_bars": 0,
+    "gap_count": 0,
+    "gate_met": false,
+    "reference_bars": 2880,
+    "reference_builder_ok": false,
+    "shortfall_vs_6175": 6175
+   }
+  }
+ },
+ "hypotheses_executed": 0,
+ "limitations": [
+  "No new days acquirable at observation time (Vision 404, 09-09..09-19).",
+  "All inventoried minutes carry descriptive exposure (REUSED).",
+  "D3 era unknowable without opening; D3 status UNKNOWN_BY_SEAL.",
+  "aggTrade = aggregate event, not individual fill."
+ ],
+ "n_files_reverified": 4,
+ "overall_overlap": "ZERO_OVERLAP",
+ "overlap": {
+  "BTC": {
+   "11F_D1_BTC": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11F_D2_BTC": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11G_G_gap_BTC": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11G_I_dev_BTC_trades": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "gateA_snapshot_BTC": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "oos_fresh_BTC": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   }
+  },
+  "ETH": {
+   "11F_D1_ETH": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11F_D2_ETH": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   },
+   "11G_G_gap_ETH": {
+    "overlap_minutes": 0,
+    "verdict": "ZERO_OVERLAP"
+   }
+  }
+ },
+ "phase": "11G-S",
+ "quality": {
+  "BTC": {
+   "dups": 0,
+   "ooo": 0,
+   "rejected": 0,
+   "rows": 1768167
+  },
+  "ETH": {
+   "dups": 0,
+   "ooo": 0,
+   "rejected": 0,
+   "rows": 1804071
+  }
+ },
+ "s_new_files": 0,
+ "seal_counters_after": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ },
+ "seal_counters_before": {
+  "D3_HASH": 0,
+  "D3_LOAD": 0,
+  "D3_READ": 0,
+  "FR_HASH": 0,
+  "FR_LOAD": 0,
+  "FR_READ": 0
+ }
+}

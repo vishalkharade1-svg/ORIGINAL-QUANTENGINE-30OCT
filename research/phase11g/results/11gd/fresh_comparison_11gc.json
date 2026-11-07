@@ -1,0 +1,74 @@
+{
+ "H11G-001": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.0,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 0,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-002": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.0,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 0,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-003": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.0,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 0,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-004": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.143,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 2,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-005": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.143,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 2,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-006": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.0,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 0,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-007": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.0,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 0,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11G-008": {
+  "interpretation": "sparsity persists on independent data",
+  "rate_11gc_per_1k": 0.0,
+  "rate_fresh_per_1k": 0.0,
+  "trades_11gc": 0,
+  "trades_fresh": 0,
+  "verdict_11gc": "INSUFFICIENT_EVIDENCE",
+  "verdict_fresh": "INSUFFICIENT_EVIDENCE"
+ }
+}

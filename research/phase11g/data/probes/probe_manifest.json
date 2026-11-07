@@ -1,0 +1,43 @@
+{
+ "acquired_at": "2026-09-08T16:33:34.413291+00:00",
+ "symbol": "BTCUSDT",
+ "probes": {
+  "candles_15m": {
+   "path": "/v2/history/candles",
+   "params": {
+    "symbol": "BTCUSDT",
+    "resolution": "15m",
+    "start": 1788700000,
+    "end": 1788704500
+   },
+   "http": 200,
+   "seconds": 0.55,
+   "result_shape": 5,
+   "sha256": "0b077f84d193d12404116785a775a1890abaaca853c1214aa4821b4bbefaa4cd"
+  },
+  "recent_trades": {
+   "path": "/v2/trades/BTCUSDT",
+   "params": {},
+   "http": 200,
+   "seconds": 0.52,
+   "result_shape": 50,
+   "sha256": "5e8749bcbf6b698969fc29375deb17f980230ee6efc05db44b7e4c64a166b4d5"
+  },
+  "l2_snapshot": {
+   "path": "/v2/l2orderbook/BTCUSDT",
+   "params": {},
+   "http": 200,
+   "seconds": 0.75,
+   "result_shape": "object",
+   "sha256": "b07548a27fcd39acc90e2fabb9c8a9aeed8033cb6c932f7be4654dc7fc7355de"
+  },
+  "ticker": {
+   "path": "/v2/tickers/BTCUSDT",
+   "params": {},
+   "http": 200,
+   "seconds": 0.48,
+   "result_shape": "object",
+   "sha256": "705ac79939e8c8430f4eaf258c8363b285ec55b44e9c741c353f39cf956c673f"
+  }
+ }
+}

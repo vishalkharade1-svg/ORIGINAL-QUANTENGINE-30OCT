@@ -1,0 +1,133 @@
+{
+  "phase": 168,
+  "timestamp": "2026-10-19T21:05:00Z",
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "9.0.3",
+    "platform": "win32",
+    "os": "Windows-10-10.0.19045-SP0",
+    "pins": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  },
+  "runtime_certification_suite": {
+    "tests_collected": 144,
+    "tests_passed": 144,
+    "tests_failed": 0,
+    "tests_skipped": 0,
+    "duration_seconds": 35.50,
+    "tree_pristine": true,
+    "subsuites": [
+      {
+        "suite": "tests/test_backtest_runtime_boundary_certification.py",
+        "passed": 8,
+        "description": "Deterministic replay, intrabar conservative SL priority, dust dropping, realized R, accounting"
+      },
+      {
+        "suite": "tests/test_paper_runtime_boundary_certification.py",
+        "passed": 6,
+        "description": "Feed finality, fail-closed kill switch, setup->order->trade chain, reconciler durability"
+      },
+      {
+        "suite": "tests/test_trade_boundary_hardening.py",
+        "passed": 12,
+        "description": "Trade executable validation, slots, score serialization, initial SL stability"
+      },
+      {
+        "suite": "tests/test_strategy_identity_separation_phase165.py",
+        "passed": 6,
+        "description": "Alpha vs infra decoupling, LF determinism, invariance, fail-closed validation, and normalized alias collision prevention"
+      },
+      {
+        "suite": "tests/test_multi_stream_multiplexer_phase163.py",
+        "passed": 7,
+        "description": "Cross-symbol state isolation, gap detection, portfolio halt, finality enforcement"
+      },
+      {
+        "suite": "tests/test_protective_bracket_phase163.py",
+        "passed": 6,
+        "description": "Mandatory stop-loss, directional geometry, 1R-20R ratio, trailing stop latency/slippage"
+      },
+      {
+        "suite": "tests/test_mobile_push_gateway_phase163.py",
+        "passed": 5,
+        "description": "Token handshake authentication, secret redaction, bounded queue drop-oldest"
+      },
+      {
+        "suite": "tests/test_paper_trading.py",
+        "passed": 20,
+        "description": "Paper trading lifecycle, slippage impact, mark-to-market floating equity"
+      },
+      {
+        "suite": "tests/test_order_executor.py",
+        "passed": 11,
+        "description": "Order payload builder, precision, pass-throughs, safety gate refusal"
+      },
+      {
+        "suite": "tests/test_authoritative_path_phase7.py",
+        "passed": 10,
+        "description": "Authoritative candle paths, cost wiring, normalized strategy digest audit"
+      },
+      {
+        "suite": "tests/test_verified_runtime_parity_phase4.py",
+        "passed": 7,
+        "description": "Verified runtime feed parity, evidence gates, no legacy ticker or eventbus"
+      },
+      {
+        "suite": "tests/test_release_records_phase166.py",
+        "passed": 7,
+        "description": "Phase 166 release records existence, provenance, and gate contracts"
+      },
+      {
+        "suite": "tests/test_release_records_phase167.py",
+        "passed": 8,
+        "description": "Phase 167 release records existence, provenance, gate contracts, and forensic reconciliation"
+      },
+      {
+        "suite": "tests/test_phase158_privacy_contract.py",
+        "passed": 20,
+        "description": "Privacy contract, restricted evidence path boundaries, secret redaction, and aggregate artifact rules"
+      },
+      {
+        "suite": "tests/test_strategy_historical_reconstruction_phase168.py",
+        "passed": 3,
+        "description": "Phase 168 strategy historical identity reconstruction across Git commit milestones and execution economics invariants"
+      },
+      {
+        "suite": "tests/test_release_records_phase168.py",
+        "passed": 8,
+        "description": "Phase 168 release records existence, provenance, gate contracts, and historical record preservation"
+      }
+    ]
+  },
+  "historical_change_detectors": {
+    "total": 5,
+    "failing_expected": 5,
+    "tests": [
+      "tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match",
+      "tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+      "tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+      "tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs",
+      "tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned"
+    ],
+    "status": "RETAINED_RED_BY_CONTRACT",
+    "rationale": "Historical change detectors pinned to pre-Phase-4 baseline digest c52e648c... Overwriting pins would destroy change detection."
+  },
+  "security_scans": {
+    "secret_scan": "SECRET_SCAN_PASS (0 violations)",
+    "privacy_scan": "PRIVACY_SCAN_PASS (2061 inspected, 11 declared opaque, restricted package)"
+  },
+  "compilation": {
+    "compileall": "PASS (0 errors across core, tests, scripts)"
+  },
+  "manifest": {
+    "verifier": "MANIFEST_PASS (0 problems)",
+    "reproducibility": "EXACT_BYTE_MATCH"
+  }
+}

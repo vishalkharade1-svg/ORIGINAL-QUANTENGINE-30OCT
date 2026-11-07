@@ -1,0 +1,20 @@
+{
+  "extraction": {
+    "byte_verified": 1868,
+    "crc_test": "no corrupt member",
+    "directory": "F:/vishal 3/latestoriginalquant/QuantEngine_PHASE160_Repair",
+    "members_extracted": 1868,
+    "mismatched": [],
+    "post_extract_verify": true,
+    "post_extract_manifest_verify": "MANIFEST_PASS (0 problems)"
+  },
+  "identity": "the sealed Phase159 hardening-only candidate; its detached record RELEASE_HASH_PHASE159.txt travels beside it (both preserved in ../_phase159_superseded/ once this cycle's candidate is sealed)",
+  "input": {
+    "archive": "QuantEngine_PHASE159_RELEASE_CANDIDATE.zip",
+    "manifest_entries": 1867,
+    "members": 1868,
+    "sha256": "015a3be87182bfa34ceeb30d7878c9c40a461dba7f17663a7746df8358ed3674"
+  },
+  "phase": 160,
+  "what": "input archive extracted byte-verified for the Phase160 scanner-boundary hardening cycle"
+}

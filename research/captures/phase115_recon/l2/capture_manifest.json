@@ -1,0 +1,18 @@
+{
+  "capture_id": "exp-20261020T202730Z-l2",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1792528130413,
+  "environment": "SANDBOX",
+  "evidence_sha256": "91a14f2db5668beefe64dc1dfb1bb1cf17d6fb924f8c9798163e99cab9b2eb2e",
+  "first_sequence": 324578,
+  "last_sequence": 324650,
+  "messages_seen": 73,
+  "observations_emitted": 73,
+  "sample_count": 73,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1792528057352,
+  "symbol": "BTCUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

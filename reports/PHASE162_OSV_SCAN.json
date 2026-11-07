@@ -1,0 +1,34 @@
+{
+ "executed": "2026-10-18 (Phase162 dependency review, adopted pins)",
+ "query": "api.osv.dev/v1/query, one POST per pinned package at pinned version",
+ "results": {
+  "httpx": {
+   "advisories": [],
+   "pinned": "0.28.1"
+  },
+  "numpy": {
+   "advisories": [],
+   "pinned": "2.1.1"
+  },
+  "pandas": {
+   "advisories": [],
+   "pinned": "2.2.2"
+  },
+  "pyarrow": {
+   "advisories": [],
+   "pinned": "23.0.1"
+  },
+  "pytest": {
+   "advisories": [],
+   "pinned": "9.0.3"
+  },
+  "python-dotenv": {
+   "advisories": [],
+   "pinned": "1.2.2"
+  },
+  "websockets": {
+   "advisories": [],
+   "pinned": "12.0"
+  }
+ }
+}

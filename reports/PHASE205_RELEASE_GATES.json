@@ -1,0 +1,46 @@
+{
+  "phase": 205,
+  "implementation": "IMPLEMENTED",
+  "cross_capture_reconciliation": "IMPLEMENTED_AND_TESTED",
+  "cross_capture_late_arrival_comparison": "IMPLEMENTED_AND_TESTED",
+  "deterministic_canonical_hashing": "IMPLEMENTED_SHA256_PLATFORM_INVARIANT",
+  "absence_classification_rule": "NEVER_INFER_DELETION_FROM_ABSENCE",
+  "scope_guards": "ENFORCED_VENUE_TENANT_PRODUCT_CATEGORY",
+  "atomic_persistence": "IMPLEMENTED_TEMP_RENAME_AND_CHECKSUM_VALIDATED",
+  "corrupt_evidence_detection": "IMPLEMENTED_SOURCE_AND_OUTPUT_CHECKSUMS",
+  "focused_regression": {
+    "status": "PASS",
+    "tests_passed": 119,
+    "breakdown": {
+      "phase205_cross_capture": 28,
+      "phase204_venue_time_filters": 4,
+      "phase203_historical_window": 6,
+      "phase201_position_fill": 10,
+      "phase200_reconciliation_coordinator": 8,
+      "phase199_read_adapter": 25,
+      "phase198_durable_recovery": 17,
+      "phase192_adversarial_reconciliation": 13,
+      "phase191_reconciliation_design": 8
+    }
+  },
+  "secret_scan_tests": {
+    "status": "PASS",
+    "tests_passed": 21,
+    "subtests_passed": 18
+  },
+  "compile_checks": "PASS",
+  "manifest": "PASS",
+  "full_suite": "NOT_RUN",
+  "authenticated_venue_exercise": "NOT_PERFORMED",
+  "venue_historical_exhaustiveness": "NOT_CERTIFIED",
+  "exchange_network_calls": 0,
+  "exchange_order_writes": 0,
+  "exchange_cancellations": 0,
+  "position_modifications": 0,
+  "automatic_action": "NONE",
+  "automatic_resume": "NEVER",
+  "strategy_edge": "NOT_ESTABLISHED",
+  "execution_decision": "HOLD",
+  "production_status": "NOT_PRODUCTION_READY"
+}
+

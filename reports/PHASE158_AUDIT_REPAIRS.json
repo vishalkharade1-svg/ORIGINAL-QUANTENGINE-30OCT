@@ -1,0 +1,82 @@
+{
+  "schema": "quantengine.phase158-audit-repairs.v1",
+  "phase": 158,
+  "revision": 2,
+  "role": "disposition of the independent audit of the revision-1 Phase158 candidate, and the repairs applied in revision 2 (this tree)",
+  "audited_revision": {
+    "name": "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip",
+    "revision": 1,
+    "superseded_by": "revision 2 (this tree). The revision-1 identity (sha256, member count, byte count) is recorded in PHASE158_AUDIT_DISPOSITION.json in the post-build bundle and beside the superseded archive in _phase158_audited/. This in-tree record deliberately does not embed it: no text artifact may embed the hash of an archive that travels beside the tree (tests/test_release_consistency_phase155.py).",
+    "report": "PHASE158_INDEPENDENT_AUDIT_FINDINGS.json as delivered by the operator (kept beside the superseded archive in _phase158_audited/; it audits revision 1, so it does not ship inside revision 2). The items below quote the findings as reported.",
+    "audit_environment": "Linux, Python 3.13.5 (reported); the recorded build environment is Windows-10-10.0.19045-SP0 / Python 3.12.10. The auditor held the ZIP alone (no detached record, no post-build bundle, no input archive), which limited what items 1, 13 and 16 could establish; that is a handoff limitation recorded here, not an archive defect."
+  },
+  "findings_requiring_action": [
+    {
+      "id": "F-01",
+      "severity": "HIGH",
+      "as_reported": "raw venue order ids appear in sealed historical records under reports/ and research/results/, which the audit read against the prompt's strict no-order-id condition for those roots; and a green PRIVACY_SCAN_PASS could be read as publication clearance.",
+      "verified": "reproduced. The scanner counts 38 raw venue order ids across the raw captures; the historical baseline is 13 sealed records (byte-identical to their input-archive members, never rewritten); new leakage is 0.",
+      "disposition": "the policy is stated, not relaxed. The enforced rule is: no raw order id may appear in reports/, docs/ or research/results/ EXCEPT in a file byte-identical to its input-archive member (the enumerated historical baseline); any new or modified carrier fails the scan. The revision-1 prompt's wording omitted the exception, and that was the imprecision F-01 exposed. The prompt, the privacy review and the scanner now all state the rule and the package class together; the scan report carries publication_clearance=NOT_CLEARED with a reason, and tests/test_phase158_privacy_contract.py pins it. The archive remains a restricted evidence package and is NOT cleared for publication."
+    },
+    {
+      "id": "F-02",
+      "severity": "HIGH",
+      "as_reported": "a targeted test run left the worktree manifest-invalid: data/runtime/risk_policy_overrides.json changed from its manifest bytes to a2b9f5c69f8e3ed4c915d2f52fcef6b4f2a992e75e663c49297a7ac0f35aab44.",
+      "verified": "root-caused, and the report was precise. The persisted policy was written in text mode, so every save translated \\n to CRLF on Windows and re-drifted the file. The tree carried the drifted CRLF form (00bae30979ea63638def84b6829d301e294cdb003cac19096489956a173ed1e8); the Phase131 packaging manifest MANIFEST_SHA256_PHASE131.txt pins the authentic form as a2b9f5c6... (LF), which is exactly the hash the audit observed on a platform with LF conventions. Additionally, 13 sealed research artifacts are rebuilt in place by their change-detector tests (research/phase11g_*/readiness|feasibility|trigger, research/results/phase3{3,5,6,7}_*, phase48_*): byte-identical on the build platform, newline-dependent elsewhere.",
+      "repairs": [
+        "data/runtime/risk_policy_overrides.json restored byte-for-byte to its authentic Phase131 LF form (a2b9f5c6...)",
+        "core/risk/trading_policy.py persistence writes newline=\\n explicitly: identical policy state now serialises to identical bytes on every platform",
+        "tests/test_phase158_snapshot_neutrality.py pins the authentic bytes and the platform-independent persistence",
+        "tests/conftest.py installs a session snapshot guard: every covered file is verified against BUILD_MANIFEST.sha256 at session start; a known-rebuilt watchlist is checked and restored byte-exactly after every test; the whole covered set is swept and restored every 50 tests and at session end; SNAPSHOT_GUARD_RESTORED / SNAPSHOT_GUARD_SUMMARY lines record every event; a non-pristine start or a test-added file fails the session"
+      ],
+      "residual": "on platforms whose newline conventions differ from the recorded convention, the sealed builders still produce different bytes in-run; the guard restores the recorded bytes after each test so the tree stays pristine, but the sealed change-detector tests themselves (e.g. tests/test_researcher_11g_u.py test_rerun_byte_identical) fail there. Those builders embed their own file hash in their artifacts (code_hash), so editing them would invalidate the sealed bytes; this is a recorded limitation of running outside the canonical Windows / Python 3.12.10 environment, not of the shipped bytes."
+    },
+    {
+      "id": "F-03",
+      "severity": "MEDIUM",
+      "as_reported": "BUILD_MANIFEST.sha256 was CRLF (198,894 bytes; LF form 197,046); regenerating it byte-for-byte on a platform with LF conventions disagrees by line endings.",
+      "verified": "reproduced: the revision-1 manifest had 1,848 CRLF line endings and 0 bare LF bytes.",
+      "repairs": [
+        "scripts/generate_manifest.py writes the manifest with newline=\\n and writes UTF-8 bytes to stdout, so file and stdout regeneration are byte-exact on every platform",
+        "BUILD_MANIFEST.sha256 is regenerated in LF form",
+        "tests/test_phase158_manifest_contract.py asserts the file bytes equal a fresh generation and adds a subprocess end-to-end check (generate_manifest.py --root . stdout == the shipped bytes)",
+        "tests/test_phase158_snapshot_neutrality.py asserts the manifest is LF-only"
+      ]
+    }
+  ],
+  "findings_dispositioned_without_code_change": [
+    {
+      "id": "F-08",
+      "as_reported": "the digest re-certification cannot reach the recorded canonical digest (c52e648c...) and is consistent with the documented blocker.",
+      "disposition": "confirmed, no change: reports/PHASE158_BLOCKERS.json BLOCK-158-01 records exactly this; scripts/recertify_strategy_digest.py returns STATUS: BLOCKED; no digest was re-pinned, and the five change-detector tests remain red on purpose."
+    },
+    {
+      "id": "F-10",
+      "as_reported": "the reconstructed dataset equals the first 11,899 rows of the topup once the rows are ordered by time; the stored raw array is not itself time-sorted.",
+      "disposition": "confirmed and sharpened. The claim was already qualified ('in ascending time order'); the artifact's disclosure now states that the stored topup array is not itself time-ordered and that the selection is taken over the rows sorted ascending by time, and tests/test_phase158_dataset_reconstruction.py asserts the raw array is unsorted so the sort cannot become an untested accident. The content hash still matches the frozen commitment 4feccebb... exactly."
+    },
+    {
+      "id": "F-11",
+      "as_reported": "the audit ran on Linux / Python 3.13.5, not the recorded build environment.",
+      "disposition": "recorded, not a defect of the bytes. The canonical environment is recorded in reports/PHASE158_RELEASE_GATES.json verification_environment; item 10 of the prompt asks the auditor to compare its own environment against it explicitly."
+    }
+  ],
+  "audit_environment_limitations": {
+    "items_cut_short": "the audit reported that review time and materials cut some items short (the detached record and the input archive were not in hand, and the full suite was not re-run to completion).",
+    "remedy_in_the_handoff": "docs/CLAUDE_PHASE158_INDEPENDENT_AUDIT_PROMPT.md now states that the reviewer must receive the ZIP together with RELEASE_HASH_PHASE158.txt, the post-build bundle and (where available) the Phase157 input archive; auditing the ZIP alone cannot complete items 1, 13 and 16.",
+    "not_a_defect": "none of these limitations is counted as a pass or as an archive defect; they are stated so the next audit starts from the full materials."
+  },
+  "verification_of_the_repairs": {
+    "focused": "the focused suites covering every repaired area re-run green apart from the five deliberate strategy-digest failures",
+    "worktree_full_suite": "reports/PHASE158_FULL_SUITE_RUN.txt (revision 2): the deliberate failures and the Git-evidence gates as declared; the log carries the SNAPSHOT_GUARD_SUMMARY line (see below)",
+    "extracted_package": "re-run against the extracted shipped bytes; recorded in the post-build bundle",
+    "post_run_manifest_verify": "python scripts/generate_manifest.py --root . --verify prints MANIFEST_PASS (0 problems) after a full suite run, on the build platform",
+    "snapshot_guard": "SNAPSHOT_GUARD_SUMMARY {json} at the end of every session: covered_files, tree_pristine_at_session_start, restores (empty on the build platform), files_added_by_tests (empty)"
+  },
+  "not_done": [
+    "no audit finding was dismissed without a verified disposition; every claim above names the record or the command that reproduces it",
+    "no sealed historical record was rewritten to satisfy a scanner or a finding",
+    "no digest was re-pinned and no test was weakened, deleted, blanket-skipped or xfailed",
+    "the sealed research builders were not edited: they embed their own hash in their artifacts, so a platform-neutrality edit would invalidate the sealed bytes; the snapshot guard is the contract instead"
+  ]
+}

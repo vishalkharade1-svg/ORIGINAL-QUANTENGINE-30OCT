@@ -1,0 +1,578 @@
+{
+ "H11GF-001|BTCUSDT": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|BTCUSDT": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|BTCUSDT": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|BTCUSDT": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|BTCUSDT": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|BTCUSDT": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|BTCUSDT": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|BTCUSDT": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "BTCUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|ETHUSDT": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|ETHUSDT": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|ETHUSDT": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|ETHUSDT": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|ETHUSDT": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|ETHUSDT": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|ETHUSDT": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|ETHUSDT": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "ETHUSDT",
+  "bars": 2099,
+  "wf": "WF_INFEASIBLE_2099_lt_6175",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_signals": 0,
+    "n_orders": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ }
+}

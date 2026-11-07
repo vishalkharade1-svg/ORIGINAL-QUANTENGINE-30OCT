@@ -1,0 +1,120 @@
+{
+  "content_identity": "567441333bf33d261d7a3aed52fd35f47e8c29a03f9b79c5012c8127846d182c",
+  "current_checkpoint": "PHASE59",
+  "phases": {
+    "44": {
+      "evidence": [
+        "core/research/conditional_ml/report.py"
+      ],
+      "notes": "Full persisted report surfaces participate in canonical identity; strict reload present.",
+      "status": "PRESENT"
+    },
+    "45": {
+      "evidence": [
+        "core/research/oos/discovery_input.py",
+        "tests/test_phase58_continuity.py"
+      ],
+      "notes": "Frozen Discovery9LInput boundary/outcome-horizon/symbol checks present.",
+      "status": "PRESENT"
+    },
+    "46": {
+      "evidence": [
+        "core/research/oos/discovery_input.py",
+        "tests/test_phase58_continuity.py"
+      ],
+      "notes": "from_opportunity_records bridge present and reuses existing journal records.",
+      "status": "PRESENT"
+    },
+    "47": {
+      "evidence": [
+        "core/research/journal/research_repository.py",
+        "tests/test_phase47_journal_persistence.py"
+      ],
+      "notes": "Durable schema-checked persistence, deterministic identity, atomic write, strict reload and tamper rejection restored.",
+      "status": "RESTORED_PHASE59"
+    },
+    "48": {
+      "evidence": [
+        "scripts/build_phase48_discovery_capture.py",
+        "tests/test_phase48_discovery_capture.py",
+        "research/results/phase48_discovery_capture.json"
+      ],
+      "notes": "Canonical Backtester + ResearchJournal observer capture restored; deterministic artifact generated.",
+      "status": "RESTORED_PHASE59"
+    },
+    "49": {
+      "evidence": [],
+      "notes": "Historical genuine Binance 9L run cannot be reconstructed without original artifact/data; no result fabricated.",
+      "status": "MISSING_GENUINE_ARTIFACT"
+    },
+    "50": {
+      "evidence": [
+        "core/research/conditional_ml/report.py",
+        "tests/test_phase40_42_frozen_handoff.py"
+      ],
+      "notes": "Strict report reload/full identity covered by current handoff tests.",
+      "status": "PRESENT"
+    },
+    "51": {
+      "evidence": [
+        "core/research/oos/selection.py",
+        "tests/test_phase40_42_frozen_handoff.py"
+      ],
+      "notes": "Explicit selection admission present and tested.",
+      "status": "PRESENT"
+    },
+    "52": {
+      "evidence": [
+        "core/research/readiness/selection_preregistration.py",
+        "tests/test_phase40_42_frozen_handoff.py"
+      ],
+      "notes": "Explicit selection-to-preregistration handoff present and tested.",
+      "status": "PRESENT"
+    },
+    "53": {
+      "evidence": [
+        "core/research/conditional_ml/report.py",
+        "tests/test_phase40_42_frozen_handoff.py"
+      ],
+      "notes": "Full report identity hardening present and tamper-tested.",
+      "status": "PRESENT"
+    },
+    "54": {
+      "evidence": [
+        "core/research/oos/selection.py",
+        "tests/test_phase40_42_frozen_handoff.py"
+      ],
+      "notes": "Handoff verification is covered by current explicit selection/preregistration tests.",
+      "status": "PRESENT"
+    },
+    "55": {
+      "evidence": [
+        "scripts/recertify_strategy_digest.py",
+        "research/results/phase55_recertification_boundary.json"
+      ],
+      "notes": "Historical recertification boundary is now represented by a new current-source artifact; original historical artifact is not recreated.",
+      "status": "RESTORED_PHASE59_BOUNDARY"
+    },
+    "56": {
+      "evidence": [
+        "scripts/build_phase17_artifact.py",
+        "tests/test_phase56_oos_builder.py",
+        "research/results/phase56_deterministic_oos_builder.json"
+      ],
+      "notes": "Offline deterministic builder requires explicit product snapshot.",
+      "status": "PRESENT"
+    },
+    "57": {
+      "evidence": [
+        "scripts/acquire_phase17_product_snapshot.py",
+        "tests/test_phase57_product_snapshot_acquisition.py",
+        "research/results/phase57_product_snapshot_acquisition.json"
+      ],
+      "notes": "Explicit network acquisition boundary separate from deterministic construction.",
+      "status": "PRESENT"
+    }
+  },
+  "production_ready": false,
+  "schema": "phase59-continuity-v2",
+  "zip_recovery_rule": "source-and-test evidence outranks narrative summaries"
+}

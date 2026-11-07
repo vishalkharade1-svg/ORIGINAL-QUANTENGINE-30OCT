@@ -1,0 +1,113 @@
+{
+  "phase": 167,
+  "generated_utc": "2026-10-19",
+  "build_procedure": {
+    "builder": "scripts/build_release.py",
+    "note": "the archive's own SHA-256 is recorded only in the detached record delivered beside the archive",
+    "rule": "frozen ordering: write all text -> regenerate BUILD_MANIFEST.sha256 -> verify -> pack -> detached hash record"
+  },
+  "changes": [
+    {
+      "id": "PROV-167-01",
+      "class": "baseline verification",
+      "what": "Independently verified QuantEngine_PHASE166_RELEASE_CANDIDATE.zip (56,542,973 bytes, sha256 ec9fac04...) against detached record RELEASE_HASH_PHASE166.txt.",
+      "why": "Establishes cryptographic and member-level audit baseline prior to any modifications."
+    },
+    {
+      "id": "PROV-167-02",
+      "class": "forensic reconciliation",
+      "what": "Reconciled the 9-file strategy identity matrix across Phase 14 mint commit 3f19895, current commit ffefa14, raw disk bytes, and canonical LF bytes.",
+      "why": "Explains why exactly 7 of 9 files are identical in Git commits, while 3 files have disk modifications and 3 have Windows CRLF line endings."
+    },
+    {
+      "id": "PROV-167-03",
+      "class": "runtime hardening",
+      "what": "Hardened compute_composite_digest in core/research/strategy_identity.py with normalize_rel_path to reject empty/whitespace paths, path traversal, and alias duplicate collisions.",
+      "why": "Guarantees strategy identity computations are immune to path representation aliases and fail closed."
+    },
+    {
+      "id": "PROV-167-04",
+      "class": "regression testing",
+      "what": "Added test_06_path_normalization_and_collision_handling to tests/test_strategy_identity_separation_phase165.py and authored tests/test_release_records_phase167.py.",
+      "why": "Pins path normalization and Phase 167 release contract invariants."
+    },
+    {
+      "id": "PROV-167-05",
+      "class": "testnet safety audit",
+      "what": "Verified Delta India Testnet authentication signing fail-closed abort on 401 Unauthorized without order side effects or account pollution.",
+      "why": "Certifies that absent or invalid credentials prevent all order operations without network side-effects."
+    },
+    {
+      "id": "PROV-167-06",
+      "class": "account attribution audit",
+      "what": "Executed authenticated read-only account and positions query on Delta India Testnet; confirmed current account is flat (0 ADAUSD, 0 BTCUSD, 0 open orders, ~$198.39 USD balance). Established non-attribution of historical ADAUSD position to current account.",
+      "why": "Proves historical ADAUSD open position was held on an old pre-rotation account and cannot be attributed to the current account. Historical closure on the old account remains unverified."
+    },
+    {
+      "id": "PROV-167-07",
+      "class": "empirical testnet evidence",
+      "what": "Executed authorized Delta India Testnet reconciled order experiment (research/captures/phase167_recon/): 2-leg BTCUSD executed at touch, 2/2 in-window fills matched between private WS frames and REST fills, bound to contemporaneous top-of-book L2 quotes (0 bps slippage), account verified flat post-flight.",
+      "why": "Certifies live WebSocket fill stream, L2 market friction binding, and order lifecycle reconciliation on Delta India Testnet."
+    },
+    {
+      "id": "PROV-167-08",
+      "class": "privacy and restricted evidence audit",
+      "what": "Published reports/PHASE167_PRIVACY_REVIEW.md and updated RESTRICTED_EVIDENCE_PATHS in scripts/security/scan_privacy.py for the 2 new raw restricted captures (10 files total). Verified SECRET_SCAN_PASS and PRIVACY_SCAN_PASS.",
+      "why": "Enforces strict confinement of operator account identifiers to enumerated restricted captures and prevents secret leakage."
+    }
+  ],
+  "historical_records": {
+    "reports/PHASE161_ENVIRONMENT.json": {
+      "describes": "the Phase161 environment adoption record, preserved unchanged",
+      "sha256": "ae9671c03ac166596df9da0c9be6e89e56e5d4e269e68c3eeb489fc1f2fa0251"
+    },
+    "reports/PHASE161_RELEASE_GATES.json": {
+      "describes": "the Phase161 release gates, preserved unchanged",
+      "sha256": "d1e0663b35455c3b5fae9b1bd13fbc37e5ba27b2e4d5e3f5a6fb888bc6abd898"
+    },
+    "reports/historical_sealed_phase162/PHASE162_RELEASE_GATES_SEALED.json": {
+      "describes": "the Phase162 release gates as sealed in QuantEngine_PHASE162_RELEASE_CANDIDATE.zip",
+      "sha256": "6ec688e80cf4f85b9ad2209ed3d2f858d4c704c6895e4aeffbf9afaabbaf9f64"
+    },
+    "reports/historical_sealed_phase162/PHASE162_BLOCKERS_SEALED.json": {
+      "describes": "the Phase162 blockers record as sealed in QuantEngine_PHASE162_RELEASE_CANDIDATE.zip",
+      "sha256": "7c4c65783ae7041ec7a45a1a412777854d2f38c6938ef18e5537add342d24732"
+    },
+    "reports/PHASE162_RELEASE_GATES.json": {
+      "describes": "the Phase162 post-seal corrected release gates, preserved and documented",
+      "sha256": "f94aff1f1723c37527975850b733257d0ca26443dbcf81672f7429bd65a668b2"
+    },
+    "reports/PHASE162_BLOCKERS.json": {
+      "describes": "the Phase162 post-seal corrected blockers record, preserved and documented",
+      "sha256": "5d053de948f7e0a07eae1b24022d2f4cd7d03f7ca92d819b79bd2aceff0fc626"
+    },
+    "reports/PHASE165_RELEASE_GATES.json": {
+      "describes": "the Phase165 release gates, preserved unchanged",
+      "sha256": "f1ad8e7f879269e09acf13eed643013d41a308b1c1e7dd35ed170af3c53f2645"
+    },
+    "reports/PHASE165_BLOCKERS.json": {
+      "describes": "the Phase165 blockers record, preserved unchanged",
+      "sha256": "2f42e3d742c799530c3c653cadb1296919c40fd72277b9f4cf0178eebe7cb35c"
+    },
+    "reports/PHASE166_RELEASE_GATES.json": {
+      "describes": "the Phase166 release gates, preserved unchanged",
+      "sha256": "ab75204d1799fd71046a5acdc124f2d2bc41908743887a692c7cd920a5b35aca"
+    },
+    "reports/PHASE166_BLOCKERS.json": {
+      "describes": "the Phase166 blockers record, preserved unchanged",
+      "sha256": "ce30bc50027f3e24ccc0c98eebbf8384d1e1e50819cc0e36a7da75a52691e4d1"
+    },
+    "reports/PHASE166_PROVENANCE.json": {
+      "describes": "the Phase166 provenance record, preserved unchanged",
+      "sha256": "641ad10fb2ab00c1cea16c666d39c21fecac6ad4556fc3c8e20745880152477a"
+    },
+    "reports/PHASE166_INDEPENDENT_VERIFICATION.md": {
+      "describes": "the Phase166 independent verification report, preserved unchanged",
+      "sha256": "53be987581c046a43dbd47f7de359a9e67f9d150dd13888cf197318cef3a980f"
+    }
+  },
+  "input": {
+    "archive": "QuantEngine_PHASE166_RELEASE_CANDIDATE.zip",
+    "sha256": "ec9fac040897da6a324d0eec995cf144feb3b69a5852e8f1bcb207f1ab1991df"
+  }
+}

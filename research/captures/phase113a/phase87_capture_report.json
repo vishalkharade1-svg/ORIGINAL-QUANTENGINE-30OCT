@@ -1,0 +1,35 @@
+{
+  "authenticated_rest_fills": "CAPTURED",
+  "credentials_persisted": false,
+  "credentials_source": "environment_only",
+  "dns_probe": {
+    "cdn-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind-pub.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    }
+  },
+  "economic_certification": "BLOCKED",
+  "environment": "india_testnet",
+  "finished_at": "2026-10-11T08:36:38.810126+00:00",
+  "l2_observation_count": 5,
+  "order_placement": "DISABLED",
+  "phase": 85,
+  "private_ws_error": "ValueError: no v2/user_trades frames",
+  "private_ws_fills": "FAILED_OR_NO_FILLS",
+  "production_ready": false,
+  "real_public_l2": "CAPTURED",
+  "rest_fill_count": 2,
+  "rest_ws_reconciliation": "BLOCKED",
+  "started_at": "2026-10-11T08:35:56.926968+00:00",
+  "status": "CAPTURE_COMPLETED_WITH_GAPS",
+  "symbol": "PAXGUSD",
+  "title": "Delta Testnet non-trading evidence capture and reconciliation"
+}

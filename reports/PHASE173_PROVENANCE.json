@@ -1,0 +1,62 @@
+{
+  "phase": 173,
+  "title": "Phase 173 Release Provenance & Evidence Lineage",
+  "timestamp": "2026-10-20T00:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "input": {
+    "archive": "QuantEngine_PHASE172_RELEASE_CANDIDATE.zip",
+    "sha256": "67d3e60e88f21c7c53fd5c0d0b5fbfc7f789df65099fe9636c2b6ffc8d33571c",
+    "manifest_entries": 2076,
+    "archive_size_bytes": 56809944
+  },
+  "output": {
+    "archive": "QuantEngine_PHASE173_RELEASE_CANDIDATE.zip",
+    "detached_record": "RELEASE_HASH_PHASE173.txt"
+  },
+  "git": {
+    "head": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+    "branch": "phase173-independent-audit"
+  },
+  "environment": {
+    "os": "Windows_NT AMD64",
+    "python": "3.12.10",
+    "decimal_context_prec": "Default Decimal (28)",
+    "local_time": "2026-10-20T09:27:44+05:30"
+  },
+  "fee_schedule_provenance": {
+    "venue": "Delta Exchange India",
+    "market_type": "Inverse and Linear Futures",
+    "fee_tier": "VIP 0 / Retail Tier 1",
+    "taker_base_rate": "0.00050000",
+    "maker_base_rate": "0.00020000",
+    "rebate_base_rate": "-0.00005000",
+    "gst_rate": "0.18000000",
+    "effective_taker_rate_bps": "5.90",
+    "effective_maker_rate_bps": "2.36",
+    "effective_rebate_rate_bps": "-0.59",
+    "verified_source": "Delta Exchange India Official Fee Schedule (contract specifications verified in Phase 66/73/171/172)",
+    "assumptions_list": [
+      "GST rate applies strictly to brokerage commission at 18.0%.",
+      "Maker rebates apply only to registered high-volume MM tiers; retail default is positive maker fee (0.02% base).",
+      "Per-leg fee accounting is asymmetric: Maker entry + Taker exit incurs 2.36 bps entry + 5.90 bps exit = 8.26 bps round-trip.",
+      "Funding charges and borrow fees are modeled as zero for intraday scalps held < 8 hours across funding boundary.",
+      "Settlement currency is USD/USDT for linear BTCUSDT contracts with 0.001 multiplier (1 index point = 0.001 USD)."
+    ]
+  },
+  "data_lineage": {
+    "continuous_1m_candles": {
+      "file": "data/history/BTCUSDT/1m.parquet",
+      "row_count": 1440,
+      "start_utc": "2026-09-05T21:35:00+00:00",
+      "end_utc": "2026-09-06T21:34:00+00:00",
+      "duration_hours": 24.0
+    },
+    "l2_orderbook_frames": {
+      "file": "research/captures/phase167_recon/l2/delta_ob_updates_archive.json",
+      "frame_count": 113,
+      "date": "2026-10-19"
+    },
+    "multi_year_unsupplied_status": "BLOCKED_EVIDENCE (BLOCK-173-05)"
+  }
+}

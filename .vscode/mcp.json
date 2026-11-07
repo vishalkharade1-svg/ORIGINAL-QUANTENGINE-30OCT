@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "delta-exchange-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["delta-exchange-mcp"],
+      "env": { "DELTA_MCP_ENV": "india_testnet" }
+    }
+  }
+}

@@ -1,0 +1,347 @@
+........................................................................ [  1%]
+....................................s................................... [  3%]
+........................................................................ [  5%]
+........................................................................ [  7%]
+........................................................................ [  8%]
+........................................................................ [ 10%]
+........................................................................ [ 12%]
+........................................................................ [ 14%]
+........................................................................ [ 16%]
+........................................................................ [ 17%]
+........................................................................ [ 19%]
+........................................................................ [ 21%]
+........................................................................ [ 23%]
+........................................................................ [ 25%]
+........................................................................ [ 26%]
+........................................................................ [ 28%]
+........................................................................ [ 30%]
+........................................................................ [ 32%]
+...........................................F..FFFFFF..F....F.F.....F.... [ 33%]
+...............................F...............F........................ [ 35%]
+.....F.....FF....................F...................................... [ 37%]
+........................................................................ [ 39%]
+..................................................s..................... [ 41%]
+........................................................................ [ 42%]
+................F.........F............................................. [ 44%]
+........................................................................ [ 46%]
+........................................................................ [ 48%]
+........................................................................ [ 50%]
+........................................................................ [ 51%]
+....................................................................ssss [ 53%]
+ss...................................................................... [ 55%]
+.......................................................................F [ 57%]
+.....F.................................................................. [ 59%]
+..................................F..................................... [ 60%]
+........................................................................ [ 62%]
+........................................................................ [ 64%]
+..........................................................FF............ [ 66%]
+............................FF.......................................... [ 67%]
+.....FF.............................................FF.................. [ 69%]
+......................................FF................................ [ 71%]
+................FF...................................................... [ 73%]
+.FF................................................FF................... [ 75%]
+........................................................F..F............ [ 76%]
+........................................................................ [ 78%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+........................................................................ [ 84%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+........................................................................ [ 89%]
+........................................................................ [ 91%]
+.......s.s.............................................................. [ 92%]
+...................................F.................................... [ 94%]
+........................................................................ [ 96%]
+..................F..................................................... [ 98%]
+..................................................................       [100%]
+================================== FAILURES ===================================
+_____________ TestFrozenBaseline.test_nine_file_hash_exact_match ______________
+tests\test_oos_data_extension_19.py:95: in test_nine_file_hash_exact_match
+    self.assertEqual(hashlib.sha256(joined.encode()).hexdigest(),
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+_________________ TestBoundary.test_extension_preserves_prior _________________
+tests\test_oos_data_extension_19.py:131: in test_extension_preserves_prior
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+________________ TestBoundary.test_no_discovery_contamination _________________
+tests\test_oos_data_extension_19.py:123: in test_no_discovery_contamination
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+___________ TestBoundary.test_strict_boundary_and_equality_excluded ___________
+tests\test_oos_data_extension_19.py:113: in test_strict_boundary_and_equality_excluded
+    rows, ext = ext_rows_asc()
+                ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+_______________ TestDatasetIdentity.test_artifact_stable_bytes ________________
+tests\test_oos_data_extension_19.py:155: in test_artifact_stable_bytes
+    self.assertEqual(hashlib.sha256(text.encode()).hexdigest(), first)
+E   AssertionError: '95537d42d1459f51559c7a02fea27e68fe69e59a9ec0a2d0933238c572ad2be3' != 'cd9de8a9f7578662ef0770d38e303fea7b08f6d023d18ea6eba3ee06001067c5'
+E   - 95537d42d1459f51559c7a02fea27e68fe69e59a9ec0a2d0933238c572ad2be3
+E   + cd9de8a9f7578662ef0770d38e303fea7b08f6d023d18ea6eba3ee06001067c5
+___________ TestDatasetIdentity.test_chronological_unique_ordering ____________
+tests\test_oos_data_extension_19.py:158: in test_chronological_unique_ordering
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+________________ TestDatasetIdentity.test_dataset_hash_matches ________________
+tests\test_oos_data_extension_19.py:143: in test_dataset_hash_matches
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+______________ TestProvenance.test_rows_carry_no_venue_identity _______________
+tests\test_oos_data_extension_19.py:198: in test_rows_carry_no_venue_identity
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+___________ TestPeriods.test_periods_chronological_non_overlapping ____________
+tests\test_oos_data_extension_19.py:239: in test_periods_chronological_non_overlapping
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+_____________ TestCausality.test_future_mutation_preserves_early ______________
+tests\test_oos_data_extension_19.py:251: in test_future_mutation_preserves_early
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+______________ TestDeterminism.test_small_slice_rerun_identical _______________
+tests\test_oos_data_extension_19.py:312: in test_small_slice_rerun_identical
+    rows, _ = ext_rows_asc()
+              ^^^^^^^^^^^^^^
+tests\test_oos_data_extension_19.py:58: in ext_rows_asc
+    with io.open(str(EXT), encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+____________ TestStrategyIdentity.test_nine_file_hash_exact_match _____________
+tests\test_oos_feasibility_17.py:113: in test_nine_file_hash_exact_match
+    self.assertEqual(digest, STRATEGY_HASH)
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+_________________ TestDeterminism.test_artifact_stable_bytes __________________
+tests\test_oos_feasibility_17.py:344: in test_artifact_stable_bytes
+    self.assertEqual(
+E   AssertionError: '2de23e5db8711895bb3050d08b2b88d6b052da2aa685c8a9d0516f70e688bb19' != 'd6a33f29df1bc178460ff35154aedc6ff4017ef1a0b6c0d696663b20e267ec1f'
+E   - 2de23e5db8711895bb3050d08b2b88d6b052da2aa685c8a9d0516f70e688bb19
+E   + d6a33f29df1bc178460ff35154aedc6ff4017ef1a0b6c0d696663b20e267ec1f
+___________ TestTopupCacheProvenance.test_h_phase19_cache_untouched ___________
+tests\test_oos_topup_acquisition.py:202: in test_h_phase19_cache_untouched
+    prior = json.load(io.open(
+E   FileNotFoundError: [Errno 2] No such file or directory: 'F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair\\data\\history\\BTCUSDT_1m_phase19_extension.json'
+____________ TestStrategyIdentity.test_nine_file_hash_exact_match _____________
+tests\test_oos_validation_18.py:74: in test_nine_file_hash_exact_match
+    self.assertEqual(digest, STRATEGY_HASH)
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+__________ TestStrategyIdentity.test_no_strategy_mutation_after_runs __________
+tests\test_oos_validation_18.py:101: in test_no_strategy_mutation_after_runs
+    self.assertEqual(hashlib.sha256(joined.encode()).hexdigest(),
+E   AssertionError: 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+E   - f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+E   + c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+_________________ TestDeterminism.test_artifact_stable_bytes __________________
+tests\test_oos_validation_18.py:342: in test_artifact_stable_bytes
+    self.assertEqual(
+E   AssertionError: '95cef0271ae746f26abe4a2661e270e573bdaeab746ba1483ae64d23cf63fdd2' != '56daf3f059a489cf9c92e8bcb22958b7fc60ea99e9a305efee21a6dc6733520a'
+E   - 95cef0271ae746f26abe4a2661e270e573bdaeab746ba1483ae64d23cf63fdd2
+E   + 56daf3f059a489cf9c92e8bcb22958b7fc60ea99e9a305efee21a6dc6733520a
+____________ TestDatasetContract.test_manifest_hashes_match_files _____________
+tests\test_phase11f_data_lineage.py:69: in test_manifest_hashes_match_files
+    self.assertEqual(files[name], actual, "stale hash for %s" % name)
+E   AssertionError: '348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005' != '3a9a4c1711728f5078ab1eb5454700fad4e18c9befc28dc0cfb8eb4d7645dfa0'
+E   - 348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005
+E   + 3a9a4c1711728f5078ab1eb5454700fad4e18c9befc28dc0cfb8eb4d7645dfa0
+E    : stale hash for hypotheses.json
+_________ TestSerializationDeterminism.test_manifest_hashes_reproduce _________
+tests\test_phase11f_determinism.py:129: in test_manifest_hashes_reproduce
+    self.assertEqual(K.sha256_file(research / name), recorded, name)
+E   AssertionError: '3a9a4c1711728f5078ab1eb5454700fad4e18c9befc28dc0cfb8eb4d7645dfa0' != '348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005'
+E   - 3a9a4c1711728f5078ab1eb5454700fad4e18c9befc28dc0cfb8eb4d7645dfa0
+E   + 348fcd3258a55b0d8680f9f125dbdc3c586d79e86427350118e35b14f4c45005
+E    : hypotheses.json
+__________ TestDeterministicSerialization.test_artifact_stable_bytes __________
+tests\test_readiness_16.py:454: in test_artifact_stable_bytes
+    self.assertEqual(first, second)
+E   AssertionError: '92b4cc93173d05f5685f08c3a25cd3a3460c7f588c3410d045d8ed333335c6d6' != '044e9e2c21ed904b411a344b462ba1ed351b156e4c590950eec3846f4d9cecf5'
+E   - 92b4cc93173d05f5685f08c3a25cd3a3460c7f588c3410d045d8ed333335c6d6
+E   + 044e9e2c21ed904b411a344b462ba1ed351b156e4c590950eec3846f4d9cecf5
+_________________ TestFrozenRecords.test_strategy_hash_pinned _________________
+tests\test_readiness_16.py:557: in test_strategy_hash_pinned
+    self.assertEqual(art["strategy_hash"], digest)
+E   AssertionError: 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6' != 'f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4'
+E   - c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6
+E   + f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4
+______ TestReleaseConsistency155.test_archive_and_detached_record_agree _______
+tests\test_release_consistency_phase155.py:79: in test_archive_and_detached_record_agree
+    self.assertIsNone(detached, "orphan detached hash record")
+E   AssertionError: WindowsPath('F:/vishal 3/latestoriginalquant/RELEASE_HASH_PHASE157.txt') is not None : orphan detached hash record
+_____________________ TestRepositoryHead.test_branch_main _____________________
+tests\test_researcher_11g_n.py:68: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_______________ TestRepositoryHead.test_starting_head_ancestor ________________
+tests\test_researcher_11g_n.py:63: in test_starting_head_ancestor
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestRepositoryHead.test_branch_main _____________________
+tests\test_researcher_11g_o.py:77: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_______________ TestRepositoryHead.test_starting_head_ancestor ________________
+tests\test_researcher_11g_o.py:72: in test_starting_head_ancestor
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestRepositoryHead.test_branch_main _____________________
+tests\test_researcher_11g_p.py:77: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_______________ TestRepositoryHead.test_starting_head_ancestor ________________
+tests\test_researcher_11g_p.py:72: in test_starting_head_ancestor
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestStartingState.test_branch_main ______________________
+tests\test_researcher_11g_q.py:80: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_________________ TestStartingState.test_head_descends_from_p _________________
+tests\test_researcher_11g_q.py:75: in test_head_descends_from_p
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestStartingState.test_branch_main ______________________
+tests\test_researcher_11g_r.py:81: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_________________ TestStartingState.test_head_descends_from_q _________________
+tests\test_researcher_11g_r.py:76: in test_head_descends_from_q
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestStartingState.test_branch_main ______________________
+tests\test_researcher_11g_s.py:81: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_________________ TestStartingState.test_head_descends_from_r _________________
+tests\test_researcher_11g_s.py:76: in test_head_descends_from_r
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestStartingState.test_branch_main ______________________
+tests\test_researcher_11g_t.py:81: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_________________ TestStartingState.test_head_descends_from_s _________________
+tests\test_researcher_11g_t.py:76: in test_head_descends_from_s
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_____________________ TestStartingState.test_branch_main ______________________
+tests\test_researcher_11g_u.py:81: in test_branch_main
+    self.assertEqual(r.stdout.strip(), "main")
+E   AssertionError: '' != 'main'
+E   + main
+_________________ TestStartingState.test_head_descends_from_t _________________
+tests\test_researcher_11g_u.py:76: in test_head_descends_from_t
+    self.assertEqual(r.returncode, 0)
+E   AssertionError: 128 != 0
+_________ TestMultipleTestingPreserved.test_no_new_hypothesis_family __________
+tests\test_researcher_15.py:386: in test_no_new_hypothesis_family
+    self.assertEqual(out.returncode, 0)
+E   AssertionError: 128 != 0
+__________ TestDeterministicSerialization.test_artifact_stable_bytes __________
+tests\test_researcher_15.py:428: in test_artifact_stable_bytes
+    self.assertEqual(first, second)
+E   AssertionError: 'c7bb6381aedadae15e849dc3afcf4f0cd9176700e9d3a65b412bbe33b96d1b30' != '30f633fdce8c7e5932b7d09e3f0ee256b64053282df89c2ec431108aee91cbd0'
+E   - c7bb6381aedadae15e849dc3afcf4f0cd9176700e9d3a65b412bbe33b96d1b30
+E   + 30f633fdce8c7e5932b7d09e3f0ee256b64053282df89c2ec431108aee91cbd0
+_________ TestRepoIntegrity.test_head_is_stage123_closure_descendant __________
+tests\test_stage4_paper_certification.py:141: in test_head_is_stage123_closure_descendant
+    self.assertEqual(
+E   AssertionError: 128 != 0
+_ TestNoFindingToHypothesisEdge.test_only_coercion_constructs_records_in_core _
+tests\test_upstream_hypothesis_audit.py:51: in test_only_coercion_constructs_records_in_core
+    self.assertEqual(sites, ["core/research/oos/engine.py"])
+E   AssertionError: Lists differ: [] != ['core/research/oos/engine.py']
+E   
+E   Second list contains 1 additional elements.
+E   First extra element 0:
+E   'core/research/oos/engine.py'
+E   
+E   - []
+E   + ['core/research/oos/engine.py']
+=========================== short test summary info ===========================
+FAILED tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match
+FAILED tests/test_oos_data_extension_19.py::TestBoundary::test_extension_preserves_prior
+FAILED tests/test_oos_data_extension_19.py::TestBoundary::test_no_discovery_contamination
+FAILED tests/test_oos_data_extension_19.py::TestBoundary::test_strict_boundary_and_equality_excluded
+FAILED tests/test_oos_data_extension_19.py::TestDatasetIdentity::test_artifact_stable_bytes
+FAILED tests/test_oos_data_extension_19.py::TestDatasetIdentity::test_chronological_unique_ordering
+FAILED tests/test_oos_data_extension_19.py::TestDatasetIdentity::test_dataset_hash_matches
+FAILED tests/test_oos_data_extension_19.py::TestProvenance::test_rows_carry_no_venue_identity
+FAILED tests/test_oos_data_extension_19.py::TestPeriods::test_periods_chronological_non_overlapping
+FAILED tests/test_oos_data_extension_19.py::TestCausality::test_future_mutation_preserves_early
+FAILED tests/test_oos_data_extension_19.py::TestDeterminism::test_small_slice_rerun_identical
+FAILED tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+FAILED tests/test_oos_feasibility_17.py::TestDeterminism::test_artifact_stable_bytes
+FAILED tests/test_oos_topup_acquisition.py::TestTopupCacheProvenance::test_h_phase19_cache_untouched
+FAILED tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+FAILED tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs
+FAILED tests/test_oos_validation_18.py::TestDeterminism::test_artifact_stable_bytes
+FAILED tests/test_phase11f_data_lineage.py::TestDatasetContract::test_manifest_hashes_match_files
+FAILED tests/test_phase11f_determinism.py::TestSerializationDeterminism::test_manifest_hashes_reproduce
+FAILED tests/test_readiness_16.py::TestDeterministicSerialization::test_artifact_stable_bytes
+FAILED tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned
+FAILED tests/test_release_consistency_phase155.py::TestReleaseConsistency155::test_archive_and_detached_record_agree
+FAILED tests/test_researcher_11g_n.py::TestRepositoryHead::test_branch_main
+FAILED tests/test_researcher_11g_n.py::TestRepositoryHead::test_starting_head_ancestor
+FAILED tests/test_researcher_11g_o.py::TestRepositoryHead::test_branch_main
+FAILED tests/test_researcher_11g_o.py::TestRepositoryHead::test_starting_head_ancestor
+FAILED tests/test_researcher_11g_p.py::TestRepositoryHead::test_branch_main
+FAILED tests/test_researcher_11g_p.py::TestRepositoryHead::test_starting_head_ancestor
+FAILED tests/test_researcher_11g_q.py::TestStartingState::test_branch_main - ...
+FAILED tests/test_researcher_11g_q.py::TestStartingState::test_head_descends_from_p
+FAILED tests/test_researcher_11g_r.py::TestStartingState::test_branch_main - ...
+FAILED tests/test_researcher_11g_r.py::TestStartingState::test_head_descends_from_q
+FAILED tests/test_researcher_11g_s.py::TestStartingState::test_branch_main - ...
+FAILED tests/test_researcher_11g_s.py::TestStartingState::test_head_descends_from_r
+FAILED tests/test_researcher_11g_t.py::TestStartingState::test_branch_main - ...
+FAILED tests/test_researcher_11g_t.py::TestStartingState::test_head_descends_from_s
+FAILED tests/test_researcher_11g_u.py::TestStartingState::test_branch_main - ...
+FAILED tests/test_researcher_11g_u.py::TestStartingState::test_head_descends_from_t
+FAILED tests/test_researcher_15.py::TestMultipleTestingPreserved::test_no_new_hypothesis_family
+FAILED tests/test_researcher_15.py::TestDeterministicSerialization::test_artifact_stable_bytes
+FAILED tests/test_stage4_paper_certification.py::TestRepoIntegrity::test_head_is_stage123_closure_descendant
+FAILED tests/test_upstream_hypothesis_audit.py::TestNoFindingToHypothesisEdge::test_only_coercion_constructs_records_in_core
+42 failed, 3974 passed, 10 skipped in 2645.54s (0:44:05)
+塅呉佃䕄ㄽ਍

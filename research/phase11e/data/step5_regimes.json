@@ -1,0 +1,140 @@
+{
+ "folds": {
+  "F1": {
+   "calibration": {
+    "from": 1787335440,
+    "to": 1787575440,
+    "n_bars": 4001,
+    "oos_start": 1787575500,
+    "causal": true
+   },
+   "oos": {
+    "from": 1787575500,
+    "to": 1787775420,
+    "n_bars": 3333
+   },
+   "threshold_source": "calibration-only terciles (this fold)",
+   "thresholds": {
+    "q33": 8.169315632618082e-05,
+    "q66": 0.00020175815158461844,
+    "n": 3987
+   },
+   "cells": {
+    "vol_high/trend_above": {
+     "n": 3,
+     "net": -1.1159,
+     "gross": 0.2341,
+     "wins": 0,
+     "expectancy": -0.372
+    },
+    "vol_high/trend_below": {
+     "n": 10,
+     "net": -4.9013,
+     "gross": -0.4013,
+     "wins": 0,
+     "expectancy": -0.4901
+    },
+    "vol_mid/trend_above": {
+     "n": 1,
+     "net": -0.4434,
+     "gross": 0.0066,
+     "wins": 0,
+     "expectancy": -0.4434
+    }
+   }
+  },
+  "F2": {
+   "calibration": {
+    "from": 1787335440,
+    "to": 1787775420,
+    "n_bars": 7334,
+    "oos_start": 1787775480,
+    "causal": true
+   },
+   "oos": {
+    "from": 1787775480,
+    "to": 1787975400,
+    "n_bars": 3333
+   },
+   "threshold_source": "calibration-only terciles (this fold)",
+   "thresholds": {
+    "q33": 9.145750100277953e-05,
+    "q66": 0.0002287561860632352,
+    "n": 7320
+   },
+   "cells": {
+    "vol_high/trend_above": {
+     "n": 2,
+     "net": -1.0963,
+     "gross": -0.1963,
+     "wins": 0,
+     "expectancy": -0.5481
+    },
+    "vol_high/trend_below": {
+     "n": 2,
+     "net": -0.8788,
+     "gross": 0.0212,
+     "wins": 0,
+     "expectancy": -0.4394
+    },
+    "vol_mid/trend_below": {
+     "n": 2,
+     "net": -0.8934,
+     "gross": 0.0066,
+     "wins": 0,
+     "expectancy": -0.4467
+    }
+   }
+  },
+  "F3": {
+   "calibration": {
+    "from": 1787335440,
+    "to": 1787975400,
+    "n_bars": 10667,
+    "oos_start": 1787975460,
+    "causal": true
+   },
+   "oos": {
+    "from": 1787975460,
+    "to": 1788175440,
+    "n_bars": 3334
+   },
+   "threshold_source": "calibration-only terciles (this fold)",
+   "thresholds": {
+    "q33": 8.610631337383096e-05,
+    "q66": 0.0002191330944642005,
+    "n": 10653
+   },
+   "cells": {}
+  },
+  "F4": {
+   "calibration": {
+    "from": 1787335440,
+    "to": 1788601440,
+    "n_bars": 19001,
+    "oos_start": 1788601500,
+    "causal": true
+   },
+   "oos": {
+    "from": 1788601500,
+    "to": 1788751380,
+    "n_bars": 2499
+   },
+   "threshold_source": "calibration-only terciles (this fold)",
+   "thresholds": {
+    "q33": 6.150288178107835e-05,
+    "q66": 0.00017749937960007334,
+    "n": 18987
+   },
+   "cells": {
+    "vol_mid/trend_below": {
+     "n": 1,
+     "net": -0.4476,
+     "gross": 0.0024,
+     "wins": 0,
+     "expectancy": -0.4476
+    }
+   }
+  }
+ }
+}

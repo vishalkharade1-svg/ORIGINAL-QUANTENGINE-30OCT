@@ -1,0 +1,43 @@
+{
+  "broader_economics_tests": {
+    "action": "NOT_WEAKENED_OR_REPINNED",
+    "failed": 1,
+    "failure_class": "LEGACY_POLICY_EXPECTATION_MISMATCH",
+    "known_failure": "tests/test_versioned_economics_phase6.py::TestVersionedEconomics::test_eroded_trade_is_rejected",
+    "passed": 71
+  },
+  "certification_boundary": "No OOS economic certificate can be issued until genuine venue fee/funding/friction/authenticated-fill evidence exists and all exact cross-bindings pass.",
+  "focused_tests": {
+    "compileall": "PASS",
+    "failed": 0,
+    "passed": 28
+  },
+  "implementation": [
+    "Added fail-closed cross-binding certificate for fee, funding, market-friction and authenticated fill evidence",
+    "Requires exact venue and symbol identity across evidence domains",
+    "Requires authenticated fill/friction reconciliation with matching evidence fingerprints",
+    "Requires historical fee coverage window for OOS certification",
+    "Requires explicit millisecond funding coverage rather than guessing native timestamp units",
+    "Requires market-friction and authenticated-fill coverage over the requested OOS interval",
+    "Never upgrades FIXTURE or UNKNOWN evidence to REAL"
+  ],
+  "live_readiness": false,
+  "next": "Execute the authenticated Delta Testnet capture from a network-enabled authorized environment, then feed the resulting artifacts through this gate.",
+  "phase": "83",
+  "post_phase_fix": {
+    "compileall": "PASS",
+    "focused_regression": "82 passed / 0 failed",
+    "legacy_rr_policy_mismatch": "RESOLVED",
+    "legacy_rr_test_updated": true,
+    "note": "Updated test_versioned_economics_phase6 to assert authoritative configurable TradingPolicy rather than obsolete hard-coded 6R runtime behavior.",
+    "status": "IMPLEMENTED_TESTED"
+  },
+  "production_ready": false,
+  "real_venue_evidence": {
+    "blocker": "network/DNS unavailable in execution environment",
+    "credentials": "not persisted",
+    "status": "NOT_CAPTURED"
+  },
+  "status": "IMPLEMENTED_TESTED",
+  "title": "Authenticated execution economics cross-binding certification gate"
+}

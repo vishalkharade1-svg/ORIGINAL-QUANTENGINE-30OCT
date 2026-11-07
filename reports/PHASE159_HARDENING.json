@@ -1,0 +1,59 @@
+{
+  "phase": 159,
+  "title": "Phase159 hardening repairs (from the Phase158 revision-2 self-audit)",
+  "provenance_of_findings": {
+    "audit": "PHASE158_REV2_AUDIT_REPORT.md (16/16 PASS) executed 2026-10-17 against the sealed revision-2 archive sha256 b283332a8b8651e2d3e82acdf8b958bb1df43f5979dce905d9c0312778676beb",
+    "machine_readable": "PHASE158_REV2_AUDIT_FINDINGS.json (beside the delivery, outside the package)",
+    "rule": "repairs were forbidden on the sealed revision-2 tree; every finding recorded there was addressed by this new Phase159 tree instead, never by editing sealed bytes"
+  },
+  "repairs": [
+    {
+      "id": "AUD-OBS-158-01",
+      "severity": "LOW",
+      "finding": "the secret scanner decoded files with encoding='utf-8', so a UTF-8 BOM on line 1 hid the first line's assignment from the ^-anchored credential rules (U+FEFF is not whitespace); the r2 audit demonstrated the blind spot with a BOM'd .env planted in a scratch tree",
+      "root_cause": "Windows tools commonly write BOM-prefixed text; the scanner's line reader assumed BOM-less UTF-8",
+      "fix": "scripts/security/scan_secrets.py decodes every scannable file with encoding='utf-8-sig' (strips a leading BOM; BOM-less files decode identically); a phase159 comment records why",
+      "tests_added": [
+        "tests/test_secret_scan_phase0.py::TestPhase0SecretScanner::test_bom_prefixed_first_line_secret_is_found"
+      ],
+      "test_strength": "the fixture asserts the file bytes actually carry the BOM (efbbbf) before scanning, so the regression cannot silently pass against a BOM-less file"
+    },
+    {
+      "id": "AUD-OBS-158-02",
+      "severity": "LOW",
+      "finding": "a manifest-listed file absent from disk was reported with the inverted label 'manifest-extra:' (it reads as if the disk had an extra file); detection existed but the label misdescribed the failure to the operator",
+      "root_cause": "the first diff loop appended the wrong label and the second loop's elif branch compensated by appending nothing for the same file; the pair produced exactly one inverted-label problem per missing file",
+      "fix": "scripts/generate_manifest.py now reports the same condition as 'missing:'; the redundant elif branch was removed (dead after the rename); the docstring records the label vocabulary: 'missing:' = listed-but-absent, 'uncovered:' = on-disk-but-not-covered; detection is unchanged, wording only",
+      "tests_changed": [
+        "tests/test_phase158_manifest_contract.py::TestVerifierProblems::test_missing_file_is_detected strengthened to assert the exact 'missing:b.txt' label and to forbid the inverted 'manifest-extra:' label"
+      ],
+      "no_test_weakened": true
+    },
+    {
+      "id": "AUD-OBS-158-03",
+      "severity": "OBSERVATION",
+      "finding": "tests/test_phase158_privacy_contract.py embedded a real historical venue order id as fixture data (the ten-digit value is recorded in the revision-2 audit materials beside the delivery, deliberately not reproduced in this package because an aggregate artifact carrying a harvested id is exactly what the privacy scanner flags); harmless to the scanner's operation but test fixtures should not carry real identifiers",
+      "root_cause": "the fixture was copied from a genuine capture id during the Phase158 privacy-contract authoring",
+      "fix": "all 10 fixture occurrences replaced with the synthetic id 9000001234, verified to collide with no harvested capture id; a comment in the test states the rule: fixture ids must be synthetic, never harvested",
+      "tests_changed": [
+        "tests/test_phase158_privacy_contract.py (fixture ids only; scanner behavioral assertions untouched)"
+      ],
+      "collisions_checked": "9000001234 does not appear anywhere under research/captures/ (checked by regex over the harvested order_id/client_order_id values)"
+    }
+  ],
+  "hardening_alongside": [
+    {
+      "id": "HARD-159-01",
+      "what": "scripts/security/scan_privacy.py reads every scanned line with encoding='utf-8-sig' — same BOM blind spot existed in the privacy scanner's line reader, closed alongside the secret-scanner fix",
+      "tests_added": [
+        "tests/test_phase158_privacy_contract.py::TestPrivacyScannerCanFail::test_bom_prefixed_capture_line_is_still_harvested"
+      ]
+    }
+  ],
+  "verification": {
+    "focused": "tests/test_phase158_privacy_contract.py + tests/test_secret_scan_phase0.py + tests/test_phase158_manifest_contract.py + tests/test_packaging_no_secrets_phase132.py: 34 passed (the 5 failures seen before the manifest regeneration were the stale-manifest class — the tree's BUILD_MANIFEST.sha256 still described the revision-2 bytes at that moment)",
+    "scanners_after_fix": "SECRET_SCAN_PASS; PRIVACY_SCAN_PASS with publication_clearance NOT_CLEARED (reports/PHASE159_PRIVACY_SCAN.json)",
+    "full_suite": "executed twice on the sealed candidate bytes (worktree and extraction runs), recorded in reports/PHASE159_FULL_SUITE_RUN.txt and the post-build bundle"
+  },
+  "next_time": "any future revision starting from this tree must re-derive its own diff vs the Phase159 archive and re-run both scanners and the manifest contract from scratch"
+}

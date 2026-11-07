@@ -1,0 +1,259 @@
+{
+  "policy": "Every hypothesis/variant evaluated is logged here with an immutable ID. Failed candidates are never deleted. Counts feed the multiple-testing audit.",
+  "registration_timestamp": "2026-09-07T00:00:00Z",
+  "registration_note": "11F-1 architecture registration only. No candidate research executed; variants_tested remains 0 and result null for all entries.",
+  "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+  "entries": [
+    {
+      "id": "H11F-001",
+      "name": "Liquidity Sweep Reversal",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "a14131a0a6d552a240f5147bf1f03696e591c125196d26424cba16abe648c399",
+      "parameter_spec_hash": "f12291478b709f86d6024d9ddf04450870d68ff4ad7acff43b94e9326acd1171",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-002",
+      "name": "Sweep Displacement FVG Retest",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "0e5c011f26284985bd4af4aa5d860ec900d773dbecd3c4f6ecdd74f6e3fc2483",
+      "parameter_spec_hash": "d3a691c4252cc7143f0d999d2208211036f08a6ed9eda951224b186cbb256135",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 3,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-003",
+      "name": "Wyckoff Spring",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "0c20bd81a81827694b85d3523c72a173eb92b7abe6c4d6afdf80d8c08d79880a",
+      "parameter_spec_hash": "6a571f3cfc8aca32b14a3deb3121faee2940b4f531f80b1340e491edc3720492",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-004",
+      "name": "Wyckoff Upthrust",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "7a79c03da403f3f50323be57bec6331a66c6f2b79a13a57644c922c20fe23bb7",
+      "parameter_spec_hash": "e71ebefebe56ea9c84612d78f479c4c5d4a15a0e61928a86ec0f6efde51e725a",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-005",
+      "name": "Order Block Sweep Displacement",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "0e7160f37c552682273845430501eb48faeda090b132657b66182fd49de83c33",
+      "parameter_spec_hash": "d3a691c4252cc7143f0d999d2208211036f08a6ed9eda951224b186cbb256135",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 2,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-006",
+      "name": "Breaker Structure Retest",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "3b6f5a9e1426b3e21974434ddbd6529f7fb37de6f29657a9d1879b9f87da8c12",
+      "parameter_spec_hash": "255d0f36df1660164007b47b51f963b8a7ed037b10be66163ed1a7bc1142fab1",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-007",
+      "name": "Trend Displacement FVG Continuation",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "f5de0ac4c76b067707ab9762f55fd7fd13217865830a12e2c53a7902ae4bf120",
+      "parameter_spec_hash": "26968523e389fc24ef3d3e779e2471a08701b260348fe3af91afbe867f710951",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 3,
+      "result": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "n_pooled": 0,
+        "active_folds": 0,
+        "pooled_net": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0
+        },
+        "pooled_expectancy_C": 0.0,
+        "profit_factor_C": 0.0,
+        "sharpe_C": 0.0,
+        "maxdd_C": 0.0
+      },
+      "failure_reason": "pooled trades below minimum evidence (0 < 30)"
+    },
+    {
+      "id": "H11F-008",
+      "name": "Range Extreme RSI Fade",
+      "status": "FAIL",
+      "registration_timestamp": "2026-09-07T00:00:00Z",
+      "hypothesis_hash": "ffe5cf241280768498dfe21ffec317e01ea0831b3ac6fefc54645a06aedac4bf",
+      "parameter_spec_hash": "f3aadf2a9aa06dc2e1893ad1a6d922b1519bb6f66ad03faa9a2796c318714c55",
+      "dataset_spec_hash": "5018d94be2a7eddce65f09751bda6486ee931c48e2915e09d12f2cff5c24ec16",
+      "variants_tested": 1,
+      "result": {
+        "verdict": "FAIL",
+        "n_pooled": 117,
+        "active_folds": 8,
+        "pooled_net": {
+          "A": 37.954261407690474,
+          "B": -14.695738592309528,
+          "C": -55.060738592309534,
+          "D": -148.07573859230953
+        },
+        "pooled_expectancy_C": -0.4706046033530729,
+        "profit_factor_C": 0.279396574914279,
+        "sharpe_C": -5.787845679614433,
+        "maxdd_C": 57.51051527126535
+      },
+      "failure_reason": "pooled net(C)<=0 with sufficient evidence"
+    }
+  ],
+  "phase11f5": {
+    "stage": "METHODOLOGY_RECERTIFICATION",
+    "protocol_head": "f782d9dcf2285a2c9bd16c3fff2e9980686a32d6",
+    "amendments": [
+      "11F-4-A1",
+      "11F-5-WF",
+      "11F-5-A3"
+    ],
+    "fold_methodology": "expanding-origin (corrected)",
+    "primary_runs": 256,
+    "verdicts": {
+      "H11F-001": "INSUFFICIENT_EVIDENCE",
+      "H11F-002": "INSUFFICIENT_EVIDENCE",
+      "H11F-003": "INSUFFICIENT_EVIDENCE",
+      "H11F-004": "INSUFFICIENT_EVIDENCE",
+      "H11F-005": "INSUFFICIENT_EVIDENCE",
+      "H11F-006": "INSUFFICIENT_EVIDENCE",
+      "H11F-007": "INSUFFICIENT_EVIDENCE",
+      "H11F-008": "FAIL"
+    },
+    "reproducibility": true,
+    "d3": {
+      "read": 0,
+      "hash": 0,
+      "load": 0
+    },
+    "winner_selected": false,
+    "artifact_hashes": {
+      "11f5_a1_amendment.json": "ab43ce223e08993db618aee3b99bcbeadf9980d4312e5d3618ea405e7840e64c",
+      "11f5_ablation_results.json": "d7880b495dc07b1b14dde8915e04c23615eb8aa5dcfe1e7728ac0a50212cc62f",
+      "11f5_cost_results.json": "0d6369a1aea53bdfc4091504c68e4f62282d2796220bef1f5b056730eea27c66",
+      "11f5_execution_manifest.json": "da6f2751fff4ac784896fd79af54e750a91a33fb7f963b370ca108eda14d5f0b",
+      "11f5_execution_results.json": "79bbab015f7e44adef301618d12aa1506c505d6b684272f9f4a157860dbb1864",
+      "11f5_fold_results.json": "a694e86f4ccc61608822409cf1d63b335c44a7c7a42406305b5bde8a58e2343e",
+      "11f5_hypothesis_results.json": "175cf4e518a988b19b34c406d70dcb4077f28fa685845f39dd3a66aecbdaeddb",
+      "11f5_monte_carlo_results.json": "d19768e64a04457561f21b59fe846d5496b95ed7c8409a5941044207dc8cd63d",
+      "11f5_multiple_testing_results.json": "f4455677009f9856a80e306311d29ddc8dfdba2884af76f0ec54af31ab2dbd78",
+      "11f5_pre_correction_fold_geometry.json": "0e8d16bdd063f34a88610f24ec5ade973116b18fd9881ad917ebfe6be7e90e11",
+      "11f5_random_baseline_results.json": "1406babe0ac23652c5578cbe0e53b7f3d1273659b9ff6192fe8888f029d3160a",
+      "11f5_regime_results.json": "f32eb18ba9c36a094f46e2ab15bd6f434ac68926bf96f66f34615a448248debc",
+      "11f5_reproducibility.json": "66be517516bba656f40b603590e765c76f07c5d85c92bf3db057d72c1e400553"
+    }
+  }
+}

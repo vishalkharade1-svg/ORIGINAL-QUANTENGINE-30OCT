@@ -1,0 +1,74 @@
+{
+ "H11GF-001": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.0,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 0,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-002": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.0,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 0,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-003": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.0,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 0,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-004": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.143,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 2,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-005": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.143,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 2,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-006": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.0,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 0,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-007": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.0,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 0,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GF-008": {
+  "interpretation": "sparsity persists on Tier-1 independent data",
+  "rate_11gf_per_1k": 0.0,
+  "rate_gap_per_1k": 0.0,
+  "trades_11gf": 0,
+  "trades_gap": 0,
+  "verdict_11gf": "INSUFFICIENT_EVIDENCE",
+  "verdict_gap": "INSUFFICIENT_EVIDENCE"
+ }
+}

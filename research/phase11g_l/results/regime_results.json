@@ -1,0 +1,216 @@
+{
+ "H11GK-001": {
+  "F0": {
+   "low/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "low/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "F1": {
+   "high/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "F2": {
+   "high/below": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   }
+  }
+ },
+ "H11GK-002": {
+  "F0": {},
+  "F1": {
+   "mid/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "F2": {
+   "high/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  }
+ },
+ "H11GK-003": {
+  "F0": {},
+  "F1": {},
+  "F2": {
+   "high/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  }
+ },
+ "H11GK-004": {
+  "F0": {
+   "low/above": {
+    "expectancy": -0.7535869126921271,
+    "n": 6,
+    "net": -4.5215214761527625,
+    "pf": 0.0
+   },
+   "low/below": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "expectancy": -0.6411776006100078,
+    "n": 3,
+    "net": -1.9235328018300235,
+    "pf": 0.0
+   },
+   "mid/below": {
+    "expectancy": -0.9516746950296925,
+    "n": 3,
+    "net": -2.8550240850890773,
+    "pf": 0.0
+   }
+  },
+  "F1": {
+   "high/above": {
+    "expectancy": -0.36008430268336905,
+    "n": 4,
+    "net": -1.4403372107334762,
+    "pf": 0.18307157953502842
+   },
+   "high/below": {
+    "expectancy": -0.828045952385516,
+    "n": 3,
+    "net": -2.484137857156548,
+    "pf": 0.0
+   },
+   "low/above": {
+    "expectancy": -0.8629465611622963,
+    "n": 4,
+    "net": -3.451786244649185,
+    "pf": 0.0
+   },
+   "mid/above": {
+    "expectancy": -0.743635678023228,
+    "n": 8,
+    "net": -5.949085424185824,
+    "pf": 0.0
+   },
+   "mid/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "F2": {
+   "high/above": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "high/below": {
+    "expectancy": -0.8236495265684256,
+    "n": 4,
+    "net": -3.2945981062737024,
+    "pf": 0.0
+   },
+   "mid/above": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "mid/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  }
+ },
+ "H11GK-005": {
+  "F0": {},
+  "F1": {},
+  "F2": {}
+ },
+ "H11GK-006": {
+  "F0": {},
+  "F1": {},
+  "F2": {}
+ },
+ "H11GK-007": {
+  "F0": {
+   "low/above": {
+    "expectancy": -0.8383956859821486,
+    "n": 6,
+    "net": -5.030374115892892,
+    "pf": 0.0
+   },
+   "low/below": {
+    "expectancy": -0.7725040334178195,
+    "n": 4,
+    "net": -3.090016133671278,
+    "pf": 0.0
+   },
+   "mid/above": {
+    "expectancy": -0.7860874289109456,
+    "n": 3,
+    "net": -2.358262286732837,
+    "pf": 0.0
+   },
+   "mid/below": {
+    "expectancy": -0.6940508412151467,
+    "n": 3,
+    "net": -2.08215252364544,
+    "pf": 0.0
+   }
+  },
+  "F1": {
+   "high/above": {
+    "expectancy": -0.8123180599718742,
+    "n": 7,
+    "net": -5.68622641980312,
+    "pf": 0.0
+   },
+   "high/below": {
+    "expectancy": -0.8568986491093595,
+    "n": 4,
+    "net": -3.427594596437438,
+    "pf": 0.0
+   },
+   "low/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "expectancy": -0.9032076300405922,
+    "n": 3,
+    "net": -2.7096228901217767,
+    "pf": 0.0
+   },
+   "mid/below": {
+    "expectancy": -0.8300379583960461,
+    "n": 3,
+    "net": -2.4901138751881384,
+    "pf": 0.0
+   }
+  },
+  "F2": {
+   "high/above": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "high/below": {
+    "expectancy": -0.8360589924443922,
+    "n": 7,
+    "net": -5.8524129471107456,
+    "pf": 0.0
+   }
+  }
+ },
+ "H11GK-008": {
+  "F0": {},
+  "F1": {},
+  "F2": {}
+ }
+}

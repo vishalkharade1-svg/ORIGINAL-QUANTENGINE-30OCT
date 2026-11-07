@@ -1,0 +1,56 @@
+{
+  "schema": "quantengine.phase189-risk-budget-audit.v1",
+  "phase": 189,
+  "audit_timestamp_utc": "2026-10-21T06:16:00Z",
+  "status": "AUDITED_RESTRICTED_APPROVAL_BLOCKED",
+  "instrument_parameters": {
+    "symbol": "BTCUSD",
+    "product_id": 84,
+    "venue": "DELTA_INDIA_TESTNET",
+    "contract_multiplier": 0.001,
+    "contract_unit": "BTC",
+    "tick_size_usd": 0.10,
+    "reference_price_usd": 82800.0,
+    "authorized_order_size_contracts": 1,
+    "effective_notional_usd": 82.80,
+    "initial_margin_rate": 0.01,
+    "required_margin_usd": 0.83
+  },
+  "fee_and_friction_model": {
+    "maker_fee_rate_bps": 2.0,
+    "taker_fee_rate_bps": 5.0,
+    "gst_rate_pct": 18.0,
+    "maker_fee_per_contract_usd": 0.01656,
+    "maker_gst_per_contract_usd": 0.00298,
+    "total_maker_friction_per_turn_usd": 0.01954,
+    "twenty_order_cumulative_maker_fees_usd": 0.3908
+  },
+  "risk_budget_specification": {
+    "authorized_loss_budget_usd": 5.00,
+    "loss_budget_definition": "Software halt-and-abort trigger terminating the session when cumulative realized PnL + recognized fee drag falls below -$5.00 USD.",
+    "maximum_tolerable_adverse_move_usd": 500.00,
+    "maximum_tolerable_adverse_move_pct": 6.038,
+    "is_absolute_exchange_guarantee": false,
+    "loss_guarantee_limitation_disclosure": "The $5.00 loss budget cannot be mathematically guaranteed as an absolute hard stop by the exchange. In the presence of market gap risk, sudden order book thinning, exchange liquidation cascades, or latency delays during protective market/limit exit dispatch, realized losses can exceed $5.00. QuantEngine treats $5.00 as an aggressive fail-closed software shutdown threshold, NOT a venue-guaranteed stop."
+  },
+  "order_limit_enforcement": {
+    "max_cumulative_orders": 20,
+    "cumulative_accounting_mechanism": "Persistent append-only JSONL ledger (research/results/phase189_testnet_experiment_ledger.jsonl)",
+    "restart_bypass_protection": "VERIFIED_PROTECTED (ledger count persists across process crashes)",
+    "max_simultaneous_open_orders": 1,
+    "serialization_rule": "Order N+1 submission strictly blocked until Order N reaches terminal state (FILLED, CANCELLED_UNFILLED, REJECTED_POST_ONLY)",
+    "ambiguous_ack_handling": "HALT_NEW_SUBMISSIONS (5.0s timeout transitions order to AMBIGUOUS_STATE, requiring active GET /v2/orders reconciliation before any further action)",
+    "resting_timeout_seconds": 120.0,
+    "timeout_cancellation_assumption": "Cancellation is NOT assumed complete upon sending DELETE; state remains CANCEL_REQUESTED until venue confirms terminal status",
+    "late_fill_handling": "FILLED_POST_CANCEL_REQ state triggers inventory recognition and immediate protective reduce-only bracket",
+    "post_only_rejection_policy": "Terminal rejection; zero implicit market order conversion; zero chasing",
+    "retry_bypass_protection": "Blind retries prohibited; idempotent cl_ord_id required on all dispatches"
+  },
+  "audit_verdict": {
+    "sizing_validated": true,
+    "exposure_validated": true,
+    "restart_persistence_validated": true,
+    "absolute_loss_guarantee_claimed": false,
+    "preflight_risk_verdict": "PASS_WITH_EXPLICIT_LOSS_LIMITATION_DISCLOSURE"
+  }
+}

@@ -1,0 +1,170 @@
+{
+ "H11GK-001": {
+  "active_folds": 3,
+  "evidence": "INSUFFICIENT: pooled 6 < 30",
+  "metrics_C": {
+   "expectancy": -0.9940586192422742,
+   "fees": 1.7700000000000002,
+   "gross": -1.1943517154536454,
+   "losses": 6,
+   "maxdd": 5.964351715453645,
+   "net": -5.964351715453645,
+   "pf": 0.0,
+   "sharpe": -8.580536100264633,
+   "slippage": 3.0,
+   "sortino": -8.580536100264633,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 6,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GK-002": {
+  "active_folds": 2,
+  "evidence": "INSUFFICIENT: pooled 2 < 30",
+  "metrics_C": {
+   "expectancy": -1.2064046303163252,
+   "fees": 0.5900000000000001,
+   "gross": -0.8228092606326504,
+   "losses": 2,
+   "maxdd": 2.4128092606326503,
+   "net": -2.4128092606326503,
+   "pf": 0.0,
+   "sharpe": -7.710498794001123,
+   "slippage": 1.0,
+   "sortino": -7.710498794001123,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 2,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GK-003": {
+  "active_folds": 1,
+  "evidence": "INSUFFICIENT: pooled 1 < 30",
+  "metrics_C": {
+   "expectancy": -1.1006108811432256,
+   "fees": 0.29500000000000004,
+   "gross": -0.30561088114322554,
+   "losses": 1,
+   "maxdd": 1.1006108811432256,
+   "net": -1.1006108811432256,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0.5,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 1,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GK-004": {
+  "active_folds": 3,
+  "evidence": "SUFFICIENT",
+  "metrics_C": {
+   "expectancy": -0.7686206239551049,
+   "fees": 12.685000000000002,
+   "gross": 1.1343131699304934,
+   "losses": 42,
+   "maxdd": 33.05068683006951,
+   "net": -33.05068683006951,
+   "pf": 0.009671633571057676,
+   "sharpe": -17.687706431116563,
+   "slippage": 21.5,
+   "sortino": -19.49404607956911,
+   "win_rate": 2.3255813953488373,
+   "wins": 1
+  },
+  "n_folds": 3,
+  "n_pooled": 43,
+  "verdict": "FAIL"
+ },
+ "H11GK-005": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GK-006": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ },
+ "H11GK-007": {
+  "active_folds": 3,
+  "evidence": "SUFFICIENT",
+  "metrics_C": {
+   "expectancy": -0.8257947510843924,
+   "fees": 12.685000000000002,
+   "gross": -1.3241742966288648,
+   "losses": 43,
+   "maxdd": 35.50917429662888,
+   "net": -35.50917429662887,
+   "pf": 0.0,
+   "sharpe": -24.571778557717607,
+   "slippage": 21.5,
+   "sortino": -24.571778557717607,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 43,
+  "verdict": "FAIL"
+ },
+ "H11GK-008": {
+  "active_folds": 0,
+  "evidence": "INSUFFICIENT: pooled 0 < 30",
+  "metrics_C": {
+   "expectancy": 0.0,
+   "fees": 0,
+   "gross": 0,
+   "losses": 0,
+   "maxdd": 0.0,
+   "net": 0,
+   "pf": 0.0,
+   "sharpe": 0.0,
+   "slippage": 0,
+   "sortino": 0.0,
+   "win_rate": 0.0,
+   "wins": 0
+  },
+  "n_folds": 3,
+  "n_pooled": 0,
+  "verdict": "INSUFFICIENT_EVIDENCE"
+ }
+}

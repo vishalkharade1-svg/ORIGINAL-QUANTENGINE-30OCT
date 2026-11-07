@@ -1,0 +1,309 @@
+{
+  "alignment_ms": 1000,
+  "captured_at": "2026-10-10T17:22:18.977272+00:00",
+  "evidence_sha256": "ee358ff700f6d0a965d9a32f89c3131f53a618eaae1924d7b7c67d35fc7e29b5",
+  "provenance_status": "REAL",
+  "samples": [
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652909780
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652910031
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652910282
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652910785
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652911036
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652911287
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652911538
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652912542
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652912793
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652913044
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652913295
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652913546
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652913797
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652914048
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652914299
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652914549
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652914801
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652915052
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652915304
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652915555
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83068.5",
+      "midpoint": "83309.35",
+      "spread": "481.7",
+      "spread_bps": "57.82064078041660389860201766",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652916065
+    },
+    {
+      "best_ask": "83080.5",
+      "best_bid": "83068.5",
+      "midpoint": "83074.5",
+      "spread": "12.0",
+      "spread_bps": "1.444486575302890778758824910",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652916316
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83068.5",
+      "midpoint": "83309.35",
+      "spread": "481.7",
+      "spread_bps": "57.82064078041660389860201766",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652916567
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83234.8",
+      "midpoint": "83392.5",
+      "spread": "315.4",
+      "spread_bps": "37.82114698564019546122253200",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652917822
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83234.8",
+      "midpoint": "83392.5",
+      "spread": "315.4",
+      "spread_bps": "37.82114698564019546122253200",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652921336
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83234.8",
+      "midpoint": "83392.5",
+      "spread": "315.4",
+      "spread_bps": "37.82114698564019546122253200",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652923093
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83234.8",
+      "midpoint": "83392.5",
+      "spread": "315.4",
+      "spread_bps": "37.82114698564019546122253200",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652925353
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83068.5",
+      "midpoint": "83309.35",
+      "spread": "481.7",
+      "spread_bps": "57.82064078041660389860201766",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652925606
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83068.5",
+      "midpoint": "83309.35",
+      "spread": "481.7",
+      "spread_bps": "57.82064078041660389860201766",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652927113
+    },
+    {
+      "best_ask": "83518.2",
+      "best_bid": "83068.5",
+      "midpoint": "83293.35",
+      "spread": "449.7",
+      "spread_bps": "53.98990435611006160755930696",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652928118
+    },
+    {
+      "best_ask": "83518.2",
+      "best_bid": "83068.5",
+      "midpoint": "83293.35",
+      "spread": "449.7",
+      "spread_bps": "53.98990435611006160755930696",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652933640
+    },
+    {
+      "best_ask": "83380.0",
+      "best_bid": "83068.5",
+      "midpoint": "83224.25",
+      "spread": "311.5",
+      "spread_bps": "37.42899455387101716146435684",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652934393
+    },
+    {
+      "best_ask": "83550.2",
+      "best_bid": "83068.5",
+      "midpoint": "83309.35",
+      "spread": "481.7",
+      "spread_bps": "57.82064078041660389860201766",
+      "symbol": "BTCUSD",
+      "timestamp_ms": 1791652937907
+    }
+  ],
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "symbol": "BTCUSD",
+  "venue": "delta"
+}

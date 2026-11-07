@@ -1,0 +1,53 @@
+[
+  {
+    "status": "authenticated",
+    "status_code": 200,
+    "success": true,
+    "type": "key-auth"
+  },
+  {
+    "channels": [
+      {
+        "name": "v2/user_trades",
+        "symbols": [
+          "BTCUSD"
+        ]
+      }
+    ],
+    "type": "subscriptions"
+  },
+  {
+    "R": "normal",
+    "S": "buy",
+    "c": "QE-exp-20261011T122636Z-R1",
+    "f": "7dca2fdb6cd649fbbd94e4dcc1c8008d",
+    "i": 84,
+    "o": 2175091143,
+    "p": "83111.5",
+    "po": 1,
+    "r": "taker",
+    "s": "1",
+    "se": 7,
+    "sy": "BTCUSD",
+    "t": 1791721607158773,
+    "type": "v2/user_trades",
+    "u": 12141396
+  },
+  {
+    "R": "normal",
+    "S": "sell",
+    "c": "QE-exp-20261011T122636Z-R2",
+    "f": "8ba7649486cd4428b8103ced9585da5e",
+    "i": 84,
+    "o": 2175091144,
+    "p": "83107",
+    "po": 0,
+    "r": "taker",
+    "s": "1",
+    "se": 8,
+    "sy": "BTCUSD",
+    "t": 1791721607789503,
+    "type": "v2/user_trades",
+    "u": 12141396
+  }
+]

@@ -1,0 +1,85 @@
+{
+ "executed": "2026-10-17 (Phase159 dependency review re-run)",
+ "query": "api.osv.dev/v1/query, one POST per pinned package at pinned version",
+ "results": {
+  "httpx": {
+   "advisories": [],
+   "pinned": "0.28.1"
+  },
+  "numpy": {
+   "advisories": [],
+   "pinned": "2.1.1"
+  },
+  "pandas": {
+   "advisories": [],
+   "pinned": "2.2.2"
+  },
+  "pyarrow": {
+   "advisories": [
+    {
+     "aliases": [
+      "CVE-2026-25087",
+      "PYSEC-2026-113"
+     ],
+     "id": "GHSA-rgxp-2hwp-jwgg",
+     "summary": "Apache Arrow: Potential use-after-free when reading IPC file with pre-buffering"
+    },
+    {
+     "aliases": [
+      "CVE-2026-25087",
+      "GHSA-rgxp-2hwp-jwgg"
+     ],
+     "id": "PYSEC-2026-113",
+     "summary": "Use After Free vulnerability in Apache Arrow C++.\n\nThis issue affects Apache Arrow C++ from 15.0.0 through 23.0.0. It can be triggered when reading an Arrow IPC file (but not an IP"
+    }
+   ],
+   "pinned": "18.0.0"
+  },
+  "pytest": {
+   "advisories": [
+    {
+     "aliases": [
+      "CVE-2025-71176",
+      "PYSEC-2026-1845"
+     ],
+     "id": "GHSA-6w46-j5rx-g56g",
+     "summary": "pytest has vulnerable tmpdir handling"
+    },
+    {
+     "aliases": [
+      "CVE-2025-71176",
+      "GHSA-6w46-j5rx-g56g"
+     ],
+     "id": "PYSEC-2026-1845",
+     "summary": "pytest has vulnerable tmpdir handling"
+    }
+   ],
+   "pinned": "8.4.2"
+  },
+  "python-dotenv": {
+   "advisories": [
+    {
+     "aliases": [
+      "CVE-2026-28684",
+      "PYSEC-2026-2270"
+     ],
+     "id": "GHSA-mf9w-mj56-hr94",
+     "summary": "python-dotenv: Symlink following in set_key allows arbitrary file overwrite via cross-device rename fallback"
+    },
+    {
+     "aliases": [
+      "CVE-2026-28684",
+      "GHSA-mf9w-mj56-hr94"
+     ],
+     "id": "PYSEC-2026-2270",
+     "summary": "python-dotenv reads key-value pairs from a .env file and can set them as environment variables. Prior to version 1.2.2, `set_key()` and `unset_key()` in python-dotenv follow symbol"
+    }
+   ],
+   "pinned": "1.0.1"
+  },
+  "websockets": {
+   "advisories": [],
+   "pinned": "12.0"
+  }
+ }
+}

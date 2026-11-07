@@ -1,0 +1,23 @@
+{
+  "id": "11F-5-A1",
+  "prior_record": "freeze_manifest.json amendments[11F-4-A1]",
+  "original_bug": "_Base.prepare() in research/phase11f/candidates.py rebuilt self._feat from scratch on every cache-key change. The research harness feeds a growing bar prefix (length changes each bar), so cross-bar state (pend, last_high, last_low) was wiped every bar: stateful LIMIT-retest hypotheses could arm a pending setup but never trigger it in-harness.",
+  "reproduction": "H11F-006 over BTCUSDT fold-0 test slice: direct sequential signals() on the fixed array fires 2 signals; the identical bars through H.run_candidate() yield 0 signals / 0 orders pre-fix and 2 orders post-fix.",
+  "affected_hypotheses": ["H11F-002", "H11F-005", "H11F-006", "H11F-007"],
+  "unaffected_hypotheses": ["H11F-001", "H11F-003", "H11F-004", "H11F-008"],
+  "correction": "Preserve pend/last_high/last_low across same-dataset, same-config prefix-extension rebuilds (17 insertions, 0 deletions, _Base.prepare only).",
+  "exact_source": "research/phase11f/candidates.py",
+  "exact_git_parent": "f782d9dcf2285a2c9bd16c3fff2e9980686a32d6",
+  "correction_commit": "23125181dde7ae52e11be19488021fd1af2e43a5",
+  "affected_runtime_state": "in-memory candidate state only; no stored artifact schema changed",
+  "hypothesis_definitions_changed": false,
+  "parameters_changed": false,
+  "costs_changed": false,
+  "risk_changed": false,
+  "execution_semantics_changed": false,
+  "results_may_change": true,
+  "results_direction_known_ex_ante": false,
+  "pre_fix_results_observed": "NOT_VERIFIABLE",
+  "pre_fix_observation_note": "Git and committed artifacts cannot order intra-commit events, so no git-proven claim is made. Corroborating (non-proving) record: pre-fix probes printed only signal/order counts and timings, never economic quantities; the research log remained REGISTERED until the final 11F-4 step; the first result artifact postdates the fix in session order.",
+  "optimization_statement": "A1 IS NOT BEING USED AS AN OPTIMIZATION. It restores the preregistered signal logic to working order without touching thresholds, entries, exits, costs, risk, features, or datasets."
+}

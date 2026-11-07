@@ -1,0 +1,21 @@
+{
+ "bar_count": 2499,
+ "creation_acquisition": "2026-09-07T03:23:00.076927+00:00",
+ "dataset_name": "oos_fresh BTCUSDT 1m",
+ "end_timestamp": 1788751380,
+ "eth_status": "UNAVAILABLE (no fresh ETH file exists; no substitution)",
+ "file_sha256": "6c5981fd34654a2ca5737830eeb6bba367b65f1b4a2ebefa5e8df0150d5647d6",
+ "freshness_verdict": "FRESH",
+ "gaps": 0,
+ "known_contamination": "same instrument/timeframe/era as 11E F4 (2 orders/1 fill, repo-visible); shaped no 11G rule",
+ "prior_11e_use": "F4 clean-OOS fold for the frozen BREAKOUT strategy only (different hypotheses/features)",
+ "prior_11g_use": "NONE (only seal-test string mention asserting absence; no reads)",
+ "recorded_sha256": "9f25e69faf1f951f096b35def1c75cb5b0e6d74a43987aaf6bf57944018341eb",
+ "source": "research/phase11e/data/oos_fresh.json (Delta Exchange /v2/history/candles, post-freeze fetch)",
+ "start_timestamp": 1788601500,
+ "stored_order": "reverse-chronological (newest first); must be sorted on load",
+ "symbol": "BTCUSDT",
+ "threshold_provenance": "all 11G thresholds are CLASS-A constants frozen outcome-blind; no value derived from this file",
+ "timeframe": "1m",
+ "unique_timestamps": true
+}

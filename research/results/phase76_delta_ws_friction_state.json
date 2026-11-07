@@ -1,0 +1,24 @@
+{
+  "phase": 76,
+  "name": "Delta public WebSocket orderbook friction state",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "live_readiness": false,
+  "network_capture": "NOT_EXECUTED",
+  "real_venue_capture": "NOT_EXECUTED",
+  "implementation": [
+    "Added strict Delta ob_updates snapshot/update state machine.",
+    "Requires exact +1 sequence progression after snapshot; gaps invalidate the book and require resubscription.",
+    "Maintains two-sided in-memory L2 state and emits timestamped top-of-book observations.",
+    "Rejects malformed levels, crossed/locked books, wrong symbols, pre-snapshot updates, and provider error messages.",
+    "Converts provider microsecond timestamps to millisecond evidence timestamps without inventing missing precision."
+  ],
+  "tests": {"phase76": 6, "failed": 0, "compileall": "PASS"},
+  "evidence_boundary": [
+    "The state machine is only a parser/normalizer; it does not itself establish that a message came from a real venue.",
+    "A LIVE_CAPTURE transport and actual Delta network execution are still required before provenance can be certified REAL.",
+    "Historical OOS economics remains blocked until genuine time-aligned venue observations are captured and bound to the OOS interval.",
+    "Realized private fills remain a separate evidence requirement."
+  ],
+  "next": "Run the capture against the documented Delta public ob_updates channel in a network-enabled environment, persist the resulting evidence, and bind it to the exact OOS interval/product."
+}

@@ -1,0 +1,30 @@
+{
+  "phase": 75,
+  "name": "strict live market-friction capture seam",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "live_readiness": false,
+  "network_capture": "NOT_EXECUTED",
+  "real_venue_capture": "NOT_EXECUTED",
+  "implementation": [
+    "Added a fail-closed MarketFrictionCapture recorder for genuine venue transport observations.",
+    "Capture identity requires explicit PRODUCTION or SANDBOX environment and LIVE_CAPTURE transport.",
+    "Each observation is validated through the canonical historical market-friction evidence normalizer before entering the capture.",
+    "Strictly increasing timestamps are enforced at ingestion and finalization preserves the exact evidence fingerprint.",
+    "Capture manifest binds venue, environment, symbol, endpoint, capture ID, time range, sample count, and evidence SHA-256.",
+    "No network client was added and no fixture/replay can be promoted to REAL through this seam."
+  ],
+  "tests": {
+    "phase75": 5,
+    "combined_economics": 48,
+    "failed": 0,
+    "compileall": "PASS"
+  },
+  "evidence_boundary": [
+    "The environment still has no successful Delta network capture available.",
+    "The Delta adapter currently exposes a public L2 snapshot endpoint, not a historical L2 endpoint.",
+    "This phase therefore implements the acquisition/recording seam but does not claim historical venue evidence.",
+    "Realized fills remain unavailable unless an authenticated or otherwise authoritative venue fill source is captured and independently bound."
+  ],
+  "next": "Execute the live capture seam in a network-enabled, authorized Delta environment; bind genuine observations to the exact OOS interval and venue product, then certify economics only if all required evidence gates pass."
+}

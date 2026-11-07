@@ -1,0 +1,194 @@
+{
+  "phase": 162,
+  "total_files_audited": 1941,
+  "archive_entries_count": 76,
+  "archive_entries_disposition": "RETAIN_QUARANTINED",
+  "archive_retention_rationale": "Preserved under _archive/ to maintain historical reproducibility, regression checks, and lineage. Verified: ZERO active runtime modules import from _archive/.",
+  "duplicate_groups_count": 13,
+  "duplicate_files_count": 61,
+  "duplicate_groups": [
+    {
+      "sha256": "1a1f059b88b60e9bbefb417b3cb631ff762439082d0ca4016fa5efc9fe83992f",
+      "count": 2,
+      "canonical_path": "research/phase11f/results/regime_results.json",
+      "paths": [
+        "research/phase11f/archive/11f4/regime_results.json",
+        "research/phase11f/results/regime_results.json"
+      ],
+      "size_bytes": 3915,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "29055ca42ff7997568c6b4297777d5f60136c979b7e2c2325e01bf0b6fff3a63",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_hypothesis_results.json",
+      "paths": [
+        "research/phase11f/11f5_hypothesis_results.json",
+        "research/phase11f/archive/11f4/hypothesis_results.json",
+        "research/phase11f/results/hypothesis_results.json"
+      ],
+      "size_bytes": 2415,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "4943a86607e145ee67b3ba406d5eddfeef75a4805332403c40a91f202dbfba45",
+      "count": 3,
+      "canonical_path": "research/captures/phase120/private_ws_frames.json",
+      "paths": [
+        "research/captures/phase120/private_ws_frames.json",
+        "research/captures/phase134_recon/private_ws_frames.json",
+        "research/captures/phase145_recon/private_ws_frames.json"
+      ],
+      "size_bytes": 292,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "count": 4,
+      "canonical_path": "research/phase11e/data/fold_F3_B_small.json",
+      "paths": [
+        "research/phase11e/data/fold_F3_B_small.json",
+        "research/phase11e/data/fold_F3_C_moderate.json",
+        "research/phase11e/data/fold_F3_D_adverse.json",
+        "research/phase11e/data/fold_F3_trades.json"
+      ],
+      "size_bytes": 2,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "6423f0e72a7f91f3ed90189227854c816fd7a1a683ccbe123eac360eff36c6ee",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_multiple_testing_results.json",
+      "paths": [
+        "research/phase11f/11f5_multiple_testing_results.json",
+        "research/phase11f/archive/11f4/multiple_testing_results.json",
+        "research/phase11f/results/multiple_testing_results.json"
+      ],
+      "size_bytes": 463,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "8ec32ccc723e92aca99737d0aecedf3709c89f582aa691df35eebf759594aa99",
+      "count": 2,
+      "canonical_path": "research/phase11f/results/fold_results.json",
+      "paths": [
+        "research/phase11f/archive/11f4/fold_results.json",
+        "research/phase11f/results/fold_results.json"
+      ],
+      "size_bytes": 283622,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "96da4f702e7bf060e863acc90a8b6f0ad0b71477356921a141208994ad00af1a",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_ablation_results.json",
+      "paths": [
+        "research/phase11f/11f5_ablation_results.json",
+        "research/phase11f/archive/11f4/ablation_results.json",
+        "research/phase11f/results/ablation_results.json"
+      ],
+      "size_bytes": 9852,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "9824f630057ea26c303e3e40faf2e89b60cd0c0f00412d8efbfa550ea88e9793",
+      "count": 2,
+      "canonical_path": "research/phase11f/results/random_baseline_results.json",
+      "paths": [
+        "research/phase11f/archive/11f4/random_baseline_results.json",
+        "research/phase11f/results/random_baseline_results.json"
+      ],
+      "size_bytes": 5848,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "9c30410f503ab19cd1d8b8dd16dfc910f96381b507629f7dc5a0518100599a53",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_reproducibility.json",
+      "paths": [
+        "research/phase11f/11f5_reproducibility.json",
+        "research/phase11f/archive/11f4/reproducibility.json",
+        "research/phase11f/results/reproducibility.json"
+      ],
+      "size_bytes": 17468,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "a31d62ae2527e4d456f0cf8767cec63e4292f6cc1cc11b3ac3f8a67c2aa81440",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_execution_results.json",
+      "paths": [
+        "research/phase11f/11f5_execution_results.json",
+        "research/phase11f/archive/11f4/execution_results.json",
+        "research/phase11f/results/execution_results.json"
+      ],
+      "size_bytes": 1103,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "a58b0f635dc418b6db0bd33dd6427bdf1c769a8592ae7ca7973c5d24fba9c764",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_cost_results.json",
+      "paths": [
+        "research/phase11f/11f5_cost_results.json",
+        "research/phase11f/archive/11f4/cost_results.json",
+        "research/phase11f/results/cost_results.json"
+      ],
+      "size_bytes": 4086,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "d7c47f3513962ed5a29fe7630712da6d3bec20d9f6d9e0f43fc8b0d422dd8cd9",
+      "count": 3,
+      "canonical_path": "research/phase11f/11f5_monte_carlo_results.json",
+      "paths": [
+        "research/phase11f/11f5_monte_carlo_results.json",
+        "research/phase11f/archive/11f4/monte_carlo_results.json",
+        "research/phase11f/results/monte_carlo_results.json"
+      ],
+      "size_bytes": 712,
+      "classification": "identical_research_result"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "count": 27,
+      "canonical_path": "backtesting/__init__.py",
+      "paths": [
+        "_archive/analytics/__init__.py",
+        "_archive/engine/__init__.py",
+        "_archive/execution/__init__.py",
+        "_archive/indicators/__init__.py",
+        "_archive/signals/__init__.py",
+        "_archive/strategy/__init__.py",
+        "backtesting/__init__.py",
+        "config/__init__.py",
+        "core/__init__.py",
+        "core/diagnostics/__init__.py",
+        "core/events/__init__.py",
+        "core/history/__init__.py",
+        "core/indicators/__init__.py",
+        "core/objects/__init__.py",
+        "core/orderflow/__init__.py",
+        "core/pipeline/__init__.py",
+        "core/regime/__init__.py",
+        "core/registry/__init__.py",
+        "core/replay/__init__.py",
+        "core/risk/__init__.py",
+        "core/scoring/__init__.py",
+        "core/setup/__init__.py",
+        "core/trend/__init__.py",
+        "core/volume_profile/__init__.py",
+        "data/__init__.py",
+        "risk/__init__.py",
+        "tests/__init__.py"
+      ],
+      "size_bytes": 0,
+      "classification": "empty_init"
+    }
+  ],
+  "root_working_notes_count": 7,
+  "root_working_notes_disposition": "RETAIN_HISTORICAL_NOTES",
+  "root_working_notes_rationale": "Historical audit and tree notes (Dependency manifest new.txt, dependancy manifest old.txt, muse suggetions.md, muse suggetions1.md, issues found.txt, core_tree.txt, project_tree_clean.txt) preserved as evidence of prior forensic phases.",
+  "deletion_policy": "NO_DELETIONS_WITHOUT_PROVENANCE_IMPACT",
+  "summary": "All 76 _archive/ files, 13 duplicate groups (61 files), and 7 root notes are triaged and accounted for. No files were silently purged. Active runtime isolation is 100% verified."
+}

@@ -1,0 +1,18 @@
+{
+ "attempt_utc": "2026-10-16T15:34:08.228763+00:00",
+ "attempted_action": "funding_settlement_hold.py --dry-run (read-only pre-checks)",
+ "client_ip_observed": "152.58.7.15",
+ "error_code": "ip_not_whitelisted_for_api_key",
+ "exchange_writes_performed": 0,
+ "http_status": 401,
+ "ip_poll_observed": [
+  "152.58.7.15"
+ ],
+ "last_known_working_ip": "157.33.197.21",
+ "last_known_working_ip_source": "research/captures/phase147_ledger/fills_100.json",
+ "note": "No order was submitted. The script refuses before any write when the signed pre-check fails.",
+ "operator_action_required": "whitelist 152.58.7.15 for the India Testnet API key (or remove the IP restriction on the key)",
+ "phase": "phase148_funding",
+ "result": "REFUSED_FAIL_CLOSED",
+ "target_settlement_utc": "2026-10-16T16:00:00+00:00"
+}

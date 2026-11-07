@@ -1,0 +1,23 @@
+{
+  "phase": 29,
+  "name": "9L discovery provenance binding for 9M",
+  "status": "IMPLEMENTED_TESTED",
+  "purpose": "Preserve and validate explicit provenance for consumed 9L discoveries without constructing hypotheses from findings.",
+  "changes": [
+    "HypothesisRecord.evidence is validated as immutable non-empty provenance tokens.",
+    "HypothesisRecord.to_dict now retains evidence tokens.",
+    "Added validate_9l_binding for 9L report/finding binding.",
+    "Added optional strict discovery-provenance gate to OosValidationEngine.run.",
+    "Legacy hypothesis identity remains byte-stable when no evidence token is supplied."
+  ],
+  "token_format": "9L:<report_id>:<surface>:<finding_key>",
+  "strict_gate": "optional; disabled for historical fixtures, available for frozen preregistered execution",
+  "production_ready": false,
+  "venue_authentication": "UNVERIFIED",
+  "external_oos_evidence": "UNCHANGED",
+  "notes": [
+    "This phase does not invent, select, or promote a hypothesis.",
+    "A human/research-layer preregistration still owns the hypothesis selection boundary.",
+    "Missing or mismatched provenance fails closed when strict mode is requested."
+  ]
+}

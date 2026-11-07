@@ -1,0 +1,226 @@
+{
+ "H11F-001": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-002": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-003": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-004": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-005": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-006": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-007": {
+  "BTCUSDT|F0": {},
+  "BTCUSDT|F1": {},
+  "BTCUSDT|F2": {},
+  "BTCUSDT|F3": {},
+  "ETHUSDT|F0": {},
+  "ETHUSDT|F1": {},
+  "ETHUSDT|F2": {},
+  "ETHUSDT|F3": {}
+ },
+ "H11F-008": {
+  "BTCUSDT|F0": {
+   "high/above": {
+    "n": 4,
+    "net": 1.9852336819497152
+   },
+   "high/below": {
+    "n": 13,
+    "net": -3.7255084798817055
+   },
+   "low/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/below": {
+    "n": 4,
+    "net": -3.24863644336243
+   }
+  },
+  "BTCUSDT|F1": {
+   "low/above": {
+    "n": 6,
+    "net": -4.362678979019789
+   },
+   "low/below": {
+    "n": 3,
+    "net": -1.1631254022379103
+   },
+   "mid/above": {
+    "n": 4,
+    "net": -1.6474014842923985
+   },
+   "mid/below": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "BTCUSDT|F2": {
+   "high/above": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "low/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 5,
+    "net": -3.0359347701914814
+   },
+   "mid/below": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "BTCUSDT|F3": {
+   "high/above": {
+    "n": 10,
+    "net": -5.180143564211777
+   },
+   "high/below": {
+    "n": 6,
+    "net": -3.1598431895466543
+   },
+   "mid/above": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "mid/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "ETHUSDT|F0": {
+   "high/above": {
+    "n": 4,
+    "net": -0.4741730818355493
+   },
+   "high/below": {
+    "n": 7,
+    "net": -3.4516525979589328
+   },
+   "low/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 4,
+    "net": -2.5408097157395373
+   },
+   "mid/below": {
+    "n": 4,
+    "net": -3.2995026423851113
+   }
+  },
+  "ETHUSDT|F1": {
+   "low/above": {
+    "n": 4,
+    "net": -2.593537822000979
+   },
+   "low/below": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 6,
+    "net": -3.948339635006576
+   },
+   "mid/below": {
+    "n": 2,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "ETHUSDT|F2": {
+   "high/above": {
+    "n": 4,
+    "net": -1.65273003452011
+   },
+   "low/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  },
+  "ETHUSDT|F3": {
+   "high/above": {
+    "n": 4,
+    "net": 2.4613854177643546
+   },
+   "high/below": {
+    "n": 3,
+    "net": -2.4745326320442187
+   },
+   "low/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/above": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   },
+   "mid/below": {
+    "n": 1,
+    "status": "INSUFFICIENT"
+   }
+  }
+ }
+}

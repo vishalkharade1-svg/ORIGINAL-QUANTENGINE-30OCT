@@ -1,0 +1,34 @@
+{
+  "coverage": {
+    "audit_id": "0536c63d02c5eb3fda2e39ad29cc631e87ee1d43d83039ebdf792cdd3ec903f1",
+    "missing_symbol_rows": 0,
+    "required_bars": 300000,
+    "required_trades": 60,
+    "schema_version": "2",
+    "symbol_source": "row_level_provenance",
+    "symbol_source_error": null,
+    "symbols": [
+      {
+        "first_timestamp": 1788601500,
+        "last_timestamp": 1790427360,
+        "rows": 30247,
+        "status": "INCONCLUSIVE",
+        "symbol": "BTCUSDT",
+        "trades": 0
+      }
+    ]
+  },
+  "dataset_identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+  "is_production_ready": false,
+  "limitations": [
+    "row-level provenance establishes the observed symbol only; it does not create additional symbols",
+    "current evidence contains one explicitly provenance-bound symbol",
+    "cross-symbol consistency remains unavailable until additional symbol evidence exists",
+    "OOS trade-count and period gates remain independently unsatisfied"
+  ],
+  "phase": 36,
+  "production_ready": false,
+  "provenance_identity": "2b07b61a2f6716430ea66e5938ed0ffd1f899538d8e6c560d61bca4401666c9c",
+  "purpose": "prove symbol coverage from existing bound row-level provenance",
+  "universal_validation": false
+}

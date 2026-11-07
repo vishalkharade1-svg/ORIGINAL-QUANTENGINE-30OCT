@@ -1,0 +1,121 @@
+{
+  "total_setups": 70,
+  "triggered": 70,
+  "profiles": {
+    "BULLISH": {
+      "count": 30,
+      "wins": 22,
+      "losses": 8,
+      "unsettled": 0,
+      "excluded": 0,
+      "never_entered": 0,
+      "win_rate_pct": 73.333333,
+      "profit_factor": 0.55,
+      "expectancy_R": -0.12,
+      "avg_win_R": 0.2,
+      "avg_loss_R": -1.0,
+      "payoff": 0.2,
+      "avg_mae_atr": 3.066667,
+      "avg_mfe_atr": 0.2,
+      "avg_rr": 0.2
+    },
+    "BEARISH": {
+      "count": 40,
+      "wins": 34,
+      "losses": 6,
+      "unsettled": 0,
+      "excluded": 0,
+      "never_entered": 0,
+      "win_rate_pct": 85.0,
+      "profit_factor": 9.35,
+      "expectancy_R": 1.2525,
+      "avg_win_R": 1.65,
+      "avg_loss_R": -1.0,
+      "payoff": 1.65,
+      "avg_mae_atr": 0.315,
+      "avg_mfe_atr": 0.795,
+      "avg_rr": 1.65
+    }
+  },
+  "origins": {
+    "G": {
+      "name": "DATA-SAMPLE IMBALANCE",
+      "metric": "triggered count (% of dataset)",
+      "bullish": 42.857143,
+      "bearish": 57.142857,
+      "asymmetry": 0.25,
+      "present": true,
+      "note": "30 bullish vs 40 bearish triggered; read every ratio as a rate, never as a count."
+    },
+    "A": {
+      "name": "MARKET",
+      "metric": "settled win rate (%)",
+      "bullish": 73.333333,
+      "bearish": 85.0,
+      "asymmetry": 0.137255,
+      "present": true,
+      "note": "settled win rate across the triggered population."
+    },
+    "B": {
+      "name": "STRUCTURE-GENERATION",
+      "metric": "triggered setups (%), population share",
+      "bullish": 42.857143,
+      "bearish": 57.142857,
+      "asymmetry": 0.25,
+      "present": true,
+      "note": "how much of the eligible population each side generated."
+    },
+    "C": {
+      "name": "SETUP-SELECTION",
+      "metric": "avg entry distance (ATR)",
+      "bullish": 3.0,
+      "bearish": 0.5,
+      "asymmetry": 0.833333,
+      "present": true,
+      "note": "average distance-from-market of the selected setups."
+    },
+    "D": {
+      "name": "BREAKOUT-TRIGGER",
+      "metric": "causally-executable entry rate (%)",
+      "bullish": 100.0,
+      "bearish": 100.0,
+      "asymmetry": 0.0,
+      "present": true,
+      "note": "fraction of triggered setups that convert to an executable entry."
+    },
+    "E": {
+      "name": "STOP-TARGET GEOMETRY",
+      "metric": "avg reward : risk",
+      "bullish": 0.2,
+      "bearish": 1.65,
+      "asymmetry": 0.878788,
+      "present": true,
+      "note": "reward : risk geometry of the triggered population."
+    },
+    "F": {
+      "name": "EXECUTION",
+      "metric": "fill-path divergence (counterfactual-held-constant)",
+      "bullish": 0.0,
+      "bearish": 0.0,
+      "asymmetry": 0.0,
+      "present": false,
+      "note": "execution is held IDENTICAL across directions in the causal dataset (NEXT_BAR_OPEN); any residual difference is setup-origin, not fill-path. 7D verifies via mirror."
+    }
+  },
+  "counterfactual": {
+    "execution_asymmetry": {
+      "bull_shift_pp": 0.0,
+      "bear_shift_pp": 0.0,
+      "verdict": "EXECUTION-HELD-CONSTANT"
+    },
+    "bull_native_win": 73.333333,
+    "bear_native_win": 85.0
+  },
+  "hypothesis": {
+    "dominant_origin": "E",
+    "win_rate_gap_pp": -11.666667,
+    "geometry_read": "BULLISH_GEOMETRY_STRONGER",
+    "candidate_change": "DIRECTIONAL_POLICY",
+    "note": "7E is gated behind this evidence: a directional BREAKOUT_CONTINUATION policy is only proposed if the origin decomposition shows a genuine directional asymmetry; it would be developed and unit-tested in the isolated research path before any production integration."
+  }
+}

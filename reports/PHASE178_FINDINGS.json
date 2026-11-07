@@ -1,0 +1,41 @@
+{
+  "phase": 178,
+  "audit_title": "QuantEngine Phase 178 Independent Audit Findings Ledger",
+  "audit_timestamp": "2026-10-20T13:00:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-178-01",
+      "severity": "SAFETY_INVARIANT",
+      "category": "STOP_ROUNDING_RISK_SEMANTICS",
+      "status": "VERIFIED",
+      "summary": "Audited stop-loss normalization semantics, premature trigger risk delta, and risk budget recalculation",
+      "description": "Implemented audit_and_recalculate_stop_risk(). Verified that CONSERVATIVE rounding rounds long stops up (closer to entry) and short stops down (closer to entry), strictly reducing or preserving planned gross loss while increasing premature trigger sensitivity by up to 0.10 USD. Confirmed that any policy expanding stop distance recalculates risk and rejects budget breaches."
+    },
+    {
+      "id": "FINDING-178-02",
+      "severity": "REMEDIATION_CONFIRMATION",
+      "category": "TICK_ENFORCEMENT_TRACE",
+      "status": "VERIFIED",
+      "summary": "Confirmed end-to-end enforcement of authoritative 0.10 tick size on BTCUSD Product ID 84",
+      "description": "Independently audited the complete order validation pipeline. Confirmed that conflicting 0.50 metadata fails closed immediately, off-tick prices are rejected at the execution boundary, and paper execution enforces 0.10 ticks without live adapter reach."
+    },
+    {
+      "id": "FINDING-178-03",
+      "severity": "EVIDENCE_GAP",
+      "category": "DATA_DISJUNCTION",
+      "status": "OPEN",
+      "summary": "44-day temporal gap between 1m candles and L2 depth; authenticated fills remain underpowered at N=2",
+      "description": "Candle history and L2 order book captures have zero temporal overlap. Authenticated testnet fills (N=2) remain far below the statistical power milestone of N>=30."
+    },
+    {
+      "id": "FINDING-178-04",
+      "severity": "CONTRACTUAL_PRESERVATION",
+      "category": "HISTORICAL_INTEGRITY",
+      "status": "CONTRACTUALLY_RETAINED",
+      "summary": "5 historical change-detector tests fail by contract asserting legacy Windows CRLF digests",
+      "description": "In accordance with Safety Rule #7, historical strategy pins and digests are preserved without modification. Retained under BLOCK-178-01."
+    }
+  ]
+}

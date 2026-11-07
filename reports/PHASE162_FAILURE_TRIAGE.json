@@ -1,0 +1,72 @@
+{
+  "phase": 162,
+  "test_environment": {
+    "python": "3.12.10",
+    "pytest": "9.0.3",
+    "platform": "win32"
+  },
+  "summary": {
+    "total_collected": 4127,
+    "passed": 4065,
+    "subtests_passed": 399,
+    "failed": 5,
+    "skipped": 57,
+    "exit_code": 1
+  },
+  "failed_tests_triage": [
+    {
+      "test_id": "tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match",
+      "category": "strategy_digest_change_detector",
+      "expected_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+      "actual_hash": "f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4",
+      "blocker_id": "BLOCK-162-01",
+      "disposition": "RETAIN_INTENTIONAL_FAILURE",
+      "rationale": "Change detector alerting that strategy source has mutated from the frozen Phase-11 baseline. Deliberately NOT re-pinned: silently changing expected pins destroys historical change detection."
+    },
+    {
+      "test_id": "tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+      "category": "strategy_digest_change_detector",
+      "expected_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+      "actual_hash": "f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4",
+      "blocker_id": "BLOCK-162-01",
+      "disposition": "RETAIN_INTENTIONAL_FAILURE",
+      "rationale": "Verifies that feasibility study was run against the exact frozen strategy code. Preserved unchanged."
+    },
+    {
+      "test_id": "tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match",
+      "category": "strategy_digest_change_detector",
+      "expected_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+      "actual_hash": "f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4",
+      "blocker_id": "BLOCK-162-01",
+      "disposition": "RETAIN_INTENTIONAL_FAILURE",
+      "rationale": "OOS validation change detector ensuring out-of-sample tests match frozen strategy code. Preserved unchanged."
+    },
+    {
+      "test_id": "tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs",
+      "category": "strategy_digest_change_detector",
+      "expected_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+      "actual_hash": "f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4",
+      "blocker_id": "BLOCK-162-01",
+      "disposition": "RETAIN_INTENTIONAL_FAILURE",
+      "rationale": "Asserts post-run strategy integrity against the frozen historical digest. Preserved unchanged."
+    },
+    {
+      "test_id": "tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned",
+      "category": "strategy_digest_change_detector",
+      "expected_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+      "actual_hash": "f8407e772dffecd12bb6b9558547f5d8617b696c8a4f1f2e9918ae2f56915ef4",
+      "blocker_id": "BLOCK-162-01",
+      "disposition": "RETAIN_INTENTIONAL_FAILURE",
+      "rationale": "Production readiness gate assertion requiring strategy hash to match pinned research artifact. Correctly fails gate."
+    }
+  ],
+  "skipped_tests_triage": {
+    "total_skipped": 57,
+    "git_dependent_facts_count": 40,
+    "git_dependent_facts_status": "BLOCKED_EVIDENCE",
+    "git_dependent_blocker_id": "BLOCK-162-02",
+    "git_rationale": "The source distribution is an archive without a .git directory. Evidence guard (tests/evidence_mode.py) explicitly raises SkipTest with BLOCKED_EVIDENCE instead of passing vacuously on empty output.",
+    "other_skipped_count": 17,
+    "other_skipped_rationale": "Live Testnet network access or optional third-party integrations requiring runtime secrets/broker endpoints."
+  }
+}

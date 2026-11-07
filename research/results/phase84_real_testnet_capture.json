@@ -1,0 +1,19 @@
+{
+  "phase": "84",
+  "title": "Real Delta India Testnet evidence capture attempt",
+  "status": "IMPLEMENTED_TESTED_BLOCKED",
+  "production_ready": false,
+  "real_venue_capture": "NOT_EXECUTED",
+  "network_blocker": "DNS resolution unavailable in execution environment",
+  "required_hosts": [
+    "cdn-ind.testnet.deltaex.org",
+    "socket-ind.testnet.deltaex.org",
+    "socket-ind-pub.testnet.deltaex.org"
+  ],
+  "observed_error": "gaierror: [Errno -3] Temporary failure in name resolution",
+  "focused_tests": {"passed": 38, "failed": 0},
+  "compileall": "PASS",
+  "evidence_written": false,
+  "credential_persistence": false,
+  "next": "Run the existing capture runner from a network-enabled authorized environment; capture public L2, authenticated REST fills, authenticated private user_trades, then reconcile and run Phase 83 certification."
+}

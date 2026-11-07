@@ -1,0 +1,49 @@
+{
+  "phase": 180,
+  "audit_title": "QuantEngine Phase 180 Findings Ledger",
+  "audit_timestamp": "2026-10-20T15:30:00Z",
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "findings": [
+    {
+      "id": "FINDING-180-01",
+      "severity": "SAFETY_INVARIANT",
+      "category": "INSTRUMENT_SEMANTICS_RECONCILIATION",
+      "status": "VERIFIED_AND_RECONCILED",
+      "summary": "BTC Contract-Multiplier Inconsistency Resolved Between Exchange Spec and Synthetic Fixtures",
+      "description": "Resolved priority discrepancy: Delta Exchange India Product ID 84 (BTCUSD) has an authoritative contract multiplier of 0.001 (1 contract = 0.001 BTC = 60.00 USD notional at 60,000 USD), verified directly via read-only live Delta India Testnet probe. Phase 179 prose multiplier of 1.0 is classified as Category B (synthetic test instrument) or 1,000 contracts of Product ID 84. Updated maker_execution_model.py to respect meta.contract_multiplier and created test_phase180_instrument_semantics.py to validate both actual and synthetic instruments."
+    },
+    {
+      "id": "FINDING-180-02",
+      "severity": "AUDIT_RECONCILIATION",
+      "category": "TEST_FAILURE_INVENTORY_RECONCILIATION",
+      "status": "VERIFIED",
+      "summary": "Reconciled Phase 179 Full-Suite Failure Count Discrepancy (75 vs 77) Down to Exact Node IDs",
+      "description": "Forensically audited all 52 failed test nodes and 25 subtest assertion failures (total 77) across the 4,498-item full test suite. Resolved the Phase 179 reporting arithmetic error: Git ancestry failures are 27 (not 26); pre-seal manifest/record failures are 12 (8 manifest + 4 records, not 11). Documented all 52 failing node IDs with reproduction commands and root cause classifications."
+    },
+    {
+      "id": "FINDING-180-03",
+      "severity": "GOVERNANCE_INTEGRITY",
+      "category": "RELEASE_GATE_SEMANTICS_REPAIR",
+      "status": "REPAIRED",
+      "summary": "Repaired Premature Pass Classification on Historical Digest Gate (GATE-180-F to HOLD)",
+      "description": "Repaired release gate semantics: separated PROVENANCE_EXPLAINED, BASELINE_RECONCILED, and BASELINE_APPROVED. While the CRLF vs LF origin of the 5 historical change-detector failures is fully explained, BLOCK-180-01 remains OPEN pending formal operator approval. Gate status is repaired to HOLD / BLOCKED_EVIDENCE, preserving historical pins."
+    },
+    {
+      "id": "FINDING-180-04",
+      "severity": "SAFETY_INVARIANT",
+      "category": "FINAL_BOUNDARY_RISK_ENFORCEMENT",
+      "status": "VERIFIED",
+      "summary": "Proved Risk-Rejected Candidates Cannot Breach Internal Execution or Adapter Boundaries",
+      "description": "Audited call graphs from candidate creation to order dispatch. Verified that post-normalization budget breaches reject candidates with REJECTED_RISK, preventing insertion into active orders, resting book queues, or execution adapters (assert_no_live_adapter_invocation() == 0). Demonstrated adversarial rejection where raw risk fits budget but normalized risk with fees breaches budget."
+    },
+    {
+      "id": "FINDING-180-05",
+      "severity": "SECURITY_HYGIENE",
+      "category": "CREDENTIAL_GOVERNANCE_AND_TESTNET_PROBE",
+      "status": "VERIFIED_READONLY",
+      "summary": "Verified Flat Account State via Read-Only Testnet Probe; Excluded Credentials from Release Package",
+      "description": "Executed read-only probe using testnet credentials in .env against cdn-ind.testnet.deltaex.org. Verified account is completely flat (0 positions, 0 open orders, 101.05 USD balance). Verified .env is excluded from release package and git. Documented operator key rotation checklist in PHASE180_OPERATOR_ACTIONS.md."
+    }
+  ]
+}

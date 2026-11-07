@@ -1,0 +1,79 @@
+{
+  "phase": 160,
+  "overall": "NOT_PRODUCTION_READY",
+  "scope": "hardening-only cycle on the sealed Phase159 bytes: the scanner-model boundary declared in the Phase159 vendor-audit handoff is closed (content-based decoding in both scanners, a coverage rule with declared opaque classes, ten regressions), the release-internal-consistency constants advance to this candidate, the Git-evidence record is refreshed for this phase, a fresh dependency-advisory query is executed, and the full release pipeline is re-sealed; no other scope",
+  "supersedes": "reports/PHASE159_RELEASE_GATES.json (preserved unchanged as the Phase159 gate record; and through it the Phase158 revision-2 record before that)",
+  "gates": {
+    "archive_integrity": "PASS-input-byte-verified-and-output-extract-verified",
+    "manifest_completeness": "PASS-negative-controls-retained",
+    "manifest_determinism": "PASS-lf-only-and-regenerates-byte-for-byte",
+    "provenance_correctness": "PASS-detached-hash-only-no-self-reference",
+    "release_internal_consistency": "PASS-advanced-to-the-phase160-candidate",
+    "frozen_representation": "PASS-no-frozen-fork-rep-derived-all-10-research/phase11f-pins-and-5-canonical-artifacts-carried-unchanged",
+    "dataset_reconstruction": "PASS-unchanged-dataset_hash-4feccebb-recomputes-as-in-phase158",
+    "snapshot_neutrality": "PASS-session-guard-carried-verified-alongside",
+    "git_evidence_mode_contract": "PASS-40-facts-carried-fresh-mode-evidence-in-the-phase160-record",
+    "git_ancestry_evidence": "BLOCKED-archive-mode-cannot-establish-ancestry",
+    "strategy_digest_recertification": "BLOCKED-documented-contract-requires-the-original-repository",
+    "full_test_suite": "NOT-GREEN-5-deliberate-strategy-digest-failures-plus-git-evidence-gates-see-reports/PHASE160_FULL_SUITE_RUN.txt",
+    "security_secret_scan": "PASS-content-decoding-utf16-boundary-closed-and-regression-pinned",
+    "privacy_scan": "PASS-zero-new-leakage-historical-baseline-enumerated-content-coverage-declared-opaque-publication-clearance-not-cleared",
+    "packaging_hygiene": "PASS-in-the-packaged-tree",
+    "dependency_advisory_review": "EXECUTED-fresh-osv-query-3-advisories-2-unreachable-1-accepted-upgrades-not-adopted",
+    "trading_safety": "PASS-no-order-capable-script-ran-and-none-can-run-without-execute",
+    "live_order_placement": "NOT PERFORMED",
+    "edge_status": "EDGE NOT ESTABLISHED",
+    "independent_audit": "PENDING_EXTERNAL-vendor-independence-not-discharged-phase159-handoff-prepared-2026-10-18-and-preserved-with-the-superseded-delivery-see-reports/PHASE160_BLOCKERS.json",
+    "funding_through_settlement_evidence": "BLOCKED-external-ip-whitelist",
+    "repeat_match_evidence": "BLOCKED-external-ip-whitelist"
+  },
+  "verification_environment": {
+    "python": "3.12.10",
+    "pytest": "8.4.2",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "dependencies": {
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.0.1",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "18.0.0",
+      "pytest": "8.4.2"
+    }
+  },
+  "final_archive": {
+    "name": "QuantEngine_PHASE160_RELEASE_CANDIDATE.zip",
+    "sha256": "NOT_EMBEDDED - an archive cannot truthfully contain a hash of itself; the value is recorded only in the detached record RELEASE_HASH_PHASE160.txt delivered beside the archive",
+    "members": "recorded in the detached record RELEASE_HASH_PHASE160.txt",
+    "detached_record": "RELEASE_HASH_PHASE160.txt (beside the archive, never inside it)",
+    "post_build_bundle": "QuantEngine_PHASE160_POST_BUILD/ (self-audit against the final bytes, extracted-package test log, post-build verification)"
+  },
+  "test_evidence": {
+    "baseline": "the Phase159 runs are the pre-hardening baseline (worktree 5 failed / 4,041 passed / 53 skipped; extraction 5 failed / 4,042 passed / 52 skipped; recorded in reports/PHASE159_FULL_SUITE_RUN.txt and the Phase159 post-build bundle)",
+    "authoritative_post_hardening": "reports/PHASE160_FULL_SUITE_RUN.txt",
+    "extracted_package": "PHASE160_EXTRACTED_PACKAGE_TESTS.txt in the post-build bundle",
+    "failure_disposition": "reports/PHASE160_BLOCKERS.json",
+    "focused_evidence": "reports/PHASE160_HARDENING.json",
+    "audit_disposition_of_the_source_phase": "the Phase159 handoff-declared scanner boundary (PHASE159_AUDIT_HANDOFF.md, preserved with the superseded delivery) is dispositioned in reports/PHASE160_HARDENING.json; the revision-2 self-audit observations before it remain dispositioned in reports/PHASE159_HARDENING.json and reports/PHASE158_AUDIT_REPAIRS.json"
+  },
+  "blockers": "reports/PHASE160_BLOCKERS.json",
+  "records": [
+    "reports/PHASE160_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE160_SOURCE_DIFF.json",
+    "reports/PHASE160_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE160_FULL_SUITE_RUN.txt",
+    "reports/PHASE160_MANIFEST_AUDIT.json",
+    "reports/PHASE160_PROVENANCE.json",
+    "reports/PHASE160_SECURITY_SCAN.md",
+    "reports/PHASE160_PRIVACY_REVIEW.md",
+    "reports/PHASE160_PRIVACY_SCAN.json",
+    "reports/PHASE160_DEPENDENCY_REVIEW.md",
+    "reports/PHASE160_OSV_SCAN.json",
+    "reports/PHASE160_HARDENING.json",
+    "reports/PHASE160_RELEASE_GATES.json",
+    "reports/PHASE160_BLOCKERS.json",
+    "docs/BUILD_HANDOFF_PHASE160.md",
+    "NEXT_ACTIONS.md"
+  ],
+  "statement": "Every gate above is either PASS with reproduced evidence, or explicitly blocked with the reason it cannot be established from this archive. No gate was downgraded by wording, and no test was weakened, deleted, blanket-skipped or xfailed to reach these states."
+}

@@ -1,0 +1,18 @@
+{
+  "capture_id": "phase110-trading-key-btcusd",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1791705939038,
+  "environment": "SANDBOX",
+  "evidence_sha256": "9fe04d344bfa5914507a5eaa3aabe0209824bc6c64dd85ce00f3b001d1e8db3f",
+  "first_sequence": 143488,
+  "last_sequence": 143497,
+  "messages_seen": 10,
+  "observations_emitted": 10,
+  "sample_count": 10,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1791705909157,
+  "symbol": "BTCUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

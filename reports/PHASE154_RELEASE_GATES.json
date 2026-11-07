@@ -1,0 +1,23 @@
+{
+  "final_archive": {
+    "name": "QuantEngine_PHASE154_RELEASE_CANDIDATE.zip",
+    "packed_files": 1792,
+    "sha256": "NOT_EMBEDDED — see detached record ../RELEASE_HASH_PHASE154.txt",
+    "note": "An archive cannot contain a truthful hash of itself. The final SHA-256 lives ONLY in the detached record outside the hashed set."
+  },
+  "gates": {
+    "archive_integrity": "PASS",
+    "authoritative_full_suite": "FAIL-44F-preexisting-43-plus-1-ordering-fixed-by-regen",
+    "evidence_error_handling": "PASS",
+    "extracted_package_verification": "PASS-34-focused-standalone",
+    "http_signing_compatibility": "PASS",
+    "independent_forensic_audit": "PENDING-claude-review",
+    "manifest_completeness": "PASS",
+    "mcp_configuration_contract": "FAIL-preserved-missing-file",
+    "provenance_correctness": "PASS-detached-hash",
+    "security_privacy_packaging": "PASS",
+    "source_evidence_completeness": "PASS",
+    "targeted_regression_suites": "PASS"
+  },
+  "overall": "NOT_PRODUCTION_READY"
+}

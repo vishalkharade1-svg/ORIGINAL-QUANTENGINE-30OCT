@@ -1,0 +1,16 @@
+{"event": "refused", "reason": "prefail: HTTPStatusError", "t": "2026-10-16T15:31:51.150370+00:00"}
+{"event": "flat_verified", "t": "2026-10-18T15:39:41.620995+00:00"}
+{"ask": "2374.15", "bid": "2374.10", "buy_px": "2374.15", "event": "touch", "t": "2026-10-18T15:39:42.326420+00:00"}
+{"event": "dry_run_complete", "note": "zero writes performed; re-run with --execute only when authorized", "t": "2026-10-18T15:39:42.326420+00:00"}
+{"event": "warning", "note": "authorized Testnet order flow: max 1x1 ETHUSD limit-only, flat-in, verified cancel", "t": "2026-10-18T15:42:52.941825+00:00"}
+{"event": "flat_verified", "t": "2026-10-18T15:42:54.079024+00:00"}
+{"ask": "2372.00", "bid": "2371.95", "buy_px": "2372.00", "event": "touch", "t": "2026-10-18T15:42:54.703679+00:00"}
+{"event": "entry_placed", "order_id": "2175686436", "t": "2026-10-18T15:42:55.124925+00:00"}
+{"event": "entry_filled", "order_id": "2175686436", "t": "2026-10-18T15:42:55.317966+00:00"}
+{"event": "hold_start", "funding_rate_pre": "None", "settlement": "2026-10-18T16:00:00+00:00", "t": "2026-10-18T15:42:55.468845+00:00"}
+{"event": "settlement_window_passed", "funding_rate_post": "None", "settlement": "2026-10-18T16:00:00+00:00", "t": "2026-10-18T16:05:25.795656+00:00"}
+{"event": "exit_placed", "order_id": "2175687999", "px": "2371.10", "t": "2026-10-18T16:05:26.708800+00:00"}
+{"event": "exit_filled", "order_id": "2175687999", "t": "2026-10-18T16:05:32.533496+00:00"}
+{"event": "done", "position_size": 0, "t": "2026-10-18T16:05:32.732548+00:00"}
+{"count": 1, "event": "funding_rows", "t": "2026-10-18T16:05:33.105752+00:00"}
+{"event": "refused", "reason": "Authorization document PHASE189_TESTNET_AUTHORIZATION.md is not operator-approved: PENDING_OPERATOR_APPROVAL", "t": "2026-10-21T08:33:26.532606+00:00"}

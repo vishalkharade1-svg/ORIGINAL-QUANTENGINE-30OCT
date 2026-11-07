@@ -1,0 +1,42 @@
+{
+  "added": [
+    "docs/BUILD_HANDOFF_PHASE159.md",
+    "reports/PHASE159_ARCHIVE_INTEGRITY.json",
+    "reports/PHASE159_BLOCKERS.json",
+    "reports/PHASE159_DEPENDENCY_REVIEW.md",
+    "reports/PHASE159_FULL_SUITE_RUN.txt",
+    "reports/PHASE159_GIT_EVIDENCE_STATUS.json",
+    "reports/PHASE159_HARDENING.json",
+    "reports/PHASE159_OSV_SCAN.json",
+    "reports/PHASE159_PRIVACY_REVIEW.md",
+    "reports/PHASE159_PRIVACY_SCAN.json",
+    "reports/PHASE159_PROVENANCE.json",
+    "reports/PHASE159_RELEASE_GATES.json",
+    "reports/PHASE159_SECURITY_SCAN.md",
+    "tests/test_release_records_phase159.py"
+  ],
+  "added_unexpected_count": 0,
+  "computation_basis": "computed on 2026-10-17 over the sealed-tree state during packing preparation. Two Phase159 additions are named here genuinely but were written after this computation finalised: reports/PHASE159_SOURCE_DIFF.json (this record) and reports/PHASE159_MANIFEST_AUDIT.json; their integrity is carried by BUILD_MANIFEST.sha256 instead of by this diff.",
+  "content_changed": [
+    "NEXT_ACTIONS.md",
+    "scripts/generate_manifest.py",
+    "scripts/security/scan_privacy.py",
+    "scripts/security/scan_secrets.py",
+    "tests/evidence_mode.py",
+    "tests/test_git_evidence_mode_contract.py",
+    "tests/test_phase158_manifest_contract.py",
+    "tests/test_phase158_privacy_contract.py",
+    "tests/test_secret_scan_phase0.py"
+  ],
+  "input": {
+    "archive": "QuantEngine_PHASE158_RELEASE_CANDIDATE.zip",
+    "members": 1852,
+    "sha256": "b283332a8b8651e2d3e82acdf8b958bb1df43f5979dce905d9c0312778676beb"
+  },
+  "invariant": "Phase159 is a hardening-only cycle: every content change must map to one of the four repairs in reports/PHASE159_HARDENING.json (two scanners, the manifest verifier, the two scanner contract tests) or to the two test files carrying their regressions and the evidence_mode/name updates, or to an added Phase159 record/document/test. Any other content change in this list means the delivery is not what its records claim.",
+  "line_ending_only": 0,
+  "phase": 159,
+  "removed": [],
+  "unchanged": 1843,
+  "what": "complete file set changed relative to the Phase158 revision-2 input archive"
+}

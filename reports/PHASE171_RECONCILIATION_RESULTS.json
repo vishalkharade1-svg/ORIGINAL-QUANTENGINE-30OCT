@@ -1,0 +1,65 @@
+{
+  "phase": 171,
+  "reconciliation_type": "EXECUTION_ECONOMICS_AND_MAKER_MODELING",
+  "baseline_trade": {
+    "experiment_id": "phase168_delta_btc_reconciled",
+    "symbol": "BTCUSD",
+    "quantity": 1,
+    "contract_multiplier": 0.001,
+    "entry_price": "82015.50",
+    "exit_price": "82020.00",
+    "gross_realized_pnl_usd": "+0.00450000"
+  },
+  "subsystem_reconciliation_summary": {
+    "subsystem_1_private_ws_fills": "VERIFIED_EXACT",
+    "subsystem_2_l2_quote_binding": "VERIFIED_EXACT",
+    "subsystem_3_commission_and_gst": "VERIFIED_EXACT",
+    "subsystem_4_realized_cashflow": "VERIFIED_EXACT",
+    "subsystem_5_chronological_balances": "VERIFIED_EXACT",
+    "subsystem_6_positions_margin_orders": "VERIFIED_EXACT"
+  },
+  "execution_style_economic_comparison": {
+    "taker": {
+      "base_rate": "0.0005",
+      "effective_rate_bps": "5.90",
+      "round_trip_fee_usd": "0.09678095",
+      "net_pnl_usd": "-0.09228095",
+      "breakeven_points": "96.78",
+      "fee_to_gross_ratio": "21.5069"
+    },
+    "maker": {
+      "base_rate": "0.0002",
+      "effective_rate_bps": "2.36",
+      "round_trip_fee_usd": "0.03871238",
+      "net_pnl_usd": "-0.03421238",
+      "breakeven_points": "38.71",
+      "fee_to_gross_ratio": "8.6028",
+      "fee_savings_usd": "0.05806857",
+      "fee_reduction_pct": "60.00"
+    },
+    "rebate_vip": {
+      "base_rate": "-0.0001",
+      "effective_rate_bps": "-1.00",
+      "round_trip_fee_usd": "-0.01640355",
+      "net_pnl_usd": "+0.02090355",
+      "breakeven_points": "-16.40",
+      "fee_to_gross_ratio": "-3.6452",
+      "fee_savings_usd": "0.11318450"
+    }
+  },
+  "l2_queue_dynamics_results": {
+    "total_snapshots": 113,
+    "avg_top_bid_depth_contracts": "1312.53",
+    "avg_top_ask_depth_contracts": "686.10",
+    "simulated_queue_ahead": 100,
+    "simulated_fill_probability_10s": "0.862",
+    "expected_wait_seconds": "5.00",
+    "modeled_adverse_selection_cost_usd": "0.01640000",
+    "net_maker_benefit_usd": "+0.03090981"
+  },
+  "friction_hurdle_gate_results": {
+    "scalp_4_5_pts_taker": "REJECTED (Fee consumes 2150.7% of target)",
+    "swing_750_pts_taker": "ACCEPTED (Fee consumes 12.9% of target, post-fee RR 1.88)"
+  },
+  "disposition": "VERIFIED_ACCURATE"
+}

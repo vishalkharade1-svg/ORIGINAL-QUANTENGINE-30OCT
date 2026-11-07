@@ -1,0 +1,18 @@
+{
+  "capture_id": "phase111-retry-btcusd",
+  "continuity_failures": 0,
+  "end_timestamp_ms": 1791706479657,
+  "environment": "SANDBOX",
+  "evidence_sha256": "76e96c10081aa50abac97c60f56d07cb8e7aedf68f7e2ad6e6c46880da93f176",
+  "first_sequence": 143754,
+  "last_sequence": 143761,
+  "messages_seen": 8,
+  "observations_emitted": 8,
+  "sample_count": 8,
+  "schema_version": 1,
+  "source_endpoint": "wss://socket-ind-pub.testnet.deltaex.org",
+  "start_timestamp_ms": 1791706447270,
+  "symbol": "BTCUSD",
+  "transport": "LIVE_CAPTURE",
+  "venue": "delta"
+}

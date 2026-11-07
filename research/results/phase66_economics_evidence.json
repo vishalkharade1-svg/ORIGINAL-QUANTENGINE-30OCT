@@ -1,0 +1,36 @@
+{
+  "changes": [
+    "DeltaHistory exposes explicit public funding-rate history via FUNDING:<symbol>.",
+    "Funding records are validated, sorted, deduplicated, and never substituted with zero on malformed data.",
+    "Delta product normalization preserves maker/taker commission and funding metadata for evidence consumers.",
+    "No venue-realistic EconomicsProfile is auto-created or promoted from these fields."
+  ],
+  "file_sha256": {
+    "core/exchanges/delta/delta_history.py": "fb3ec5b91990bca48cb0dd53191df57927562948cb90715fead6b4f1390de68e",
+    "data/delta/product_normalizer.py": "e0ef048792a2e076d0b735687829210a0a94ab85d29b6c4b4547be9238da4f0f",
+    "tests/test_delta_economics_evidence_phase66.py": "3eccdc4fc7d112776196098783482b4e9d37b4e65b5d42932e4ee4cf57256a1e"
+  },
+  "mission": "CURRENT-STRATEGY ECONOMICS EVIDENCE SEAM",
+  "phase": 66,
+  "production_ready": false,
+  "remaining_economic_blockers": [
+    "No real product snapshot captured in this execution environment.",
+    "No real funding-history capture captured in this execution environment.",
+    "Historical/real slippage distribution remains unavailable.",
+    "EconomicsProfile remains non-realistic unless operator-provisioned with verified venue evidence.",
+    "Cost-adjusted R:R enforcement is not yet proven across live/paper paths."
+  ],
+  "source_documentation": "Delta Exchange API documentation (public products and /v2/history/candles; funding via FUNDING:<symbol>)",
+  "status": "IMPLEMENTED_TESTED_VERIFIED_READ_ONLY_VENUE_PROBE_BLOCKED",
+  "tests": {
+    "compileall": "PASS",
+    "focused": "6 passed"
+  },
+  "venue_probe": {
+    "claims_permitted": false,
+    "endpoint": "https://api.india.delta.exchange",
+    "error": "Temporary failure in name resolution",
+    "funding_history": "BLOCKED_DNS",
+    "products": "BLOCKED_DNS"
+  }
+}

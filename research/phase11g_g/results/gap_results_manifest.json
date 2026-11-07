@@ -1,0 +1,50 @@
+{
+ "gap_ablation_results.json": {
+  "sha256": "c264d5ee633e4f4cc04be0aead3716776aa1c590ca80e18555033aa54adbd2b8",
+  "size": 4527
+ },
+ "gap_comparison_11gf.json": {
+  "sha256": "ef564849cb1b9cb3dc5625d1706a84b372eab632552056e5b736aa85711e7dce",
+  "size": 2191
+ },
+ "gap_cost_results.json": {
+  "sha256": "4c00bd5e1212ed6e86d3fa0aa978a1b826bac0c68c74a4fb971aa7856813ea75",
+  "size": 5483
+ },
+ "gap_execution_robustness.json": {
+  "sha256": "b03b7a65d1fbc98697636f061996174a2ad5e05956275ff3c4c0113edd9444f9",
+  "size": 1043
+ },
+ "gap_fold_results.json": {
+  "sha256": "6dad9dc0f8ef81a8a49d0ae46174f48d6e520339ce4f24eed09debcc781905bb",
+  "size": 10451
+ },
+ "gap_monte_carlo.json": {
+  "sha256": "a4ab3ef14c08290391acaaf239f9cf4b6928b77a2b0b89f951f37e15c5be3b24",
+  "size": 467
+ },
+ "gap_multiple_testing.json": {
+  "sha256": "86803e88b07f99d8d6658f0b667bf677ad5b9e48d9b774d06070ec5bd37756b3",
+  "size": 447
+ },
+ "gap_primary_results.json": {
+  "sha256": "76024000f7e21da57bf36b3b5e33200795cce9166f2213ae6c72a99bd48ddc7b",
+  "size": 1435
+ },
+ "gap_random_baseline.json": {
+  "sha256": "da3d416dd52375004a16717e3e2c198f8f0014d9e98389c3bb7d2e8aab51e659",
+  "size": 403
+ },
+ "gap_reproducibility.json": {
+  "sha256": "fbd2ab5db28bc54ce5b4b89900402630866a2723999e17a2e71a75681bf2827f",
+  "size": 2327
+ },
+ "gap_setup_rates.json": {
+  "sha256": "1cabb20e81603c7793d682779fe545f3d71ab79e6763caa7c5a321a7d4a64ee0",
+  "size": 3203
+ },
+ "run_manifest.json": {
+  "sha256": "683255b8934377c27fc6fea412883cd1ec620d0bb2ec0e49ed243a4bb092f576",
+  "size": 1160
+ }
+}

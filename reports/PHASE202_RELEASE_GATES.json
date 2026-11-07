@@ -1,0 +1,30 @@
+{
+  "phase": 202,
+  "system_status": "NOT_PRODUCTION_READY",
+  "strategy_status": "EDGE NOT ESTABLISHED",
+  "execution_decision": "HOLD",
+  "wallet_transaction_read_adapter": "IMPLEMENTED_FOCUSED_TESTED",
+  "fill_type_review": "IMPLEMENTED_FOCUSED_TESTED",
+  "focused_tests": {
+    "count": 79,
+    "status": "PASS"
+  },
+  "test_collection": {
+    "count": 4935,
+    "status": "COLLECTION_ONLY"
+  },
+  "full_suite": "NOT_RUN",
+  "manifest": "PASS",
+  "secret_scan": "PASS",
+  "fresh_extraction": "PASS",
+  "pinned_python_environment": "NOT_CERTIFIED",
+  "authenticated_venue_verification": "NOT_PERFORMED",
+  "operator_authorization_provisioning": "BLOCKED_OWNER_ACTION",
+  "exchange_network_calls": 0,
+  "exchange_order_writes": 0,
+  "wallet_amounts_applied_to_position_quantity": false,
+  "automatic_resume": "NEVER",
+  "package_manifest": "PASS",
+  "package_secret_scan": "PASS",
+  "package_crc": "PASS"
+}

@@ -1,0 +1,1 @@
+{"D3": {"hash": 0, "load": 0, "read": 0}, "certification": "REAL_ORDERFLOW_FEATURES_CERTIFIED", "dataset": "binance_um_aggtrades_BTCUSDT_2026-09-05 (410535 trades)", "economic_research": "NOT RUN", "live": "DISABLED", "phase": "11G-J", "production": "UNMODIFIED", "stage": "REPLAY_FEATURE_CERTIFICATION", "trading_edge": "NOT EVALUATED", "winner_selected": false}

@@ -1,0 +1,90 @@
+{
+  "capture_id": "exp-20261015T140530Z",
+  "cleanup": {
+    "cancel_unconfirmed": [
+      "2175449743"
+    ],
+    "cancelled": [],
+    "open_orders": 1,
+    "positions_flat": true
+  },
+  "environment": "india_testnet",
+  "fill_friction_binding": {
+    "bindings": [
+      {
+        "fill_id": "bf23c4741bc242f69e69bc693aab9299",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "276465d643294b0fa921041c835f48a4",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "c65da8154eda4f37937a54cc86722a06",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "66845084e3bc4a8098dec075ce017e7c",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "0b75139556ce4570bc523277add20ac2",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "2adff3b55ba04b39a1b4988656904d9b",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "7dca2fdb6cd649fbbd94e4dcc1c8008d",
+        "status": "NO_ALIGNED_SAMPLE"
+      },
+      {
+        "fill_id": "8ba7649486cd4428b8103ced9585da5e",
+        "status": "NO_ALIGNED_SAMPLE"
+      }
+    ],
+    "module_error": "ValueError: no aligned market-friction observation for fill bf23c4741bc242f69e69bc693aab9299",
+    "status": "WINDOWED_ANALYSIS"
+  },
+  "l2": {
+    "evidence_sha256": "ed5c638c7fd7fb6a704335d0f6564756e4c60d5e114b978729d8e53b4cade54b",
+    "observations": 124,
+    "range_ms": [
+      1792073133138,
+      1792073206946
+    ],
+    "status": "CAPTURED"
+  },
+  "legs": [
+    {
+      "cancel_confirmed": false,
+      "filled": false,
+      "n": 1,
+      "order_id": "2175449743",
+      "price": 80515.5,
+      "side": "buy"
+    }
+  ],
+  "mode": "execute",
+  "prechecks": {
+    "ask": 80515.5,
+    "bid": 80511.5,
+    "flat": true,
+    "product_id": 84
+  },
+  "production_ready": false,
+  "reconciliation": {
+    "reason": "ValueError: no v2/user_trades frames",
+    "status": "BLOCKED"
+  },
+  "rest_fills": 8,
+  "schema": "quantengine.testnet-reconciled-experiment.v1",
+  "scrub_hits": 0,
+  "symbol": "BTCUSD",
+  "ws": {
+    "authenticated": true,
+    "frames": 2,
+    "listen_s": 75.2
+  }
+}

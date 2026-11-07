@@ -1,0 +1,76 @@
+{
+ "D3_counters": {
+  "hash": 0,
+  "load": 0,
+  "read": 0
+ },
+ "candidate_hash": "26ca44cf9f82395b5a793703dc31000461408c0f5163abcc7e4fc224e8432df2",
+ "cost_contract": "11F ladder A/B/C/D (0 | 0.05%+2bp | 0.059%+5bp | 2xC), funding=0",
+ "dataset_hashes": {
+  "BTCUSDT": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "ETHUSDT": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f"
+ },
+ "environment": {
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.12.10"
+ },
+ "execution_contract": "NEXT_BAR_OPEN family-wide (signal bar i -> market fill bar i+1 open)",
+ "executor_hash": "b90928923da0839a9478f9b0ad2e86d33111b42cf18621459cc2c5f14e1b07ed",
+ "feature_hash": "97ebc6a8ee5ea6f8e34b68024ac3fff8cd365c9dcd8030ceb5f791a4464202c2",
+ "fold_definitions": [
+  {
+   "embargo_end": 2175,
+   "embargo_start": 2150,
+   "fold": 0,
+   "purge_end": 2150,
+   "purge_start": 2000,
+   "test_end": 3175,
+   "test_start": 2175,
+   "train_end": 2000,
+   "train_start": 0
+  },
+  {
+   "embargo_end": 3175,
+   "embargo_start": 3150,
+   "fold": 1,
+   "purge_end": 3150,
+   "purge_start": 3000,
+   "test_end": 4175,
+   "test_start": 3175,
+   "train_end": 3000,
+   "train_start": 0
+  },
+  {
+   "embargo_end": 4175,
+   "embargo_start": 4150,
+   "fold": 2,
+   "purge_end": 4150,
+   "purge_start": 4000,
+   "test_end": 5175,
+   "test_start": 4175,
+   "train_end": 4000,
+   "train_start": 0
+  },
+  {
+   "embargo_end": 5175,
+   "embargo_start": 5150,
+   "fold": 3,
+   "purge_end": 5150,
+   "purge_start": 5000,
+   "test_end": 6175,
+   "test_start": 5175,
+   "train_end": 5000,
+   "train_start": 0
+  }
+ ],
+ "git_head": "a50ec8d19d03cda11ba9d19ba176683a289f20d7",
+ "hypothesis_hash": "e4905815b7f13ab58c5945ae7b1dd94e5a4f50968d27a59a0d99c685f81234b6",
+ "mc_seeds": "1107001/1107002",
+ "random_seeds": "1108000-1108499",
+ "runner_hash": "3d5f51f10663342adf914d56a8e5880153e7245168d8a7ef9d088ba06676936f",
+ "symbols": [
+  "BTCUSDT",
+  "ETHUSDT"
+ ],
+ "walk_forward_contract": "expanding train_start=0, train 2000+1000k/test 1000/purge 150/embargo 25/4 folds"
+}

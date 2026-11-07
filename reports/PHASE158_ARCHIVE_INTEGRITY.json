@@ -1,0 +1,106 @@
+{
+ "environment": {
+  "dependencies": {
+   "httpx": "0.28.1",
+   "numpy": "2.1.1",
+   "pandas": "2.2.2",
+   "pyarrow": "18.0.0",
+   "pytest": "8.4.2",
+   "python-dotenv": "1.0.1",
+   "websockets": "12.0"
+  },
+  "git_available": {
+   "cmd": [
+    "git",
+    "--version"
+   ],
+   "rc": 0,
+   "stderr": "",
+   "stdout": "git version 2.55.0.windows.3"
+  },
+  "git_inside_worktree": {
+   "cmd": [
+    "git",
+    "rev-parse",
+    "--is-inside-work-tree"
+   ],
+   "rc": 128,
+   "stderr": "fatal: not a git repository (or any of the parent directories): .git",
+   "stdout": ""
+  },
+  "os": "Windows",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "pytest": "8.4.2",
+  "python": "3.12.10",
+  "python_executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "workspace_has_git_dir": false,
+  "worktree_has_git_dir": false
+ },
+ "extraction": {
+  "conclusion": "PASS: every extracted byte matches the packaged manifest",
+  "expected": 1820,
+  "files_extracted": 1820,
+  "verification_failures": [],
+  "workspace": "F:\\vishal 3\\latestoriginalquant\\QuantEngine_PHASE158_Release_Repair"
+ },
+ "input_archive": {
+  "bytes": 55841869,
+  "entries": 1820,
+  "identity_confirmed_against": {
+   "agrees": true,
+   "agrees_with_prompt": true,
+   "detached_record": "F:\\vishal 3\\latestoriginalquant\\RELEASE_HASH_PHASE157.txt",
+   "detached_record_sha256": "d43051a468e7d91d4a2be6b1cfe484fc0a13ac7f6d3fea6735c7b494ccfb00ad",
+   "prompt_claim": "d43051a468e7d91d4a2be6b1cfe484fc0a13ac7f6d3fea6735c7b494ccfb00ad"
+  },
+  "name": "QuantEngine_PHASE157_RELEASE_CANDIDATE.zip",
+  "sha256": "d43051a468e7d91d4a2be6b1cfe484fc0a13ac7f6d3fea6735c7b494ccfb00ad",
+  "testzip": null
+ },
+ "inventory": {
+  "entries": 1820,
+  "file": "reports/PHASE158_INPUT_INVENTORY.sha256",
+  "inventory_sha256": "5e216e2b7208a3db7717d67da8ae4b8010fa833c292eb7d5b381ca90837f5fea",
+  "note": "SHA-256 of the sorted 'digest  path' inventory text, LF line endings"
+ },
+ "manifest_coverage": {
+  "conclusion": "PASS: every package member except the manifest is listed, and every listed hash matches the packaged bytes",
+  "extra_in_manifest": [],
+  "hash_mismatches": [],
+  "manifest_lists_itself": false,
+  "manifest_members": 1819,
+  "missing_from_manifest": [],
+  "package_members_excluding_manifest": 1819
+ },
+ "phase": 158,
+ "role": "input-archive integrity and safety record",
+ "safety_scan": {
+  "checked": [
+   "absolute paths",
+   "parent traversal",
+   "backslash separators",
+   "duplicate entry names",
+   "case-insensitive name collisions",
+   "symlink members",
+   "directory members",
+   "executable permission bits",
+   "executable/script suffixes",
+   "over-long paths",
+   "Windows reserved names"
+  ],
+  "detail": {
+   "absolute": [],
+   "backslashes": [],
+   "case_collisions": [],
+   "directories": [],
+   "duplicates": [],
+   "executable_bits": [],
+   "long_paths": [],
+   "reserved_names": [],
+   "symlinks": [],
+   "traversal": [],
+   "unusual_suffixes": []
+  },
+  "findings_total": 0
+ }
+}

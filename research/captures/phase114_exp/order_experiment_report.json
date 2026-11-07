@@ -1,0 +1,235 @@
+{
+  "capture_id": "exp-20261020T202701Z",
+  "environment": "india_testnet",
+  "evidence_sha256": "838b2d85a157d0d51f001d542a1578b7bba2fa2832dc9c5809c14c36588a9393",
+  "fills_observed": [
+    {
+      "fill_id": "7f5ac5d7cfcc4d9c8b6c16237fbeea1b",
+      "price": "82633",
+      "side": "sell",
+      "size": "1",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "6650387d90444657bbc11a3fb253312d",
+      "price": "82637",
+      "side": "buy",
+      "size": "1",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "26532bca8c8e46239ae3b9f6c38384e3",
+      "price": "0.23465",
+      "side": "sell",
+      "size": "63765",
+      "symbol": "ADAUSD"
+    },
+    {
+      "fill_id": "35f6d56733104e208fa62b469dd7d72f",
+      "price": "0.23716",
+      "side": "sell",
+      "size": "300",
+      "symbol": "ADAUSD"
+    },
+    {
+      "fill_id": "ff9eb2d0df0241569e58acfadc23819f",
+      "price": "0.23921",
+      "side": "buy",
+      "size": "1703",
+      "symbol": "ADAUSD"
+    },
+    {
+      "fill_id": "3533e4c152794605b09c29dd100c4c71",
+      "price": "0.23921",
+      "side": "buy",
+      "size": "37430",
+      "symbol": "ADAUSD"
+    },
+    {
+      "fill_id": "15d5c583355e49acb3720d6365e78b05",
+      "price": "0.23327",
+      "side": "buy",
+      "size": "24931",
+      "symbol": "ADAUSD"
+    },
+    {
+      "fill_id": "a280f2bb07844925ae951970a6270f42",
+      "price": "105.308",
+      "side": "sell",
+      "size": "15",
+      "symbol": "SOLUSD"
+    },
+    {
+      "fill_id": "95958835f24a491a9f5f7fb99d51baf1",
+      "price": "2379.25",
+      "side": "buy",
+      "size": "176",
+      "symbol": "ETHUSD"
+    },
+    {
+      "fill_id": "f87f396c60344f36a26001b6250f2d0f",
+      "price": "104.333",
+      "side": "buy",
+      "size": "15",
+      "symbol": "SOLUSD"
+    },
+    {
+      "fill_id": "66e2b4d367884f848f3f8bef3310fe00",
+      "price": "2366.85",
+      "side": "sell",
+      "size": "176",
+      "symbol": "ETHUSD"
+    },
+    {
+      "fill_id": "9eda98d7f9b746ec8f02172c571bc816",
+      "price": "81040",
+      "side": "sell",
+      "size": "16",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "1ea2f78e9df64a0c8ade67f6834b3759",
+      "price": "81002.5",
+      "side": "buy",
+      "size": "14",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "6b77395cf1d346fa8bf5c6f6cf300cbc",
+      "price": "81002.5",
+      "side": "buy",
+      "size": "2",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "05b16ddb82574a5b8f9dfc995f12ac3f",
+      "price": "0.23327",
+      "side": "buy",
+      "size": "1",
+      "symbol": "ADAUSD"
+    },
+    {
+      "fill_id": "eb2226fe849d4b15957add383a6cf1bf",
+      "price": "2371.1",
+      "side": "sell",
+      "size": "1",
+      "symbol": "ETHUSD"
+    },
+    {
+      "fill_id": "f72e20b343fc4ceeb7da732b4ba4295a",
+      "price": "2375.8",
+      "side": "buy",
+      "size": "1",
+      "symbol": "ETHUSD"
+    },
+    {
+      "fill_id": "8ba7649486cd4428b8103ced9585da5e",
+      "price": "83107",
+      "side": "sell",
+      "size": "1",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "7dca2fdb6cd649fbbd94e4dcc1c8008d",
+      "price": "83111.5",
+      "side": "buy",
+      "size": "1",
+      "symbol": "BTCUSD"
+    },
+    {
+      "fill_id": "b5094fe3ea6043c88606c5bc3535c1b7",
+      "price": "110.57",
+      "side": "sell",
+      "size": "2",
+      "symbol": "SOLUSD"
+    }
+  ],
+  "mode": "execute",
+  "order_placement": "BOUNDED_2x1",
+  "plan": {
+    "legs": [
+      {
+        "price": 82637.0,
+        "side": "buy"
+      },
+      {
+        "price": 82633.0,
+        "side": "sell"
+      }
+    ],
+    "max_orders": 2,
+    "size_contracts": 1
+  },
+  "production_ready": false,
+  "schema": "quantengine.testnet-order-experiment.v1",
+  "steps": [
+    {
+      "product_id": 84,
+      "step": "product_verified",
+      "t": "2026-10-20T20:27:03.356334+00:00",
+      "tick": 0.1
+    },
+    {
+      "btcusd_open": 0,
+      "step": "positions_checked",
+      "t": "2026-10-20T20:27:03.689130+00:00"
+    },
+    {
+      "open": 0,
+      "step": "open_orders_checked",
+      "t": "2026-10-20T20:27:04.059913+00:00"
+    },
+    {
+      "ask": 82637.0,
+      "bid": 82633.0,
+      "buy_px": 82637.0,
+      "est_notional": 82.64,
+      "sell_px": 82633.0,
+      "step": "touch",
+      "t": "2026-10-20T20:27:04.963593+00:00"
+    },
+    {
+      "leg": 1,
+      "order_id": "2175877046",
+      "side": "buy",
+      "state": "closed",
+      "step": "order_placed",
+      "t": "2026-10-20T20:27:05.681812+00:00"
+    },
+    {
+      "filled": true,
+      "leg": 1,
+      "order_id": "2175877046",
+      "step": "fill_wait_done",
+      "t": "2026-10-20T20:27:05.959728+00:00"
+    },
+    {
+      "leg": 2,
+      "order_id": "2175877047",
+      "side": "sell",
+      "state": "closed",
+      "step": "order_placed",
+      "t": "2026-10-20T20:27:06.417119+00:00"
+    },
+    {
+      "filled": true,
+      "leg": 2,
+      "order_id": "2175877047",
+      "step": "fill_wait_done",
+      "t": "2026-10-20T20:27:06.730361+00:00"
+    },
+    {
+      "cancelled": [],
+      "open_orders": 0,
+      "positions_flat": true,
+      "step": "cleanup",
+      "t": "2026-10-20T20:27:07.615703+00:00"
+    },
+    {
+      "count": 20,
+      "step": "fills_observed",
+      "t": "2026-10-20T20:27:08.027198+00:00"
+    }
+  ],
+  "symbol": "BTCUSD"
+}

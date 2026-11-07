@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-10-11T08:20:41.060686+00:00",
+  "environment": "INDIA_TESTNET",
+  "evidence_sha256": "2d53b037ee6764d8b530852347d7f9d887ed87f6743216e3fd9db5c26a48e87e",
+  "fills": [
+    {
+      "commission": "0.08816353",
+      "fill_id": "bf23c4741bc242f69e69bc693aab9299",
+      "fill_type": "normal",
+      "order_id": "2175077023",
+      "price": "83016.5",
+      "role": "taker",
+      "side": "buy",
+      "size": "2",
+      "symbol": "BTCUSD",
+      "timestamp": 1791706066244
+    },
+    {
+      "commission": "0.03526971",
+      "fill_id": "276465d643294b0fa921041c835f48a4",
+      "fill_type": "normal",
+      "order_id": "2175077503",
+      "price": "83026.6",
+      "role": "maker",
+      "side": "sell",
+      "size": "2",
+      "symbol": "BTCUSD",
+      "timestamp": 1791706359123
+    }
+  ],
+  "provenance_status": "REAL",
+  "request_params": {
+    "page_size": 100,
+    "symbol": "BTCUSD",
+    "symbol_rows_kept": 2,
+    "symbol_rows_seen": 8
+  },
+  "schema_version": 1,
+  "source_endpoint": "https://cdn-ind.testnet.deltaex.org/v2/fills",
+  "symbol": "BTCUSD",
+  "venue": "delta"
+}

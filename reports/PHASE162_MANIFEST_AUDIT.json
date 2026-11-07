@@ -1,0 +1,28 @@
+{
+  "phase": 162,
+  "what": "manifest regeneration and verification record for the Phase 162 candidate",
+  "procedure": [
+    {
+      "step": 1,
+      "when": "2026-10-18, after Phase 162 captures, records, and test files were finalised (with reports/PHASE162_FULL_SUITE_RUN.txt in pre-run registered stub form and reports/PHASE162_SOURCE_DIFF.json written)",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1924,
+      "verification": "python scripts/generate_manifest.py --root . --verify -> MANIFEST_PASS (0 problems)"
+    },
+    {
+      "step": 2,
+      "when": "2026-10-18, immediately after this record itself was written",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1925,
+      "verification": "MANIFEST_PASS (0 problems)"
+    },
+    {
+      "step": 3,
+      "when": "2026-10-18, after the worktree full-suite run completes and real suite run log is written to reports/PHASE162_FULL_SUITE_RUN.txt",
+      "command": "python scripts/generate_manifest.py --root . --write BUILD_MANIFEST.sha256",
+      "entries": 1925,
+      "verification": "MANIFEST_PASS (0 problems), executed immediately before packing by scripts/build_release.py"
+    }
+  ],
+  "statement": "BUILD_MANIFEST.sha256 is LF-only, self-excluded, byte-exact to a fresh generation, and verified MANIFEST_PASS."
+}

@@ -1,0 +1,14 @@
+{
+  "capture_id": "exp-20261011T105947Z",
+  "environment": "india_testnet",
+  "mode": "dry-run",
+  "prechecks": {
+    "ask": 82985.0,
+    "bid": 82980.5,
+    "flat": true,
+    "product_id": 84
+  },
+  "production_ready": false,
+  "schema": "quantengine.testnet-reconciled-experiment.v1",
+  "symbol": "BTCUSD"
+}

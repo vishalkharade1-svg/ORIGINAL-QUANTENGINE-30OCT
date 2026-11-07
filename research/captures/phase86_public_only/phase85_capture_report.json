@@ -1,0 +1,35 @@
+{
+  "authenticated_rest_fills": "BLOCKED_CREDENTIALS_NOT_CONFIGURED",
+  "credentials_note": "Fresh rotated testnet credentials must be configured as environment variables for authenticated REST/private-WS steps; public L2 capture proceeds without credentials. Previously exposed credentials are not reused.",
+  "credentials_persisted": false,
+  "credentials_source": "environment_only",
+  "credentials_status": "BLOCKED_CREDENTIALS_NOT_CONFIGURED",
+  "dns_probe": {
+    "cdn-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind-pub.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    },
+    "socket-ind.testnet.deltaex.org": {
+      "address_count": "4",
+      "status": "RESOLVED"
+    }
+  },
+  "economic_certification": "BLOCKED",
+  "environment": "india_testnet",
+  "finished_at": "2026-10-10T13:39:39.914267+00:00",
+  "l2_observation_count": 59,
+  "order_placement": "DISABLED",
+  "phase": 85,
+  "private_ws_fills": "BLOCKED_CREDENTIALS_NOT_CONFIGURED",
+  "production_ready": false,
+  "real_public_l2": "CAPTURED",
+  "rest_ws_reconciliation": "BLOCKED",
+  "started_at": "2026-10-10T13:39:14.416335+00:00",
+  "status": "CAPTURE_COMPLETED_WITH_GAPS",
+  "symbol": "BTCUSD",
+  "title": "Delta Testnet non-trading evidence capture and reconciliation"
+}

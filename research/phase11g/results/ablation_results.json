@@ -1,0 +1,1234 @@
+{
+ "H11G-001|no-sweep|BTCUSDT|F0|A": {
+  "expectancy": -0.009363147286872514,
+  "net": -0.1404472093030877,
+  "pf": 0.9373635994215089,
+  "removed": "no-sweep",
+  "trades": 15
+ },
+ "H11G-001|no-sweep|BTCUSDT|F0|C": {
+  "expectancy": -0.8043631472868725,
+  "net": -12.065447209303088,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 15
+ },
+ "H11G-001|no-sweep|BTCUSDT|F1|A": {
+  "expectancy": 0.13217366028252273,
+  "net": 0.3965209808475682,
+  "pf": 3.8586131830472197,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-001|no-sweep|BTCUSDT|F1|C": {
+  "expectancy": -0.6628263397174773,
+  "net": -1.988479019152432,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-001|no-sweep|BTCUSDT|F2|A": {
+  "expectancy": -0.054718698669328096,
+  "net": -0.054718698669328096,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 1
+ },
+ "H11G-001|no-sweep|BTCUSDT|F2|C": {
+  "expectancy": -0.8497186986693281,
+  "net": -0.8497186986693281,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 1
+ },
+ "H11G-001|no-sweep|BTCUSDT|F3|A": {
+  "expectancy": -0.3587799011493414,
+  "net": -1.0763397034480242,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-001|no-sweep|BTCUSDT|F3|C": {
+  "expectancy": -1.1537799011493415,
+  "net": -3.4613397034480244,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-001|no-sweep|ETHUSDT|F0|A": {
+  "expectancy": 0.28883227455327215,
+  "net": 1.7329936473196328,
+  "pf": 4.034293250176337,
+  "removed": "no-sweep",
+  "trades": 6
+ },
+ "H11G-001|no-sweep|ETHUSDT|F0|C": {
+  "expectancy": -0.506167725446728,
+  "net": -3.0370063526803674,
+  "pf": 0.1821517582018157,
+  "removed": "no-sweep",
+  "trades": 6
+ },
+ "H11G-001|no-sweep|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-001|no-sweep|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-001|no-sweep|ETHUSDT|F2|A": {
+  "expectancy": -0.05429931352242579,
+  "net": -0.05429931352242579,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 1
+ },
+ "H11G-001|no-sweep|ETHUSDT|F2|C": {
+  "expectancy": -0.8492993135224258,
+  "net": -0.8492993135224258,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 1
+ },
+ "H11G-001|no-sweep|ETHUSDT|F3|A": {
+  "expectancy": -0.8849421714786511,
+  "net": -2.6548265144359533,
+  "pf": 0.09216105388953422,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-001|no-sweep|ETHUSDT|F3|C": {
+  "expectancy": -1.679942171478651,
+  "net": -5.039826514435953,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-002|no-displacement|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-displacement|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-002|no-sweep|BTCUSDT|F0|A": {
+  "expectancy": 0.2100468563232227,
+  "net": 1.6803748505857816,
+  "pf": 1.6131185735502913,
+  "removed": "no-sweep",
+  "trades": 8
+ },
+ "H11G-002|no-sweep|BTCUSDT|F0|C": {
+  "expectancy": -0.5849531436767774,
+  "net": -4.679625149414219,
+  "pf": 0.36289231546673123,
+  "removed": "no-sweep",
+  "trades": 8
+ },
+ "H11G-002|no-sweep|BTCUSDT|F1|A": {
+  "expectancy": 0.33600466590860817,
+  "net": 1.0080139977258245,
+  "pf": 8.267010427634586,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-002|no-sweep|BTCUSDT|F1|C": {
+  "expectancy": -0.45899533409139187,
+  "net": -1.3769860022741756,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 3
+ },
+ "H11G-002|no-sweep|BTCUSDT|F2|A": {
+  "expectancy": -0.4166110081247387,
+  "net": -0.8332220162494774,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 2
+ },
+ "H11G-002|no-sweep|BTCUSDT|F2|C": {
+  "expectancy": -1.2116110081247387,
+  "net": -2.4232220162494773,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 2
+ },
+ "H11G-002|no-sweep|BTCUSDT|F3|A": {
+  "expectancy": -0.047850727576545155,
+  "net": -0.4306565481889064,
+  "pf": 0.7959538770596629,
+  "removed": "no-sweep",
+  "trades": 9
+ },
+ "H11G-002|no-sweep|BTCUSDT|F3|C": {
+  "expectancy": -0.8428507275765452,
+  "net": -7.585656548188907,
+  "pf": 0.0422740888843536,
+  "removed": "no-sweep",
+  "trades": 9
+ },
+ "H11G-002|no-sweep|ETHUSDT|F0|A": {
+  "expectancy": -1.3468457662132896,
+  "net": -10.774766129706316,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 8
+ },
+ "H11G-002|no-sweep|ETHUSDT|F0|C": {
+  "expectancy": -2.1418457662132897,
+  "net": -17.134766129706318,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 8
+ },
+ "H11G-002|no-sweep|ETHUSDT|F1|A": {
+  "expectancy": -0.2838458162634679,
+  "net": -0.5676916325269358,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 2
+ },
+ "H11G-002|no-sweep|ETHUSDT|F1|C": {
+  "expectancy": -1.0788458162634678,
+  "net": -2.1576916325269355,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 2
+ },
+ "H11G-002|no-sweep|ETHUSDT|F2|A": {
+  "expectancy": -0.36890977643525613,
+  "net": -0.36890977643525613,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 1
+ },
+ "H11G-002|no-sweep|ETHUSDT|F2|C": {
+  "expectancy": -1.1639097764352562,
+  "net": -1.1639097764352562,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 1
+ },
+ "H11G-002|no-sweep|ETHUSDT|F3|A": {
+  "expectancy": -0.46195658095119835,
+  "net": -2.77173948570719,
+  "pf": 0.40934234788382023,
+  "removed": "no-sweep",
+  "trades": 6
+ },
+ "H11G-002|no-sweep|ETHUSDT|F3|C": {
+  "expectancy": -1.2569565809511984,
+  "net": -7.541739485707191,
+  "pf": 0.05811995017909097,
+  "removed": "no-sweep",
+  "trades": 6
+ },
+ "H11G-003|no-displacement|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-displacement|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-displacement",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-fvg|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-fvg",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-003|no-sweep|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-sweep",
+  "trades": 0
+ },
+ "H11G-004|no-bos|BTCUSDT|F0|A": {
+  "expectancy": -0.009345972168635572,
+  "net": -0.009345972168635572,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|BTCUSDT|F0|C": {
+  "expectancy": -0.8043459721686357,
+  "net": -0.8043459721686357,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|BTCUSDT|F1|A": {
+  "expectancy": 0.028983360485768012,
+  "net": 0.028983360485768012,
+  "pf": Infinity,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|BTCUSDT|F1|C": {
+  "expectancy": -0.766016639514232,
+  "net": -0.766016639514232,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|BTCUSDT|F3|A": {
+  "expectancy": 0.03516777058106257,
+  "net": 0.03516777058106257,
+  "pf": Infinity,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|BTCUSDT|F3|C": {
+  "expectancy": -0.7598322294189375,
+  "net": -0.7598322294189375,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 0
+ },
+ "H11G-004|no-bos|ETHUSDT|F3|A": {
+  "expectancy": 0.004061337796219986,
+  "net": 0.004061337796219986,
+  "pf": Infinity,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-004|no-bos|ETHUSDT|F3|C": {
+  "expectancy": -0.7909386622037801,
+  "net": -0.7909386622037801,
+  "pf": 0.0,
+  "removed": "no-bos",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|BTCUSDT|F0|A": {
+  "expectancy": -0.0065715694223457315,
+  "net": -0.0065715694223457315,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|BTCUSDT|F0|C": {
+  "expectancy": -0.8015715694223458,
+  "net": -0.8015715694223458,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|BTCUSDT|F1|A": {
+  "expectancy": -0.005291132606672638,
+  "net": -0.005291132606672638,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|BTCUSDT|F1|C": {
+  "expectancy": -0.8002911326066726,
+  "net": -0.8002911326066726,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 0
+ },
+ "H11G-005|no-breaker|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 0
+ },
+ "H11G-005|no-breaker|BTCUSDT|F3|A": {
+  "expectancy": -0.009762384909949611,
+  "net": -0.029287154729848833,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 3
+ },
+ "H11G-005|no-breaker|BTCUSDT|F3|C": {
+  "expectancy": -0.8047623849099496,
+  "net": -2.414287154729849,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 3
+ },
+ "H11G-005|no-breaker|ETHUSDT|F0|A": {
+  "expectancy": -0.011602631923602842,
+  "net": -0.023205263847205684,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 2
+ },
+ "H11G-005|no-breaker|ETHUSDT|F0|C": {
+  "expectancy": -0.8066026319236028,
+  "net": -1.6132052638472056,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 2
+ },
+ "H11G-005|no-breaker|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 0
+ },
+ "H11G-005|no-breaker|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 0
+ },
+ "H11G-005|no-breaker|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 0
+ },
+ "H11G-005|no-breaker|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 0
+ },
+ "H11G-005|no-breaker|ETHUSDT|F3|A": {
+  "expectancy": -0.0031484218927843614,
+  "net": -0.0031484218927843614,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 1
+ },
+ "H11G-005|no-breaker|ETHUSDT|F3|C": {
+  "expectancy": -0.7981484218927843,
+  "net": -0.7981484218927843,
+  "pf": 0.0,
+  "removed": "no-breaker",
+  "trades": 1
+ },
+ "H11G-006|no-volume|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-006|no-volume|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-007|no-volume|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-volume",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|BTCUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F0|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F0|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F1|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F1|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F2|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F2|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F3|A": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ },
+ "H11G-008|no-htf|ETHUSDT|F3|C": {
+  "expectancy": 0.0,
+  "net": 0,
+  "pf": 0.0,
+  "removed": "no-htf",
+  "trades": 0
+ }
+}

@@ -1,0 +1,84 @@
+{
+ "source_head": "23125181dde7ae52e11be19488021fd1af2e43a5",
+ "protocol_parent": "f782d9dcf2285a2c9bd16c3fff2e9980686a32d6",
+ "configuration": {
+  "design": "expanding-origin chronological folds",
+  "train_min_bars": 2000,
+  "test_bars": 1000,
+  "purge_bars": 150,
+  "embargo_bars": 25,
+  "step_bars": 1000,
+  "n_folds": 4,
+  "invariant": "train_end + purge + embargo <= test_start < test_end"
+ },
+ "actual_fold_windows": [
+  {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  {
+   "fold": 1,
+   "train_start": 1000,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  {
+   "fold": 2,
+   "train_start": 2000,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  {
+   "fold": 3,
+   "train_start": 3000,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  }
+ ],
+ "expected_train_windows_expanding": [
+  {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000
+  },
+  {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000
+  },
+  {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000
+  },
+  {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000
+  }
+ ],
+ "comparison": "MISMATCH: implementation slides train_start=k*step (rolling); frozen spec requires train_start=0 expanding",
+ "verdict": "FAIL"
+}

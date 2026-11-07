@@ -1,0 +1,10 @@
+{
+ "bar_count": 2499,
+ "end": 1788751380,
+ "freshness_verdict": "FRESH",
+ "sha256": "6c5981fd34654a2ca5737830eeb6bba367b65f1b4a2ebefa5e8df0150d5647d6",
+ "source": "research/phase11e/data/oos_fresh.json (Delta Exchange /v2/history/candles, post-freeze fetch)",
+ "start": 1788601500,
+ "symbol": "BTCUSDT",
+ "timeframe": "1m"
+}

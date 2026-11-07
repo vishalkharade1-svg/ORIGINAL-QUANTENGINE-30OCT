@@ -1,0 +1,3570 @@
+{
+ "H11GF-001|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-001|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-001",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-002|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-002",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar j+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-003|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-003",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-536-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 79543.5,
+      "exit": 79515.99034676664,
+      "quantity": 0.00628555,
+      "entry_time": 1787918160,
+      "exit_time": 1787919060,
+      "stop": 79515.99034676664,
+      "take_profit": 79610.51930646671,
+      "gross": -0.1729133008809176,
+      "commission": 0.0,
+      "slippage": 0.0,
+      "net": -0.1729133008809176,
+      "risk_amount": 0.198055584608916,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 4,
+    "n_signals": 4,
+    "n_expired": 0,
+    "n_invalidated": 3
+   },
+   "B": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-536-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 79543.5,
+      "exit": 79515.99034676664,
+      "quantity": 0.00628555,
+      "entry_time": 1787918160,
+      "exit_time": 1787919060,
+      "stop": 79515.99034676664,
+      "take_profit": 79610.51930646671,
+      "gross": -0.17291330088091755,
+      "commission": 0.25,
+      "slippage": 0.2,
+      "net": -0.6229133008809176,
+      "risk_amount": 0.198055584608916,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 4,
+    "n_signals": 4,
+    "n_expired": 0,
+    "n_invalidated": 3
+   },
+   "C": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-536-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 79543.5,
+      "exit": 79515.99034676664,
+      "quantity": 0.00628555,
+      "entry_time": 1787918160,
+      "exit_time": 1787919060,
+      "stop": 79515.99034676664,
+      "take_profit": 79610.51930646671,
+      "gross": -0.1729133008809176,
+      "commission": 0.29500000000000004,
+      "slippage": 0.5,
+      "net": -0.9679133008809176,
+      "risk_amount": 0.198055584608916,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 4,
+    "n_signals": 4,
+    "n_expired": 0,
+    "n_invalidated": 3
+   },
+   "D": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-536-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 79543.5,
+      "exit": 79515.99034676664,
+      "quantity": 0.00628555,
+      "entry_time": 1787918160,
+      "exit_time": 1787919060,
+      "stop": 79515.99034676664,
+      "take_profit": 79610.51930646671,
+      "gross": -0.1729133008809176,
+      "commission": 0.5900000000000001,
+      "slippage": 1.0,
+      "net": -1.7629133008809177,
+      "risk_amount": 0.198055584608916,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 4,
+    "n_signals": 4,
+    "n_expired": 0,
+    "n_invalidated": 3
+   }
+  }
+ },
+ "H11GF-004|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-534-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 2503.8,
+      "exit": 2501.9535081958306,
+      "quantity": 0.19969247,
+      "entry_time": 1787918040,
+      "exit_time": 1787919000,
+      "stop": 2501.9535081958306,
+      "take_profit": 2507.6429836083385,
+      "gross": -0.36873050920937284,
+      "commission": 0.0,
+      "slippage": 0.0,
+      "net": -0.36873050920937284,
+      "risk_amount": 0.3787151395189953,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-534-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 2503.8,
+      "exit": 2501.9535081958306,
+      "quantity": 0.19969247,
+      "entry_time": 1787918040,
+      "exit_time": 1787919000,
+      "stop": 2501.9535081958306,
+      "take_profit": 2507.6429836083385,
+      "gross": -0.36873050920937284,
+      "commission": 0.25,
+      "slippage": 0.2,
+      "net": -0.8187305092093728,
+      "risk_amount": 0.3787151395189953,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-534-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 2503.8,
+      "exit": 2501.9535081958306,
+      "quantity": 0.19969247,
+      "entry_time": 1787918040,
+      "exit_time": 1787919000,
+      "stop": 2501.9535081958306,
+      "take_profit": 2507.6429836083385,
+      "gross": -0.3687305092093728,
+      "commission": 0.29500000000000004,
+      "slippage": 0.5,
+      "net": -1.1637305092093728,
+      "risk_amount": 0.3787151395189953,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [
+     {
+      "trade_id": "H11GF-004-BULL-534-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 2503.8,
+      "exit": 2501.9535081958306,
+      "quantity": 0.19969247,
+      "entry_time": 1787918040,
+      "exit_time": 1787919000,
+      "stop": 2501.9535081958306,
+      "take_profit": 2507.6429836083385,
+      "gross": -0.3687305092093729,
+      "commission": 0.5900000000000001,
+      "slippage": 1.0,
+      "net": -1.958730509209373,
+      "risk_amount": 0.3787151395189953,
+      "decision_time": 1787885940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-004|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-004",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 2
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 2
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 2
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 2
+   }
+  }
+ },
+ "H11GF-005|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-532-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78098.0,
+      "exit": 78106.41454153373,
+      "quantity": 0.00640201,
+      "entry_time": 1788037920,
+      "exit_time": 1788038220,
+      "stop": 78097.54272923314,
+      "take_profit": 78106.41454153373,
+      "gross": 0.053869979044330156,
+      "commission": 0.0,
+      "slippage": 0.0,
+      "net": 0.053869979044330156,
+      "risk_amount": 0.01893247013051005,
+      "decision_time": 1788005940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-532-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78098.0,
+      "exit": 78106.41454153373,
+      "quantity": 0.00640201,
+      "entry_time": 1788037920,
+      "exit_time": 1788038220,
+      "stop": 78097.54272923314,
+      "take_profit": 78106.41454153373,
+      "gross": 0.05386997904433016,
+      "commission": 0.25,
+      "slippage": 0.2,
+      "net": -0.39613002095566985,
+      "risk_amount": 0.01893247013051005,
+      "decision_time": 1788005940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-532-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78098.0,
+      "exit": 78106.41454153373,
+      "quantity": 0.00640201,
+      "entry_time": 1788037920,
+      "exit_time": 1788038220,
+      "stop": 78097.54272923314,
+      "take_profit": 78106.41454153373,
+      "gross": 0.05386997904433011,
+      "commission": 0.29500000000000004,
+      "slippage": 0.5,
+      "net": -0.7411300209556699,
+      "risk_amount": 0.01893247013051005,
+      "decision_time": 1788005940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-532-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78098.0,
+      "exit": 78106.41454153373,
+      "quantity": 0.00640201,
+      "entry_time": 1788037920,
+      "exit_time": 1788038220,
+      "stop": 78097.54272923314,
+      "take_profit": 78106.41454153373,
+      "gross": 0.053869979044329996,
+      "commission": 0.5900000000000001,
+      "slippage": 1.0,
+      "net": -1.53613002095567,
+      "risk_amount": 0.01893247013051005,
+      "decision_time": 1788005940
+     }
+    ],
+    "n_orders": 1,
+    "n_signals": 1,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-915-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78834.0,
+      "exit": 78832.1252599613,
+      "quantity": 0.00119516,
+      "entry_time": 1788120900,
+      "exit_time": 1788120900,
+      "stop": 78829.68737001935,
+      "take_profit": 78832.1252599613,
+      "gross": -0.0022406143046441286,
+      "commission": 0.0,
+      "slippage": 0.0,
+      "net": -0.0022406143046441286,
+      "risk_amount": 0.005154286606366233,
+      "decision_time": 1788065940
+     }
+    ],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 1
+   },
+   "B": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-915-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78834.0,
+      "exit": 78832.1252599613,
+      "quantity": 0.00119516,
+      "entry_time": 1788120900,
+      "exit_time": 1788120900,
+      "stop": 78829.68737001935,
+      "take_profit": 78832.1252599613,
+      "gross": -0.0022406143046441174,
+      "commission": 0.25,
+      "slippage": 0.2,
+      "net": -0.45224061430464413,
+      "risk_amount": 0.005154286606366233,
+      "decision_time": 1788065940
+     }
+    ],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 1
+   },
+   "C": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-915-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78834.0,
+      "exit": 78832.1252599613,
+      "quantity": 0.00119516,
+      "entry_time": 1788120900,
+      "exit_time": 1788120900,
+      "stop": 78829.68737001935,
+      "take_profit": 78832.1252599613,
+      "gross": -0.002240614304644173,
+      "commission": 0.29500000000000004,
+      "slippage": 0.5,
+      "net": -0.7972406143046442,
+      "risk_amount": 0.005154286606366233,
+      "decision_time": 1788065940
+     }
+    ],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 1
+   },
+   "D": {
+    "trades": [
+     {
+      "trade_id": "H11GF-005-BULL-915-ORDER-1-TRADE-1",
+      "direction": "BULLISH",
+      "entry": 78834.0,
+      "exit": 78832.1252599613,
+      "quantity": 0.00119516,
+      "entry_time": 1788120900,
+      "exit_time": 1788120900,
+      "stop": 78829.68737001935,
+      "take_profit": 78832.1252599613,
+      "gross": -0.002240614304644284,
+      "commission": 0.5900000000000001,
+      "slippage": 1.0,
+      "net": -1.5922406143046444,
+      "risk_amount": 0.005154286606366233,
+      "decision_time": 1788065940
+     }
+    ],
+    "n_orders": 2,
+    "n_signals": 2,
+    "n_expired": 0,
+    "n_invalidated": 1
+   }
+  }
+ },
+ "H11GF-005|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-005|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-005",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open following the retest-touch bar)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-006|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-006",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-007|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-007",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|BTCUSDT|F0": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "BTCUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|BTCUSDT|F1": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "BTCUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|BTCUSDT|F2": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "BTCUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|BTCUSDT|F3": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "BTCUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "c52052e642514f6f31babb4b37e6743bb90b5aefa0e88401a259fc9c6da5d08f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|ETHUSDT|F0": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "ETHUSDT",
+  "fold": 0,
+  "geometry": {
+   "fold": 0,
+   "train_start": 0,
+   "train_end": 2000,
+   "purge_start": 2000,
+   "purge_end": 2150,
+   "embargo_start": 2150,
+   "embargo_end": 2175,
+   "test_start": 2175,
+   "test_end": 3175
+  },
+  "lineage": [
+   "D1"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|ETHUSDT|F1": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "ETHUSDT",
+  "fold": 1,
+  "geometry": {
+   "fold": 1,
+   "train_start": 0,
+   "train_end": 3000,
+   "purge_start": 3000,
+   "purge_end": 3150,
+   "embargo_start": 3150,
+   "embargo_end": 3175,
+   "test_start": 3175,
+   "test_end": 4175
+  },
+  "lineage": [
+   "D1",
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|ETHUSDT|F2": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "ETHUSDT",
+  "fold": 2,
+  "geometry": {
+   "fold": 2,
+   "train_start": 0,
+   "train_end": 4000,
+   "purge_start": 4000,
+   "purge_end": 4150,
+   "embargo_start": 4150,
+   "embargo_end": 4175,
+   "test_start": 4175,
+   "test_end": 5175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ },
+ "H11GF-008|ETHUSDT|F3": {
+  "hypothesis_id": "H11GF-008",
+  "symbol": "ETHUSDT",
+  "fold": 3,
+  "geometry": {
+   "fold": 3,
+   "train_start": 0,
+   "train_end": 5000,
+   "purge_start": 5000,
+   "purge_end": 5150,
+   "embargo_start": 5150,
+   "embargo_end": 5175,
+   "test_start": 5175,
+   "test_end": 6175
+  },
+  "lineage": [
+   "D2"
+  ],
+  "dataset_hash": "52b5dec3706a4ebf7c9f6187951f2389179560aa5f98dddb85242d5ae758ca7f",
+  "execution_model": "NEXT_BAR_OPEN (market fill at bar i+1 open)",
+  "costs": {
+   "A": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "B": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "C": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   },
+   "D": {
+    "trades": [],
+    "n_orders": 0,
+    "n_signals": 0,
+    "n_expired": 0,
+    "n_invalidated": 0
+   }
+  }
+ }
+}

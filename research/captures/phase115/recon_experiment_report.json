@@ -1,0 +1,46 @@
+{
+  "capture_id": "exp-20261011T090010Z",
+  "cleanup": {
+    "cancelled": [],
+    "open_orders": 0,
+    "positions_flat": true
+  },
+  "environment": "india_testnet",
+  "legs": [
+    {
+      "filled": true,
+      "n": 1,
+      "order_id": "2175080073",
+      "price": 83019.0,
+      "side": "buy"
+    },
+    {
+      "filled": true,
+      "n": 2,
+      "order_id": "2175080074",
+      "price": 83015.0,
+      "side": "sell"
+    }
+  ],
+  "mode": "execute",
+  "prechecks": {
+    "ask": 83019.0,
+    "bid": 83015.0,
+    "flat": true,
+    "product_id": 84
+  },
+  "production_ready": false,
+  "reconciliation": {
+    "reason": "ValueError: user trade frame missing fields: ['seq_no', 'timestamp']",
+    "status": "BLOCKED"
+  },
+  "rest_fills": 6,
+  "schema": "quantengine.testnet-reconciled-experiment.v1",
+  "scrub_hits": 0,
+  "symbol": "BTCUSD",
+  "ws": {
+    "authenticated": true,
+    "frames": 4,
+    "listen_s": 75.4
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "phase": 67,
+  "title": "Economics execution wiring",
+  "status": "IMPLEMENTED_TESTED",
+  "production_ready": false,
+  "changes": [
+    "Backtester now consumes canonical configured production CostSpec when non-zero economics are configured.",
+    "Explicit zero-cost settings preserve the legacy zero-cost baseline and hand-authored order cost passthrough.",
+    "Explicit Backtester cost_spec continues to override the default authority."
+  ],
+  "verification": {
+    "focused": "39 passed",
+    "backtester_regression": "32 passed",
+    "compileall": "PASS"
+  },
+  "external_economics": "NOT_VERIFIED",
+  "live_readiness": false,
+  "notes": "This wires existing cost math; it does not invent venue fees, funding, slippage, or claim realistic economics."
+}

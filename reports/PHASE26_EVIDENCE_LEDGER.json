@@ -1,0 +1,353 @@
+{
+  "schema": "quantengine.phase26-evidence-ledger.v1",
+  "phase": 26,
+  "generated_at": "2026-10-29T04:37:54Z",
+  "code_revision": "ffefa14a8729f6d2160db3735a06257cbb6ab48b",
+  "baseline_manifest": {
+    "file": "BUILD_MANIFEST.sha256",
+    "baseline_status": "MANIFEST_PASS (0 problems)",
+    "baseline_entries": 2423,
+    "note": "final Phase-26 regeneration performed after the last content write; no writes after"
+  },
+  "evidence_classes_used": [
+    "CODE",
+    "EXCHANGE_SOURCED_FROZEN_DATASET",
+    "EXCHANGE_SOURCED_FUNDING",
+    "DERIVED_OFFLINE_EVIDENCE",
+    "CONFIGURED_SIMULATION",
+    "SYNTHETIC_FIXTURE"
+  ],
+  "zero_fill_classification": "LEGITIMATE_NO_FILL_OUTCOME",
+  "artifacts": [
+    {
+      "id": "P26-TRACE-MODULE",
+      "path": "core/research/oos_validation/order_trace.py",
+      "sha256_16": "4fae5c6508b2fd74",
+      "sha256": "4fae5c6508b2fd7464c6260ed1d22f255994a9d9eac8d60ef349625d7b869311",
+      "bytes": 21523,
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 26 implementation",
+      "tests": "tests/test_order_lifecycle_phase26.py (9/9 passing)",
+      "notes": "Opt-in log capture, lifecycle parsing, price-derived classification, bar-domain correction, summarize"
+    },
+    {
+      "id": "P26-EXECUTOR-HOOK",
+      "path": "core/research/oos_validation/execution.py",
+      "sha256_16": "a016e6e1c44a4643",
+      "sha256": "a016e6e1c44a46431191eb25ad5deeb9f7f304170757533923f7286ba08af52b",
+      "bytes": 7672,
+      "evidence_class": "CODE",
+      "status": "TESTED",
+      "generated_by": "Phase 26 implementation",
+      "tests": "tests/test_order_lifecycle_phase26.py::test_trace_preserves_funnel_and_classifies_every_order",
+      "notes": "Keyword-only order_trace sink; passive capture; default behavior and returned funnel unchanged"
+    },
+    {
+      "id": "P26-TRACE-RUNNER",
+      "path": "scripts/phase26_order_trace.py",
+      "sha256_16": "b98e300c32c16ffd",
+      "sha256": "b98e300c32c16ffdc2f62608dbf290a09d08cfe7fbfed24d4f1ace8008fca868",
+      "bytes": 17367,
+      "evidence_class": "CODE",
+      "status": "EXECUTED",
+      "generated_by": "Phase 26 implementation",
+      "tests": "fails closed on dataset/reproduction/timing/classification inconsistency",
+      "notes": "Produced PHASE26_ORDER_LIFECYCLE.json; exit 0; invariant failures NONE"
+    },
+    {
+      "id": "P26-FUNDING-CAPTURE",
+      "path": "scripts/capture_funding_evidence_phase26.py",
+      "sha256_16": "cd61ad35b0a402b4",
+      "sha256": "cd61ad35b0a402b41e53fe7a420547a2c964f4bcdc4bd61b7dd5d68a7d54e892",
+      "bytes": 7635,
+      "evidence_class": "CODE",
+      "status": "EXECUTED",
+      "generated_by": "Phase 26 implementation",
+      "tests": "tests/test_order_lifecycle_phase26.py (funding head-gap and binding tests)",
+      "notes": "8-hour-aligned request start with pad; rejects empty, non-hourly, non-covering, non-head-covering evidence"
+    },
+    {
+      "id": "P26-REEVAL-RUNNER",
+      "path": "scripts/phase26_oos_reevaluation.py",
+      "sha256_16": "decf46f956803fca",
+      "sha256": "decf46f956803fca6662456d89a745f3ec94b42538396fe45febfd2c68106eac",
+      "bytes": 18986,
+      "evidence_class": "CODE",
+      "status": "EXECUTED",
+      "generated_by": "Phase 26 implementation",
+      "tests": "tests/test_order_lifecycle_phase26.py (gate tests)",
+      "notes": "Distinct Phase-26 re-evaluation; never mutates Phase-18 or Phase-25 artifacts"
+    },
+    {
+      "id": "P26-TESTS",
+      "path": "tests/test_order_lifecycle_phase26.py",
+      "sha256_16": "6ed757ad264b4272",
+      "sha256": "6ed757ad264b427224f5fb7e8105fcf8073e9d67e5814911901ff0083a45d1b7",
+      "bytes": 9777,
+      "evidence_class": "CODE",
+      "status": "PASSING",
+      "generated_by": "Phase 26 implementation",
+      "tests": "9 passed in 105.94s",
+      "notes": "Trace parsing/classification/geometry, logger restore, funnel preservation, lifecycle completeness, funding head-gap repair, binding, gates"
+    },
+    {
+      "id": "P26-LIFECYCLE",
+      "path": "reports/PHASE26_ORDER_LIFECYCLE.json",
+      "sha256_16": "6d0554d2e26504c7",
+      "sha256": "6d0554d2e26504c745084b9ab6bee362177b79fb87dac5639fbf1564d67f9bcc",
+      "bytes": 267705,
+      "evidence_class": "DERIVED_OFFLINE_EVIDENCE",
+      "status": "COMPLETE",
+      "generated_by": "scripts/phase26_order_trace.py",
+      "notes": "32 global orders + 15 per-period orders; per-order trigger/attempt/geometry/RR fields; reproduction and invariant checks"
+    },
+    {
+      "id": "P26-REEVAL",
+      "path": "reports/PHASE26_OOS_REEVALUATION.json",
+      "sha256_16": "ad3c273ac665db63",
+      "sha256": "ad3c273ac665db63f36365960dfdda279b94d0506e3fbedcf2b636a6e6e93adf",
+      "bytes": 16423,
+      "evidence_class": "DERIVED_OFFLINE_EVIDENCE",
+      "status": "COMPLETE",
+      "generated_by": "scripts/phase26_oos_reevaluation.py",
+      "notes": "Certified reproduction, funding head-gap repair, funding-aware runs, cost ladders NOT_APPLICABLE_NO_FILLS, extended-dataset transparency, verdict"
+    },
+    {
+      "id": "P26-FUND-RAW",
+      "path": "reports/evidence/phase26/raw_funding_evidence.json",
+      "sha256_16": "3737e311c635dae3",
+      "sha256": "3737e311c635dae3812731a1aa2dccfcf09608245d262c7187bafadef4c34dfd",
+      "bytes": 38244,
+      "evidence_class": "EXCHANGE_SOURCED_FUNDING",
+      "status": "VERIFIED",
+      "generated_by": "scripts/capture_funding_evidence_phase26.py",
+      "notes": "529 strictly hourly settlements 2026-09-05T00:00Z..2026-09-27T00:00Z; zero head/tail gap in requested window"
+    },
+    {
+      "id": "P26-FUND-OOS",
+      "path": "reports/evidence/phase26/btcusdt_funding_bound_to_oos.json",
+      "sha256_16": "4c18bb37940f938a",
+      "sha256": "4c18bb37940f938a2fc8bc7240462b07b977770eca4555d949013c0e3399702a",
+      "bytes": 36672,
+      "evidence_class": "EXCHANGE_SOURCED_FUNDING",
+      "status": "VERIFIED",
+      "generated_by": "scripts/capture_funding_evidence_phase26.py",
+      "notes": "Strictly bound to the extended dataset coverage; head gap 0"
+    },
+    {
+      "id": "P26-FUND-P18",
+      "path": "reports/evidence/phase26/btcusdt_funding_bound_to_phase18.json",
+      "sha256_16": "b8e6473fec4e1b62",
+      "sha256": "b8e6473fec4e1b62924ade2c9a11406694ac847ff349f8e7cc0e35065580260b",
+      "bytes": 36672,
+      "evidence_class": "EXCHANGE_SOURCED_FUNDING",
+      "status": "VERIFIED",
+      "generated_by": "scripts/capture_funding_evidence_phase26.py",
+      "notes": "Strictly bound to the certified dataset coverage; first settlement precedes the 09:45Z OOS start; head gap 0"
+    },
+    {
+      "id": "P26-REPORT",
+      "path": "reports/PHASE26_FINAL_REPORT.md",
+      "sha256_16": "a5324008f1eb6d8b",
+      "sha256": "a5324008f1eb6d8b161b01cb3fd10fe5c483f3a9506a44495b3d94c42caae268",
+      "bytes": 18897,
+      "evidence_class": "DERIVED_OFFLINE_EVIDENCE",
+      "status": "COMPLETE",
+      "generated_by": "Phase 26 investigation"
+    },
+    {
+      "id": "P26-BLOCKERS",
+      "path": "reports/PHASE26_BLOCKER_REGISTER.md",
+      "sha256_16": "dd113b27c35af40d",
+      "sha256": "dd113b27c35af40d04a30b123824a40475a59e9c4ef69aacc449a6bfc3032d42",
+      "bytes": 8075,
+      "evidence_class": "DERIVED_OFFLINE_EVIDENCE",
+      "status": "COMPLETE",
+      "generated_by": "Phase 26 investigation"
+    },
+    {
+      "id": "P26-PLAN",
+      "path": "reports/PHASE26_STRATEGY_VALIDATION_PLAN.md",
+      "sha256_16": "15d48177dcac2b23",
+      "sha256": "15d48177dcac2b23a0eaa118e8712b2f16ada4a6e7eb4e3c4aae95a68e41907f",
+      "bytes": 10759,
+      "evidence_class": "DERIVED_OFFLINE_EVIDENCE",
+      "status": "PROPOSED",
+      "generated_by": "Phase 26 investigation",
+      "notes": "Requires owner review; no tuning; new unseen data mandatory"
+    },
+    {
+      "id": "P26-LEDGER",
+      "path": "reports/PHASE26_EVIDENCE_LEDGER.json",
+      "evidence_class": "DERIVED_OFFLINE_EVIDENCE",
+      "status": "SELF_REFERENCE",
+      "notes": "This document; excluded from its own inventory to avoid a circular hash"
+    }
+  ],
+  "preserved_artifacts": [
+    {
+      "id": "P18-RESULTS",
+      "path": "research/results/phase18_oos_validation.json",
+      "sha256_16": "95cef0271ae746f2",
+      "sha256": "95cef0271ae746f26abe4a2661e270e573bdaeab746ba1483ae64d23cf63fdd2",
+      "status": "PRESERVED_UNMODIFIED"
+    },
+    {
+      "id": "P25-RESULTS",
+      "path": "research/results/phase25_frozen_oos_validation.json",
+      "sha256_16": "31c1184a13b229d4",
+      "sha256": "31c1184a13b229d48111b2fac1baf13b7fab0a17807e6248b318f21945c993ef",
+      "status": "PRESERVED_UNMODIFIED"
+    },
+    {
+      "id": "P30-RESULTS",
+      "path": "research/results/phase30_oos_evidence_accumulation.json",
+      "sha256_16": "3e84879c1738fac2",
+      "sha256": "3e84879c1738fac2a6f78fa11fef2cff903491c3ca419af951c6339db77beada",
+      "status": "PRESERVED_UNMODIFIED",
+      "notes": "Different-revision reference only (recorded 21 orders / 3 fills)"
+    },
+    {
+      "id": "P25-FUND-OOS",
+      "path": "reports/evidence/phase25/btcusdt_funding_bound_to_oos.json",
+      "sha256_16": "67c33b5538994d18",
+      "sha256": "67c33b5538994d18d02c43a8ec6bcf4c9f279548d736ae1729614d43aefdc4b5",
+      "status": "PRESERVED_UNMODIFIED",
+      "notes": "502 events; 22,500 s head gap; superseded by Phase-26 evidence, not deleted"
+    },
+    {
+      "id": "P25-FUND-P18",
+      "path": "reports/evidence/phase25/btcusdt_funding_bound_to_phase18.json",
+      "sha256_16": "494d17a2821e6c82",
+      "sha256": "494d17a2821e6c8297dc1b60451637bd32277b683b929a0993a4814dcc01f990",
+      "status": "PRESERVED_UNMODIFIED"
+    },
+    {
+      "id": "CERT-DATASET",
+      "path": "data/history/BTCUSDT_1m_phase17_fresh.json",
+      "sha256_16": "986fdae1189f5695",
+      "sha256": "986fdae1189f5695c710a3315a44fe3c649bed66687a0a18ea73247c338ef2ef",
+      "content_identity": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+      "status": "PRESERVED_UNMODIFIED"
+    },
+    {
+      "id": "EXT-DATASET",
+      "path": "data/history/BTCUSDT_1m_oos_topup.json",
+      "sha256_16": "42d62f3f4401f0da",
+      "sha256": "42d62f3f4401f0dabb1a4b7fdf5a1b2c6718931a129722b0a8cd14acd5d216ee",
+      "content_identity": "520b849b6612335d4987161d67b5163939bf9e20019dd5a25ec02b876a2310b0",
+      "status": "PRESERVED_UNMODIFIED",
+      "notes": "Different-revision evidence only; current HEAD yields 82 orders / 2 fills vs recorded 21/3"
+    }
+  ],
+  "zero_fill_evidence_chain": [
+    {
+      "step": 1,
+      "claim": "Certified funnel reproduces exactly",
+      "evidence": "phase18 artifact sha 95cef0271ae746f2 matches 32 global orders, 0 fills, terminal EXPIRED 30 / INVALIDATED 2, per-period 2/0/2/3/8/0"
+    },
+    {
+      "step": 2,
+      "claim": "Every order was triggered and attempted once",
+      "evidence": "P26-LIFECYCLE: 32/32 triggered_orders; 32/32 fill attempts; each attempt at the next candle open"
+    },
+    {
+      "step": 3,
+      "claim": "30 attempts refused by the unchanged 1:6 realized-RR floor",
+      "evidence": "executable RR min 0.00919, median 0.30644, max 2.9364, all < 6.0; creation-time RR 21.44..362.75"
+    },
+    {
+      "step": 4,
+      "claim": "2 attempts refused because the next open was beyond the take-profit",
+      "evidence": "orders 643 and 634; directional_geometry_ok false beyond_target=2, beyond_stop=0"
+    },
+    {
+      "step": 5,
+      "claim": "No fill path defect",
+      "evidence": "same frozen code fills 2/82 on the extended dataset with actual RR 9.57 and 34.74; PnL and funding booked; extended results labeled different-revision"
+    },
+    {
+      "step": 6,
+      "claim": "Mechanism is structural",
+      "evidence": "median trigger progress toward target 0.828; median fill distance 50.1 initial stop-widths; realized RR = (1-p)RR0/(1+pRR0)"
+    }
+  ],
+  "funding_evidence_chain": [
+    {
+      "step": 1,
+      "claim": "Phase-25 head gap confirmed",
+      "evidence": "phase-25 artifact first settlement 2026-09-05T16:00Z vs OOS start 09:45Z; 22,500 s gap"
+    },
+    {
+      "step": 2,
+      "claim": "Cause is unaligned request start inside an 8-hour block",
+      "evidence": "venue returns whole aligned blocks at the head; 09:45 request start drops 10:00-15:00Z"
+    },
+    {
+      "step": 3,
+      "claim": "Aligned recapture is complete",
+      "evidence": "P26-FUND-RAW: 529 events, hourly continuity, first event 2026-09-05T00:00Z"
+    },
+    {
+      "step": 4,
+      "claim": "Strict bindings cover both frozen datasets",
+      "evidence": "P26-FUND-OOS and P26-FUND-P18; head gap 0; six recovered settlements verified absent from Phase 25"
+    },
+    {
+      "step": 5,
+      "claim": "Prior evidence preserved",
+      "evidence": "P25-FUND-OOS 67c33b5538994d18 and P25-FUND-P18 494d17a2821e6c82 unchanged"
+    }
+  ],
+  "cost_attribution": {
+    "status": "NOT_APPLICABLE_NO_FILLS",
+    "ladders": ["A", "B", "C", "D"],
+    "certified_oos_net_cost": 0.0,
+    "interpretation": "absence of transactions, not proof of zero-cost execution",
+    "arithmetic_check_only": {
+      "notional": 60000,
+      "status": "CONFIGURED_ASSUMPTION_CHECK_ONLY_NOT_OOS_EVIDENCE"
+    },
+    "venue_fee_schedule": "UNKNOWN_OWNER_BLOCKED"
+  },
+  "gates": {
+    "release_gate": "HOLD",
+    "edge": "NOT ESTABLISHED",
+    "testnet_live_execution": "NOT AUTHORIZED",
+    "production_ready": false,
+    "trading_logic_changes": "NONE",
+    "strategy_parameters_changed": false,
+    "oos_tuning_or_selection": false
+  },
+  "prohibitions_respected": {
+    "no_live_orders": true,
+    "no_testnet_orders": true,
+    "no_gate_changes": true,
+    "strategy_frozen": true,
+    "no_oos_tuning_or_selection": true,
+    "no_secret_exposure": true,
+    "certified_evidence_preserved": true,
+    "funding_never_defaulted_to_zero_over_holding_intervals": true
+  },
+  "final_verification": {
+    "full_suite": {
+      "pre_final_regen": "4839 passed, 8 manifest-only failures, 14 skipped, 466 subtests passed, 4861 collected",
+      "post_regen_manifest_rerun": "31 passed, 20 subtests passed (manifest contract, snapshot neutrality, release consistency, release manifest)",
+      "note": "All 8 pre-regen failures were stale-manifest assertions caused by the intentional Phase-26 file additions"
+    },
+    "snapshot_guard": {
+      "pre_regen": "tree_pristine_at_session_start=false; files_added_by_tests=13; mismatch core/research/oos_validation/execution.py",
+      "post_regen": "tree_pristine_at_session_start=true; files_added_by_tests=[]; start_problems=[]; covered_files=2436"
+    },
+    "manifest": {
+      "entries": 2437,
+      "baseline_entries": 2423,
+      "delta": "14 Phase-26 files (13 present before this ledger, plus this ledger)",
+      "verify": "MANIFEST_PASS (0 problems), exit 0",
+      "regenerated_after_last_content_write": true
+    },
+    "phase26_tests": "9 passed in 105.94s",
+    "frozen_research_status": "git status --porcelain -- research/ empty"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "intrusion_assessment": "No unexplained tampering: all 14 mismatches trace to recorded agent work. Process defect (stale manifest), not intrusion.",
+  "mismatch_breakdown": {
+    "ledger_churn_NEXT_ACTIONS": 1,
+    "local_runtime_policy_defaults": 1,
+    "phase131_evidence_boundary_rewrites": 4,
+    "phase132_policy_threading_source": 5,
+    "phase134_httpx_cancel_fix": 1,
+    "phase145_recon_empty_window_fix": 1,
+    "scanner_hardening_testnet_sandbox": 1
+  },
+  "old_manifest_entries": 1692,
+  "old_mismatched": 14,
+  "old_missing": 0,
+  "old_uncovered": 78,
+  "repair": {
+    "contract": "every release file except BUILD_MANIFEST.sha256 itself; explicit narrow exclusions documented in module docstring",
+    "generator": "scripts/generate_manifest.py",
+    "regenerated_entries": 1773,
+    "regression": "tests/test_release_manifest_phase154.py (4 passed)",
+    "verify_command": "python scripts/generate_manifest.py --root . --verify",
+    "verify_result": "MANIFEST_PASS (0 problems)"
+  },
+  "residual_sensitivity": "data/runtime/risk_policy_overrides.json is covered; interrupted test runs that leave overrides break verification. Kept covered deliberately; release verification assumes default policy file.",
+  "uncovered_breakdown": {
+    "docs": 3,
+    "manifest_files": 2,
+    "other": 1,
+    "reports": 36,
+    "research": 32,
+    "scripts": 1,
+    "tests": 3
+  }
+}

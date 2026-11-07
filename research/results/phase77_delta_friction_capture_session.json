@@ -1,0 +1,29 @@
+{
+  "evidence_boundary": [
+    "The session is an orchestration/validation layer and does not itself establish network provenance.",
+    "A real Delta transport must supply decoded ob_updates frames before any artifact can be treated as genuine venue evidence.",
+    "Historical OOS certification remains blocked until genuine time-aligned observations exist for the required interval.",
+    "Realized private fills remain a separate evidence requirement."
+  ],
+  "implementation": [
+    "Added DeltaFrictionCaptureSession binding Phase-76 sequence-safe ob_updates state to the Phase-75 REAL capture recorder.",
+    "A snapshot plus contiguous +1 sequence updates can finalize into one strict friction artifact.",
+    "Any sequence/provider/state failure invalidates the entire session and prevents finalization.",
+    "Fixture/replay transport remains rejected by CaptureIdentity and cannot be promoted to REAL.",
+    "Session statistics retain message count, observation count, sequence range, and continuity failures."
+  ],
+  "live_readiness": false,
+  "name": "Delta orderbook friction capture session",
+  "network_capture": "NOT_EXECUTED",
+  "next": "Execute the session with a network-enabled Delta public ob_updates transport, persist the resulting capture and manifest, then bind its exact interval/product identity to the OOS economics gate.",
+  "phase": 77,
+  "production_ready": false,
+  "real_venue_capture": "NOT_EXECUTED",
+  "status": "IMPLEMENTED_TESTED",
+  "tests": {
+    "combined_economics_friction": 63,
+    "compileall": "PASS",
+    "failed": 0,
+    "phase77": 5
+  }
+}

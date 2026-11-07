@@ -1,0 +1,679 @@
+{
+  "actual_fill_rr": {
+    "status": "UNAVAILABLE (0 fills)",
+    "values": []
+  },
+  "aggregate_results": {
+    "gross_pnl": 0.0,
+    "inconclusive": 4,
+    "losses": 0,
+    "rejected": 0,
+    "survival_ratio": 0.0,
+    "survived": 0,
+    "tested_periods": 6,
+    "total_bars": 11461,
+    "total_completed_trades": 0,
+    "total_fills": 0,
+    "total_orders": 15,
+    "total_periods": 6,
+    "unavailable": 2,
+    "wins": 0
+  },
+  "baseline_commit": "6eb35d8",
+  "baseline_reference": {
+    "fills": 2,
+    "losses": 2,
+    "match": true,
+    "net": -0.206452,
+    "orders": 25,
+    "wins": 0
+  },
+  "boundaries": {
+    "discovery_boundary": 1788601440,
+    "fresh_check": {
+      "boundary": 1788601440,
+      "count": 11461,
+      "max": 1789289100,
+      "min": 1788601500,
+      "ordered": true,
+      "strictly_after": true,
+      "unique": true,
+      "violations": 0
+    },
+    "rule": "timestamp > discovery_boundary (strict)"
+  },
+  "dataset": {
+    "cache": "data/history/BTCUSDT_1m_phase17_fresh.json (git-ignored)",
+    "dataset_hash": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+    "end": 1789289100,
+    "fresh_after": 1788601440,
+    "instrument": "BTCUSDT",
+    "market": "perpetual_futures",
+    "received": 11461,
+    "requested": 11581,
+    "source": "Delta /v2/history/candles",
+    "start": 1788601500,
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "venue": "DELTA"
+  },
+  "directional_statistics": {
+    "global_directional": {
+      "BEARISH/EXPIRED": 18,
+      "BULLISH/EXPIRED": 12,
+      "BULLISH/INVALIDATED": 2
+    },
+    "note": "0 fills; LONG/SHORT asymmetry not assessable"
+  },
+  "economic_scenarios": {
+    "combined": "ASSUMED-combined (no-notional with 0 fills)",
+    "conservative_fees": "ASSUMED-2.5bps-per-side (no-notional with 0 fills)",
+    "conservative_slippage": "ASSUMED-1bp-per-side (no-notional with 0 fills)",
+    "funding": "UNAVAILABLE (zero NOT substituted)",
+    "structural": "VERIFIED-zero-cost",
+    "structural_net": 0.0
+  },
+  "edge": "NOT_ESTABLISHED",
+  "execution_funnel": {
+    "global_fills": 0,
+    "global_orders": 32,
+    "per_period_fills": 0,
+    "per_period_orders": 15
+  },
+  "final_decision": "OOS_BLOCKED",
+  "final_reason": "only 0 completed trades (< 60)",
+  "gate_matrix": {
+    "actual_fill_rr": "UNAVAILABLE (0 fills; RR>=6 gate intact, never bypassed)",
+    "candidate_accounting": "PASS (per-period terminal EXPIRED/INVALIDATED/PENDING mutually exclusive; no double-count)",
+    "dataset_integrity": "PASS (0 dupes, 0 gaps, 0 OHLC violations, 0 malformed)",
+    "dataset_provenance": "PASS (DELTA /v2/history/candles, manifest-level; rows carry no venue tag)",
+    "determinism": "PASS (byte-identical regen given same cache)",
+    "directional_consistency": "INCONCLUSIVE (0 fills LONG/SHORT; asymmetry not assessable)",
+    "discovery_oos_separation": "PASS (discovery Gate-A + earlier frozen; OOS fresh only, no concat-split, no shuffle)",
+    "economic_edge": "NOT_ESTABLISHED",
+    "economic_scenario_integrity": "PASS (structural VERIFIED-zero-cost; fees/slippage ASSUMED-schedule UNAVAILABLE-no-notional; funding UNAVAILABLE)",
+    "fee_verification": "PARTIAL (explicit-zero VERIFIED; venue schedule ASSUMED-only)",
+    "freshness_boundary": "PASS (all 11461 strictly after 1788601440)",
+    "funding": "UNAVAILABLE (no history, no adapter; zero NOT substituted)",
+    "gap_semantics": "PASS (NEXT_BAR_OPEN actuals; adverse gaps recompute RR; no intended-entry economics)",
+    "intrabar_ambiguity": "PASS (conservative SL-first preserved; 0 ambiguous fills)",
+    "lookahead": "PASS (NEXT_BAR_OPEN exec>=trigger+1; future-mutation suite green)",
+    "microstructure": "UNAVAILABLE (OHLCV-only; nothing reconstructed)",
+    "multiple_testing": "NO_NEW_CONFIRMATORY_HYPOTHESIS_FAMILY",
+    "oos_period_sufficiency": "FAIL (6 executed, 0 settled; 2 UNAVAILABLE + 4 INCONCLUSIVE)",
+    "oos_validity": "BLOCKED (genuine execution performed; evidence insufficient)",
+    "phantom_win_defense": "PASS (directional_geometry_ok preserved; 0 wins claimed)",
+    "phase17_baseline": "PASS (OOS_BLOCKED, 11461 bars, hash 247d8f11dcd3)",
+    "production_isolation": "PASS (FORBIDDEN-token scan green)",
+    "production_readiness": false,
+    "purge_embargo": "PASS (frozen purge=0 embargo=0 + outcome-leakage PROTECTED guard; no new values)",
+    "regime_consistency": "UNAVAILABLE (no regime metadata at order level)",
+    "robustness": "INCONCLUSIVE (0/6 survived; sample gates unmet)",
+    "sample_adequacy": "FAIL (0 completed trades total; 0 adequate 10-trade periods of 6)",
+    "strategy_frozen": "PASS (9-file set incl. execution_engine)",
+    "strategy_hash": "PASS (exact match c52e648ca24fb03b)",
+    "symbol_consistency": "INCONCLUSIVE (single symbol BTCUSDT, 0 trades)",
+    "temporal_consistency": "INCONCLUSIVE (0 trades in every period; no consistency claim)",
+    "temporal_ordering": "PASS (ascending, unique, chronological 6x~1910)"
+  },
+  "global_continuous_run": {
+    "actual_fill_rr": [],
+    "bars": 11461,
+    "completed_trades": 0,
+    "directional": {
+      "BEARISH/EXPIRED": 18,
+      "BULLISH/EXPIRED": 12,
+      "BULLISH/INVALIDATED": 2
+    },
+    "fills": 0,
+    "gross_pnl": 0.0,
+    "losses": 0,
+    "note": "continuous-indicator sanity run; primary evidence is the 6 independent per-period runs",
+    "orders": 32,
+    "terminal": {
+      "EXPIRED": 30,
+      "INVALIDATED": 2
+    },
+    "wins": 0
+  },
+  "is_production_ready": false,
+  "limitations": [
+    "Fresh span wall-clock bound (~8.0 days); ~25000 bars/period needed at measured rates.",
+    "0 completed trades across 6 genuine OOS periods; every period INCONCLUSIVE/UNAVAILABLE.",
+    "Per-period cold-start warmup (~200 bars) is an honest cost of independent periods.",
+    "Row-level venue identity absent (manifest-level only).",
+    "Flat/zero-volume provenance unknown (unchanged).",
+    "Funding history, microstructure, min-notional unavailable (no adapters).",
+    "Fresh data ran through the frozen strategy exactly once per period (plus global sanity); no retuning."
+  ],
+  "live": "NO-GO",
+  "mission": "FROZEN-STRATEGY GENUINE MULTI-PERIOD OOS VALIDATION (research-only; strategy frozen)",
+  "multiple_testing": "NO_NEW_CONFIRMATORY_HYPOTHESIS_FAMILY",
+  "per_period_results": [
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 2
+      },
+      "end": 1788716040,
+      "expectancy": null,
+      "expirations": 2,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 2,
+      "pending": 0,
+      "period_id": "OOS_01",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788601500,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 0,
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {},
+      "end": 1788830640,
+      "expectancy": null,
+      "expirations": 0,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 0,
+      "pending": 0,
+      "period_id": "OOS_02",
+      "profit_factor": null,
+      "reason": "no orders or fills in period",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788716100,
+      "status": "UNAVAILABLE",
+      "structural_invalidations": 0,
+      "terminal": {},
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BULLISH/EXPIRED": 2
+      },
+      "end": 1788945240,
+      "expectancy": null,
+      "expirations": 2,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 2,
+      "pending": 0,
+      "period_id": "OOS_03",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788830700,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 0,
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 1,
+        "BEARISH/PENDING": 1,
+        "BULLISH/INVALIDATED": 1
+      },
+      "end": 1789059840,
+      "expectancy": null,
+      "expirations": 1,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 3,
+      "pending": 1,
+      "period_id": "OOS_04",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788945300,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 1,
+      "terminal": {
+        "EXPIRED": 1,
+        "INVALIDATED": 1,
+        "PENDING": 1
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 3,
+        "BULLISH/EXPIRED": 5
+      },
+      "end": 1789174440,
+      "expectancy": null,
+      "expirations": 8,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 8,
+      "pending": 0,
+      "period_id": "OOS_05",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1789059900,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 0,
+      "terminal": {
+        "EXPIRED": 8
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {},
+      "end": 1789289100,
+      "expectancy": null,
+      "expirations": 0,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1911,
+      "opportunities": null,
+      "orders": 0,
+      "pending": 0,
+      "period_id": "OOS_06",
+      "profit_factor": null,
+      "reason": "no orders or fills in period",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1789174500,
+      "status": "UNAVAILABLE",
+      "structural_invalidations": 0,
+      "terminal": {},
+      "triggers": null,
+      "wins": 0
+    }
+  ],
+  "periods": [
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 2
+      },
+      "end": 1788716040,
+      "expectancy": null,
+      "expirations": 2,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 2,
+      "pending": 0,
+      "period_id": "OOS_01",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788601500,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 0,
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {},
+      "end": 1788830640,
+      "expectancy": null,
+      "expirations": 0,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 0,
+      "pending": 0,
+      "period_id": "OOS_02",
+      "profit_factor": null,
+      "reason": "no orders or fills in period",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788716100,
+      "status": "UNAVAILABLE",
+      "structural_invalidations": 0,
+      "terminal": {},
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BULLISH/EXPIRED": 2
+      },
+      "end": 1788945240,
+      "expectancy": null,
+      "expirations": 2,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 2,
+      "pending": 0,
+      "period_id": "OOS_03",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788830700,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 0,
+      "terminal": {
+        "EXPIRED": 2
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 1,
+        "BEARISH/PENDING": 1,
+        "BULLISH/INVALIDATED": 1
+      },
+      "end": 1789059840,
+      "expectancy": null,
+      "expirations": 1,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 3,
+      "pending": 1,
+      "period_id": "OOS_04",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1788945300,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 1,
+      "terminal": {
+        "EXPIRED": 1,
+        "INVALIDATED": 1,
+        "PENDING": 1
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {
+        "BEARISH/EXPIRED": 3,
+        "BULLISH/EXPIRED": 5
+      },
+      "end": 1789174440,
+      "expectancy": null,
+      "expirations": 8,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1910,
+      "opportunities": null,
+      "orders": 8,
+      "pending": 0,
+      "period_id": "OOS_05",
+      "profit_factor": null,
+      "reason": "below 10-trade settling gate",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1789059900,
+      "status": "INCONCLUSIVE",
+      "structural_invalidations": 0,
+      "terminal": {
+        "EXPIRED": 8
+      },
+      "triggers": null,
+      "wins": 0
+    },
+    {
+      "actual_fill_rr": [],
+      "completed_trades": 0,
+      "directional": {},
+      "end": 1789289100,
+      "expectancy": null,
+      "expirations": 0,
+      "fills": 0,
+      "gross_pnl": 0.0,
+      "losses": 0,
+      "max_drawdown": null,
+      "observations": 1911,
+      "opportunities": null,
+      "orders": 0,
+      "pending": 0,
+      "period_id": "OOS_06",
+      "profit_factor": null,
+      "reason": "no orders or fills in period",
+      "rr_rejections": null,
+      "scenario_pnl": {
+        "combined": "UNAVAILABLE-no-notional",
+        "conservative_fees": "UNAVAILABLE-no-notional",
+        "conservative_slippage": "UNAVAILABLE-no-notional",
+        "funding": null,
+        "structural": 0.0
+      },
+      "start": 1789174500,
+      "status": "UNAVAILABLE",
+      "structural_invalidations": 0,
+      "terminal": {},
+      "triggers": null,
+      "wins": 0
+    }
+  ],
+  "phase": 18,
+  "production_isolation": "PASS",
+  "provenance": {
+    "acquisition_method": "HistoricalLoader.candles_paginated",
+    "acquisition_source": "Delta /v2/history/candles",
+    "acquisition_status": "COMPLETE",
+    "actual_end": 1789289100,
+    "actual_start": 1788601500,
+    "dataset_hash": "247d8f11dcd34d4975eea550f97b1fe79600cb060a9e6ade7b172bca26b89c54",
+    "instrument": "BTCUSDT",
+    "market": "perpetual_futures",
+    "normalization_version": "none (venue rows verbatim)",
+    "requested_end": 1789289100,
+    "requested_start": 1788601440,
+    "row_count": 11461,
+    "schema_version": "gate-a-raw-v1",
+    "symbol": "BTCUSDT",
+    "timeframe": "1m",
+    "venue": "DELTA"
+  },
+  "quality": {
+    "activity": {
+      "flat_bars": 10891,
+      "flat_pct": 0.9502661198848268,
+      "flat_provenance": "PROVENANCE_UNKNOWN",
+      "zero_volume_bars": 10081,
+      "zero_volume_pct": 0.8795916586685281
+    },
+    "continuity": {
+      "gap_count": 0,
+      "gaps": [],
+      "max_gap_bars": 0
+    },
+    "coverage": {
+      "actual_intervals": 11461,
+      "coverage_pct": 1.0,
+      "duration_bars": 11461,
+      "end": 1789289100,
+      "expected_intervals": 11461,
+      "received": 11461,
+      "requested": 11581,
+      "start": 1788601500
+    },
+    "integrity": {
+      "duplicates": 0,
+      "malformed_rows": 0,
+      "missing_intervals": 0,
+      "monotonic": true,
+      "nonpositive_prices": 0,
+      "ohlc_violations": 0
+    }
+  },
+  "regime_statistics": "REGIME_UNAVAILABLE",
+  "seven_e": "REJECTED (unchanged; no directional branch)",
+  "strategy_files": [
+    "core/execution/entry_model.py",
+    "core/setup/trade_setup_builder.py",
+    "core/setup/decision_engine.py",
+    "core/execution/execution_engine.py",
+    "core/risk/risk_engine.py",
+    "core/backtesting/accounting.py",
+    "backtesting/backtester.py",
+    "core/paper_trading/paper_trading_engine.py",
+    "config/risk_settings.py"
+  ],
+  "strategy_hash": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+  "strategy_unchanged": true,
+  "survival_statistics": {
+    "inconclusive": 4,
+    "rejected": 0,
+    "survival_ratio": 0.0,
+    "survived": 0,
+    "tested": 6,
+    "unavailable": 2
+  },
+  "symbol_statistics": {
+    "BTCUSDT": {
+      "losses": 0,
+      "observations": 11461,
+      "orders": 15,
+      "status": "INCONCLUSIVE",
+      "trades": 0,
+      "wins": 0
+    }
+  }
+}

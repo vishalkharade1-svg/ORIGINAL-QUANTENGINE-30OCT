@@ -1,0 +1,20 @@
+{
+  "field_agreement_on_intersection": true,
+  "matched_ids": [
+    "0b75139556ce4570bc523277add20ac2",
+    "2adff3b55ba04b39a1b4988656904d9b"
+  ],
+  "rest_evidence_sha256": "6dfcddf18a16226fdaf8938a7dc216fab0360e6d7f09974a1f27e0293cf51380",
+  "rest_fill_count": 6,
+  "rest_only_out_of_window": [
+    "276465d643294b0fa921041c835f48a4",
+    "66845084e3bc4a8098dec075ce017e7c",
+    "bf23c4741bc242f69e69bc693aab9299",
+    "c65da8154eda4f37937a54cc86722a06"
+  ],
+  "status": "WS_SUBSET_MATCHED",
+  "websocket_first_seq": null,
+  "websocket_last_seq": null,
+  "ws_fill_count": 2,
+  "ws_only_phantom": []
+}

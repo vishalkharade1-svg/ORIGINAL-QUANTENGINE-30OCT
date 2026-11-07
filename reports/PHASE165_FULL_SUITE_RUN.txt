@@ -1,0 +1,39 @@
+# Authoritative full-suite run -- Phase 165 (Provenance Recovery & Strategy Identity Separation)
+
+Command:
+
+    python -m pytest -q -p no:cacheprovider --tb=short -rfs
+
+Environment:
+    Python 3.12.10 AMD64 on Windows-10-10.0.19045-SP0
+    pytest 9.0.3, pandas 2.2.2, numpy 2.1.1, pyarrow 23.0.1, httpx 0.28.1, websockets 12.0, python-dotenv 1.2.2
+
+Census Summary:
+    Total Collected: 4,192
+    Passed:          4,131
+    Skipped:         56
+    Failed:          5 (The identical five strategy-digest change detectors under BLOCK-163-01)
+    Exit Code:       1 (expected, due to the five deliberate historical change detectors)
+
+Failures Multiset (Identical to Phases 158-164):
+    tests/test_oos_data_extension_19.py::TestFrozenBaseline::test_nine_file_hash_exact_match
+    tests/test_oos_feasibility_17.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    tests/test_oos_validation_18.py::TestStrategyIdentity::test_nine_file_hash_exact_match
+    tests/test_oos_validation_18.py::TestStrategyIdentity::test_no_strategy_mutation_after_runs
+    tests/test_readiness_16.py::TestFrozenRecords::test_strategy_hash_pinned
+
+    All five fail asserting the historical Phase 14 digest pin:
+    AssertionError: '9c56f3ff7dea2a3ea98adf226aff775d263ebfcf1bbb2697ca244ab6cd54f35a' != 'c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6'
+
+Skips Census (56):
+    40  BLOCKED_EVIDENCE (Git facts in archive-mode tests)
+     6  Phase-17 product cache absent (clean checkout)
+     1  Live public network required (test_paper_preview_15)
+     1  Historical ancestry verification requires original Git checkout (test_authoritative_path_phase7)
+     2  Git unavailable checks in test_security_12.py
+     6  Release record sibling checks (pre-pack configuration)
+
+Verification:
+    Tree pristine verified by snapshot guard.
+    Zero new unexpected failures.
+    Strategy Core and Runtime Infrastructure identities established in core/research/strategy_identity.py (+4 tests).

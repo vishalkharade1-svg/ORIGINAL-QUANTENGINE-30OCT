@@ -1,0 +1,54 @@
+{
+ "ablation_results.json": {
+  "sha256": "c09ab37f413641cad147e56b6eeb287f6315394118a0e546f56dadcc957c3c1c",
+  "size": 25831
+ },
+ "cost_results.json": {
+  "sha256": "868da08abb268f11305372b299e3e64bd3bf7aaf0f8daec5f8582f1d45e92171",
+  "size": 6682
+ },
+ "execution_robustness_results.json": {
+  "sha256": "9ae342b6c2b482b87b55f84c8e9848609b1f39f942a737bf06ca2cf71237c989",
+  "size": 1180
+ },
+ "fold_results.json": {
+  "sha256": "42fda1c5cdcfc5de8378fb376675c4247c9263cb49a5b9c33ed016ec5ca4e73e",
+  "size": 75542
+ },
+ "freeze_manifest.json": {
+  "sha256": "f7c31dcaf3cca20b8b9a5b7b3af9fffbb3b61d22777e6b5c91ac83cd1d4b7b67",
+  "size": 1187
+ },
+ "monte_carlo_results.json": {
+  "sha256": "4a9d211b8c8f77de76ef3fc12f8fd06f57d2e5f47366c35f9a7bb6b7e3a304cd",
+  "size": 1143
+ },
+ "multiple_testing_results.json": {
+  "sha256": "3cd84cfb7aefe329281a50a660d08783679831a309efc9b09ba91c655872eab5",
+  "size": 488
+ },
+ "primary_results.json": {
+  "sha256": "8dcf13aadd2772bccc69ac1afff7c11ebbb4c14494cabba749a237b64e47c5d5",
+  "size": 2781
+ },
+ "random_baseline_results.json": {
+  "sha256": "de528ed2b64d615b731fcd802cc440be141be4bedb466efbd945584ff41a7efd",
+  "size": 5074
+ },
+ "regime_results.json": {
+  "sha256": "72e32c3440ed9d1b9bec6aa9546d70cebe6ce4ad8a1023f8ec014db8da09ff64",
+  "size": 1805
+ },
+ "reproducibility_results.json": {
+  "sha256": "a5f24e0223148952c8b77f80de8bb578ccd39cdf50b480355e8b62f74037de2e",
+  "size": 17980
+ },
+ "research_log.json": {
+  "sha256": "43f4b29148f64c8bd5e927e7acfdb6796df431ad4473a5892337407977c96bce",
+  "size": 780
+ },
+ "run_manifest.json": {
+  "sha256": "a491aec53592d348314031d621055221933d8ec5c99ed034410a18eb330284ef",
+  "size": 936
+ }
+}
