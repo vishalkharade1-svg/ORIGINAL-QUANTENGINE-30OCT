@@ -19,7 +19,7 @@ No exchange write adapter is imported or invoked. The implementation only calls 
 
 ## Safety
 
-Authenticated mode requires both an injected trusted owner-authorization callback and an authenticated REST client. The plan's boolean is not sufficient authorization by itself. Fixture mode does not require credentials. No live or testnet execution is enabled by this module.
+Authenticated mode requires both an injected trusted owner-authorization callback and an authenticated REST client. The capture plan contains no owner-authorized or is-owner flag. Fixture mode does not require credentials. No live or testnet execution is enabled by this module.
 
 ## Important limitations
 
@@ -32,8 +32,8 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 
 ## Verification evidence
 
-GitHub Actions run [42407258246](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407258246) completed successfully:
-- Phase 206 focused tests: 20 passed.
+GitHub Actions run [42407453707](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407453707) completed successfully:
+- Phase 206 focused tests: 22 passed.
 - Phase 199 + Phase 205 regression tests: 51 passed combined.
 - Strict source manifest verification: PASS.
 - Working-tree and staged-blob secret scans: PASS.
