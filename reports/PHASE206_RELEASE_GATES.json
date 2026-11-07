@@ -15,14 +15,22 @@
     "exchange_write_capability": "DISABLED",
     "live_execution": "DISABLED",
     "strategy_edge": "NOT_ESTABLISHED",
-    "production_readiness": "HOLD"
+    "production_readiness": "HOLD",
+    "atomic_create_only_persistence": "IMPLEMENTED",
+    "hard_record_budget_stop": "IMPLEMENTED",
+    "endpoint_identity_isolation": "PARTIAL",
+    "cross_window_sequence_reconciliation": "PARTIAL",
+    "per_plan_retry_timeout_controls": "BLOCKED_BY_SHARED_ADAPTER_INTERFACE"
   },
   "verification": {
-    "focused_tests": "PENDING",
-    "phase199_regression": "PENDING",
-    "phase205_regression": "PENDING",
-    "full_suite": "PENDING",
-    "secret_scan": "PENDING",
-    "release_archive": "PENDING"
+    "focused_tests": "TESTED_20_PASSED",
+    "phase199_phase205_regressions": "TESTED_51_PASSED_COMBINED",
+    "strict_manifest": "PASS",
+    "secret_scan": "PASS_WORKTREE_STAGED_AND_HISTORY",
+    "full_suite": "NOT_RUN",
+    "release_archive": "NOT_BUILT",
+    "fresh_extraction": "NOT_RUN",
+    "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
+    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407258246"
   }
 }
