@@ -230,7 +230,8 @@ class DeltaCaptureAdapter(Protocol):
     def capture(self, *, product_id: int, window_start: str, window_end: str,
                 overlap_seconds: int = 60, endpoints: tuple[str, ...] | None = None,
                 max_pages_per_endpoint: int = 100, max_total_pages: int = 500,
-                request_timeout_seconds: int = 20, retry_budget: int = 2) -> Any: ...
+                request_timeout_seconds: int = 20, retry_budget: int = 2,
+                allow_partial: bool = False) -> Any: ...
 
 
 @dataclass
@@ -305,7 +306,7 @@ class HistoricalCaptureOrchestrator:
                         max_pages_per_endpoint=plan.max_pages_per_endpoint,
                         max_total_pages=plan.max_total_pages,
                         request_timeout_seconds=plan.request_timeout_seconds,
-                        retry_budget=plan.retry_budget,
+                        retry_budget=plan.retry_budget, allow_partial=True,
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
@@ -365,6 +366,10 @@ class HistoricalCaptureOrchestrator:
                         prior_by_window[key] = capture
                         if not endpoint_complete:
                             result.status = "PARTIAL"
+                            status_label = endpoint_status.get(endpoint, "STATUS_MISSING")
+                            result.errors.append(
+                                f"window={index};repeat={repeat};endpoint={endpoint};status={status_label}"
+                            )
                     if all_endpoints_complete:
                         result.completed_windows += 1
                 except CapturePlanError as exc:
