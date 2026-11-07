@@ -115,3 +115,15 @@ def test_resume_can_be_disabled_explicitly(tmp_path):
     rerun = HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan, resume=False)
     assert rerun.status == "COMPLETE"
     assert len(adapter.calls) == 1
+
+
+def test_resume_rejects_unknown_artifact_schema_instead_of_silently_skipping(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["schema"] = "quantengine.unknown.capture.v99"
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="schema is unsupported"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
