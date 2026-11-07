@@ -1734,3 +1734,14 @@ Status: **OPTION_A_EXECUTED; 18_RESEARCH_FREEZE_NODES_RESOLVED (0 -> PASS); RESE
 **Verification:** 28/28 Phase 205 tests passed across all required matrix items; 119 combined reconciliation tests passed; 21 secret-scan tests passed (18 subtests); compileall clean. Full suite NOT RUN. Zero exchange network calls, zero order writes, zero cancellations, and zero position modifications.
 
 **Release decision:** HOLD / NOT_PRODUCTION_READY. Strategy edge remains NOT ESTABLISHED. Automatic action NONE; automatic resume NEVER.
+
+
+## Phase 206 — Bounded Multi-Window Historical Re-Capture (2026-11-08)
+
+**Status: PARTIAL / FOCUSED-CI-TESTED / NOT_LIVE_READY.** Added a bounded UTC capture plan and deterministic overlapping-window orchestrator over the existing Delta reconciliation read adapter. Fixture-mode captures are persisted as create-only immutable JSON artifacts using same-directory temporary files, fsync, and atomic hard-link publication. Identical retries are idempotent; conflicting attempts cannot overwrite prior evidence. Hard record-budget exhaustion terminates further adapter reads. Repeated same-window captures invoke the Phase 205 pairwise reconciler, and observation stability labels never infer deletion from absence.
+
+**Verification:** GitHub Actions run [42407258246](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407258246) passed: Phase 206 focused tests **20 passed**; Phase 199 + Phase 205 regressions **51 passed combined**; strict manifest verification passed; working-tree/staged secret scans passed. Separate secret-scan workflow, including history scan, passed. Full suite NOT RUN; no release ZIP or fresh-extraction verification produced.
+
+**Known limitations:** Phase 199 adapter does not expose page-level provenance or a shared page budget; retry/timeout behavior remains inherited from shared REST client; partial endpoint rows cannot be persisted after adapter exceptions; endpoint records are currently combined into one generic category, so endpoint-specific identity collisions must be resolved; reconciliation across all adjacent windows and durable process-restart resume remain incomplete. Positions remain current snapshots; wallet history remains account-wide. No authenticated venue calls were made.
+
+**Safety and release posture:** fixture-first/read-only; no exchange write methods added or called; authenticated venue exercise BLOCKED pending trusted owner authorization. RELEASE_GATE = HOLD; EDGE = NOT ESTABLISHED; NOT_PRODUCTION_READY.
