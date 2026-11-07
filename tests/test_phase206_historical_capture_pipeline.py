@@ -42,6 +42,8 @@ def test_timezone_normalized_to_utc():
     {"repeat_count": 11},
     {"max_windows": 0},
     {"max_total_records": 0},
+    {"max_pages_per_endpoint": 0},
+    {"max_total_pages": 0},
     {"mode": "unknown"},
     {"tenant_id": ""},
     {"endpoints": ()},
