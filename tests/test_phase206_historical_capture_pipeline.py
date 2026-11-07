@@ -24,7 +24,7 @@ def plan(**changes):
 def test_window_generation_is_deterministic_and_overlapping():
     windows = generate_windows(plan())
     assert windows == generate_windows(plan())
-    assert len(windows) == 3
+    assert len(windows) == 4
     assert windows[0].end - windows[1].start == __import__("datetime").timedelta(seconds=300)
     assert windows[-1].end.isoformat() == "2026-10-01T03:00:00+00:00"
 
@@ -55,9 +55,10 @@ def test_window_budget_enforced():
         generate_windows(plan(max_windows=1))
 
 
-def test_authenticated_requires_trusted_authorization():
+def test_authenticated_requires_trusted_authorization(tmp_path):
+    authenticated_plan = plan(mode="authenticated", owner_authorized=True)
     with pytest.raises(CaptureAuthorizationError):
-        generate_windows(plan(mode="authenticated", owner_authorized=True))
+        HistoricalCaptureOrchestrator(FakeAdapter(), tmp_path).run(authenticated_plan)
 
 
 class FakeAdapter:
@@ -81,7 +82,7 @@ def test_orchestrator_persists_capture_and_preserves_scope(tmp_path):
     adapter = FakeAdapter()
     result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan())
     assert result.status == "COMPLETE"
-    assert result.completed_windows == 3
+    assert result.completed_windows == 4
     files = list(Path(tmp_path).rglob("*.json"))
     assert len(files) == 3
     assert all('"tenant_id":"tenant-a"' in f.read_text() for f in files)
