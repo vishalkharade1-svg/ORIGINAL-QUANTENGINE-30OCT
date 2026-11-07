@@ -323,6 +323,7 @@ class DeltaReconciliationReadAdapter:
                 ("id", "product_id", "size"), max_pages=max_pages_per_endpoint,
                 page_budget=page_budget, page_provenance=page_provenance,
                 request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
+                allow_partial=allow_partial,
             )
         if "fills" in selected:
             fills, fills_complete, fills_status = self._read_all(
@@ -331,6 +332,7 @@ class DeltaReconciliationReadAdapter:
                 max_pages=max_pages_per_endpoint, page_budget=page_budget,
                 page_provenance=page_provenance,
                 request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
+                allow_partial=allow_partial,
             )
         if "positions" in selected:
             positions, positions_complete, positions_status = self._read_all(
@@ -338,6 +340,7 @@ class DeltaReconciliationReadAdapter:
                 max_pages=max_pages_per_endpoint, page_budget=page_budget,
                 page_provenance=page_provenance,
                 request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
+                allow_partial=allow_partial,
             )
             # Delta positions are current snapshots, not a historical event stream.
             positions = [
@@ -352,6 +355,7 @@ class DeltaReconciliationReadAdapter:
                 max_pages=max_pages_per_endpoint, page_budget=page_budget,
                 page_provenance=page_provenance,
                 request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
+                allow_partial=allow_partial,
             )
 
         endpoint_complete = {
