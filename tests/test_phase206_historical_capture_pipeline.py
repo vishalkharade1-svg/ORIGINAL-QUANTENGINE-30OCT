@@ -47,6 +47,7 @@ def test_timezone_normalized_to_utc():
     {"endpoints": ()},
     {"endpoints": ("fills", "fills")},
     {"endpoints": ("unsupported",)},
+    {"endpoints": ([],)},
 ])
 def test_invalid_or_unbounded_plan_rejected(changes):
     with pytest.raises(CapturePlanError):
