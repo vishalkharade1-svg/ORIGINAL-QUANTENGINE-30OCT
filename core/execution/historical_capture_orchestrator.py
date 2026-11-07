@@ -308,7 +308,7 @@ def observation_stability(snapshots: list[CaptureSnapshot]) -> dict[str, Any]:
     for identity, seen in sorted(groups.items()):
         indices = [item[0] for item in seen]
         hashes = [item[1] for item in seen]
-        missing = max(indices) - min(indices) + 1 - len(set(indices))
+        missing = len(snapshots) - len(set(indices))
         changed = len(set(hashes)) > 1
         output.append({
             "record_identity": identity, "observed_capture_count": len(set(indices)),
