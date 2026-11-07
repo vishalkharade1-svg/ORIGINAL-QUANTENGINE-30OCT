@@ -55,10 +55,31 @@ def test_window_budget_enforced():
         generate_windows(plan(max_windows=1))
 
 
-def test_authenticated_requires_trusted_authorization(tmp_path):
-    authenticated_plan = plan(mode="authenticated", owner_authorized=True)
-    with pytest.raises(CaptureAuthorizationError):
+def test_authenticated_requires_trusted_authorization_callback(tmp_path):
+    authenticated_plan = plan(mode="authenticated")
+    with pytest.raises(CaptureAuthorizationError, match="trusted owner authorization"):
         HistoricalCaptureOrchestrator(FakeAdapter(), tmp_path).run(authenticated_plan)
+
+
+def test_plan_boolean_cannot_grant_authenticated_access(tmp_path):
+    authenticated_plan = plan(mode="authenticated")
+    adapter = FakeAdapter()
+    adapter._rest.authenticated = True
+    orchestrator = HistoricalCaptureOrchestrator(
+        adapter, tmp_path, owner_authorizer=lambda _: False
+    )
+    with pytest.raises(CaptureAuthorizationError, match="denied"):
+        orchestrator.run(authenticated_plan)
+
+
+def test_trusted_callback_and_authenticated_fake_adapter_allow_fixture_exercise(tmp_path):
+    authenticated_plan = plan(mode="authenticated")
+    adapter = FakeAdapter()
+    adapter._rest.authenticated = True
+    result = HistoricalCaptureOrchestrator(
+        adapter, tmp_path, owner_authorizer=lambda _: True
+    ).run(authenticated_plan)
+    assert result.status == "COMPLETE"
 
 
 class FakeAdapter:
