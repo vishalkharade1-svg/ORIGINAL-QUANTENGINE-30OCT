@@ -252,7 +252,8 @@ class DeltaReconciliationReadAdapter:
         if "order_history" in selected:
             order_history, history_complete, history_status = self._read_all(
                 "/v2/orders/history", {"product_ids": str(product_id), "page_size": 50, **time_query},
-                ("id", "product_id", "size"),
+                ("id", "product_id", "size"), max_pages=max_pages_per_endpoint,
+                page_budget=page_budget, page_provenance=page_provenance,
             )
         if "fills" in selected:
             fills, fills_complete, fills_status = self._read_all(
@@ -288,7 +289,7 @@ class DeltaReconciliationReadAdapter:
             "positions": (positions_complete, positions_status),
             "wallet_transactions": (wallet_complete, wallet_status),
         }
-        complete = all(endpoint_complete[name] for name in selected)
+        complete = all(endpoint_complete[name][0] for name in selected)
         return DeltaReconciliationSnapshot(
             captured_at=datetime.now(timezone.utc).isoformat(),
             product_id=product_id,
