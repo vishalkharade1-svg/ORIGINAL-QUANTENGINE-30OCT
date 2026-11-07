@@ -283,6 +283,12 @@ class HistoricalCaptureOrchestrator:
                     prior_by_window[key] = capture
                     if not complete:
                         result.status = "PARTIAL"
+                except CapturePlanError as exc:
+                    result.status = "PARTIAL"
+                    result.errors.append(f"window={index};repeat={repeat};error={str(exc)}")
+                    # Budget exhaustion is terminal for this run. Do not keep
+                    # issuing reads after a hard record/window budget is hit.
+                    return result
                 except Exception as exc:
                     result.status = "PARTIAL"
                     result.errors.append(f"window={index};repeat={repeat};error={type(exc).__name__}")
