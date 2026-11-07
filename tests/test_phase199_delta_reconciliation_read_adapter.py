@@ -431,3 +431,26 @@ def test_signed_rest_policy_disables_redirect_following():
     with pytest.raises(httpx.HTTPStatusError):
         rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
     assert rest.client.calls == [False]
+
+
+
+def test_partial_read_mode_preserves_prior_pages_after_transport_failure():
+    first_page = [{"id": 11, "product_id": 84, "size": "1"}]
+
+    class FailsAfterFirstPage(FakeREST):
+        def get(self, path, params=None):
+            self.calls.append((path, dict(params or {})))
+            if path == "/v2/orders" and params.get("after") == "next":
+                raise RuntimeError("simulated later page failure")
+            return {"success": True, "result": first_page, "meta": {"after": "next"}}
+
+    rest = FailsAfterFirstPage()
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders",), allow_partial=True
+    )
+    assert snap.complete is False
+    assert snap.endpoint_status["open_orders"] == "REQUEST_FAILED"
+    assert snap.open_orders == tuple(first_page)
+    assert [page["response_status"] for page in snap.page_provenance] == [
+        "SUCCESS", "REQUEST_FAILED"
+    ]
