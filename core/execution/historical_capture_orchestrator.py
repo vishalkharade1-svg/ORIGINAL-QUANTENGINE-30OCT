@@ -66,7 +66,6 @@ class HistoricalCapturePlan:
     max_capture_runs: int = 48
     interval_seconds: int = 0
     mode: str = "fixture"
-    owner_authorized: bool = False
     plan_id: str | None = None
 
     def validate(self) -> tuple[datetime, datetime]:
@@ -100,8 +99,6 @@ class HistoricalCapturePlan:
             raise CapturePlanError("interval_seconds must be between 0 and 86400")
         if self.mode not in {"fixture", "authenticated"}:
             raise CapturePlanError("mode must be fixture or authenticated")
-        if self.mode == "authenticated" and self.owner_authorized is not True:
-            raise CaptureAuthorizationError("authenticated capture requires trusted owner authorization")
         if self.mode == "fixture" and self.interval_seconds:
             raise CapturePlanError("fixture mode cannot schedule delayed repeated captures")
         return start, end
