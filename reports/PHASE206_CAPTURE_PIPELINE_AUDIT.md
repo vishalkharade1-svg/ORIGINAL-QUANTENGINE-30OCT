@@ -9,7 +9,9 @@
 - Repeated-observation classification without deletion inference: IMPLEMENTED.
 - Authenticated live exercise: BLOCKED — trusted owner authorization and controlled venue approval are required.
 - Endpoint-specific immutable snapshots and a fixed read-only endpoint allowlist: IMPLEMENTED — the selected endpoint list is validated before the first GET; unselected endpoints are not contacted.
-- Full page-level provenance and per-page retry telemetry: PARTIAL — the Phase 199 adapter still does not expose individual page metadata or a shared request budget.
+- Page-level provenance (page index, request/response cursor, record count, content SHA-256, request/collection timestamps and duration): IMPLEMENTED.
+- Shared total-page and per-endpoint page budgets, repeated-page detection: IMPLEMENTED.
+- Retry count and HTTP status metadata: PARTIAL — the signed REST adapter does not yet expose attempt/status receipts to the capture layer.
 - Phase 205 reconciliation integration: PARTIAL — repeated compatible captures are reconciled per endpoint; broader cross-window sequence comparison and exhaustive stability labels remain follow-up work.
 
 ## Architecture
@@ -33,9 +35,9 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 
 ## Verification evidence
 
-GitHub Actions run [42407980051](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407980051) completed successfully:
-- Phase 206 focused tests: 28 passed.
-- Phase 199 + Phase 205 regression tests: 53 passed combined.
+GitHub Actions run [42408507531](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42408507531) completed successfully:
+- Phase 206 focused tests: 30 passed.
+- Phase 199 + Phase 205 regression tests: 57 passed combined.
 - Strict source manifest verification: PASS.
 - Working-tree and staged-blob secret scans: PASS.
 - Separate repository secret-scan workflow, including history scan: PASS.
@@ -44,7 +46,7 @@ The full project test suite was not run. A sanitized release archive and fresh-e
 
 ## Remaining engineering limitations
 
-1. Phase 199 adapter exposes aggregate endpoint completion only. It does not return per-page cursor/status/count/checksum/timestamps or expose a shared page/request budget.
+1. The adapter now records per-page cursor, count, hash and timing evidence and enforces shared/per-endpoint page budgets. It does not yet expose actual HTTP status codes or retry-attempt counts.
 3. Adapter exceptions abort a window. Partial endpoint rows cannot be persisted because the adapter does not return partial snapshots.
 4. Retry and timeout controls are inherited from the shared REST client, not validated as per-plan limits. Phase 206 does not yet implement an independent bounded retry/resume protocol.
 5. Reconciliation currently compares repeated captures of the same window; systematic cross-window and multi-capture sequence reconciliation remains incomplete.
