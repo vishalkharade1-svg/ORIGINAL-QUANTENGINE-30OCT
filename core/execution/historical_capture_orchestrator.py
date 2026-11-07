@@ -100,8 +100,9 @@ class HistoricalCapturePlan:
             raise CapturePlanError("interval_seconds must be between 0 and 86400")
         supported_endpoints = {"open_orders", "order_history", "fills", "positions", "wallet_transactions"}
         if (not isinstance(self.endpoints, tuple) or not self.endpoints
-                or len(set(self.endpoints)) != len(self.endpoints)
-                or not set(self.endpoints).issubset(supported_endpoints)):
+                or any(not isinstance(endpoint, str) or endpoint not in supported_endpoints
+                       for endpoint in self.endpoints)
+                or len(set(self.endpoints)) != len(self.endpoints)):
             raise CapturePlanError("endpoints must be a non-empty tuple of unique supported endpoint names")
         if self.mode not in {"fixture", "authenticated"}:
             raise CapturePlanError("mode must be fixture or authenticated")
