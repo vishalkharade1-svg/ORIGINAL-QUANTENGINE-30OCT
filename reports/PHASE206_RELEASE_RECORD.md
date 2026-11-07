@@ -21,7 +21,7 @@ Implemented:
 Blocked / partial:
 - Real authenticated venue collection requires trusted owner authorization callback and explicit authorization. No owner flag exists in the plan.
 - Page-level provenance, shared page budgets, per-plan retries/timeouts and partial-page persistence are not available from the existing Phase 199 adapter interface.
-- Endpoint selection is now passed to the Delta adapter and only selected allowlisted GET endpoints are called.
+- Endpoint-specific snapshots prevent cross-endpoint record-ID collisions; validated endpoint selection is passed to the Delta adapter, and only selected allowlisted GET endpoints are called. Wallet transactions are stored without product scope.
 - Cross-window sequence reconciliation and durable resume after process restart remain incomplete.
 - Automated release packaging and fresh-extraction validation are not yet certified.
 
@@ -32,7 +32,7 @@ Production readiness: HOLD / NOT_PRODUCTION_READY.
 
 ## Verification receipt
 
-GitHub Actions: [run 42407453707](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407453707) — SUCCESS.
+GitHub Actions: [run 42407980051](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407980051) — SUCCESS.
 - Phase 206 focused tests: 28 passed.
 - Phase 199 + Phase 205 regressions: 53 passed combined.
 - Strict manifest verification: PASS.
