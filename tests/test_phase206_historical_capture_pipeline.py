@@ -229,9 +229,11 @@ def test_endpoint_snapshots_are_isolated_and_wallet_is_not_product_scoped(tmp_pa
 
 
 def test_capture_plan_can_limit_endpoint_scope(tmp_path):
-    result = HistoricalCaptureOrchestrator(FakeAdapter(), tmp_path).run(
+    adapter = FakeAdapter()
+    result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(
         plan(endpoints=("fills",))
     )
     assert result.status == "COMPLETE"
     assert len(result.snapshots) == 4
     assert all(snap.record_category == "fills" for snap in result.snapshots)
+    assert all(call["endpoints"] == ("fills",) for call in adapter.calls)
