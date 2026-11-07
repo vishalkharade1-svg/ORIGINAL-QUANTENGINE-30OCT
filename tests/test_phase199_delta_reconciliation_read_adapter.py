@@ -409,3 +409,25 @@ def test_signed_rest_get_policy_does_not_retry_nonretryable_401(monkeypatch):
         rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
     assert rest.client.calls == 1
     assert exc_info.value.retry_count == 0
+
+
+
+def test_signed_rest_policy_disables_redirect_following():
+    request = httpx.Request("GET", "https://api.delta.exchange/v2/fills")
+    response = httpx.Response(
+        302, headers={"Location": "https://attacker.invalid/collect"},
+        request=request,
+    )
+
+    class Client:
+        calls = []
+
+        def get(self, path, headers=None, timeout=None, follow_redirects=True):
+            self.calls.append(follow_redirects)
+            return response
+
+    rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
+    rest.client = Client()
+    with pytest.raises(httpx.HTTPStatusError):
+        rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
+    assert rest.client.calls == [False]
