@@ -224,7 +224,9 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
 
 class DeltaCaptureAdapter(Protocol):
     def capture(self, *, product_id: int, window_start: str, window_end: str,
-                overlap_seconds: int = 60, endpoints: tuple[str, ...] | None = None) -> Any: ...
+                overlap_seconds: int = 60, endpoints: tuple[str, ...] | None = None,
+                max_pages_per_endpoint: int = 100, max_total_pages: int = 500,
+                request_timeout_seconds: int = 20, retry_budget: int = 2) -> Any: ...
 
 
 @dataclass
