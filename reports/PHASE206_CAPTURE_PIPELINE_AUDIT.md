@@ -11,7 +11,8 @@
 - Endpoint-specific immutable snapshots and a fixed read-only endpoint allowlist: IMPLEMENTED — the selected endpoint list is validated before the first GET; unselected endpoints are not contacted.
 - Page-level provenance (page index, request/response cursor, record count, content SHA-256, request/collection timestamps and duration): IMPLEMENTED.
 - Shared total-page and per-endpoint page budgets, repeated-page detection: IMPLEMENTED.
-- Retry count and HTTP status metadata: PARTIAL — the signed REST adapter does not yet expose attempt/status receipts to the capture layer.
+- Per-plan timeout and bounded retry policy, Retry-After handling, retry-count and HTTP-status receipts: IMPLEMENTED.
+- Authenticated signed GET redirects are disabled.
 - Phase 205 reconciliation integration: PARTIAL — repeated compatible captures are reconciled per endpoint; broader cross-window sequence comparison and exhaustive stability labels remain follow-up work.
 
 ## Architecture
@@ -26,9 +27,9 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 
 ## Important limitations
 
-1. Page provenance records cursors, counts, hashes and timing, but the REST transport does not expose actual HTTP status codes or retry-attempt receipts to the capture layer.
-2. Adapter exceptions abort a window. Partial endpoint rows cannot be persisted because the adapter does not return partial snapshots.
-3. Per-plan timeout and retry budgets are not yet wired through the signed REST client; its existing transport policy remains in effect.
+1. The maximum-record guard is currently applied after the adapter returns an endpoint snapshot; it does not yet reduce page_size or stop reads at the precise record boundary.
+2. A malformed current page is marked INVALID_RESPONSE with its error metadata, but only earlier valid pages are retained; malformed raw page bodies are not stored.
+3. Durable process-restart resume and cursor checkpoint recovery are not yet implemented.
 4. The adapter applies native Delta time filters to orders/history/fills/wallet transactions; positions remain a current snapshot, not a historical event stream.
 5. Wallet transactions are account-wide and must not be interpreted as product-scoped.
 6. Repeated observations measure API behavior, not the complete underlying venue event history or retention policy.
@@ -36,9 +37,9 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 
 ## Verification evidence
 
-GitHub Actions run [42408507531](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42408507531) completed successfully:
-- Phase 206 focused tests: 30 passed.
-- Phase 199 + Phase 205 regression tests: 57 passed combined.
+GitHub Actions run [42409352002](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42409352002) completed successfully:
+- Phase 206 focused tests: 37 passed.
+- Phase 199 + Phase 205 regression tests: 62 passed combined.
 - Strict source manifest verification: PASS.
 - Working-tree and staged-blob secret scans: PASS.
 - Separate repository secret-scan workflow, including history scan: PASS.
