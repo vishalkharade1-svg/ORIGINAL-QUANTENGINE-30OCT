@@ -328,7 +328,7 @@ class HistoricalCaptureOrchestrator:
                             result.status = "PARTIAL"
                     if all_endpoints_complete:
                         result.completed_windows += 1
-                                except CapturePlanError as exc:
+                except CapturePlanError as exc:
                     result.status = "PARTIAL"
                     result.errors.append(f"window={index};repeat={repeat};error={str(exc)}")
                     # Budget exhaustion is terminal for this run. Do not keep
