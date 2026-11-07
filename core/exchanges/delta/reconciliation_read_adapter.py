@@ -115,12 +115,28 @@ class DeltaReconciliationReadAdapter:
         request_timeout_seconds: int = 20,
         retry_budget: int = 2,
         allow_partial: bool = False,
+        max_records_per_endpoint: int = 100000,
+        record_budget: dict[str, int] | None = None,
     ) -> tuple[list[dict[str, Any]], bool, str]:
         rows: list[dict[str, Any]] = []
         seen_cursors: set[str] = set()
         seen_pages: set[str] = set()
         query = dict(params)
         for page_number in range(max_pages):
+            endpoint_remaining = max_records_per_endpoint - len(rows)
+            total_remaining = (
+                record_budget["max"] - record_budget["used"]
+                if record_budget is not None else endpoint_remaining
+            )
+            remaining_records = min(endpoint_remaining, total_remaining)
+            if remaining_records <= 0:
+                status = "MAX_TOTAL_RECORDS_REACHED" if total_remaining <= 0 else "MAX_RECORDS_PER_ENDPOINT_REACHED"
+                return rows, False, status
+            if paginated and "page_size" in query:
+                try:
+                    query["page_size"] = min(int(query["page_size"]), remaining_records)
+                except (TypeError, ValueError):
+                    return rows, False, "INVALID_PAGE_SIZE"
             if page_budget is not None and page_budget["used"] >= page_budget["max"]:
                 return rows, False, "PAGE_BUDGET_REACHED"
             if page_budget is not None:
@@ -200,6 +216,16 @@ class DeltaReconciliationReadAdapter:
                     "retry_count": retry_count, "http_status_code": http_status_code,
                     "request_policy_enforced": policy_enforced,
                 })
+            if len(page_rows) > remaining_records:
+                accepted = page_rows[:remaining_records]
+                rows.extend(accepted)
+                if record_budget is not None:
+                    record_budget["used"] += len(accepted)
+                if page_provenance is not None:
+                    page_provenance[-1]["response_status"] = "RECORD_BUDGET_OVERRUN"
+                    page_provenance[-1]["records_not_persisted"] = len(page_rows) - len(accepted)
+                    page_provenance[-1]["record_budget_remaining"] = remaining_records
+                return rows, False, "RECORD_BUDGET_OVERRUN"
             if page_rows and page_hash in seen_pages:
                 if page_provenance is not None:
                     page_provenance[-1]["response_status"] = "REPEATED_PAGE"
@@ -209,6 +235,8 @@ class DeltaReconciliationReadAdapter:
             if page_rows:
                 seen_pages.add(page_hash)
             rows.extend(page_rows)
+            if record_budget is not None:
+                record_budget["used"] += len(page_rows)
             if not paginated:
                 return rows, after is None, "OK" if after is None else "INCOMPLETE_PAGINATION"
             if after == "__PAGINATION_METADATA_MISSING__":
@@ -257,6 +285,8 @@ class DeltaReconciliationReadAdapter:
         request_timeout_seconds: int = 20,
         retry_budget: int = 2,
         allow_partial: bool = False,
+        max_records_per_endpoint: int = 100000,
+        max_total_records: int = 1000000,
     ) -> DeltaReconciliationSnapshot:
         """Read only selected allowlisted endpoint categories.
 
@@ -291,6 +321,12 @@ class DeltaReconciliationReadAdapter:
             raise ValueError("retry_budget must be between 0 and 5")
         if not isinstance(allow_partial, bool):
             raise ValueError("allow_partial must be a boolean")
+        if (isinstance(max_records_per_endpoint, bool) or not isinstance(max_records_per_endpoint, int)
+                or not 1 <= max_records_per_endpoint <= 100000):
+            raise ValueError("max_records_per_endpoint must be between 1 and 100000")
+        if (isinstance(max_total_records, bool) or not isinstance(max_total_records, int)
+                or not 1 <= max_total_records <= 1000000):
+            raise ValueError("max_total_records must be between 1 and 1000000")
         if window_start is not None:
             from core.execution.historical_evidence_window import _utc
             start = _utc(window_start, "window_start")
@@ -303,6 +339,7 @@ class DeltaReconciliationReadAdapter:
         # GETs; an unselected endpoint is never contacted. The shared page budget
         # applies across all selected endpoint reads in this capture.
         page_budget = {"max": max_total_pages, "used": 0}
+        record_budget = {"max": max_total_records, "used": 0}
         page_provenance: list[dict[str, Any]] = []
         open_orders, open_complete, open_status = ([], True, "NOT_REQUESTED")
         order_history, history_complete, history_status = ([], True, "NOT_REQUESTED")
@@ -315,7 +352,8 @@ class DeltaReconciliationReadAdapter:
                 ("id", "product_id", "size"), max_pages=max_pages_per_endpoint,
                 page_budget=page_budget, page_provenance=page_provenance,
                 request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
-                allow_partial=allow_partial,
+                allow_partial=allow_partial, max_records_per_endpoint=max_records_per_endpoint,
+                record_budget=record_budget,
             )
         if "order_history" in selected:
             order_history, history_complete, history_status = self._read_all(
