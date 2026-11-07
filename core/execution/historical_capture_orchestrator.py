@@ -49,6 +49,10 @@ class CaptureWindow:
                 self.end.isoformat().replace("+00:00", "Z"))
 
 
+def _bounded_int(value: Any, minimum: int, maximum: int) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and minimum <= value <= maximum
+
+
 @dataclass(frozen=True)
 class HistoricalCapturePlan:
     venue: str
@@ -86,29 +90,29 @@ class HistoricalCapturePlan:
             raise CapturePlanError("start must precede end")
         if end - start > timedelta(days=14):
             raise CapturePlanError("historical horizon cannot exceed 14 days")
-        if isinstance(self.window_seconds, bool) or not 60 <= self.window_seconds <= 86400:
+        if not _bounded_int(self.window_seconds, 60, 86400):
             raise CapturePlanError("window_seconds must be between 60 and 86400")
-        if isinstance(self.overlap_seconds, bool) or not 0 <= self.overlap_seconds <= min(3600, self.window_seconds // 2):
+        if not _bounded_int(self.overlap_seconds, 0, min(3600, self.window_seconds // 2)):
             raise CapturePlanError("overlap_seconds exceeds the safe window bound")
-        if isinstance(self.repeat_count, bool) or not 1 <= self.repeat_count <= 10:
+        if not _bounded_int(self.repeat_count, 1, 10):
             raise CapturePlanError("repeat_count must be between 1 and 10")
-        if isinstance(self.max_windows, bool) or not 1 <= self.max_windows <= 500:
+        if not _bounded_int(self.max_windows, 1, 500):
             raise CapturePlanError("max_windows must be between 1 and 500")
-        if isinstance(self.max_records_per_snapshot, bool) or not 1 <= self.max_records_per_snapshot <= 100000:
+        if not _bounded_int(self.max_records_per_snapshot, 1, 100000):
             raise CapturePlanError("max_records_per_snapshot must be between 1 and 100000")
-        if isinstance(self.max_total_records, bool) or not 1 <= self.max_total_records <= 1000000:
+        if not _bounded_int(self.max_total_records, 1, 1000000):
             raise CapturePlanError("max_total_records must be between 1 and 1000000")
-        if isinstance(self.max_pages_per_endpoint, bool) or not 1 <= self.max_pages_per_endpoint <= 100:
+        if not _bounded_int(self.max_pages_per_endpoint, 1, 100):
             raise CapturePlanError("max_pages_per_endpoint must be between 1 and 100")
-        if isinstance(self.max_total_pages, bool) or not 1 <= self.max_total_pages <= 2500:
+        if not _bounded_int(self.max_total_pages, 1, 2500):
             raise CapturePlanError("max_total_pages must be between 1 and 2500")
-        if isinstance(self.request_timeout_seconds, bool) or not 1 <= self.request_timeout_seconds <= 60:
+        if not _bounded_int(self.request_timeout_seconds, 1, 60):
             raise CapturePlanError("request_timeout_seconds must be between 1 and 60")
-        if isinstance(self.retry_budget, bool) or not 0 <= self.retry_budget <= 5:
+        if not _bounded_int(self.retry_budget, 0, 5):
             raise CapturePlanError("retry_budget must be between 0 and 5")
-        if isinstance(self.max_capture_runs, bool) or not 1 <= self.max_capture_runs <= 5000:
+        if not _bounded_int(self.max_capture_runs, 1, 5000):
             raise CapturePlanError("max_capture_runs must be between 1 and 5000")
-        if isinstance(self.interval_seconds, bool) or not 0 <= self.interval_seconds <= 86400:
+        if not _bounded_int(self.interval_seconds, 0, 86400):
             raise CapturePlanError("interval_seconds must be between 0 and 86400")
         supported_endpoints = {"open_orders", "order_history", "fills", "positions", "wallet_transactions"}
         if (not isinstance(self.endpoints, tuple) or not self.endpoints
