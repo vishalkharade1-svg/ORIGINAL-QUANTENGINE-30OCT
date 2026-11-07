@@ -23,7 +23,7 @@
     "per_plan_retry_timeout_controls": "BLOCKED_BY_SHARED_ADAPTER_INTERFACE"
   },
   "verification": {
-    "focused_tests": "TESTED_20_PASSED",
+    "focused_tests": "TESTED_22_PASSED",
     "phase199_phase205_regressions": "TESTED_51_PASSED_COMBINED",
     "strict_manifest": "PASS",
     "secret_scan": "PASS_WORKTREE_STAGED_AND_HISTORY",
@@ -31,6 +31,6 @@
     "release_archive": "NOT_BUILT",
     "fresh_extraction": "NOT_RUN",
     "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
-    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407258246"
+    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407453707"
   }
 }
