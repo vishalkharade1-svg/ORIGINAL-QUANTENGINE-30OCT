@@ -135,3 +135,35 @@ def test_plan_id_cannot_escape_capture_storage_root(tmp_path, unsafe_plan_id):
     plan = make_plan(end="2026-10-01T01:00:00Z", plan_id=unsafe_plan_id)
     with pytest.raises(CapturePlanError, match="safe single path component"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_adjacent_windows_are_reconciled_without_treating_absence_as_deletion(tmp_path):
+    plan = make_plan()
+    class RepeatedIdentityAdapter:
+        def __init__(self):
+            self.calls = 0
+
+        def capture(self, **kwargs):
+            self.calls += 1
+            return SimpleNamespace(
+                captured_at=f"2026-10-01T0{self.calls}:00:00Z",
+                fills=({"id": "fill-shared", "product_id": 84, "price": "100"},),
+                open_orders=(),
+                order_history=(),
+                positions=(),
+                wallet_transactions=(),
+                endpoint_status={"fills": "OK"},
+                page_provenance=(),
+            )
+
+    result = HistoricalCaptureOrchestrator(RepeatedIdentityAdapter(), tmp_path).run(plan)
+
+    assert result.status == "COMPLETE"
+    assert len(result.cross_window_reconciliation_reports) == 1
+    cross_window = result.cross_window_reconciliation_reports[0]
+    assert cross_window["earlier_window_index"] == 0
+    assert cross_window["later_window_index"] == 1
+    assert cross_window["endpoint"] == "fills"
+    assert cross_window["status"] == "RECONCILED"
+    assert cross_window["result"]["record_counts"]["unchanged"] == 1
+    assert cross_window["result"]["not_observed"] == []
