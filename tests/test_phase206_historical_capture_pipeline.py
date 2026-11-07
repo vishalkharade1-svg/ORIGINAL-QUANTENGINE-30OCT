@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from core.exchanges.delta.reconciliation_read_adapter import DeltaReconciliationReadAdapter
 from core.execution.historical_capture_orchestrator import (
     CaptureAuthorizationError, CapturePersistenceError, CapturePlanError, HistoricalCapturePlan,
     HistoricalCaptureOrchestrator, _safe_json_write, generate_windows, observation_stability,
@@ -247,3 +248,36 @@ def test_capture_plan_can_limit_endpoint_scope(tmp_path):
     assert all(call["endpoints"] == ("fills",) for call in adapter.calls)
     assert all(call["request_timeout_seconds"] == 20 for call in adapter.calls)
     assert all(call["retry_budget"] == 2 for call in adapter.calls)
+    assert all(call["allow_partial"] is True for call in adapter.calls)
+
+
+
+def test_phase206_persists_partial_records_after_later_page_failure(tmp_path):
+    first_page = [{"id": 11, "product_id": 84, "size": "1"}]
+
+    class FailsAfterFirstPage:
+        authenticated = True
+
+        def get(self, path, params=None):
+            if path == "/v2/orders" and params.get("after") == "next":
+                raise RuntimeError("simulated later page failure")
+            return {"success": True, "result": first_page, "meta": {"after": "next"}}
+
+    adapter = DeltaReconciliationReadAdapter(FailsAfterFirstPage())
+    result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(
+        plan(end="2026-10-01T01:00:00Z", window_seconds=3600,
+             overlap_seconds=0, endpoints=("open_orders",))
+    )
+    assert result.status == "PARTIAL"
+    assert result.total_records == 1
+    assert len(result.snapshots) == 1
+    snapshot = result.snapshots[0]
+    assert snapshot.complete is False
+    assert snapshot.records == tuple(first_page)
+    artifact = next(tmp_path.rglob("*.json"))
+    import json
+    persisted = json.loads(artifact.read_text())
+    assert persisted["capture_status"] == "PARTIAL"
+    assert [page["response_status"] for page in persisted["page_provenance"]] == [
+        "SUCCESS", "REQUEST_FAILED"
+    ]
