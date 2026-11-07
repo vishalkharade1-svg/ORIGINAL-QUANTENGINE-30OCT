@@ -255,10 +255,17 @@ class HistoricalCaptureOrchestrator:
                 raise CaptureAuthorizationError("authenticated Delta REST client is not available")
         plan_id = plan.plan_id or str(uuid5(NAMESPACE_URL, canonical_json_bytes({
             "venue": plan.venue, "tenant": plan.tenant_id, "account": plan.account_id,
-            "product": plan.product_id, "start": plan.start, "end": plan.end,
+            "product": plan.product_id, "start_utc": windows[0].start.isoformat(),
+            "end_utc": windows[-1].end.isoformat(),
             "window_seconds": plan.window_seconds, "overlap_seconds": plan.overlap_seconds,
-            "endpoints": plan.endpoints, "max_pages_per_endpoint": plan.max_pages_per_endpoint,
+            "repeat_count": plan.repeat_count, "max_windows": plan.max_windows,
+            "max_records_per_snapshot": plan.max_records_per_snapshot,
+            "max_total_records": plan.max_total_records,
+            "max_pages_per_endpoint": plan.max_pages_per_endpoint,
             "max_total_pages": plan.max_total_pages,
+            "max_capture_runs": plan.max_capture_runs,
+            "interval_seconds": plan.interval_seconds, "mode": plan.mode,
+            "endpoints": plan.endpoints,
         }).decode("utf-8")))
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
         prior_by_window: dict[tuple[int, str], CaptureSnapshot] = {}
