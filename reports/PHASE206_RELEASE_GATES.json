@@ -20,22 +20,26 @@
     "hard_record_budget_stop": "IMPLEMENTED",
     "endpoint_identity_isolation": "IMPLEMENTED",
     "cross_window_sequence_reconciliation": "PARTIAL",
-    "per_plan_retry_timeout_controls": "BLOCKED_BY_SHARED_ADAPTER_INTERFACE",
+    "per_plan_retry_timeout_controls": "IMPLEMENTED",
     "read_only_endpoint_allowlist": "IMPLEMENTED",
     "endpoint_selection_invocation": "IMPLEMENTED",
     "per_endpoint_page_limit": "IMPLEMENTED",
     "repeated_page_detection": "IMPLEMENTED",
-    "retry_attempt_receipts": "PARTIAL"
+    "retry_attempt_receipts": "IMPLEMENTED",
+    "http_status_metadata": "IMPLEMENTED",
+    "partial_capture_persistence": "IMPLEMENTED",
+    "record_budget_early_stop": "PARTIAL",
+    "process_restart_resume": "PARTIAL"
   },
   "verification": {
-    "focused_tests": "TESTED_30_PASSED",
-    "phase199_phase205_regressions": "TESTED_57_PASSED_COMBINED",
+    "focused_tests": "TESTED_37_PASSED",
+    "phase199_phase205_regressions": "TESTED_62_PASSED_COMBINED",
     "strict_manifest": "PASS",
     "secret_scan": "PASS_WORKTREE_STAGED_AND_HISTORY",
     "full_suite": "NOT_RUN",
     "release_archive": "NOT_BUILT",
     "fresh_extraction": "NOT_RUN",
     "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
-    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42408507531"
+    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42409352002"
   }
 }
