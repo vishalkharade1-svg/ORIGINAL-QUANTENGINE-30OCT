@@ -8,8 +8,9 @@
 - Hard record-budget exhaustion stops further adapter reads: IMPLEMENTED.
 - Repeated-observation classification without deletion inference: IMPLEMENTED.
 - Authenticated live exercise: BLOCKED — trusted owner authorization and controlled venue approval are required.
-- Full endpoint/page-level provenance and per-page retry telemetry: PARTIAL — the Phase 199 adapter currently exposes aggregate endpoint status, not individual page metadata or a shared request budget.
-- Phase 205 reconciliation integration: PARTIAL — repeated compatible captures are passed to the existing pairwise reconciler; broader cross-window comparison and exhaustive stability labels remain follow-up work.
+- Endpoint-specific immutable snapshots and a fixed read-only endpoint allowlist: IMPLEMENTED — the selected endpoint list is validated before the first GET; unselected endpoints are not contacted.
+- Full page-level provenance and per-page retry telemetry: PARTIAL — the Phase 199 adapter still does not expose individual page metadata or a shared request budget.
+- Phase 205 reconciliation integration: PARTIAL — repeated compatible captures are reconciled per endpoint; broader cross-window sequence comparison and exhaustive stability labels remain follow-up work.
 
 ## Architecture
 
@@ -33,8 +34,8 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 ## Verification evidence
 
 GitHub Actions run [42407453707](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42407453707) completed successfully:
-- Phase 206 focused tests: 22 passed.
-- Phase 199 + Phase 205 regression tests: 51 passed combined.
+- Phase 206 focused tests: 28 passed.
+- Phase 199 + Phase 205 regression tests: 53 passed combined.
 - Strict source manifest verification: PASS.
 - Working-tree and staged-blob secret scans: PASS.
 - Separate repository secret-scan workflow, including history scan: PASS.
@@ -44,7 +45,7 @@ The full project test suite was not run. A sanitized release archive and fresh-e
 ## Remaining engineering limitations
 
 1. Phase 199 adapter exposes aggregate endpoint completion only. It does not return per-page cursor/status/count/checksum/timestamps or expose a shared page/request budget.
-2. The adapter returns one aggregate snapshot. Phase 206 currently stores records from multiple endpoint categories in one generic delta_reconciliation_bundle. Endpoint-specific reconciliation identities can therefore collide when different endpoints reuse the same numeric ID. Split endpoint snapshots before reconciliation can be certified.
+2. The Phase 199 adapter still does not return per-page cursor/status/count/checksum/timestamps or a shared page/request budget.
 3. Adapter exceptions abort a window. Partial endpoint rows cannot be persisted because the adapter does not return partial snapshots.
 4. Retry and timeout controls are inherited from the shared REST client, not validated as per-plan limits. Phase 206 does not yet implement an independent bounded retry/resume protocol.
 5. Reconciliation currently compares repeated captures of the same window; systematic cross-window and multi-capture sequence reconciliation remains incomplete.
