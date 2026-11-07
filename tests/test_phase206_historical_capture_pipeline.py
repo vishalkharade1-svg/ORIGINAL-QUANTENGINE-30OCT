@@ -84,7 +84,7 @@ def test_orchestrator_persists_capture_and_preserves_scope(tmp_path):
     assert result.status == "COMPLETE"
     assert result.completed_windows == 4
     files = list(Path(tmp_path).rglob("*.json"))
-    assert len(files) == 3
+    assert len(files) == 4
     assert all('"tenant_id":"tenant-a"' in f.read_text() for f in files)
 
 
