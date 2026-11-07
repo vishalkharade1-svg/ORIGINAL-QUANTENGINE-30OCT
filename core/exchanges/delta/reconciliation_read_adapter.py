@@ -303,6 +303,7 @@ class DeltaReconciliationReadAdapter:
                 "/v2/positions", {"product_id": product_id}, ("size",), paginated=False,
                 max_pages=max_pages_per_endpoint, page_budget=page_budget,
                 page_provenance=page_provenance,
+                request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
             )
             # Delta positions are current snapshots, not a historical event stream.
             positions = [
@@ -316,6 +317,7 @@ class DeltaReconciliationReadAdapter:
                 ("id", "amount", "transaction_type", "created_at"),
                 max_pages=max_pages_per_endpoint, page_budget=page_budget,
                 page_provenance=page_provenance,
+                request_timeout_seconds=request_timeout_seconds, retry_budget=retry_budget,
             )
 
         endpoint_complete = {
