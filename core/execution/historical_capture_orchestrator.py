@@ -63,6 +63,8 @@ class HistoricalCapturePlan:
     max_windows: int = 48
     max_records_per_snapshot: int = 10000
     max_total_records: int = 100000
+    max_pages_per_endpoint: int = 100
+    max_total_pages: int = 500
     max_capture_runs: int = 48
     interval_seconds: int = 0
     mode: str = "fixture"
