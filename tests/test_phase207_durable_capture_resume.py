@@ -101,7 +101,9 @@ def test_resume_fails_closed_when_persisted_capture_is_corrupt(tmp_path):
     plan = make_plan(end="2026-10-01T01:00:00Z")
     HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
     artifact = next(Path(tmp_path).rglob("*.json"))
-    artifact.write_text('{"schema":"quantengine.phase207.capture.v1","capture":{}}', encoding="utf-8")
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["capture"]["records"][0]["tampered"] = True
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
 
     with pytest.raises(CapturePersistenceError, match="could not be verified"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
@@ -167,3 +169,32 @@ def test_adjacent_windows_are_reconciled_without_treating_absence_as_deletion(tm
     assert cross_window["status"] == "RECONCILED"
     assert cross_window["result"]["record_counts"]["unchanged"] == 1
     assert cross_window["result"]["not_observed"] == []
+
+
+def test_resume_reconstructs_same_window_repeat_reconciliation_reports(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z", repeat_count=2)
+    first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    assert first.status == "COMPLETE"
+    assert len(first.reconciliation_reports) == 1
+
+    restarted = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    assert restarted.status == "COMPLETE"
+    assert len(restarted.reconciliation_reports) == 1
+    assert restarted.reconciliation_reports[0]["result"]["record_counts"]["unchanged"] == 0
+    assert restarted.reconciliation_reports[0]["status"] == "RECONCILED"
+
+
+def test_completed_recovered_slots_do_not_consume_capture_run_budget(tmp_path):
+    plan = make_plan(max_capture_runs=1, end="2026-10-01T01:00:00Z")
+    # First pass can only capture the first of two planned windows.
+    first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    assert first.status == "PARTIAL"
+    assert len(first.snapshots) == 1
+
+    # The one remaining read is allowed after recovery; the completed slot
+    # does not consume the new process's capture-run budget.
+    adapter = SequenceAdapter(start_sequence=5)
+    resumed = HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
+    assert resumed.status == "COMPLETE"
+    assert len(adapter.calls) == 1
+    assert resumed.completed_windows == 2
