@@ -405,6 +405,7 @@ def test_signed_rest_get_policy_does_not_retry_nonretryable_401(monkeypatch):
     rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
     rest.client = Client()
     monkeypatch.setattr("core.exchanges.delta.delta_auth.time.sleep", lambda _: None)
-    with pytest.raises(httpx.HTTPStatusError):
+    with pytest.raises(httpx.HTTPStatusError) as exc_info:
         rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
     assert rest.client.calls == 1
+    assert exc_info.value.retry_count == 0
