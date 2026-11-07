@@ -160,7 +160,13 @@ class DeltaReconciliationReadAdapter:
     def capture(
         self, *, product_id: int, window_start: str | None = None,
         window_end: str | None = None, overlap_seconds: int = 60,
+        endpoints: tuple[str, ...] | None = None,
     ) -> DeltaReconciliationSnapshot:
+        """Read only selected allowlisted endpoint categories.
+
+        Omitting endpoints preserves the Phase 199 all-endpoint behavior.
+        Selection is validated before the first authenticated GET.
+        """
         if not bool(getattr(self._rest, "authenticated", False)):
             raise DeltaReconciliationReadError("authenticated Delta REST client required")
         if isinstance(product_id, bool) or not isinstance(product_id, int) or product_id <= 0:
@@ -169,6 +175,12 @@ class DeltaReconciliationReadAdapter:
             raise ValueError("window_start and window_end must be supplied together")
         if isinstance(overlap_seconds, bool) or not isinstance(overlap_seconds, int) or not 0 <= overlap_seconds <= 3600:
             raise ValueError("overlap_seconds must be an integer from 0 to 3600")
+        supported = ("open_orders", "order_history", "fills", "positions", "wallet_transactions")
+        selected = supported if endpoints is None else endpoints
+        if (not isinstance(selected, tuple) or not selected
+                or any(not isinstance(item, str) or item not in supported for item in selected)
+                or len(set(selected)) != len(selected)):
+            raise ValueError("endpoints must be a non-empty tuple of unique supported endpoint names")
         if window_start is not None:
             from core.execution.historical_evidence_window import _utc
             start = _utc(window_start, "window_start")
@@ -177,37 +189,52 @@ class DeltaReconciliationReadAdapter:
                 raise ValueError("window_start must precede window_end")
         time_query = self._window_query(window_start, window_end, overlap_seconds)
 
-        # Calls are deliberately sequential and GET-only. A failure aborts the
-        # snapshot rather than returning a deceptively clean partial result.
-        open_orders, open_complete = self._read_all(
-            "/v2/orders", {"product_ids": str(product_id), "state": "open", "page_size": 50, **time_query},
-            ("id", "product_id", "size"),
-        )
-        order_history, history_complete = self._read_all(
-            "/v2/orders/history", {"product_ids": str(product_id), "page_size": 50, **time_query},
-            ("id", "product_id", "size"),
-        )
-        fills, fills_complete = self._read_all(
-            "/v2/fills", {"product_ids": str(product_id), "page_size": 50, **time_query},
-            ("id", "order_id", "product_id", "size", "price", "side"),
-        )
-        positions, positions_complete = self._read_all(
-            "/v2/positions", {"product_id": product_id}, ("size",), paginated=False,
-        )
-        # Wallet transactions are account-wide; product_id is optional in the
-        # venue schema. Preserve unscoped rows so the coordinator can mark
-        # relevant events ambiguous rather than silently dropping them.
-        wallet_transactions, wallet_complete = self._read_all(
-            "/v2/wallet/transactions", {"page_size": 50, **time_query},
-            ("id", "amount", "transaction_type", "created_at"),
-        )
-        # The documented GET /v2/positions result is a single position object;
-        # retain the query scope explicitly if the response omits product_id.
-        positions = [
-            (dict(row) if row.get("product_id") is not None else {**row, "query_product_id": product_id})
-            for row in positions
-        ]
-        complete = all((open_complete, history_complete, fills_complete, positions_complete, wallet_complete))
+        # Endpoint paths are a fixed read-only allowlist. Calls remain sequential
+        # GETs; an unselected endpoint is never contacted.
+        open_orders, open_complete = ([], True)
+        order_history, history_complete = ([], True)
+        fills, fills_complete = ([], True)
+        positions, positions_complete = ([], True)
+        wallet_transactions, wallet_complete = ([], True)
+        if "open_orders" in selected:
+            open_orders, open_complete = self._read_all(
+                "/v2/orders", {"product_ids": str(product_id), "state": "open", "page_size": 50, **time_query},
+                ("id", "product_id", "size"),
+            )
+        if "order_history" in selected:
+            order_history, history_complete = self._read_all(
+                "/v2/orders/history", {"product_ids": str(product_id), "page_size": 50, **time_query},
+                ("id", "product_id", "size"),
+            )
+        if "fills" in selected:
+            fills, fills_complete = self._read_all(
+                "/v2/fills", {"product_ids": str(product_id), "page_size": 50, **time_query},
+                ("id", "order_id", "product_id", "size", "price", "side"),
+            )
+        if "positions" in selected:
+            positions, positions_complete = self._read_all(
+                "/v2/positions", {"product_id": product_id}, ("size",), paginated=False,
+            )
+            # Delta positions are current snapshots, not a historical event stream.
+            positions = [
+                (dict(row) if row.get("product_id") is not None else {**row, "query_product_id": product_id})
+                for row in positions
+            ]
+        if "wallet_transactions" in selected:
+            # Wallet transactions are account-wide; product_id is not sent.
+            wallet_transactions, wallet_complete = self._read_all(
+                "/v2/wallet/transactions", {"page_size": 50, **time_query},
+                ("id", "amount", "transaction_type", "created_at"),
+            )
+
+        endpoint_complete = {
+            "open_orders": open_complete,
+            "order_history": history_complete,
+            "fills": fills_complete,
+            "positions": positions_complete,
+            "wallet_transactions": wallet_complete,
+        }
+        complete = all(endpoint_complete[name] for name in selected)
         return DeltaReconciliationSnapshot(
             captured_at=datetime.now(timezone.utc).isoformat(),
             product_id=product_id,
@@ -222,10 +249,7 @@ class DeltaReconciliationReadAdapter:
             overlap_seconds=overlap_seconds,
             venue_time_filter=dict(time_query),
             endpoint_status={
-                "open_orders": "OK" if open_complete else "INCOMPLETE_PAGINATION",
-                "order_history": "OK" if history_complete else "INCOMPLETE_PAGINATION",
-                "fills": "OK" if fills_complete else "INCOMPLETE_PAGINATION",
-                "positions": "OK" if positions_complete else "INCOMPLETE_PAGINATION",
-                "wallet_transactions": "OK" if wallet_complete else "INCOMPLETE_PAGINATION",
+                name: "OK" if endpoint_complete[name] else "INCOMPLETE_PAGINATION"
+                for name in selected
             },
         )
