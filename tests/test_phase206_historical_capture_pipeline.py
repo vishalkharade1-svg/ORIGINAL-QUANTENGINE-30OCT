@@ -7,8 +7,8 @@ from types import SimpleNamespace
 import pytest
 
 from core.execution.historical_capture_orchestrator import (
-    CaptureAuthorizationError, CapturePlanError, HistoricalCapturePlan,
-    HistoricalCaptureOrchestrator, generate_windows, observation_stability,
+    CaptureAuthorizationError, CapturePersistenceError, CapturePlanError, HistoricalCapturePlan,
+    HistoricalCaptureOrchestrator, _safe_json_write, generate_windows, observation_stability,
 )
 
 
@@ -151,3 +151,17 @@ def test_orchestrator_uses_only_adapter_capture_method(tmp_path):
     result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan())
     assert result.status == "COMPLETE"
     assert adapter.calls == result.completed_windows
+
+
+
+def test_atomic_persistence_is_immutable_and_idempotent(tmp_path):
+    target = tmp_path / "capture" / "snapshot"
+    first = _safe_json_write(target, {"records": [{"id": "a"}]})
+    second = _safe_json_write(target, {"records": [{"id": "a"}]})
+    assert first == second
+    artifact = target.with_suffix(".json")
+    assert artifact.exists()
+    assert not list(artifact.parent.glob("*.tmp"))
+    with pytest.raises(CapturePersistenceError, match="different content"):
+        _safe_json_write(target, {"records": [{"id": "b"}]})
+    assert artifact.read_text() == '{"records":[{"id":"a"}]}'
