@@ -212,7 +212,7 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
 
 class DeltaCaptureAdapter(Protocol):
     def capture(self, *, product_id: int, window_start: str, window_end: str,
-                overlap_seconds: int = 60) -> Any: ...
+                overlap_seconds: int = 60, endpoints: tuple[str, ...] | None = None) -> Any: ...
 
 
 @dataclass
@@ -268,6 +268,7 @@ class HistoricalCaptureOrchestrator:
                     raw = self._adapter.capture(
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
+                        endpoints=plan.endpoints,
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
