@@ -35,6 +35,8 @@ import hmac
 import json
 import time
 import urllib.parse
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 
 import httpx
 
@@ -267,6 +269,74 @@ class DeltaSignedREST:
                 time.sleep(0.5 * (attempt + 1))
         if last_exc:
             raise last_exc
+
+    def get_with_policy(
+        self,
+        path,
+        params=None,
+        *,
+        timeout_seconds=20,
+        retry_budget=2,
+    ):
+        """Bounded read-only GET with per-call timeout/retry controls.
+
+        Returns (JSON payload, retry_count, HTTP status). Non-retryable 4xx
+        responses fail immediately. 429 honors Retry-After; transient network
+        and 5xx failures use capped exponential backoff without jitter.
+        """
+        if (isinstance(timeout_seconds, bool)
+                or not isinstance(timeout_seconds, (int, float))
+                or not 1 <= timeout_seconds <= 60):
+            raise ValueError("timeout_seconds must be between 1 and 60")
+        if (isinstance(retry_budget, bool) or not isinstance(retry_budget, int)
+                or not 0 <= retry_budget <= 5):
+            raise ValueError("retry_budget must be between 0 and 5")
+        path_with_query = path + query_string(params)
+
+        def retry_delay(response, attempt):
+            fallback = min(0.5 * (2 ** attempt), 30.0)
+            raw = response.headers.get("Retry-After") if response is not None else None
+            if raw is None:
+                return fallback
+            try:
+                return min(max(float(raw), 0.0), 30.0)
+            except (TypeError, ValueError):
+                try:
+                    retry_at = parsedate_to_datetime(raw)
+                    if retry_at.tzinfo is None:
+                        retry_at = retry_at.replace(tzinfo=timezone.utc)
+                    return min(max((retry_at - datetime.now(timezone.utc)).total_seconds(), 0.0), 30.0)
+                except (TypeError, ValueError, OverflowError):
+                    return fallback
+
+        for attempt in range(retry_budget + 1):
+            response = None
+            try:
+                response = self.client.get(
+                    path_with_query,
+                    headers=self._headers("GET", path_with_query, ""),
+                    timeout=float(timeout_seconds),
+                )
+                status = response.status_code
+                if (status == 429 or status >= 500) and attempt < retry_budget:
+                    time.sleep(retry_delay(response, attempt))
+                    continue
+                response.raise_for_status()
+                return response.json(), attempt, status
+            except (httpx.ConnectError, httpx.ReadTimeout, httpx.RemoteProtocolError):
+                if attempt < retry_budget:
+                    time.sleep(min(0.5 * (2 ** attempt), 30.0))
+                    continue
+                raise
+            except httpx.HTTPStatusError as exc:
+                status = exc.response.status_code if exc.response is not None else None
+                if status in (429,) or (status is not None and status >= 500):
+                    if attempt < retry_budget:
+                        time.sleep(retry_delay(exc.response, attempt))
+                        continue
+                raise
+
+        raise RuntimeError("bounded GET retry loop exited unexpectedly")
 
     # -------------------------------------------------
 
