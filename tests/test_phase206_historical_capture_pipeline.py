@@ -44,6 +44,9 @@ def test_timezone_normalized_to_utc():
     {"max_total_records": 0},
     {"mode": "unknown"},
     {"tenant_id": ""},
+    {"endpoints": ()},
+    {"endpoints": ("fills", "fills")},
+    {"endpoints": ("unsupported",)},
 ])
 def test_invalid_or_unbounded_plan_rejected(changes):
     with pytest.raises(CapturePlanError):
@@ -105,14 +108,16 @@ def test_orchestrator_persists_capture_and_preserves_scope(tmp_path):
     assert result.status == "COMPLETE"
     assert result.completed_windows == 4
     files = list(Path(tmp_path).rglob("*.json"))
-    assert len(files) == 4
+    assert len(files) == 20
     assert all('"tenant_id":"tenant-a"' in f.read_text() for f in files)
 
 
 def test_incomplete_capture_is_partial(tmp_path):
     result = HistoricalCaptureOrchestrator(FakeAdapter(complete=False), tmp_path).run(plan())
     assert result.status == "PARTIAL"
-    assert all(not snap.complete for snap in result.snapshots)
+    assert len(result.snapshots) == 5
+    assert not result.snapshots[0].complete
+    assert all(snap.complete for snap in result.snapshots[1:])
 
 
 def test_record_budget_stops_capture(tmp_path):
@@ -154,7 +159,7 @@ def test_repeated_captures_reconcile_against_prior_observation(tmp_path):
     )
     assert result.status == "COMPLETE"
     assert result.completed_windows == 8
-    assert len(result.reconciliation_reports) == 4
+    assert len(result.reconciliation_reports) == 20
     assert all(report["status"] == "RECONCILED"
                for report in result.reconciliation_reports)
 
@@ -186,3 +191,40 @@ def test_atomic_persistence_is_immutable_and_idempotent(tmp_path):
     with pytest.raises(CapturePersistenceError, match="different content"):
         _safe_json_write(target, {"records": [{"id": "b"}]})
     assert artifact.read_text() == '{"records":[{"id":"a"}]}'
+
+
+def test_endpoint_snapshots_are_isolated_and_wallet_is_not_product_scoped(tmp_path):
+    class MultiEndpointAdapter:
+        def capture(self, **kwargs):
+            return SimpleNamespace(
+                captured_at="2026-10-01T04:00:00Z",
+                open_orders=({"id": "same-id", "status": "open"},),
+                order_history=({"id": "same-id", "status": "closed"},),
+                fills=({"id": "same-id", "order_id": "same-id"},),
+                positions=({"id": "same-id", "size": "1", "query_product_id": 84},),
+                wallet_transactions=({"id": "same-id", "amount": "1"},),
+                complete=True,
+                endpoint_status={
+                    "open_orders": "OK", "order_history": "OK", "fills": "OK",
+                    "positions": "OK", "wallet_transactions": "OK",
+                },
+            )
+
+    result = HistoricalCaptureOrchestrator(MultiEndpointAdapter(), tmp_path).run(plan())
+    assert result.status == "COMPLETE"
+    assert {snap.record_category for snap in result.snapshots} == {
+        "open_orders", "order_history", "fills", "positions", "wallet_transactions"
+    }
+    assert len({snap.record_category for snap in result.snapshots}) == 5
+    wallet = next(snap for snap in result.snapshots if snap.record_category == "wallet_transactions")
+    assert wallet.product_id is None
+    assert wallet.records[0]["id"] == "same-id"
+
+
+def test_capture_plan_can_limit_endpoint_scope(tmp_path):
+    result = HistoricalCaptureOrchestrator(FakeAdapter(), tmp_path).run(
+        plan(endpoints=("fills",))
+    )
+    assert result.status == "COMPLETE"
+    assert len(result.snapshots) == 4
+    assert all(snap.record_category == "fills" for snap in result.snapshots)
