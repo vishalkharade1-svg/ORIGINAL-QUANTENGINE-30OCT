@@ -16,6 +16,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: phase206-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   phase206:
     runs-on: ubuntu-latest
@@ -23,6 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event_name == 'push' && github.ref_name || github.sha }}
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
@@ -33,7 +38,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip install pytest
-      - name: Verify and refresh branch source manifest
+      - name: Refresh branch source manifest
+        if: github.event_name == 'push'
         run: |
           python scripts/generate_manifest.py --write BUILD_MANIFEST.sha256
           git add BUILD_MANIFEST.sha256
@@ -43,7 +49,8 @@ jobs:
             git commit -m "chore(phase206): refresh source integrity manifest"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
-          python scripts/generate_manifest.py --verify --strict
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
       - name: Run repository secret scan
         run: |
           python scripts/security/scan_secrets.py
