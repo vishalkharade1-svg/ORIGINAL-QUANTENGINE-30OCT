@@ -258,3 +258,77 @@ def test_invalid_endpoint_selection_fails_before_any_authenticated_get():
             product_id=84, endpoints=("place_order",)
         )
     assert rest.calls == []
+
+
+
+def test_page_provenance_records_cursor_count_and_content_hash():
+    rows = [{"id": 11, "product_id": 84, "size": "1"}]
+    rest = FakeREST({("/v2/orders", "open"): {
+        "success": True, "result": rows, "meta": {"after": "orders-next"}
+    }})
+    original_get = rest.get
+
+    def paged_get(path, params=None):
+        if path == "/v2/orders" and params.get("after") == "orders-next":
+            rest.calls.append((path, dict(params or {})))
+            return {"success": True, "result": [], "meta": {"after": None}}
+        return original_get(path, params)
+
+    rest.get = paged_get
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders",)
+    )
+    pages = list(snap.page_provenance)
+    assert len(pages) == 2
+    assert pages[0]["page_index"] == 0
+    assert pages[0]["response_cursor"] == "orders-next"
+    assert pages[0]["record_count"] == 1
+    assert len(pages[0]["content_sha256"]) == 64
+    assert pages[1]["request_cursor"] == "orders-next"
+    assert snap.complete is True
+
+
+def test_shared_page_budget_prevents_calls_to_later_endpoints():
+    rest = FakeREST()
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders", "fills"), max_total_pages=1
+    )
+    assert len(rest.calls) == 1
+    assert rest.calls[0][0] == "/v2/orders"
+    assert snap.endpoint_status == {
+        "open_orders": "OK", "fills": "PAGE_BUDGET_REACHED"
+    }
+    assert snap.complete is False
+    assert len(snap.page_provenance) == 1
+
+
+def test_per_endpoint_page_limit_is_reported_as_incomplete():
+    rest = FakeREST({("/v2/orders", "open"): {
+        "success": True, "result": [], "meta": {"after": "next-page"}
+    }})
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders",), max_pages_per_endpoint=1
+    )
+    assert len(rest.calls) == 1
+    assert snap.complete is False
+    assert snap.endpoint_status["open_orders"] == "ENDPOINT_PAGE_LIMIT_REACHED"
+
+
+def test_repeated_nonempty_response_page_is_rejected():
+    rows = [{"id": 11, "product_id": 84, "size": "1"}]
+    rest = FakeREST({("/v2/orders", "open"): {
+        "success": True, "result": rows, "meta": {"after": "next-page"}
+    }})
+    original_get = rest.get
+
+    def repeated_get(path, params=None):
+        if path == "/v2/orders" and params.get("after") == "next-page":
+            rest.calls.append((path, dict(params or {})))
+            return {"success": True, "result": rows, "meta": {"after": None}}
+        return original_get(path, params)
+
+    rest.get = repeated_get
+    with pytest.raises(DeltaReconciliationReadError, match="repeated response page"):
+        DeltaReconciliationReadAdapter(rest).capture(
+            product_id=84, endpoints=("open_orders",)
+        )
