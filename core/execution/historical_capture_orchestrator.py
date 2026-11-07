@@ -253,7 +253,7 @@ class HistoricalCaptureOrchestrator:
             "endpoints": plan.endpoints,
         }).decode("utf-8")))
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
-        prior_by_window: dict[str, CaptureSnapshot] = {}
+        prior_by_window: dict[tuple[int, str], CaptureSnapshot] = {}
         run_count = 0
         for repeat in range(plan.repeat_count):
             for index, window in enumerate(windows):
