@@ -259,7 +259,7 @@ class HistoricalCaptureOrchestrator:
         self._clock = clock or (lambda: datetime.now(timezone.utc))
         self._sleep = sleeper
 
-    def run(self, plan: HistoricalCapturePlan) -> CaptureRunResult:
+    def run(self, plan: HistoricalCapturePlan, *, resume: bool = True) -> CaptureRunResult:
         windows = generate_windows(plan)
         if plan.mode == "authenticated":
             if self._owner_authorizer is None or self._owner_authorizer(plan) is not True:
@@ -288,7 +288,55 @@ class HistoricalCaptureOrchestrator:
             "endpoints": plan.endpoints,
         }).decode("utf-8")))
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
+        # Phase 207: reconstruct verified Phase-207 artifacts before issuing
+        # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
+        # are intentionally not guessed into a window/repeat position.
+        slot_latest: dict[tuple[int, int, str], CaptureSnapshot] = {}
         prior_by_window: dict[tuple[int, str], CaptureSnapshot] = {}
+        plan_dir = self._root / plan_id
+        if resume and plan_dir.exists():
+            recovered: list[tuple[int, int, str, CaptureSnapshot]] = []
+            for artifact_path in sorted(plan_dir.glob("*.json")):
+                try:
+                    payload = json.loads(artifact_path.read_text(encoding="utf-8"))
+                    if payload.get("schema") != "quantengine.phase207.capture.v1":
+                        continue
+                    if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
+                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                    repeat_index = payload.get("repeat_index")
+                    window_index = payload.get("window_index")
+                    endpoint = payload.get("endpoint")
+                    if (not _bounded_int(repeat_index, 0, plan.repeat_count - 1)
+                            or not _bounded_int(window_index, 0, len(windows) - 1)
+                            or endpoint not in plan.endpoints):
+                        raise CapturePersistenceError("persisted capture has invalid slot coordinates")
+                    capture = CaptureSnapshot.from_dict(payload.get("capture", {}))
+                    if capture.record_category != endpoint:
+                        raise CapturePersistenceError("persisted capture endpoint does not match its slot")
+                    expected_window = windows[window_index]
+                    expected_start, expected_end = expected_window.as_iso()
+                    if capture.window_start != expected_start or capture.window_end != expected_end:
+                        raise CapturePersistenceError("persisted capture window does not match its slot")
+                    recovered.append((repeat_index, window_index, endpoint, capture))
+                except CapturePersistenceError:
+                    raise
+                except Exception as exc:
+                    raise CapturePersistenceError(
+                        f"persisted capture could not be verified ({type(exc).__name__})"
+                    ) from None
+            for repeat_index, window_index, endpoint, capture in sorted(
+                    recovered, key=lambda item: (item[0], item[1], item[2], item[3].captured_at)):
+                result.snapshots.append(capture)
+                result.total_records += len(capture.records)
+                key = (repeat_index, window_index, endpoint)
+                previous = slot_latest.get(key)
+                if previous is None or capture.captured_at >= previous.captured_at:
+                    slot_latest[key] = capture
+                prior_key = (window_index, endpoint)
+                if capture.complete and capture.pagination_complete:
+                    previous_prior = prior_by_window.get(prior_key)
+                    if previous_prior is None or capture.captured_at >= previous_prior.captured_at:
+                        prior_by_window[prior_key] = capture
         run_count = 0
         for repeat in range(plan.repeat_count):
             for index, window in enumerate(windows):
@@ -298,11 +346,20 @@ class HistoricalCaptureOrchestrator:
                     result.errors.append("MAX_CAPTURE_RUNS_REACHED")
                     return result
                 start_iso, end_iso = window.as_iso()
+                missing_endpoints = tuple(
+                    endpoint for endpoint in plan.endpoints
+                    if (repeat, index, endpoint) not in slot_latest
+                    or not slot_latest[(repeat, index, endpoint)].complete
+                    or not slot_latest[(repeat, index, endpoint)].pagination_complete
+                )
+                if not missing_endpoints:
+                    result.completed_windows += 1
+                    continue
                 try:
                     raw = self._adapter.capture(
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
-                        endpoints=plan.endpoints,
+                        endpoints=missing_endpoints,
                         max_pages_per_endpoint=plan.max_pages_per_endpoint,
                         max_total_pages=plan.max_total_pages,
                         request_timeout_seconds=plan.request_timeout_seconds,
@@ -311,7 +368,7 @@ class HistoricalCaptureOrchestrator:
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
                     all_endpoints_complete = True
-                    for endpoint in plan.endpoints:
+                    for endpoint in missing_endpoints:
                         records = _snapshot_records(raw, endpoint)
                         if len(records) > plan.max_records_per_snapshot:
                             raise CapturePlanError("MAX_RECORDS_PER_SNAPSHOT_REACHED")
@@ -334,8 +391,9 @@ class HistoricalCaptureOrchestrator:
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
                         payload = {
-                            "schema": "quantengine.phase206.capture.v1",
+                            "schema": "quantengine.phase207.capture.v1",
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
+                            "repeat_index": repeat, "window_index": index,
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
@@ -347,6 +405,7 @@ class HistoricalCaptureOrchestrator:
                         )
                         result.snapshots.append(capture)
                         result.total_records += len(records)
+                        slot_latest[(repeat, index, endpoint)] = capture
                         key = (index, endpoint)
                         previous = prior_by_window.get(key)
                         if previous is not None:
@@ -370,7 +429,12 @@ class HistoricalCaptureOrchestrator:
                             result.errors.append(
                                 f"window={index};repeat={repeat};endpoint={endpoint};status={status_label}"
                             )
-                    if all_endpoints_complete:
+                    if all(
+                        (repeat, index, endpoint) in slot_latest
+                        and slot_latest[(repeat, index, endpoint)].complete
+                        and slot_latest[(repeat, index, endpoint)].pagination_complete
+                        for endpoint in plan.endpoints
+                    ):
                         result.completed_windows += 1
                 except CapturePlanError as exc:
                     result.status = "PARTIAL"
