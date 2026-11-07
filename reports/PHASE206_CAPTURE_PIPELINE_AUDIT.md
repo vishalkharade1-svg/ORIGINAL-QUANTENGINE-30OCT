@@ -1,0 +1,59 @@
+# Phase 206 — Bounded Historical Re-Capture Audit
+
+## Status
+
+- Bounded plan validation and deterministic UTC window generation: IMPLEMENTED.
+- Fixture-mode orchestration over the existing Delta reconciliation adapter interface: IMPLEMENTED.
+- Atomic create-only immutable snapshot persistence using same-directory temporary files, fsync, and atomic hard-link publication: IMPLEMENTED.
+- Hard record-budget exhaustion stops further adapter reads: IMPLEMENTED.
+- Repeated-observation classification without deletion inference: IMPLEMENTED.
+- Authenticated live exercise: BLOCKED — trusted owner authorization and controlled venue approval are required.
+- Endpoint-specific immutable snapshots and a fixed read-only endpoint allowlist: IMPLEMENTED — the selected endpoint list is validated before the first GET; unselected endpoints are not contacted.
+- Page-level provenance (page index, request/response cursor, record count, content SHA-256, request/collection timestamps and duration): IMPLEMENTED.
+- Shared total-page and per-endpoint page budgets, repeated-page detection: IMPLEMENTED.
+- Per-plan timeout and bounded retry policy, Retry-After handling, retry-count and HTTP-status receipts: IMPLEMENTED.
+- Authenticated signed GET redirects are disabled.
+- Phase 205 reconciliation integration: PARTIAL — repeated compatible captures are reconciled per endpoint; broader cross-window sequence comparison and exhaustive stability labels remain follow-up work.
+
+## Architecture
+
+HistoricalCapturePlan -> bounded window generator -> existing DeltaReconciliationReadAdapter.capture() -> Phase 205 CaptureSnapshot -> immutable JSON artifact -> pairwise Phase 205 reconciliation -> observation stability report.
+
+No exchange write adapter is imported or invoked. The implementation only calls the existing adapter's read capture method.
+
+## Safety
+
+Authenticated mode requires both an injected trusted owner-authorization callback and an authenticated REST client. The capture plan contains no owner-authorized or is-owner flag. Fixture mode does not require credentials. No live or testnet execution is enabled by this module.
+
+## Important limitations
+
+1. The maximum-record guard is currently applied after the adapter returns an endpoint snapshot; it does not yet reduce page_size or stop reads at the precise record boundary.
+2. A malformed current page is marked INVALID_RESPONSE with its error metadata, but only earlier valid pages are retained; malformed raw page bodies are not stored.
+3. Durable process-restart resume and cursor checkpoint recovery are not yet implemented.
+4. The adapter applies native Delta time filters to orders/history/fills/wallet transactions; positions remain a current snapshot, not a historical event stream.
+5. Wallet transactions are account-wide and must not be interpreted as product-scoped.
+6. Repeated observations measure API behavior, not the complete underlying venue event history or retention policy.
+7. This implementation is a research data collection capability, not production trading infrastructure. Strategy edge remains NOT_ESTABLISHED.
+
+## Verification evidence
+
+GitHub Actions run [42409352002](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42409352002) completed successfully:
+- Phase 206 focused tests: 37 passed.
+- Phase 199 + Phase 205 regression tests: 62 passed combined.
+- Strict source manifest verification: PASS.
+- Working-tree and staged-blob secret scans: PASS.
+- Separate repository secret-scan workflow, including history scan: PASS.
+
+The full project test suite was not run. A sanitized release archive and fresh-extraction test were not produced. This is branch-level test evidence, not production certification.
+
+## Remaining engineering limitations
+
+1. The adapter now records per-page cursor, count, hash and timing evidence and enforces shared/per-endpoint page budgets. It does not yet expose actual HTTP status codes or retry-attempt counts.
+3. Adapter exceptions abort a window. Partial endpoint rows cannot be persisted because the adapter does not return partial snapshots.
+4. Retry and timeout controls are inherited from the shared REST client, not validated as per-plan limits. Phase 206 does not yet implement an independent bounded retry/resume protocol.
+5. Reconciliation currently compares repeated captures of the same window; systematic cross-window and multi-capture sequence reconciliation remains incomplete.
+6. Positions are current snapshots, not historical event streams. Wallet transactions are account-wide and must not be interpreted as product-scoped.
+7. No real authenticated venue request was made. Owner authorization, tenant credential resolution, and authenticated exercise remain blocked pending trusted application integration and explicit owner authorization.
+8. No release archive or fresh-extraction certification has been produced.
+
+Phase 206 remains PARTIAL. This is a research data-collection capability, not production trading infrastructure. Strategy edge remains NOT_ESTABLISHED.

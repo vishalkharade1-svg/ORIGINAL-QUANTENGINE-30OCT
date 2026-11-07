@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import pytest
+import httpx
 
+from core.exchanges.delta.delta_auth import DeltaSignedREST
 from core.exchanges.delta.reconciliation_read_adapter import (
     DeltaReconciliationReadAdapter,
     DeltaReconciliationReadError,
@@ -233,3 +235,222 @@ def test_delta_window_filter_rejects_non_integer_or_excessive_overlap_before_io(
             window_end="2026-10-01T10:00:00Z", overlap_seconds=True,
         )
     assert rest.calls == []
+
+
+
+def test_selected_endpoint_scope_issues_only_allowlisted_get():
+    rest = FakeREST()
+    snapshot = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("fills",)
+    )
+    assert snapshot.complete is True
+    assert snapshot.endpoint_status == {"fills": "OK"}
+    assert rest.calls
+    assert all(path == "/v2/fills" for path, _ in rest.calls)
+    assert snapshot.open_orders == ()
+    assert snapshot.order_history == ()
+    assert snapshot.positions == ()
+    assert snapshot.wallet_transactions == ()
+
+
+def test_invalid_endpoint_selection_fails_before_any_authenticated_get():
+    rest = FakeREST()
+    with pytest.raises(ValueError, match="supported endpoint"):
+        DeltaReconciliationReadAdapter(rest).capture(
+            product_id=84, endpoints=("place_order",)
+        )
+    assert rest.calls == []
+
+
+
+def test_page_provenance_records_cursor_count_and_content_hash():
+    rows = [{"id": 11, "product_id": 84, "size": "1"}]
+    rest = FakeREST({("/v2/orders", "open"): {
+        "success": True, "result": rows, "meta": {"after": "orders-next"}
+    }})
+    original_get = rest.get
+
+    def paged_get(path, params=None):
+        if path == "/v2/orders" and params.get("after") == "orders-next":
+            rest.calls.append((path, dict(params or {})))
+            return {"success": True, "result": [], "meta": {"after": None}}
+        return original_get(path, params)
+
+    rest.get = paged_get
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders",)
+    )
+    pages = list(snap.page_provenance)
+    assert len(pages) == 2
+    assert pages[0]["page_index"] == 0
+    assert pages[0]["response_cursor"] == "orders-next"
+    assert pages[0]["record_count"] == 1
+    assert len(pages[0]["content_sha256"]) == 64
+    assert pages[0]["request_started_at"]
+    assert pages[0]["collected_at"]
+    assert pages[0]["request_duration_ms"] >= 0
+    assert pages[1]["request_cursor"] == "orders-next"
+    assert snap.complete is True
+
+
+def test_shared_page_budget_prevents_calls_to_later_endpoints():
+    rest = FakeREST()
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders", "fills"), max_total_pages=1
+    )
+    assert len(rest.calls) == 1
+    assert rest.calls[0][0] == "/v2/orders"
+    assert snap.endpoint_status == {
+        "open_orders": "OK", "fills": "PAGE_BUDGET_REACHED"
+    }
+    assert snap.complete is False
+    assert len(snap.page_provenance) == 1
+
+
+def test_per_endpoint_page_limit_is_reported_as_incomplete():
+    rest = FakeREST({("/v2/orders", "open"): {
+        "success": True, "result": [], "meta": {"after": "next-page"}
+    }})
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders",), max_pages_per_endpoint=1
+    )
+    assert len(rest.calls) == 1
+    assert snap.complete is False
+    assert snap.endpoint_status["open_orders"] == "ENDPOINT_PAGE_LIMIT_REACHED"
+
+
+def test_repeated_nonempty_response_page_is_rejected():
+    rows = [{"id": 11, "product_id": 84, "size": "1"}]
+    rest = FakeREST({("/v2/orders", "open"): {
+        "success": True, "result": rows, "meta": {"after": "next-page"}
+    }})
+    original_get = rest.get
+
+    def repeated_get(path, params=None):
+        if path == "/v2/orders" and params.get("after") == "next-page":
+            rest.calls.append((path, dict(params or {})))
+            return {"success": True, "result": rows, "meta": {"after": None}}
+        return original_get(path, params)
+
+    rest.get = repeated_get
+    with pytest.raises(DeltaReconciliationReadError, match="repeated response page"):
+        DeltaReconciliationReadAdapter(rest).capture(
+            product_id=84, endpoints=("open_orders",)
+        )
+
+
+
+def test_adapter_uses_bounded_rest_policy_and_records_retry_receipt():
+    class PolicyREST(FakeREST):
+        def __init__(self):
+            super().__init__()
+            self.policy_calls = []
+
+        def get_with_policy(self, path, params=None, *, timeout_seconds=20, retry_budget=2):
+            self.policy_calls.append((path, timeout_seconds, retry_budget))
+            return self.get(path, params=params), 1, 200
+
+    rest = PolicyREST()
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("fills",),
+        request_timeout_seconds=7, retry_budget=1,
+    )
+    assert rest.policy_calls == [("/v2/fills", 7, 1)]
+    page = snap.page_provenance[0]
+    assert page["request_policy_enforced"] is True
+    assert page["retry_count"] == 1
+    assert page["http_status_code"] == 200
+
+
+def test_signed_rest_get_policy_honors_retry_after_and_timeout(monkeypatch):
+    request = httpx.Request("GET", "https://api.delta.exchange/v2/fills")
+    responses = [
+        httpx.Response(429, headers={"Retry-After": "0"}, request=request),
+        httpx.Response(200, json={"success": True, "result": []}, request=request),
+    ]
+
+    class Client:
+        def __init__(self):
+            self.calls = []
+
+        def get(self, path, headers=None, timeout=None, follow_redirects=True):
+            self.calls.append((path, timeout, follow_redirects))
+            return responses.pop(0)
+
+    rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
+    rest.client = Client()
+    monkeypatch.setattr("core.exchanges.delta.delta_auth.time.sleep", lambda _: None)
+    payload, retry_count, status = rest.get_with_policy(
+        "/v2/fills", timeout_seconds=7, retry_budget=1
+    )
+    assert payload == {"success": True, "result": []}
+    assert retry_count == 1
+    assert status == 200
+    assert rest.client.calls == [
+        ("/v2/fills", 7.0, False), ("/v2/fills", 7.0, False)
+    ]
+
+
+def test_signed_rest_get_policy_does_not_retry_nonretryable_401(monkeypatch):
+    request = httpx.Request("GET", "https://api.delta.exchange/v2/fills")
+    response = httpx.Response(401, request=request)
+
+    class Client:
+        calls = 0
+
+        def get(self, path, headers=None, timeout=None, follow_redirects=True):
+            self.calls += 1
+            return response
+
+    rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
+    rest.client = Client()
+    monkeypatch.setattr("core.exchanges.delta.delta_auth.time.sleep", lambda _: None)
+    with pytest.raises(httpx.HTTPStatusError) as exc_info:
+        rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
+    assert rest.client.calls == 1
+    assert exc_info.value.retry_count == 0
+
+
+
+def test_signed_rest_policy_disables_redirect_following():
+    request = httpx.Request("GET", "https://api.delta.exchange/v2/fills")
+    response = httpx.Response(
+        302, headers={"Location": "https://attacker.invalid/collect"},
+        request=request,
+    )
+
+    class Client:
+        calls = []
+
+        def get(self, path, headers=None, timeout=None, follow_redirects=True):
+            self.calls.append(follow_redirects)
+            return response
+
+    rest = DeltaSignedREST(api_key="unit-key", api_secret="unit-secret")
+    rest.client = Client()
+    with pytest.raises(httpx.HTTPStatusError):
+        rest.get_with_policy("/v2/fills", timeout_seconds=7, retry_budget=3)
+    assert rest.client.calls == [False]
+
+
+
+def test_partial_read_mode_preserves_prior_pages_after_transport_failure():
+    first_page = [{"id": 11, "product_id": 84, "size": "1"}]
+
+    class FailsAfterFirstPage(FakeREST):
+        def get(self, path, params=None):
+            self.calls.append((path, dict(params or {})))
+            if path == "/v2/orders" and params.get("after") == "next":
+                raise RuntimeError("simulated later page failure")
+            return {"success": True, "result": first_page, "meta": {"after": "next"}}
+
+    rest = FailsAfterFirstPage()
+    snap = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("open_orders",), allow_partial=True
+    )
+    assert snap.complete is False
+    assert snap.endpoint_status["open_orders"] == "REQUEST_FAILED"
+    assert snap.open_orders == tuple(first_page)
+    assert [page["response_status"] for page in snap.page_provenance] == [
+        "SUCCESS", "REQUEST_FAILED"
+    ]
