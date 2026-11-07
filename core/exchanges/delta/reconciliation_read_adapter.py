@@ -9,6 +9,8 @@ mistake partial evidence for a clean reconciliation.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
+import json
 from datetime import datetime, timezone, timedelta
 from typing import Any, Mapping
 
@@ -32,6 +34,7 @@ class DeltaReconciliationSnapshot:
     window_end: str | None = None
     overlap_seconds: int = 60
     venue_time_filter: Mapping[str, int] | None = None
+    page_provenance: tuple[Mapping[str, Any], ...] = ()
 
     def as_reconciler_inputs(self) -> dict[str, Any]:
         """Return normalized inputs without claiming missing orders are cancelled."""
@@ -47,6 +50,7 @@ class DeltaReconciliationSnapshot:
             "window_end": self.window_end,
             "overlap_seconds": self.overlap_seconds,
             "venue_time_filter": dict(self.venue_time_filter or {}),
+            "page_provenance": [dict(page) for page in self.page_provenance],
         }
 
 
@@ -105,14 +109,31 @@ class DeltaReconciliationReadAdapter:
         *,
         paginated: bool = True,
         max_pages: int = 100,
-    ) -> tuple[list[dict[str, Any]], bool]:
+        page_budget: dict[str, int] | None = None,
+        page_provenance: list[dict[str, Any]] | None = None,
+    ) -> tuple[list[dict[str, Any]], bool, str]:
         rows: list[dict[str, Any]] = []
         seen_cursors: set[str] = set()
+        seen_pages: set[str] = set()
         query = dict(params)
-        for _page_number in range(max_pages):
+        for page_number in range(max_pages):
+            if page_budget is not None and page_budget["used"] >= page_budget["max"]:
+                return rows, False, "PAGE_BUDGET_REACHED"
+            if page_budget is not None:
+                page_budget["used"] += 1
+            request_cursor = query.get("after")
+            collected_at = datetime.now(timezone.utc).isoformat()
             try:
                 response = self._rest.get(endpoint, params=query)
             except Exception as exc:
+                if page_provenance is not None:
+                    page_provenance.append({
+                        "endpoint": endpoint, "page_index": page_number,
+                        "request_cursor": request_cursor, "response_cursor": None,
+                        "response_status": "REQUEST_FAILED", "record_count": 0,
+                        "collected_at": collected_at, "content_sha256": None,
+                        "error_type": type(exc).__name__,
+                    })
                 # Do not propagate request URLs, headers, or exception strings
                 # that might contain credentials.
                 raise DeltaReconciliationReadError(
@@ -120,20 +141,35 @@ class DeltaReconciliationReadAdapter:
                 ) from None
             page_rows, after = self._envelope(response, endpoint)
             self._require_fields(page_rows, required, endpoint)
+            page_bytes = json.dumps(
+                page_rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            ).encode("utf-8")
+            page_hash = hashlib.sha256(page_bytes).hexdigest()
+            if page_provenance is not None:
+                page_provenance.append({
+                    "endpoint": endpoint, "page_index": page_number,
+                    "request_cursor": request_cursor,
+                    "response_cursor": after,
+                    "response_status": "SUCCESS", "record_count": len(page_rows),
+                    "collected_at": collected_at, "content_sha256": page_hash,
+                })
+            if page_rows and page_hash in seen_pages:
+                raise DeltaReconciliationReadError(f"{endpoint}: repeated response page")
+            if page_rows:
+                seen_pages.add(page_hash)
             rows.extend(page_rows)
             if not paginated:
-                return rows, after is None
+                return rows, after is None, "OK" if after is None else "INCOMPLETE_PAGINATION"
             if after == "__PAGINATION_METADATA_MISSING__":
-                return rows, False
+                return rows, False, "PAGINATION_METADATA_MISSING"
             if after is None:
-                return rows, True
+                return rows, True, "OK"
             if after in seen_cursors:
                 raise DeltaReconciliationReadError(f"{endpoint}: repeated pagination cursor")
             seen_cursors.add(after)
             query["after"] = after
-        # Hitting the hard cap is not a complete snapshot. Never silently
-        # declare it complete or keep querying indefinitely.
-        return rows, False
+        # Hitting the per-endpoint hard cap is not a complete snapshot.
+        return rows, False, "ENDPOINT_PAGE_LIMIT_REACHED"
 
     @staticmethod
     def _epoch_microseconds(value: str, label: str) -> int:
@@ -161,6 +197,8 @@ class DeltaReconciliationReadAdapter:
         self, *, product_id: int, window_start: str | None = None,
         window_end: str | None = None, overlap_seconds: int = 60,
         endpoints: tuple[str, ...] | None = None,
+        max_pages_per_endpoint: int = 100,
+        max_total_pages: int = 500,
     ) -> DeltaReconciliationSnapshot:
         """Read only selected allowlisted endpoint categories.
 
@@ -181,6 +219,12 @@ class DeltaReconciliationReadAdapter:
                 or any(not isinstance(item, str) or item not in supported for item in selected)
                 or len(set(selected)) != len(selected)):
             raise ValueError("endpoints must be a non-empty tuple of unique supported endpoint names")
+        if (isinstance(max_pages_per_endpoint, bool) or not isinstance(max_pages_per_endpoint, int)
+                or not 1 <= max_pages_per_endpoint <= 100):
+            raise ValueError("max_pages_per_endpoint must be between 1 and 100")
+        if (isinstance(max_total_pages, bool) or not isinstance(max_total_pages, int)
+                or not 1 <= max_total_pages <= 2500):
+            raise ValueError("max_total_pages must be between 1 and 2500")
         if window_start is not None:
             from core.execution.historical_evidence_window import _utc
             start = _utc(window_start, "window_start")
@@ -190,30 +234,38 @@ class DeltaReconciliationReadAdapter:
         time_query = self._window_query(window_start, window_end, overlap_seconds)
 
         # Endpoint paths are a fixed read-only allowlist. Calls remain sequential
-        # GETs; an unselected endpoint is never contacted.
-        open_orders, open_complete = ([], True)
-        order_history, history_complete = ([], True)
-        fills, fills_complete = ([], True)
-        positions, positions_complete = ([], True)
-        wallet_transactions, wallet_complete = ([], True)
+        # GETs; an unselected endpoint is never contacted. The shared page budget
+        # applies across all selected endpoint reads in this capture.
+        page_budget = {"max": max_total_pages, "used": 0}
+        page_provenance: list[dict[str, Any]] = []
+        open_orders, open_complete, open_status = ([], True, "NOT_REQUESTED")
+        order_history, history_complete, history_status = ([], True, "NOT_REQUESTED")
+        fills, fills_complete, fills_status = ([], True, "NOT_REQUESTED")
+        positions, positions_complete, positions_status = ([], True, "NOT_REQUESTED")
+        wallet_transactions, wallet_complete, wallet_status = ([], True, "NOT_REQUESTED")
         if "open_orders" in selected:
-            open_orders, open_complete = self._read_all(
+            open_orders, open_complete, open_status = self._read_all(
                 "/v2/orders", {"product_ids": str(product_id), "state": "open", "page_size": 50, **time_query},
-                ("id", "product_id", "size"),
+                ("id", "product_id", "size"), max_pages=max_pages_per_endpoint,
+                page_budget=page_budget, page_provenance=page_provenance,
             )
         if "order_history" in selected:
-            order_history, history_complete = self._read_all(
+            order_history, history_complete, history_status = self._read_all(
                 "/v2/orders/history", {"product_ids": str(product_id), "page_size": 50, **time_query},
                 ("id", "product_id", "size"),
             )
         if "fills" in selected:
-            fills, fills_complete = self._read_all(
+            fills, fills_complete, fills_status = self._read_all(
                 "/v2/fills", {"product_ids": str(product_id), "page_size": 50, **time_query},
                 ("id", "order_id", "product_id", "size", "price", "side"),
+                max_pages=max_pages_per_endpoint, page_budget=page_budget,
+                page_provenance=page_provenance,
             )
         if "positions" in selected:
-            positions, positions_complete = self._read_all(
+            positions, positions_complete, positions_status = self._read_all(
                 "/v2/positions", {"product_id": product_id}, ("size",), paginated=False,
+                max_pages=max_pages_per_endpoint, page_budget=page_budget,
+                page_provenance=page_provenance,
             )
             # Delta positions are current snapshots, not a historical event stream.
             positions = [
@@ -222,17 +274,19 @@ class DeltaReconciliationReadAdapter:
             ]
         if "wallet_transactions" in selected:
             # Wallet transactions are account-wide; product_id is not sent.
-            wallet_transactions, wallet_complete = self._read_all(
+            wallet_transactions, wallet_complete, wallet_status = self._read_all(
                 "/v2/wallet/transactions", {"page_size": 50, **time_query},
                 ("id", "amount", "transaction_type", "created_at"),
+                max_pages=max_pages_per_endpoint, page_budget=page_budget,
+                page_provenance=page_provenance,
             )
 
         endpoint_complete = {
-            "open_orders": open_complete,
-            "order_history": history_complete,
-            "fills": fills_complete,
-            "positions": positions_complete,
-            "wallet_transactions": wallet_complete,
+            "open_orders": (open_complete, open_status),
+            "order_history": (history_complete, history_status),
+            "fills": (fills_complete, fills_status),
+            "positions": (positions_complete, positions_status),
+            "wallet_transactions": (wallet_complete, wallet_status),
         }
         complete = all(endpoint_complete[name] for name in selected)
         return DeltaReconciliationSnapshot(
@@ -244,12 +298,13 @@ class DeltaReconciliationReadAdapter:
             positions=tuple(positions),
             wallet_transactions=tuple(wallet_transactions),
             complete=complete,
+            page_provenance=tuple(page_provenance),
             window_start=window_start,
             window_end=window_end,
             overlap_seconds=overlap_seconds,
             venue_time_filter=dict(time_query),
             endpoint_status={
-                name: "OK" if endpoint_complete[name] else "INCOMPLETE_PAGINATION"
+                name: endpoint_complete[name][1]
                 for name in selected
             },
         )
