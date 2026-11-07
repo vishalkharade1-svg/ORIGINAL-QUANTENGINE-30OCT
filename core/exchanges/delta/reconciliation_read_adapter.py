@@ -150,7 +150,8 @@ class DeltaReconciliationReadAdapter:
                         "collected_at": datetime.now(timezone.utc).isoformat(),
                         "request_duration_ms": round((time.monotonic() - request_started_mono) * 1000, 3),
                         "content_sha256": None, "retry_count": None,
-                        "http_status_code": None, "request_policy_enforced": callable(getattr(self._rest, "get_with_policy", None)),
+                        "http_status_code": getattr(getattr(exc, "response", None), "status_code", None),
+                        "request_policy_enforced": callable(getattr(self._rest, "get_with_policy", None)),
                         "error_type": type(exc).__name__,
                     })
                 # Do not propagate request URLs, headers, or exception strings
