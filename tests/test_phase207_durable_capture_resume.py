@@ -127,3 +127,10 @@ def test_resume_rejects_unknown_artifact_schema_instead_of_silently_skipping(tmp
 
     with pytest.raises(CapturePersistenceError, match="schema is unsupported"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+@pytest.mark.parametrize("unsafe_plan_id", ("../escape", "nested/escape", r"nested\\escape", ".."))
+def test_plan_id_cannot_escape_capture_storage_root(tmp_path, unsafe_plan_id):
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id=unsafe_plan_id)
+    with pytest.raises(Exception, match="safe single path component"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
