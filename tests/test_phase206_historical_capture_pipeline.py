@@ -241,3 +241,5 @@ def test_capture_plan_can_limit_endpoint_scope(tmp_path):
     assert len(result.snapshots) == 4
     assert all(snap.record_category == "fills" for snap in result.snapshots)
     assert all(call["endpoints"] == ("fills",) for call in adapter.calls)
+    assert all(call["request_timeout_seconds"] == 20 for call in adapter.calls)
+    assert all(call["retry_budget"] == 2 for call in adapter.calls)
