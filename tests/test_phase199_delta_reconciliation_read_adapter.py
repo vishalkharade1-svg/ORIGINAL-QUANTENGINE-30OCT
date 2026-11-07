@@ -233,3 +233,28 @@ def test_delta_window_filter_rejects_non_integer_or_excessive_overlap_before_io(
             window_end="2026-10-01T10:00:00Z", overlap_seconds=True,
         )
     assert rest.calls == []
+
+
+
+def test_selected_endpoint_scope_issues_only_allowlisted_get():
+    rest = FakeREST()
+    snapshot = DeltaReconciliationReadAdapter(rest).capture(
+        product_id=84, endpoints=("fills",)
+    )
+    assert snapshot.complete is True
+    assert snapshot.endpoint_status == {"fills": "OK"}
+    assert rest.calls
+    assert all(path == "/v2/fills" for path, _ in rest.calls)
+    assert snapshot.open_orders == ()
+    assert snapshot.order_history == ()
+    assert snapshot.positions == ()
+    assert snapshot.wallet_transactions == ()
+
+
+def test_invalid_endpoint_selection_fails_before_any_authenticated_get():
+    rest = FakeREST()
+    with pytest.raises(ValueError, match="supported endpoint"):
+        DeltaReconciliationReadAdapter(rest).capture(
+            product_id=84, endpoints=("place_order",)
+        )
+    assert rest.calls == []
