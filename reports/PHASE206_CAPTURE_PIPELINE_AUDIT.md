@@ -26,12 +26,13 @@ Authenticated mode requires both an injected trusted owner-authorization callbac
 
 ## Important limitations
 
-1. Phase 199 adapter internally caps each endpoint at 100 pages but does not expose page count, cursor sequence, page checksums, retries, or per-page timestamps. Phase 206 therefore does not claim those details.
-2. Adapter exceptions abort a window. The orchestrator records a partial run but cannot persist partial endpoint rows because the current adapter does not return partial snapshots.
-3. The adapter applies native Delta time filters to orders/history/fills/wallet transactions; positions remain a current snapshot, not a historical event stream.
-4. Wallet transactions are account-wide and must not be interpreted as product-scoped.
-5. Repeated observations measure API behavior, not the complete underlying venue event history or retention policy.
-6. This implementation is a research data collection capability, not production trading infrastructure. Strategy edge remains NOT_ESTABLISHED.
+1. Page provenance records cursors, counts, hashes and timing, but the REST transport does not expose actual HTTP status codes or retry-attempt receipts to the capture layer.
+2. Adapter exceptions abort a window. Partial endpoint rows cannot be persisted because the adapter does not return partial snapshots.
+3. Per-plan timeout and retry budgets are not yet wired through the signed REST client; its existing transport policy remains in effect.
+4. The adapter applies native Delta time filters to orders/history/fills/wallet transactions; positions remain a current snapshot, not a historical event stream.
+5. Wallet transactions are account-wide and must not be interpreted as product-scoped.
+6. Repeated observations measure API behavior, not the complete underlying venue event history or retention policy.
+7. This implementation is a research data collection capability, not production trading infrastructure. Strategy edge remains NOT_ESTABLISHED.
 
 ## Verification evidence
 
