@@ -67,6 +67,7 @@ class HistoricalCapturePlan:
     interval_seconds: int = 0
     mode: str = "fixture"
     plan_id: str | None = None
+    endpoints: tuple[str, ...] = ("open_orders", "order_history", "fills", "positions", "wallet_transactions")
 
     def validate(self) -> tuple[datetime, datetime]:
         if self.venue.lower() != "delta":
@@ -97,6 +98,11 @@ class HistoricalCapturePlan:
             raise CapturePlanError("max_capture_runs must be between 1 and 5000")
         if isinstance(self.interval_seconds, bool) or not 0 <= self.interval_seconds <= 86400:
             raise CapturePlanError("interval_seconds must be between 0 and 86400")
+        supported_endpoints = {"open_orders", "order_history", "fills", "positions", "wallet_transactions"}
+        if (not isinstance(self.endpoints, tuple) or not self.endpoints
+                or len(set(self.endpoints)) != len(self.endpoints)
+                or not set(self.endpoints).issubset(supported_endpoints)):
+            raise CapturePlanError("endpoints must be a non-empty tuple of unique supported endpoint names")
         if self.mode not in {"fixture", "authenticated"}:
             raise CapturePlanError("mode must be fixture or authenticated")
         if self.mode == "fixture" and self.interval_seconds:
@@ -133,21 +139,23 @@ def generate_windows(plan: HistoricalCapturePlan) -> tuple[CaptureWindow, ...]:
     return tuple(windows)
 
 
-def _snapshot_records(snapshot: Any) -> tuple[dict[str, Any], ...]:
-    rows: list[dict[str, Any]] = []
-    for name in ("open_orders", "order_history", "fills", "positions", "wallet_transactions"):
-        value = getattr(snapshot, name, ())
-        rows.extend(dict(row) for row in value)
-    return tuple(rows)
+_ENDPOINT_FIELDS = {
+    "open_orders": "open_orders",
+    "order_history": "order_history",
+    "fills": "fills",
+    "positions": "positions",
+    "wallet_transactions": "wallet_transactions",
+}
 
 
-def _snapshot_status(snapshot: Any) -> tuple[bool, Mapping[str, str]]:
-    status = dict(getattr(snapshot, "endpoint_status", {}) or {})
-    complete = bool(getattr(snapshot, "complete", False))
-    # A snapshot is complete only when all declared endpoints are explicitly OK.
-    if not status or any(value != "OK" for value in status.values()):
-        complete = False
-    return complete, status
+def _snapshot_records(snapshot: Any, endpoint: str) -> tuple[dict[str, Any], ...]:
+    """Return only records belonging to one endpoint/category."""
+    field_name = _ENDPOINT_FIELDS[endpoint]
+    return tuple(dict(row) for row in (getattr(snapshot, field_name, ()) or ()))
+
+
+def _endpoint_status(snapshot: Any) -> Mapping[str, str]:
+    return dict(getattr(snapshot, "endpoint_status", {}) or {})
 
 
 def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
@@ -242,6 +250,7 @@ class HistoricalCaptureOrchestrator:
             "venue": plan.venue, "tenant": plan.tenant_id, "account": plan.account_id,
             "product": plan.product_id, "start": plan.start, "end": plan.end,
             "window_seconds": plan.window_seconds, "overlap_seconds": plan.overlap_seconds,
+            "endpoints": plan.endpoints,
         }).decode("utf-8")))
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
         prior_by_window: dict[str, CaptureSnapshot] = {}
@@ -259,54 +268,67 @@ class HistoricalCaptureOrchestrator:
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
                     )
-                    records = _snapshot_records(raw)
-                    if len(records) > plan.max_records_per_snapshot:
-                        raise CapturePlanError("MAX_RECORDS_PER_SNAPSHOT_REACHED")
-                    if result.total_records + len(records) > plan.max_total_records:
-                        raise CapturePlanError("MAX_TOTAL_RECORDS_REACHED")
-                    complete, endpoint_status = _snapshot_status(raw)
+                    endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
-                    capture_id = str(uuid5(NAMESPACE_URL, f"{plan_id}:{repeat}:{index}:{captured_at}"))
-                    capture = CaptureSnapshot(
-                        capture_id=capture_id, venue=plan.venue,
-                        record_category="delta_reconciliation_bundle", records=records,
-                        captured_at=captured_at, product_id=plan.product_id,
-                        account_id=plan.account_id, window_start=start_iso, window_end=end_iso,
-                        overlap_seconds=plan.overlap_seconds, complete=complete,
-                        pagination_complete=complete, endpoint_status=endpoint_status,
-                    )
-                    payload = {
-                        "schema": "quantengine.phase206.capture.v1",
-                        "plan_id": plan_id, "tenant_id": plan.tenant_id,
-                        "capture": capture.to_dict(),
-                        "capture_status": "COMPLETE" if complete else "PARTIAL",
-                        "page_provenance": "NOT_EXPOSED_BY_PHASE199_ADAPTER",
-                    }
-                    checksum = _safe_json_write(self._root / plan_id / capture_id, payload)
-                    capture = CaptureSnapshot(
-                        **{**capture.__dict__, "raw_source_checksum": capture.content_identity()}
-                    )
-                    result.snapshots.append(capture)
-                    result.total_records += len(records)
-                    result.completed_windows += 1
-                    key = f"{index}"
-                    previous = prior_by_window.get(key)
-                    if previous is not None:
-                        try:
-                            report = reconcile_two_captures(previous, capture)
-                            result.reconciliation_reports.append({
-                                "window_index": index, "repeat": repeat,
-                                "status": "RECONCILED" if complete and previous.complete else "INCONCLUSIVE",
-                                "result": report.to_dict() if hasattr(report, "to_dict") else report,
-                            })
-                        except IncompatibleScopeError:
-                            result.reconciliation_reports.append({
-                                "window_index": index, "repeat": repeat, "status": "INCOMPATIBLE_SCOPE",
-                            })
-                    prior_by_window[key] = capture
-                    if not complete:
-                        result.status = "PARTIAL"
-                except CapturePlanError as exc:
+                    all_endpoints_complete = True
+                    for endpoint in plan.endpoints:
+                        records = _snapshot_records(raw, endpoint)
+                        if len(records) > plan.max_records_per_snapshot:
+                            raise CapturePlanError("MAX_RECORDS_PER_SNAPSHOT_REACHED")
+                        if result.total_records + len(records) > plan.max_total_records:
+                            raise CapturePlanError("MAX_TOTAL_RECORDS_REACHED")
+                        endpoint_complete = endpoint_status.get(endpoint) == "OK"
+                        all_endpoints_complete = all_endpoints_complete and endpoint_complete
+                        capture_id = str(uuid5(
+                            NAMESPACE_URL,
+                            f"{plan_id}:{repeat}:{index}:{endpoint}:{captured_at}",
+                        ))
+                        capture = CaptureSnapshot(
+                            capture_id=capture_id, venue=plan.venue,
+                            record_category=endpoint, records=records,
+                            captured_at=captured_at,
+                            product_id=None if endpoint == "wallet_transactions" else plan.product_id,
+                            account_id=plan.account_id, window_start=start_iso, window_end=end_iso,
+                            overlap_seconds=plan.overlap_seconds, complete=endpoint_complete,
+                            pagination_complete=endpoint_complete,
+                            endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
+                        )
+                        payload = {
+                            "schema": "quantengine.phase206.capture.v1",
+                            "plan_id": plan_id, "tenant_id": plan.tenant_id,
+                            "endpoint": endpoint,
+                            "capture": capture.to_dict(),
+                            "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
+                            "page_provenance": "NOT_EXPOSED_BY_PHASE199_ADAPTER",
+                        }
+                        _safe_json_write(self._root / plan_id / capture_id, payload)
+                        capture = CaptureSnapshot(
+                            **{**capture.__dict__, "raw_source_checksum": capture.content_identity()}
+                        )
+                        result.snapshots.append(capture)
+                        result.total_records += len(records)
+                        key = (index, endpoint)
+                        previous = prior_by_window.get(key)
+                        if previous is not None:
+                            try:
+                                report = reconcile_two_captures(previous, capture)
+                                result.reconciliation_reports.append({
+                                    "window_index": index, "repeat": repeat,
+                                    "endpoint": endpoint,
+                                    "status": "RECONCILED" if endpoint_complete and previous.complete else "INCONCLUSIVE",
+                                    "result": report.to_dict() if hasattr(report, "to_dict") else report,
+                                })
+                            except IncompatibleScopeError:
+                                result.reconciliation_reports.append({
+                                    "window_index": index, "repeat": repeat,
+                                    "endpoint": endpoint, "status": "INCOMPATIBLE_SCOPE",
+                                })
+                        prior_by_window[key] = capture
+                        if not endpoint_complete:
+                            result.status = "PARTIAL"
+                    if all_endpoints_complete:
+                        result.completed_windows += 1
+                                except CapturePlanError as exc:
                     result.status = "PARTIAL"
                     result.errors.append(f"window={index};repeat={repeat};error={str(exc)}")
                     # Budget exhaustion is terminal for this run. Do not keep
