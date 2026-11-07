@@ -432,7 +432,12 @@ class HistoricalCaptureOrchestrator:
                                 result.reconciliation_reports.append({
                                     "window_index": index, "repeat": repeat,
                                     "endpoint": endpoint,
-                                    "status": "RECONCILED" if endpoint_complete and previous.complete else "INCONCLUSIVE",
+                                    "status": (
+                                        report.status
+                                        if endpoint_complete and previous.complete
+                                        and capture.pagination_complete and previous.pagination_complete
+                                        else "INCONCLUSIVE"
+                                    ),
                                     "result": report.to_dict() if hasattr(report, "to_dict") else report,
                                 })
                             except IncompatibleScopeError:
@@ -483,7 +488,7 @@ class HistoricalCaptureOrchestrator:
                             "later_window_index": index,
                             "endpoint": endpoint,
                             "status": (
-                                "RECONCILED"
+                                report.status
                                 if earlier.complete and earlier.pagination_complete
                                 and later.complete and later.pagination_complete
                                 else "INCONCLUSIVE"
