@@ -94,6 +94,10 @@ class HistoricalCapturePlan:
             raise CapturePlanError("max_records_per_snapshot must be between 1 and 100000")
         if isinstance(self.max_total_records, bool) or not 1 <= self.max_total_records <= 1000000:
             raise CapturePlanError("max_total_records must be between 1 and 1000000")
+        if isinstance(self.max_pages_per_endpoint, bool) or not 1 <= self.max_pages_per_endpoint <= 100:
+            raise CapturePlanError("max_pages_per_endpoint must be between 1 and 100")
+        if isinstance(self.max_total_pages, bool) or not 1 <= self.max_total_pages <= 2500:
+            raise CapturePlanError("max_total_pages must be between 1 and 2500")
         if isinstance(self.max_capture_runs, bool) or not 1 <= self.max_capture_runs <= 5000:
             raise CapturePlanError("max_capture_runs must be between 1 and 5000")
         if isinstance(self.interval_seconds, bool) or not 0 <= self.interval_seconds <= 86400:
@@ -251,7 +255,8 @@ class HistoricalCaptureOrchestrator:
             "venue": plan.venue, "tenant": plan.tenant_id, "account": plan.account_id,
             "product": plan.product_id, "start": plan.start, "end": plan.end,
             "window_seconds": plan.window_seconds, "overlap_seconds": plan.overlap_seconds,
-            "endpoints": plan.endpoints,
+            "endpoints": plan.endpoints, "max_pages_per_endpoint": plan.max_pages_per_endpoint,
+            "max_total_pages": plan.max_total_pages,
         }).decode("utf-8")))
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
         prior_by_window: dict[tuple[int, str], CaptureSnapshot] = {}
@@ -269,6 +274,8 @@ class HistoricalCaptureOrchestrator:
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
                         endpoints=plan.endpoints,
+                        max_pages_per_endpoint=plan.max_pages_per_endpoint,
+                        max_total_pages=plan.max_total_pages,
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
@@ -301,7 +308,7 @@ class HistoricalCaptureOrchestrator:
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
-                            "page_provenance": "NOT_EXPOSED_BY_PHASE199_ADAPTER",
+                            "page_provenance": [dict(page) for page in getattr(raw, "page_provenance", ())],
                         }
                         _safe_json_write(self._root / plan_id / capture_id, payload)
                         capture = CaptureSnapshot(
