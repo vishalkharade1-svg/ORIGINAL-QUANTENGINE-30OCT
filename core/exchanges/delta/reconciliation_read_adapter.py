@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
+import time
 from datetime import datetime, timezone, timedelta
 from typing import Any, Mapping
 
@@ -122,7 +123,8 @@ class DeltaReconciliationReadAdapter:
             if page_budget is not None:
                 page_budget["used"] += 1
             request_cursor = query.get("after")
-            collected_at = datetime.now(timezone.utc).isoformat()
+            request_started_at = datetime.now(timezone.utc).isoformat()
+            request_started_mono = time.monotonic()
             try:
                 response = self._rest.get(endpoint, params=query)
             except Exception as exc:
@@ -131,8 +133,10 @@ class DeltaReconciliationReadAdapter:
                         "endpoint": endpoint, "page_index": page_number,
                         "request_cursor": request_cursor, "response_cursor": None,
                         "response_status": "REQUEST_FAILED", "record_count": 0,
-                        "collected_at": collected_at, "content_sha256": None,
-                        "error_type": type(exc).__name__,
+                        "request_started_at": request_started_at,
+                        "collected_at": datetime.now(timezone.utc).isoformat(),
+                        "request_duration_ms": round((time.monotonic() - request_started_mono) * 1000, 3),
+                        "content_sha256": None, "error_type": type(exc).__name__,
                     })
                 # Do not propagate request URLs, headers, or exception strings
                 # that might contain credentials.
@@ -145,6 +149,8 @@ class DeltaReconciliationReadAdapter:
                 page_rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
             ).encode("utf-8")
             page_hash = hashlib.sha256(page_bytes).hexdigest()
+            collected_at = datetime.now(timezone.utc).isoformat()
+            request_duration_ms = round((time.monotonic() - request_started_mono) * 1000, 3)
             if page_provenance is not None:
                 page_provenance.append({
                     "endpoint": endpoint, "page_index": page_number,
@@ -152,7 +158,8 @@ class DeltaReconciliationReadAdapter:
                     "response_cursor": after,
                     "response_status": "SUCCESS", "record_count": len(page_rows),
                     "pagination_metadata_present": after != "__PAGINATION_METADATA_MISSING__",
-                    "collected_at": collected_at, "content_sha256": page_hash,
+                    "request_started_at": request_started_at, "collected_at": collected_at,
+                    "request_duration_ms": request_duration_ms, "content_sha256": page_hash,
                 })
             if page_rows and page_hash in seen_pages:
                 raise DeltaReconciliationReadError(f"{endpoint}: repeated response page")
