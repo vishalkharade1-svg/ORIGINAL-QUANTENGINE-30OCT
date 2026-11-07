@@ -119,9 +119,11 @@ def test_orchestrator_persists_capture_and_preserves_scope(tmp_path):
 def test_incomplete_capture_is_partial(tmp_path):
     result = HistoricalCaptureOrchestrator(FakeAdapter(complete=False), tmp_path).run(plan())
     assert result.status == "PARTIAL"
-    assert len(result.snapshots) == 5
-    assert not result.snapshots[0].complete
-    assert all(snap.complete for snap in result.snapshots[1:])
+    assert len(result.snapshots) == 20
+    open_orders = [snap for snap in result.snapshots if snap.record_category == "open_orders"]
+    assert len(open_orders) == 4
+    assert all(not snap.complete for snap in open_orders)
+    assert all(snap.complete for snap in result.snapshots if snap.record_category != "open_orders")
 
 
 def test_record_budget_stops_capture(tmp_path):
