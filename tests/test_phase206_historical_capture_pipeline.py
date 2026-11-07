@@ -112,3 +112,42 @@ def test_stability_does_not_infer_deletion():
     report = observation_stability([first, second])
     assert report["records"][0]["status"] == "NOT_OBSERVED_IN_SOME_CAPTURES"
     assert "deleted" in report["disclaimer"]
+
+
+
+def test_total_record_budget_stops_further_adapter_reads(tmp_path):
+    adapter = FakeAdapter()
+    result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(
+        plan(max_total_records=1)
+    )
+    assert result.status == "PARTIAL"
+    assert result.total_records == 1
+    assert len(adapter.calls) == 2
+    assert result.errors[-1].endswith("MAX_TOTAL_RECORDS_REACHED")
+
+
+def test_repeated_captures_reconcile_against_prior_observation(tmp_path):
+    adapter = FakeAdapter()
+    result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(
+        plan(repeat_count=2)
+    )
+    assert result.status == "COMPLETE"
+    assert result.completed_windows == 8
+    assert len(result.reconciliation_reports) == 4
+    assert all(report["status"] == "RECONCILED"
+               for report in result.reconciliation_reports)
+
+
+def test_orchestrator_uses_only_adapter_capture_method(tmp_path):
+    class ReadOnlyAdapter:
+        def __init__(self):
+            self.calls = 0
+
+        def capture(self, **kwargs):
+            self.calls += 1
+            return FakeAdapter().capture(**kwargs)
+
+    adapter = ReadOnlyAdapter()
+    result = HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan())
+    assert result.status == "COMPLETE"
+    assert adapter.calls == result.completed_windows
