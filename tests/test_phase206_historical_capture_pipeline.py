@@ -98,7 +98,11 @@ class FakeAdapter:
             captured_at="2026-10-01T04:00:00Z", product_id=84,
             open_orders=tuple(self.rows), order_history=(), fills=(),
             positions=(), wallet_transactions=(), complete=self.complete,
-            endpoint_status={"open_orders": "OK" if self.complete else "INCOMPLETE_PAGINATION"},
+            endpoint_status={
+                "open_orders": "OK" if self.complete else "INCOMPLETE_PAGINATION",
+                "order_history": "OK", "fills": "OK", "positions": "OK",
+                "wallet_transactions": "OK",
+            },
         )
 
 
