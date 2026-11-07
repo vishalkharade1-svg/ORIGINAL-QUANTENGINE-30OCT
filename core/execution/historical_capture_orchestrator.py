@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import os
+import tempfile
 from pathlib import Path
 import time
 from typing import Any, Callable, Mapping, Protocol
@@ -153,29 +154,54 @@ def _snapshot_status(snapshot: Any) -> tuple[bool, Mapping[str, str]]:
 
 
 def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
+    """Atomically create an immutable JSON artifact and return its SHA-256.
+
+    A same-directory temporary file is fully written and fsynced before an
+    atomic hard-link publishes it under the final create-only name. Existing
+    artifacts are never overwritten; an identical retry is idempotent.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     encoded = canonical_json_bytes(payload)
     digest = hashlib.sha256(encoded).hexdigest()
     target = path.with_suffix(path.suffix + ".json")
-    # O_EXCL makes an existing evidence artifact immutable.
-    try:
-        fd = os.open(str(target), os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    except FileExistsError:
-        existing = target.read_bytes()
-        if hashlib.sha256(existing).hexdigest() == digest:
-            return digest
-        raise CapturePersistenceError("capture artifact already exists with different content") from None
+    fd, temporary_name = tempfile.mkstemp(
+        prefix=f".{target.name}.", suffix=".tmp", dir=str(target.parent)
+    )
     try:
         with os.fdopen(fd, "wb") as stream:
             stream.write(encoded)
             stream.flush()
             os.fsync(stream.fileno())
-    except Exception:
         try:
-            target.unlink(missing_ok=True)
-        finally:
-            raise
-    return digest
+            # Hard-link creation is atomic and fails if target already exists.
+            # Both paths are in the same directory/filesystem by construction.
+            os.link(temporary_name, target)
+        except FileExistsError:
+            existing = target.read_bytes()
+            if hashlib.sha256(existing).hexdigest() == digest:
+                return digest
+            raise CapturePersistenceError(
+                "capture artifact already exists with different content"
+            ) from None
+        # Persist the directory entry where the platform supports directory fsync.
+        if hasattr(os, "O_DIRECTORY"):
+            directory_fd = os.open(str(target.parent), os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                os.fsync(directory_fd)
+            finally:
+                os.close(directory_fd)
+        return digest
+    except CapturePersistenceError:
+        raise
+    except Exception as exc:
+        raise CapturePersistenceError(
+            f"atomic capture persistence failed ({type(exc).__name__})"
+        ) from None
+    finally:
+        try:
+            os.unlink(temporary_name)
+        except FileNotFoundError:
+            pass
 
 
 class DeltaCaptureAdapter(Protocol):
