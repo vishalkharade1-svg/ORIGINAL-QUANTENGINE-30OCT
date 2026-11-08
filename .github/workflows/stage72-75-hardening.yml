@@ -1,0 +1,38 @@
+name: Stage 72–75 evidence governance hardening
+
+on:
+  pull_request:
+    branches: [main, production-hardening/stages-68-71]
+    paths:
+      - "core/governance/production_hardening_stages72_75.py"
+      - "tests/test_production_hardening_stages72_75.py"
+      - "docs/production_hardening_stages72_75.md"
+      - "BUILD_MANIFEST.sha256"
+      - ".github/workflows/stage72-75-hardening.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage72-75-hardening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage72-75:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest==9.0.3
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Compile Stage 72–75 module
+        run: python -m py_compile core/governance/production_hardening_stages72_75.py
+      - name: Stage 72–75 focused tests
+        run: python -m pytest -q tests/test_production_hardening_stages72_75.py
