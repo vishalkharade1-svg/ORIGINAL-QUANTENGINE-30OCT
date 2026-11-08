@@ -65,6 +65,10 @@ class TestPhase174EconomicsReconciliation(unittest.TestCase):
         # Phase 172
         p172_zip = parent / "QuantEngine_PHASE172_RELEASE_CANDIDATE.zip"
         p172_txt = parent / "RELEASE_HASH_PHASE172.txt"
+        require_artifact_files(
+            self, [p172_zip, p172_txt],
+            "Phase 172 archive provenance remains BLOCKED_EVIDENCE until the original archive and detached record are recovered",
+        )
         self.assertTrue(p172_zip.exists(), "Missing Phase 172 release candidate ZIP")
         self.assertTrue(p172_txt.exists(), "Missing Phase 172 detached hash file")
 
@@ -77,8 +81,8 @@ class TestPhase174EconomicsReconciliation(unittest.TestCase):
         p173_zip = parent / "QuantEngine_PHASE173_RELEASE_CANDIDATE.zip"
         p173_txt = parent / "RELEASE_HASH_PHASE173.txt"
         require_artifact_files(
-            self, [p172_zip, p172_txt, p173_zip, p173_txt],
-            "Phase 172/173 archive provenance remains BLOCKED_EVIDENCE until the original ZIPs and detached records are recovered",
+            self, [p173_zip, p173_txt],
+            "Phase 173 archive provenance remains BLOCKED_EVIDENCE until the original archive and detached record are recovered",
         )
         self.assertTrue(p172_zip.exists(), "Missing Phase 172 release candidate ZIP")
         self.assertTrue(p172_txt.exists(), "Missing Phase 172 detached hash file")
