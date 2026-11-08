@@ -1798,3 +1798,23 @@ Secret Scan run [42516043176](https://github.com/vishalkharade1-svg/ORIGINAL-QUA
 **Next safe work:** obtain the authoritative original source packages and detached records for the mismatched artifacts; independently reconstruct the strategy identity and provenance chain without changing the registered values; then rerun focused tests and the full suite. If original evidence cannot be recovered, retain `BLOCKED_EVIDENCE` and HOLD. Do not regenerate historical ZIPs, rewrite hashes, modify frozen research, or weaken ancestry/seal tests.
 
 **Verification state:** strict manifest PASS; full repository regression FAIL (36); Secret Scan PASS. PR #6 remains draft/open/unmerged. `RELEASE_GATE = HOLD`; edge remains NOT ESTABLISHED; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
+
+
+### Phase 207 — Strategy identity file-level localization
+
+A read-only recomputation of the six Phase 22 registered strategy-core files from the current branch, using UTF-8 bytes and the identity module's CRLF-to-LF canonicalization, localizes the mismatch to **three of six files**:
+
+| Strategy-core file | Phase 22 registered SHA-256 | Current canonical SHA-256 | Result |
+|---|---|---|---|
+| `core/execution/entry_model.py` | `8cb0fb2f45f87f1bcd42072e5ea48b30a982193d8eabeb158fd704c2f5234a82` | same | MATCH |
+| `core/setup/trade_setup_builder.py` | `f780310cad383995f59ce3181483bdd52e85461746893b96dae131febfd6cecc` | same | MATCH |
+| `core/setup/decision_engine.py` | `cc1d3e1e0b0ae641ea5f173657e8b2dc7e7798b5f6e7cc0e5596c4e04b482599` | `e4d7e93c5cf6c5ffaa77113c050f9aeefaed7f5a4e12d02a23ea78b114ea0017` | MISMATCH |
+| `core/execution/execution_engine.py` | `19a469e1980828dde28ebe8d5728ce5d4a5c6c1e5c935628ea3ee8bfddd249c4` | same | MATCH |
+| `core/risk/risk_engine.py` | `d3b07dabec104a3e182369a848bc2fd086393ab850d1f1c08df790dc8ecc97a4` | `e36fc70c6747e3c790edaa3e0580e64eebaf04c9819c5a78a758bead61929e98` | MISMATCH |
+| `config/risk_settings.py` | `7c38bd894ff2638cd9b287fbed01d505608729d685bd141f8dd86406b6ca6880` | `f4667d31dc5189acde002d2df623d2dc6971f30539928076e9519b66cc238925` | MISMATCH |
+
+The resulting current strategy-core composite is `f79aa68f87002fb692d4fa985dfa5da23ba46ab77dbbf348e94232069ec4879e`, versus the registered Phase 22 core composite `26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666`. This reproduces the value observed in the full-suite failure log. The three per-file differences are the concrete scope for provenance review; this computation does not establish whether each change was authorized or research-equivalent.
+
+The three-file runtime-infrastructure group also has a single mismatch: `core/backtesting/accounting.py` and `backtesting/backtester.py` match their Phase 22 registered per-file digests, while `core/paper_trading/paper_trading_engine.py` differs (registered `7aa2518ec647efc9c559968a9f3fcde9cf916cfbfb2ca540290d6c903fe422e5`; current canonical `09fa4841fdde02abc3a904e4315ba05d53afdf5a7f8a59b2877637b07520749a`). The current runtime-infrastructure composite is `656c376a6ea6948aade92c58a1875c1192eaf4206536263d3821f339a9d674d9`, versus registered `997a21f21045551ed25e29d2289157d257b16b5f3b99bbf04e95c7f257b96294`.
+
+**Disposition:** identity mismatch is now localized to four files (three strategy-core, one runtime-infrastructure). Do not roll these files back or update the Phase 22 baseline merely to make tests green. The next admissible step is a commit-by-commit provenance and semantic-diff review against the original registration, followed by a separately authorized new versioned identity and fresh research protocol if the original state cannot be recovered.
