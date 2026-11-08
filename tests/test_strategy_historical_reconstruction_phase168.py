@@ -9,6 +9,7 @@ from pathlib import Path
 from core.research.historical_reconstruction import (
     reconstruct_strategy_history,
 )
+from tests.evidence_mode import require_git_commits
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -69,6 +70,10 @@ class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
         )
 
     def test_file_reconciliation_layer_and_diffs(self):
+        require_git_commits(
+            self, ["3f19895", "fbeb860"],
+            "Phase 14 per-file comparison requires both original baseline commit objects",
+        )
         report = reconstruct_strategy_history(ROOT)
         reconciled = {f["file"]: f for f in report["file_reconciliation"]}
         self.assertEqual(len(reconciled), 9)
