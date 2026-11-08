@@ -205,7 +205,7 @@ class TestBacktestRuntimeBoundaryCertification(unittest.TestCase):
 
         self.assertEqual(trade.status, "CLOSED")
         self.assertEqual(trade.exit_price, 115.0)
-        self.assertEqual(trade.result, "LOSS")  # Stopped out via active stop
+        self.assertEqual(trade.result, "WIN")  # Profitable trailing stop above entry is a win; exit reason remains TRAILING_STOP
 
         # Realized R calculation anchored to initial stop
         initial_risk = abs(trade.entry - trade.initial_stop_loss)
