@@ -84,7 +84,7 @@ def _expiry(params):
         raise ValueError("hypothesis expiry must be an integer") from None
 
 
-def _coerce(hypothesis):
+def _coerce_hypothesis(hypothesis):
     if isinstance(hypothesis, HypothesisRecord):
         return hypothesis
     if isinstance(hypothesis, dict):
@@ -104,6 +104,9 @@ def _coerce(hypothesis):
         "hypotheses must be HypothesisRecord or dict; got %r"
         % (type(hypothesis).__name__,)
     )
+
+
+_coerce = _coerce_hypothesis
 
 
 def _match(record, h, obs_map):
