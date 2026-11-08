@@ -8,7 +8,7 @@ The activate_cost_profile function validates the venue and instrument scope, pro
 
 - A current but not independently venue-verified profile is classified PAPER_SIMULATION_ONLY; its CostSpec.venue_source remains empty.
 - A profile marked venue-verified must include an explicit verification reference and is labeled VENUE_VERIFIED_COST_PROFILE.
-- Missing, expired, mismatched, malformed, negative, or non-finite inputs return BLOCKED with no CostSpec; there is no zero-cost fallback.
+- Every zero-valued fee component requires its own explicit zero-cost provenance reference. Missing, expired, mismatched, malformed, negative, non-finite, or unprovenanced-zero inputs return BLOCKED with no CostSpec; there is no zero-cost fallback.
 - The verification reference is still an external attestation. This code does not authenticate the venue document or reviewer.
 
 This is an adapter to the existing core/risk/costs.py CostSpec authority. It does not mutate global risk settings or silently install a profile into a broker.
@@ -17,7 +17,7 @@ This is an adapter to the existing core/risk/costs.py CostSpec authority. It doe
 
 The evaluate_paper_deployment function requires a Stage 11 READY_FOR_INDEPENDENT_RELEASE_REVIEW assessment, explicit live_arming_permitted=False, independent review reference, matching strategy/deployment digests, rollback artifact, paper dry-run receipt, and a tested kill switch.
 
-The strongest result is PAPER_DEPLOYMENT_READY. It is not live approval and does not issue a LiveSafetyGate token. Any mismatch or missing control is BLOCKED.
+The strongest result is PAPER_DEPLOYMENT_READY. It is not live approval and does not issue a LiveSafetyGate token. Strategy and deployment identities must both be lowercase SHA-256 digests and match exactly. Any mismatch or missing control is BLOCKED.
 
 ## Stage 14 — Tamper-evident audit chain
 

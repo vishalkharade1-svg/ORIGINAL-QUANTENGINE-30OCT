@@ -63,6 +63,7 @@ class CostProfileActivationEvidence:
     independent_review_ref: str
     venue_verified: bool = False
     venue_verification_ref: str = ""
+    zero_cost_provenance_ref: str = ""
 
 
 @dataclass(frozen=True)
@@ -105,14 +106,23 @@ def activate_cost_profile(
         reasons.append("instrument scope mismatch")
     if evidence.venue_verified is not True and evidence.venue_verified is not False:
         reasons.append("venue_verified must be a boolean")
-    if evidence.venue_verified is True and not evidence.venue_verification_ref.strip():
+    if not isinstance(evidence.venue_verification_ref, str):
+        reasons.append("venue_verification_ref must be a string")
+    elif evidence.venue_verified is True and not evidence.venue_verification_ref.strip():
         reasons.append("venue verification reference is required")
-    if evidence.venue_verified is False and evidence.venue_verification_ref.strip():
+    elif evidence.venue_verified is False and evidence.venue_verification_ref.strip():
         reasons.append("verification reference supplied while venue_verified is false")
+    if not isinstance(evidence.zero_cost_provenance_ref, str):
+        reasons.append("zero_cost_provenance_ref must be a string")
     try:
         per_trade = _finite_nonnegative("per_trade", evidence.per_trade)
         rate = _finite_nonnegative("rate", evidence.rate)
         slippage_bps = _finite_nonnegative("slippage_bps", evidence.slippage_bps)
+        if (per_trade == 0 or rate == 0 or slippage_bps == 0) and not (
+            isinstance(evidence.zero_cost_provenance_ref, str)
+            and evidence.zero_cost_provenance_ref.strip()
+        ):
+            reasons.append("explicit provenance is required for every zero cost component")
         observed = _parse_utc(evidence.observed_at_utc, "observed_at_utc")
         valid_until = _parse_utc(evidence.valid_until_utc, "valid_until_utc")
         evaluated = _parse_utc(evaluated_at_utc, "evaluated_at_utc")
@@ -182,6 +192,10 @@ def evaluate_paper_deployment(evidence: DeploymentControlEvidence) -> Deployment
     ):
         if not isinstance(value, str) or not value.strip():
             reasons.append("%s is missing" % label)
+    if not isinstance(evidence.strategy_digest, str) or not _SHA256.fullmatch(evidence.strategy_digest):
+        reasons.append("strategy digest must be a lowercase SHA-256")
+    if not isinstance(evidence.deployment_digest, str) or not _SHA256.fullmatch(evidence.deployment_digest):
+        reasons.append("deployment digest must be a lowercase SHA-256")
     if evidence.strategy_digest != evidence.deployment_digest:
         reasons.append("deployment digest differs from reviewed strategy digest")
     if evidence.kill_switch_tested is not True:

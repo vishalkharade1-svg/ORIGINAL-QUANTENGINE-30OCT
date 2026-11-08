@@ -28,6 +28,7 @@ def cost(**overrides):
         independent_review_ref="review:economics-44",
         venue_verified=False,
         venue_verification_ref="",
+        zero_cost_provenance_ref="",
     )
     values.update(overrides)
     return CostProfileActivationEvidence(**values)
@@ -76,12 +77,19 @@ def test_stage12_rejects_scope_mismatch_expiry_and_unknown_costs():
 
 def test_stage12_zero_cost_requires_explicit_source_and_is_never_inferred():
     result = activate_cost_profile(
-        cost(per_trade=0, rate=0, slippage_bps=0),
+        cost(per_trade=0, rate=0, slippage_bps=0,
+             zero_cost_provenance_ref="venue-fees:explicit-zero-v1"),
         expected_venue="DELTA_INDIA_TESTNET", expected_instrument="BTCUSD",
         evaluated_at_utc="2026-11-08T11:00:00Z",
     )
     assert result.status == "PAPER_SIMULATION_ONLY"
     assert result.cost_spec.compute(1000) == (0.0, 0.0)
+    missing_zero_provenance = activate_cost_profile(
+        cost(per_trade=0, rate=0, slippage_bps=0),
+        expected_venue="DELTA_INDIA_TESTNET", expected_instrument="BTCUSD",
+        evaluated_at_utc="2026-11-08T11:00:00Z",
+    )
+    assert missing_zero_provenance.status == "BLOCKED"
 
 
 def deployment(**overrides):
@@ -110,6 +118,7 @@ def test_stage13_only_marks_paper_deployment_ready():
     {"release_assessment_status": "HOLD"},
     {"release_assessment_live_arming_permitted": True},
     {"deployment_digest": "b" * 64},
+    {"strategy_digest": "not-a-digest"},
     {"rollback_artifact_ref": ""},
     {"paper_dry_run_ref": ""},
     {"kill_switch_tested": False},
