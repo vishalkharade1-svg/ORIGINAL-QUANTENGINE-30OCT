@@ -10,6 +10,7 @@ from typing import Iterable
 import re
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
 _AUDIT_DOMAINS = frozenset({
     "indicators", "order_flow", "wyckoff_smc", "options",
     "backtest_bias", "paper_realism", "concurrency_async",
@@ -35,6 +36,11 @@ def _ref(value: str, name: str, reasons: list[str]) -> None:
 def _digest(value: str, name: str, reasons: list[str]) -> None:
     if not isinstance(value, str) or not _SHA256.fullmatch(value):
         reasons.append(f"{name} must be lowercase SHA-256")
+
+
+def _git_commit(value: str, name: str, reasons: list[str]) -> None:
+    if not isinstance(value, str) or not _GIT_COMMIT.fullmatch(value):
+        reasons.append(f"{name} must be a 40-character Git commit ID")
 
 
 @dataclass(frozen=True)
@@ -85,8 +91,8 @@ class RepositoryIntegrityEvidence:
 
 def evaluate_repository_integrity(e: RepositoryIntegrityEvidence) -> Assessment:
     reasons: list[str] = []
-    _digest(e.source_commit, "source_commit", reasons)
-    _digest(e.canonical_ancestor_commit, "canonical_ancestor_commit", reasons)
+    _git_commit(e.source_commit, "source_commit", reasons)
+    _git_commit(e.canonical_ancestor_commit, "canonical_ancestor_commit", reasons)
     for field in ("lf_fingerprint", "crlf_fingerprint"):
         _digest(getattr(e, field), field, reasons)
     for field in ("line_ending_policy_ref", "independent_repo_review_ref"):
