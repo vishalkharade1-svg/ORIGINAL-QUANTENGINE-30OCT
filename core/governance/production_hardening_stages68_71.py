@@ -179,7 +179,11 @@ def evaluate_test_evidence(e: TestEvidenceProvenance) -> Assessment:
     _time(e.assessed_at_utc, "assessed_at_utc", r)
     for n in ("tests_passed", "tests_failed", "tests_skipped", "tests_collected"):
         _nonnegative(getattr(e, n), n, r)
-    if e.tests_collected == 0 or e.tests_passed + e.tests_failed + e.tests_skipped != e.tests_collected:
+    counts_valid = all(isinstance(getattr(e, n), int) and not isinstance(getattr(e, n), bool)
+                       and getattr(e, n) >= 0 for n in
+                       ("tests_passed", "tests_failed", "tests_skipped", "tests_collected"))
+    if counts_valid and (e.tests_collected == 0 or
+                         e.tests_passed + e.tests_failed + e.tests_skipped != e.tests_collected):
         r.append("test result counts must reconcile to a non-zero collected total")
     if e.tests_failed != 0:
         r.append("tests_failed must be zero")
