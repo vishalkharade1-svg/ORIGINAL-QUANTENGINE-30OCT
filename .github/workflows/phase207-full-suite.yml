@@ -25,15 +25,18 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
+      - name: Establish full-history CI repository context
+        run: git switch -C main "$GITHUB_SHA"
       - name: Install project requirements
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-          python -m pip install pytest
       - name: Verify strict source manifest
         run: python scripts/generate_manifest.py --verify --strict
       - name: Run full repository test suite
