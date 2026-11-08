@@ -109,6 +109,30 @@ def test_resume_fails_closed_when_persisted_capture_is_corrupt(tmp_path):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
 
 
+def test_resume_rejects_capture_identity_not_derived_from_its_slot(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["capture"]["captured_at"] = "2026-10-01T09:00:00Z"
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="identity does not match its slot"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_resume_rejects_malformed_or_out_of_scope_page_provenance(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["page_provenance"] = [{"endpoint": "unknown", "page_index": 0}]
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="page provenance endpoint is unsupported"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
 def test_resume_can_be_disabled_explicitly(tmp_path):
     plan = make_plan(end="2026-10-01T01:00:00Z")
     first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
