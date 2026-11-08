@@ -1,3 +1,11 @@
+### Phase 207 — Follow-up CI triage (2026-11-08)
+
+- **STAGE 1 — CLASSIFIED:** Latest full-suite run 42444424904 completed with 4,955 passed, 54 skipped, 41 failed, and 445 subtests passed. Strict manifest verification passed. Remaining failures include frozen strategy identity drift, Phase 26/65 dataset hash mismatches, Phase 170 report digest drift, Phase 173/174 provenance mismatch, Phase 11F sealed artifact byte mismatches, and missing historical ZIP/detached records.
+- **STAGE 2 — IMPLEMENTED:** Added explicit BLOCKED_EVIDENCE handling for absent Phase 172/173/174 release ZIPs and detached records, without bypassing integrity checks when files exist. Added exact Phase 14 commit-object guards to per-file historical comparisons.
+- **STAGE 3 — IMPLEMENTED:** Corrected the stale Phase 11F CRLF-exception assertion to verify the current LF representation without changing historical pins; missing Phase 162 detached evidence is now reported as blocked rather than an unrelated assertion failure.
+- **STAGE 4 — PENDING:** Refreshed strict manifest; focused and full CI must verify the changes. Frozen strategy identity and data/report hash mismatches remain hard failures; no hashes are re-pinned and no evidence is synthesized.
+- **RELEASE:** HOLD / NOT_LIVE_READY. No strategy promotion, exchange writes, cancellations, position mutations, or live enablement.
+
 ### Phase 199 — Delta read-only reconciliation adapter (2026-10-30)
 
 - **IMPLEMENTED:** `core/exchanges/delta/reconciliation_read_adapter.py` retrieves open orders, order history, fills, and position evidence through authenticated GET requests only; `DeltaExchange.get_reconciliation_snapshot()` exposes it.
