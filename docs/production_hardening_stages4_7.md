@@ -12,7 +12,7 @@ This continuation consolidates the Stage 4–7 hardening artifacts already prese
 
 **Acceptance boundary:** paper-only. The parquet replay is explicitly a normalization/runtime exercise, not an OOS or performance sample. The soak's synthetic candles are operational stress fixtures, not market evidence. A passing soak does not certify profitability.
 
-**Policy reconciliation required:** the Stage 1–3 final report states that the production RR gate is fixed at 6.0. The current Stage 4 certification test instead asserts a configurable active policy spanning 1.0–20.0 and labels the legacy 6.0 value as audit provenance only. This is a material source/report discrepancy. This PR does not change either policy; treat the authoritative live RR threshold as unresolved until the owner explicitly reconciles the policy and its tests.
+**Policy reconciliation required:** the Stage 1–3 final report and the Stage 4 certification description state a 1:6 production RR gate. However, the current runtime authority in `core/risk/trading_policy.py` defaults to a configurable 1.0R–20.0R range, while `config/risk_settings.py` preserves `MIN_RISK_REWARD = 6.0` as a frozen research/OOS threshold. This is a material distinction between runtime policy and research certification. This PR changes neither. The owner must explicitly document which policy governs each execution mode and align the certification evidence before any live-readiness claim.
 
 ## Stage 5 — Verified instrument contract and sizing semantics
 
