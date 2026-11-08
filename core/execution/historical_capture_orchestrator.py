@@ -226,6 +226,70 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
             pass
 
 
+def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
+    """Validate the shape and bounded sequence of persisted read-page metadata."""
+    if not isinstance(value, list):
+        raise CapturePersistenceError("persisted page provenance must be a list")
+    next_index: dict[str, int] = {}
+    allowed_statuses = {"REQUEST_FAILED", "INVALID_RESPONSE", "SUCCESS", "RECORD_BUDGET_OVERRUN", "REPEATED_PAGE"}
+    for page in value:
+        if not isinstance(page, Mapping):
+            raise CapturePersistenceError("persisted page provenance entry must be a mapping")
+        endpoint = page.get("endpoint")
+        if endpoint not in plan.endpoints:
+            raise CapturePersistenceError("persisted page provenance endpoint is unsupported")
+        page_index = page.get("page_index")
+        expected_index = next_index.get(endpoint, 0)
+        if (not _bounded_int(page_index, 0, plan.max_pages_per_endpoint - 1)
+                or page_index != expected_index):
+            raise CapturePersistenceError("persisted page provenance index is invalid or non-sequential")
+        next_index[endpoint] = expected_index + 1
+        status = page.get("response_status")
+        if status not in allowed_statuses:
+            raise CapturePersistenceError("persisted page provenance response status is unsupported")
+        for cursor_name in ("request_cursor", "response_cursor"):
+            cursor = page.get(cursor_name)
+            if cursor is not None and not isinstance(cursor, str):
+                raise CapturePersistenceError("persisted page provenance cursor is invalid")
+        record_count = page.get("record_count")
+        if not _bounded_int(record_count, 0, plan.max_records_per_snapshot):
+            raise CapturePersistenceError("persisted page provenance record count is invalid")
+        digest = page.get("content_sha256")
+        if digest is not None and (not isinstance(digest, str) or len(digest) != 64
+                                   or any(ch not in "0123456789abcdef" for ch in digest)):
+            raise CapturePersistenceError("persisted page provenance content digest is invalid")
+        if status in {"REQUEST_FAILED", "INVALID_RESPONSE"} and digest is not None:
+            raise CapturePersistenceError("failed page provenance cannot declare a content digest")
+        if status in {"SUCCESS", "RECORD_BUDGET_OVERRUN", "REPEATED_PAGE"} and digest is None:
+            raise CapturePersistenceError("received page provenance is missing its content digest")
+        for timestamp_name in ("request_started_at", "collected_at"):
+            try:
+                _utc(page.get(timestamp_name), timestamp_name)
+            except CapturePlanError:
+                raise CapturePersistenceError("persisted page provenance timestamp is invalid") from None
+        duration = page.get("request_duration_ms")
+        if (isinstance(duration, bool) or not isinstance(duration, (int, float))
+                or not duration >= 0 or duration == float("inf")):
+            raise CapturePersistenceError("persisted page provenance duration is invalid")
+        retry_count = page.get("retry_count")
+        if retry_count is not None and not _bounded_int(retry_count, 0, 1000):
+            raise CapturePersistenceError("persisted page provenance retry count is invalid")
+        http_status = page.get("http_status_code")
+        if http_status is not None and not _bounded_int(http_status, 0, 999):
+            raise CapturePersistenceError("persisted page provenance HTTP status is invalid")
+        if not isinstance(page.get("request_policy_enforced"), bool):
+            raise CapturePersistenceError("persisted page provenance policy flag is invalid")
+        for optional_int in ("records_not_persisted", "record_budget_remaining"):
+            if optional_int in page and not _bounded_int(page[optional_int], 0, plan.max_records_per_snapshot):
+                raise CapturePersistenceError("persisted page provenance budget field is invalid")
+        if "pagination_metadata_present" in page and not isinstance(page["pagination_metadata_present"], bool):
+            raise CapturePersistenceError("persisted page provenance pagination flag is invalid")
+        if "pagination_status" in page and not isinstance(page["pagination_status"], str):
+            raise CapturePersistenceError("persisted page provenance pagination status is invalid")
+        if "error_type" in page and (not isinstance(page["error_type"], str) or not page["error_type"]):
+            raise CapturePersistenceError("persisted page provenance error type is invalid")
+
+
 class DeltaCaptureAdapter(Protocol):
     def capture(self, *, product_id: int, window_start: str, window_end: str,
                 overlap_seconds: int = 60, endpoints: tuple[str, ...] | None = None,
@@ -324,6 +388,13 @@ class HistoricalCaptureOrchestrator:
                         raise CapturePersistenceError("persisted capture endpoint does not match its slot")
                     if artifact_path.stem != capture.capture_id:
                         raise CapturePersistenceError("persisted capture filename does not match capture identity")
+                    expected_capture_id = str(uuid5(
+                        NAMESPACE_URL,
+                        f"{plan_id}:{repeat_index}:{window_index}:{endpoint}:{capture.captured_at}",
+                    ))
+                    if capture.capture_id != expected_capture_id:
+                        raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
+                    _validate_page_provenance(payload.get("page_provenance"), plan)
                     expected_product = None if endpoint == "wallet_transactions" else plan.product_id
                     if (capture.venue.strip().lower() != plan.venue.strip().lower()
                             or capture.account_id != plan.account_id
