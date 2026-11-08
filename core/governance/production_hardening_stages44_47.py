@@ -197,13 +197,13 @@ def evaluate_incident_response(e: IncidentResponseEvidence) -> StageAssessment:
         elapsed = (acknowledged - detected).total_seconds()
         if elapsed < 0:
             reasons.append("acknowledgement predates detection")
-        elif elapsed > e.maximum_acknowledgement_seconds:
+        elif (isinstance(e.maximum_acknowledgement_seconds, int) and not isinstance(e.maximum_acknowledgement_seconds, bool) and e.maximum_acknowledgement_seconds >= 0 and elapsed > e.maximum_acknowledgement_seconds):
             reasons.append("acknowledgement target exceeded")
     if detected and contained:
         elapsed = (contained - detected).total_seconds()
         if elapsed < 0:
             reasons.append("containment predates detection")
-        elif elapsed > e.maximum_containment_seconds:
+        elif (isinstance(e.maximum_containment_seconds, int) and not isinstance(e.maximum_containment_seconds, bool) and e.maximum_containment_seconds >= 0 and elapsed > e.maximum_containment_seconds):
             reasons.append("containment target exceeded")
     for name in ("evidence_preserved", "escalation_tested",
                  "stakeholder_communications_complete", "corrective_actions_tracked"):
