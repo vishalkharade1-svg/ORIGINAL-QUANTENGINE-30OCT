@@ -390,3 +390,335 @@ def evaluate_paper_canary(evidence: PaperCanaryEvidence) -> PaperCanaryAssessmen
         "PAPER_CANARY_PASS",
         ("bounded paper canary passed; live execution remains disabled",),
     )
+
+
+# ---------------------------------------------------------------------------
+# Production hardening Stages 16–19: evidence, Testnet drill, monitoring, gate.
+# All evaluators are pure/offline and never authorize live execution.
+# ---------------------------------------------------------------------------
+
+@dataclass(frozen=True)
+class EvidenceArtifactDescriptor:
+    artifact_id: str
+    sha256: str
+    source_ref: str
+
+
+@dataclass(frozen=True)
+class EvidencePackageEvidence:
+    package_id: str
+    scope: str
+    issuer_ref: str
+    independent_reviewer_ref: str
+    source_commit: str
+    reviewed_at_utc: str
+    valid_until_utc: str
+    required_artifact_ids: tuple[str, ...]
+    artifacts: tuple[EvidenceArtifactDescriptor, ...]
+
+
+@dataclass(frozen=True)
+class EvidencePackageAssessment:
+    stage: int
+    status: str
+    artifact_count: int
+    reasons: tuple[str, ...]
+    live_arming_permitted: bool = False
+
+
+def evaluate_evidence_package(
+    evidence: EvidencePackageEvidence, *, expected_scope: str, evaluated_at_utc: str
+) -> EvidencePackageAssessment:
+    """Validate a complete, scoped evidence index without claiming authenticity."""
+    reasons: list[str] = []
+    for label, value in (
+        ("package_id", evidence.package_id), ("scope", evidence.scope),
+        ("issuer_ref", evidence.issuer_ref),
+        ("independent_reviewer_ref", evidence.independent_reviewer_ref),
+        ("source_commit", evidence.source_commit),
+    ):
+        if not isinstance(value, str) or not value.strip():
+            reasons.append("%s is required" % label)
+    if evidence.scope != expected_scope:
+        reasons.append("evidence package scope mismatch")
+    if evidence.issuer_ref == evidence.independent_reviewer_ref:
+        reasons.append("issuer and independent reviewer must be distinct")
+    if not isinstance(evidence.source_commit, str) or not _SHA256.fullmatch(evidence.source_commit):
+        reasons.append("source_commit must be a lowercase SHA-256")
+    try:
+        reviewed = _parse_utc(evidence.reviewed_at_utc, "reviewed_at_utc")
+        expires = _parse_utc(evidence.valid_until_utc, "valid_until_utc")
+        evaluated = _parse_utc(evaluated_at_utc, "evaluated_at_utc")
+        if expires <= reviewed:
+            reasons.append("evidence validity window is empty or inverted")
+        if evaluated < reviewed:
+            reasons.append("evidence review timestamp is in the future")
+        if evaluated >= expires:
+            reasons.append("evidence package is expired")
+    except (TypeError, ValueError) as exc:
+        reasons.append(str(exc))
+    required = evidence.required_artifact_ids
+    artifacts = evidence.artifacts
+    if not isinstance(required, tuple) or not required or any(
+        not isinstance(item, str) or not item.strip() for item in required
+    ):
+        reasons.append("required_artifact_ids must be a non-empty tuple of identifiers")
+        required = ()
+    if len(set(required)) != len(required):
+        reasons.append("required artifact identifiers contain duplicates")
+    seen: set[str] = set()
+    if not isinstance(artifacts, tuple):
+        reasons.append("artifacts must be a tuple")
+        artifacts = ()
+    for artifact in artifacts:
+        if not isinstance(artifact, EvidenceArtifactDescriptor):
+            reasons.append("artifact descriptor has an invalid type")
+            continue
+        if not artifact.artifact_id or artifact.artifact_id in seen:
+            reasons.append("artifact identifiers must be non-empty and unique")
+        seen.add(artifact.artifact_id)
+        if not isinstance(artifact.sha256, str) or not _SHA256.fullmatch(artifact.sha256):
+            reasons.append("artifact %s has an invalid SHA-256" % artifact.artifact_id)
+        if not isinstance(artifact.source_ref, str) or not artifact.source_ref.strip():
+            reasons.append("artifact %s is missing its source reference" % artifact.artifact_id)
+    if set(required) - seen:
+        reasons.append("required evidence artifacts are missing")
+    if reasons:
+        return EvidencePackageAssessment(16, "BLOCKED", len(artifacts), tuple(reasons))
+    return EvidencePackageAssessment(
+        16, "EVIDENCE_INDEX_COMPLETE_UNAUTHENTICATED", len(artifacts),
+        ("artifact hashes are declarations; retrieve and independently authenticate source artifacts",),
+    )
+
+
+@dataclass(frozen=True)
+class TestnetDrillEvidence:
+    drill_id: str
+    environment: str
+    started_at_utc: str
+    ended_at_utc: str
+    evaluated_at_utc: str
+    stage16_status: str
+    read_only_probe_ref: str
+    market_data_stream_ref: str
+    write_guard_test_ref: str
+    reconciliation_ref: str
+    restart_recovery_ref: str
+    observed_samples: int
+    minimum_samples: int
+    exchange_write_count: int
+    unresolved_reconciliation_count: int
+    restart_recovery_passed: bool
+
+
+@dataclass(frozen=True)
+class TestnetDrillAssessment:
+    stage: int
+    status: str
+    reasons: tuple[str, ...]
+    live_arming_permitted: bool = False
+
+
+def evaluate_testnet_drill(evidence: TestnetDrillEvidence) -> TestnetDrillAssessment:
+    """Assess operator-supplied Testnet drill evidence; does not contact a venue."""
+    holds: list[str] = []
+    breaches: list[str] = []
+    if evidence.environment != "DELTA_INDIA_TESTNET":
+        holds.append("environment must be explicitly DELTA_INDIA_TESTNET")
+    if evidence.stage16_status != "EVIDENCE_INDEX_COMPLETE_UNAUTHENTICATED":
+        holds.append("Stage 16 evidence index is not complete")
+    for label, value in (
+        ("drill_id", evidence.drill_id),
+        ("read-only probe reference", evidence.read_only_probe_ref),
+        ("market-data stream reference", evidence.market_data_stream_ref),
+        ("write-guard test reference", evidence.write_guard_test_ref),
+        ("reconciliation reference", evidence.reconciliation_ref),
+        ("restart-recovery reference", evidence.restart_recovery_ref),
+    ):
+        if not isinstance(value, str) or not value.strip():
+            holds.append("%s is required" % label)
+    try:
+        started = _parse_utc(evidence.started_at_utc, "started_at_utc")
+        ended = _parse_utc(evidence.ended_at_utc, "ended_at_utc")
+        evaluated = _parse_utc(evidence.evaluated_at_utc, "evaluated_at_utc")
+        if ended <= started:
+            holds.append("Testnet drill window must be positive")
+        if evaluated < ended:
+            holds.append("drill cannot be evaluated before it ends")
+    except (TypeError, ValueError) as exc:
+        holds.append(str(exc))
+    for label, value in (
+        ("observed_samples", evidence.observed_samples),
+        ("minimum_samples", evidence.minimum_samples),
+        ("exchange_write_count", evidence.exchange_write_count),
+        ("unresolved_reconciliation_count", evidence.unresolved_reconciliation_count),
+    ):
+        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+            holds.append("%s must be a non-negative integer" % label)
+    if isinstance(evidence.observed_samples, int) and isinstance(evidence.minimum_samples, int):
+        if evidence.observed_samples < evidence.minimum_samples:
+            holds.append("minimum Testnet observation sample count not reached")
+    if evidence.exchange_write_count != 0:
+        breaches.append("exchange write observed; Testnet drill failed closed")
+    if evidence.unresolved_reconciliation_count != 0:
+        breaches.append("unresolved reconciliation remains")
+    if evidence.restart_recovery_passed is not True:
+        holds.append("restart recovery drill did not pass")
+    if breaches:
+        return TestnetDrillAssessment(17, "DRILL_FAILED", tuple(breaches + holds))
+    if holds:
+        return TestnetDrillAssessment(17, "HOLD", tuple(holds))
+    return TestnetDrillAssessment(
+        17, "TESTNET_DRILL_EVIDENCE_COMPLETE_UNVERIFIED",
+        ("operator-supplied drill evidence requires independent venue-side validation",),
+    )
+
+
+@dataclass(frozen=True)
+class OperationalMonitorEvidence:
+    observed_at_utc: str
+    evaluated_at_utc: str
+    max_age_seconds: int
+    data_age_seconds: int
+    latency_ms: float
+    latency_budget_ms: float
+    clock_skew_ms: float
+    clock_skew_budget_ms: float
+    data_gap_count: int
+    position_mismatch_count: int
+    unresolved_order_count: int
+    audit_chain_valid: bool
+    kill_switch_tested: bool
+
+
+@dataclass(frozen=True)
+class OperationalMonitorAssessment:
+    stage: int
+    status: str
+    reasons: tuple[str, ...]
+    live_arming_permitted: bool = False
+
+
+def evaluate_operational_monitor(
+    evidence: OperationalMonitorEvidence,
+) -> OperationalMonitorAssessment:
+    """Evaluate a monitor snapshot. Breaches halt paper operations; no live authority."""
+    holds: list[str] = []
+    breaches: list[str] = []
+    try:
+        observed = _parse_utc(evidence.observed_at_utc, "observed_at_utc")
+        evaluated = _parse_utc(evidence.evaluated_at_utc, "evaluated_at_utc")
+        if evaluated < observed:
+            holds.append("monitor observation is in the future")
+    except (TypeError, ValueError) as exc:
+        holds.append(str(exc))
+    for label, value in (
+        ("max_age_seconds", evidence.max_age_seconds),
+        ("data_age_seconds", evidence.data_age_seconds),
+        ("data_gap_count", evidence.data_gap_count),
+        ("position_mismatch_count", evidence.position_mismatch_count),
+        ("unresolved_order_count", evidence.unresolved_order_count),
+    ):
+        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+            holds.append("%s must be a non-negative integer" % label)
+    try:
+        latency = _finite_nonnegative("latency_ms", evidence.latency_ms)
+        latency_budget = _finite_nonnegative("latency_budget_ms", evidence.latency_budget_ms)
+        skew = _finite_nonnegative("clock_skew_ms", evidence.clock_skew_ms)
+        skew_budget = _finite_nonnegative("clock_skew_budget_ms", evidence.clock_skew_budget_ms)
+        if latency_budget <= 0 or skew_budget <= 0:
+            holds.append("latency and clock-skew budgets must be positive")
+    except ValueError as exc:
+        holds.append(str(exc))
+        latency = latency_budget = skew = skew_budget = 0.0
+    if isinstance(evidence.data_age_seconds, int) and isinstance(evidence.max_age_seconds, int):
+        if evidence.data_age_seconds > evidence.max_age_seconds:
+            breaches.append("market data is stale")
+    if isinstance(evidence.data_gap_count, int) and evidence.data_gap_count > 0:
+        breaches.append("market-data gap detected")
+    if isinstance(evidence.position_mismatch_count, int) and evidence.position_mismatch_count > 0:
+        breaches.append("position reconciliation mismatch detected")
+    if isinstance(evidence.unresolved_order_count, int) and evidence.unresolved_order_count > 0:
+        breaches.append("unresolved order detected")
+    if latency_budget > 0 and latency > latency_budget:
+        breaches.append("latency budget exceeded")
+    if skew_budget > 0 and skew > skew_budget:
+        breaches.append("clock-skew budget exceeded")
+    if evidence.audit_chain_valid is not True:
+        breaches.append("audit chain is invalid")
+    if evidence.kill_switch_tested is not True:
+        holds.append("kill switch test is not attested")
+    if breaches:
+        return OperationalMonitorAssessment(18, "HALT_PAPER_OPERATIONS", tuple(breaches + holds))
+    if holds:
+        return OperationalMonitorAssessment(18, "HOLD", tuple(holds))
+    return OperationalMonitorAssessment(
+        18, "PAPER_MONITORING_HEALTHY",
+        ("monitor snapshot passed configured paper-operation limits",),
+    )
+
+
+@dataclass(frozen=True)
+class ControlledReviewEvidence:
+    stage16_status: str
+    stage17_status: str
+    stage18_status: str
+    stage4_lineage_verified: bool
+    full_regression_passed: bool
+    oos_certification_ref: str
+    independent_oos_review_ref: str
+    rr_policy_reconciled: bool
+    owner_approval_ref: str
+    strategy_digest: str
+    deployment_digest: str
+
+
+@dataclass(frozen=True)
+class ControlledReviewAssessment:
+    stage: int
+    status: str
+    reasons: tuple[str, ...]
+    live_arming_permitted: bool = False
+
+
+def evaluate_controlled_review(evidence: ControlledReviewEvidence) -> ControlledReviewAssessment:
+    """Final evidence gate; strongest state is review-only, never live authorization."""
+    reasons: list[str] = []
+    expected = (
+        ("Stage 16", evidence.stage16_status, "EVIDENCE_INDEX_COMPLETE_UNAUTHENTICATED"),
+        ("Stage 17", evidence.stage17_status, "TESTNET_DRILL_EVIDENCE_COMPLETE_UNVERIFIED"),
+        ("Stage 18", evidence.stage18_status, "PAPER_MONITORING_HEALTHY"),
+    )
+    for label, actual, required in expected:
+        if actual != required:
+            reasons.append("%s prerequisite is not satisfied" % label)
+    for label, value in (
+        ("Stage 4 Git lineage verification", evidence.stage4_lineage_verified),
+        ("full regression", evidence.full_regression_passed),
+        ("RR policy reconciliation", evidence.rr_policy_reconciled),
+    ):
+        if value is not True:
+            reasons.append("%s is not verified" % label)
+    for label, value in (
+        ("OOS certification reference", evidence.oos_certification_ref),
+        ("independent OOS review reference", evidence.independent_oos_review_ref),
+        ("owner approval reference", evidence.owner_approval_ref),
+    ):
+        if not isinstance(value, str) or not value.strip():
+            reasons.append("%s is missing" % label)
+    if evidence.oos_certification_ref == evidence.independent_oos_review_ref:
+        reasons.append("OOS certification and independent review must be distinct")
+    for label, value in (
+        ("strategy_digest", evidence.strategy_digest),
+        ("deployment_digest", evidence.deployment_digest),
+    ):
+        if not isinstance(value, str) or not _SHA256.fullmatch(value):
+            reasons.append("%s must be a lowercase SHA-256" % label)
+    if evidence.strategy_digest != evidence.deployment_digest:
+        reasons.append("strategy and deployment digests differ")
+    if reasons:
+        return ControlledReviewAssessment(19, "HOLD", tuple(reasons))
+    return ControlledReviewAssessment(
+        19, "READY_FOR_CONTROLLED_TESTNET_REVIEW",
+        ("independent review only; no deployment, exchange write, or live arming is authorized",),
+    )

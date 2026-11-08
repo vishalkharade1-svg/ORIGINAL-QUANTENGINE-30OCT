@@ -1,0 +1,38 @@
+name: Stage 16–19 production hardening controls
+
+on:
+  pull_request:
+    branches: [main, production-hardening/stages-12-15]
+    paths:
+      - "core/governance/production_hardening_runtime.py"
+      - "tests/test_production_hardening_stages16_19.py"
+      - "docs/production_hardening_stages16_19.md"
+      - "BUILD_MANIFEST.sha256"
+      - ".github/workflows/stage16-19-hardening.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage16-19-hardening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage16-19:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest==9.0.3
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Compile production hardening runtime
+        run: python -m py_compile core/governance/production_hardening_runtime.py
+      - name: Stage 16–19 control tests
+        run: python -m pytest -q tests/test_production_hardening_stages16_19.py
