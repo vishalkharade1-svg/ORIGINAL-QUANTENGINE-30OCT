@@ -133,6 +133,18 @@ def test_resume_rejects_malformed_or_out_of_scope_page_provenance(tmp_path):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
 
 
+def test_resume_rejects_page_provenance_over_total_page_budget(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z", max_total_pages=1)
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["page_provenance"] = [{}, {}]
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="exceeds the total page budget"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
 def test_resume_can_be_disabled_explicitly(tmp_path):
     plan = make_plan(end="2026-10-01T01:00:00Z")
     first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
