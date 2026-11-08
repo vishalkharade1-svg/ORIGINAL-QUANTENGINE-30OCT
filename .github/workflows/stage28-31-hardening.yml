@@ -1,0 +1,38 @@
+name: Stage 28–31 production hardening controls
+
+on:
+  pull_request:
+    branches: [main, production-hardening/stages-24-27]
+    paths:
+      - "core/governance/production_hardening_stages28_31.py"
+      - "tests/test_production_hardening_stages28_31.py"
+      - "docs/production_hardening_stages28_31.md"
+      - "BUILD_MANIFEST.sha256"
+      - ".github/workflows/stage28-31-hardening.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage28-31-hardening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage28-31:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest==9.0.3
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Compile Stage 28–31 module
+        run: python -m py_compile core/governance/production_hardening_stages28_31.py
+      - name: Stage 28–31 focused tests
+        run: python -m pytest -q tests/test_production_hardening_stages28_31.py
