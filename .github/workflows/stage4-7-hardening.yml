@@ -1,0 +1,59 @@
+name: Stage 4–7 production hardening verification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "core/live/reconciler.py"
+      - "core/registry/verified_contract.py"
+      - "core/exchanges/delta/delta_history.py"
+      - "data/delta/verified_socket_transport.py"
+      - "tests/test_stage4_paper_certification.py"
+      - "tests/test_stage4_soak.py"
+      - "tests/test_verified_contract_phase5.py"
+      - "tests/test_verified_gap_recovery_phase6.py"
+      - "tests/test_reconciler_snapshot_durability_phase7.py"
+      - "docs/production_hardening_stages4_7.md"
+      - "BUILD_MANIFEST.sha256"
+      - ".github/workflows/stage4-7-hardening.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage4-7-hardening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage4-7:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Stage 4's Git-integrity contract intentionally asserts the local
+      # checkout branch name. Keep the exact PR commit, only normalize the
+      # local name used by the test; the remote PR branch is untouched.
+      - name: Establish full-history checkout on local main
+        run: git switch -C main "$GITHUB_SHA"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install project requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Stage 4 paper certification
+        run: python -m pytest -q tests/test_stage4_paper_certification.py
+      - name: Stage 4 continuous paper soak
+        run: python -m pytest -q tests/test_stage4_soak.py
+      - name: Stage 5 verified contract and sizing
+        run: python -m pytest -q tests/test_verified_contract_phase5.py
+      - name: Stage 6 verified gap recovery
+        run: python -m pytest -q tests/test_verified_gap_recovery_phase6.py
+      - name: Stage 7 snapshot durability
+        run: python -m pytest -q tests/test_reconciler_snapshot_durability_phase7.py
