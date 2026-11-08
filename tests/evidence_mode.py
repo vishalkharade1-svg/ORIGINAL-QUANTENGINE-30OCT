@@ -144,6 +144,21 @@ def require_git_commits(case, refs: list[str], detail: str = "") -> None:
         )
 
 
+def require_artifact_files(case, paths: list[Path], detail: str) -> None:
+    """Keep historical archive assertions blocked, not failed, when source bytes are absent.
+
+    If every required file exists, callers continue with their original hash,
+    integrity, and content assertions unchanged. This never treats a missing
+    artifact as verified or substitutes a newly generated archive.
+    """
+    missing = [str(path) for path in paths if not Path(path).is_file()]
+    if missing:
+        case.skipTest(
+            "%s: required historical artifact(s) unavailable: %s. %s"
+            % (SKIP_PREFIX, ", ".join(missing), detail)
+        )
+
+
 def require_git_fact(case, fact_id: str, detail: str = "") -> None:
     """Enforce the contract for one Git-dependent test method.
 
