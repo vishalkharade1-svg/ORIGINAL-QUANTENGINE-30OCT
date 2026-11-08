@@ -10,6 +10,8 @@ import hashlib
 import json
 import os
 import zipfile
+
+from tests.evidence_mode import require_artifact_files
 from decimal import Decimal, ROUND_HALF_UP, ROUND_FLOOR, ROUND_CEILING
 import pytest
 
@@ -68,6 +70,7 @@ class TestPhase0BaselineReproduction:
     def test_phase175_archive_hash_matches_detached_record(self):
         zip_path = os.path.join(DELIVERY_DIR, "QuantEngine_PHASE175_RELEASE_CANDIDATE.zip")
         rec_path = os.path.join(DELIVERY_DIR, "RELEASE_HASH_PHASE175.txt")
+        require_artifact_files(self, [Path(zip_path), Path(rec_path)], "Phase 175 archive provenance remains blocked pending original artifact recovery")
         assert os.path.isfile(zip_path), f"Phase 175 zip missing: {zip_path}"
         assert os.path.isfile(rec_path), f"Phase 175 hash record missing: {rec_path}"
 
@@ -80,6 +83,7 @@ class TestPhase0BaselineReproduction:
     def test_phase176_archive_hash_matches_detached_record(self):
         zip_path = os.path.join(DELIVERY_DIR, "QuantEngine_PHASE176_RELEASE_CANDIDATE.zip")
         rec_path = os.path.join(DELIVERY_DIR, "RELEASE_HASH_PHASE176.txt")
+        require_artifact_files(self, [Path(zip_path), Path(rec_path)], "Phase 176 archive provenance remains blocked pending original artifact recovery")
         assert os.path.isfile(zip_path), f"Phase 176 zip missing: {zip_path}"
         assert os.path.isfile(rec_path), f"Phase 176 hash record missing: {rec_path}"
 
@@ -91,6 +95,7 @@ class TestPhase0BaselineReproduction:
 
     def test_phase176_archive_integrity_and_members(self):
         zip_path = os.path.join(DELIVERY_DIR, "QuantEngine_PHASE176_RELEASE_CANDIDATE.zip")
+        require_artifact_files(self, [Path(zip_path)], "Phase 176 archive integrity remains blocked pending original artifact recovery")
         with zipfile.ZipFile(zip_path, "r") as zf:
             bad_crc = zf.testzip()
             assert bad_crc is None, f"Corrupted file in Phase 176 archive: {bad_crc}"
