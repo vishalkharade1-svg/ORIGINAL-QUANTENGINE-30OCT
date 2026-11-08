@@ -21,6 +21,8 @@ import unittest
 from pathlib import Path
 from types import SimpleNamespace
 
+from tests.evidence_mode import require_git_commits
+
 ROOT = Path(__file__).resolve().parents[1]
 
 STRATEGY_FILES = [
@@ -132,6 +134,10 @@ class TestNormalizedStrategyDigest(unittest.TestCase):
         self.assertFalse(obj["matches_recorded"])
 
     def test_only_phase4_files_differ_from_pre_phase4(self):
+        require_git_commits(
+            self, ["47fbecd"],
+            "Phase 4 delta requires the original 47fbecd baseline commit",
+        )
         probe = subprocess.run(
             ["git", "rev-parse", "--is-inside-work-tree"],
             capture_output=True, text=True, cwd=str(ROOT), timeout=15,

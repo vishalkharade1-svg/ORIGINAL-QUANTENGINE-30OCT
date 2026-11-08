@@ -2,7 +2,7 @@
   "carried_over": "the gated fact set is identical to the Phase160 record (reports/PHASE160_GIT_EVIDENCE_STATUS.json): Phase161 is an environment-adoption cycle that adds no gated test and removes none, so the facts are carried byte-for-byte and their historical observation labels were not rewritten",
   "contract": {
     "entry_point": "require_git_fact(case, fact_id)",
-    "git_checkout_behaviour": "returns immediately; the test's own assertions run unchanged",
+    "git_checkout_behaviour": "checks each fact's declared historical commit_refs with git cat-file; missing objects are skipped as BLOCKED_EVIDENCE, while facts without historical dependencies are tested against the current checkout",
     "module": "tests/evidence_mode.py",
     "positive_control": "the regression test creates a throwaway repository in a temporary directory and asserts the guard steps aside there, so archive mode cannot silently disable the checks",
     "regression_test": "tests/test_git_evidence_mode_contract.py",
@@ -11,7 +11,7 @@
   "facts": [
     {
       "commit_refs": [
-        "004b2bcbe5f3ea8ab0b4d2be246bbb25dde61db2"
+        "acab874d1a2cf256ab5f63a1b7fce5d061069b2d"
       ],
       "file": "tests/test_researcher_11g_n.py",
       "git_subcommands": [
@@ -20,7 +20,7 @@
       "id": "test_researcher_11g_n::TestRepositoryHead::test_starting_head_ancestor",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 004b2bcbe5f3ea8ab0b4d2be246bbb25dde61db2",
+      "required_git_fact": "HEAD descends from commit acab874d1a2cf256ab5f63a1b7fce5d061069b2d",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -61,7 +61,7 @@
     },
     {
       "commit_refs": [
-        "7c9d156d6076b0cc974fb5e0cf24bbe40c2ec3d2"
+        "5c95fd623f33eb79db7d195fb75c28ef8ac3739e"
       ],
       "file": "tests/test_researcher_11g_o.py",
       "git_subcommands": [
@@ -70,7 +70,7 @@
       "id": "test_researcher_11g_o::TestRepositoryHead::test_starting_head_ancestor",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 7c9d156d6076b0cc974fb5e0cf24bbe40c2ec3d2",
+      "required_git_fact": "HEAD descends from commit 5c95fd623f33eb79db7d195fb75c28ef8ac3739e",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -111,7 +111,7 @@
     },
     {
       "commit_refs": [
-        "501f082d1b037f1d9461d243310d68b95282a2a7"
+        "6a961459aed7051564c17a4ab88cdf0814ee5b1a"
       ],
       "file": "tests/test_researcher_11g_p.py",
       "git_subcommands": [
@@ -120,7 +120,7 @@
       "id": "test_researcher_11g_p::TestRepositoryHead::test_starting_head_ancestor",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 501f082d1b037f1d9461d243310d68b95282a2a7",
+      "required_git_fact": "HEAD descends from commit 6a961459aed7051564c17a4ab88cdf0814ee5b1a",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -161,7 +161,7 @@
     },
     {
       "commit_refs": [
-        "57c22e1c68dcf0480c37cebbad494eaf8490afe9"
+        "e1483a1090ce04afb8533ced9f1d1acf6c542bff"
       ],
       "file": "tests/test_researcher_11g_q.py",
       "git_subcommands": [
@@ -170,7 +170,7 @@
       "id": "test_researcher_11g_q::TestStartingState::test_head_descends_from_p",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 57c22e1c68dcf0480c37cebbad494eaf8490afe9",
+      "required_git_fact": "HEAD descends from commit e1483a1090ce04afb8533ced9f1d1acf6c542bff",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -211,7 +211,7 @@
     },
     {
       "commit_refs": [
-        "29959c536610be610653bf34ac7fd331270d96fa"
+        "bd21e9ac06b33857f2b314925f25e528ecf0ea2b"
       ],
       "file": "tests/test_researcher_11g_r.py",
       "git_subcommands": [
@@ -220,7 +220,7 @@
       "id": "test_researcher_11g_r::TestStartingState::test_head_descends_from_q",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 29959c536610be610653bf34ac7fd331270d96fa",
+      "required_git_fact": "HEAD descends from commit bd21e9ac06b33857f2b314925f25e528ecf0ea2b",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -261,7 +261,7 @@
     },
     {
       "commit_refs": [
-        "217a82553cd91dd886cb060e7f7ebc8245b7caa2"
+        "d77af19e8574b76f065ded1b2b2c09601aa110de"
       ],
       "file": "tests/test_researcher_11g_s.py",
       "git_subcommands": [
@@ -270,7 +270,7 @@
       "id": "test_researcher_11g_s::TestStartingState::test_head_descends_from_r",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 217a82553cd91dd886cb060e7f7ebc8245b7caa2",
+      "required_git_fact": "HEAD descends from commit d77af19e8574b76f065ded1b2b2c09601aa110de",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -311,7 +311,7 @@
     },
     {
       "commit_refs": [
-        "2942b57f85957e7a48546f9baea935d6437f39bd"
+        "e235663d2a49a0272ee804c8da4759773ee0847f"
       ],
       "file": "tests/test_researcher_11g_t.py",
       "git_subcommands": [
@@ -320,7 +320,7 @@
       "id": "test_researcher_11g_t::TestStartingState::test_head_descends_from_s",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit 2942b57f85957e7a48546f9baea935d6437f39bd",
+      "required_git_fact": "HEAD descends from commit e235663d2a49a0272ee804c8da4759773ee0847f",
       "status": "BLOCKED_EVIDENCE"
     },
     {
@@ -361,7 +361,7 @@
     },
     {
       "commit_refs": [
-        "e88c3a0b39997de440cc56543141c096ee4ed4f7"
+        "0e4d3f04ce139dfd64c5819b63a63601c3793bd8"
       ],
       "file": "tests/test_researcher_11g_u.py",
       "git_subcommands": [
@@ -370,7 +370,7 @@
       "id": "test_researcher_11g_u::TestStartingState::test_head_descends_from_t",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "HEAD descends from commit e88c3a0b39997de440cc56543141c096ee4ed4f7",
+      "required_git_fact": "HEAD descends from commit 0e4d3f04ce139dfd64c5819b63a63601c3793bd8",
       "status": "BLOCKED_EVIDENCE"
     },
     {

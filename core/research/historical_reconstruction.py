@@ -111,10 +111,15 @@ def reconstruct_strategy_history(root: Path) -> dict:
     m_head = reconstruct_milestone(root, "ffefa14", "Git HEAD (Current Branch)")
     m_disk = reconstruct_working_tree(root)
 
-    # Reconcile changes per file between Phase 14 baseline and Current Disk
+    # A missing historical commit means there is no defensible baseline for
+    # per-file comparison. Do not turn absent hashes into "modified=True".
     file_reconciliation = []
     disk_map = {f["file"]: f for f in m_disk["per_file"]}
     base_map = {f["file"]: f for f in m_phase14_base.get("per_file", [])}
+    baseline_available = (
+        m_phase14_base.get("composite_sha256_lf") is not None
+        and len(base_map) == len(LEGACY_9_FILES)
+    )
 
     for rel in LEGACY_9_FILES:
         base_f = base_map.get(rel, {})
@@ -123,8 +128,13 @@ def reconstruct_strategy_history(root: Path) -> dict:
         is_infra = rel in RUNTIME_INFRA_FILES
         layer = "Alpha Strategy Core" if is_core else "Runtime Infrastructure"
 
-        modified = base_f.get("sha256_lf") != disk_f.get("sha256_lf")
+        modified = (
+            base_f.get("sha256_lf") != disk_f.get("sha256_lf")
+            if baseline_available else None
+        )
         notes = []
+        if not baseline_available:
+            notes.append("BLOCKED_EVIDENCE: Phase 14 baseline commit unavailable")
         if rel == "core/setup/decision_engine.py":
             notes.append("Phase 4 MIN_CONFIDENCE shadow gate correction")
         elif rel == "backtesting/backtester.py":
@@ -155,6 +165,10 @@ def reconstruct_strategy_history(root: Path) -> dict:
             m_head,
             m_disk,
         ],
+        "evidence_status": (
+            "VERIFIED" if baseline_available
+            else "BLOCKED_EVIDENCE: required historical Git objects unavailable"
+        ),
         "file_reconciliation": file_reconciliation,
         "findings": {
             "historical_pin_provenance": (

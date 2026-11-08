@@ -240,6 +240,7 @@ class CaptureRunResult:
     status: str
     snapshots: list[CaptureSnapshot] = field(default_factory=list)
     reconciliation_reports: list[dict[str, Any]] = field(default_factory=list)
+    cross_window_reconciliation_reports: list[dict[str, Any]] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     requested_windows: int = 0
     completed_windows: int = 0
@@ -259,7 +260,7 @@ class HistoricalCaptureOrchestrator:
         self._clock = clock or (lambda: datetime.now(timezone.utc))
         self._sleep = sleeper
 
-    def run(self, plan: HistoricalCapturePlan) -> CaptureRunResult:
+    def run(self, plan: HistoricalCapturePlan, *, resume: bool = True) -> CaptureRunResult:
         windows = generate_windows(plan)
         if plan.mode == "authenticated":
             if self._owner_authorizer is None or self._owner_authorizer(plan) is not True:
@@ -287,22 +288,96 @@ class HistoricalCaptureOrchestrator:
             "interval_seconds": plan.interval_seconds, "mode": plan.mode,
             "endpoints": plan.endpoints,
         }).decode("utf-8")))
+        if (not isinstance(plan_id, str) or not plan_id.strip() or len(plan_id) > 128
+                or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
+                or Path(plan_id).name != plan_id):
+            raise CapturePlanError("plan_id must be a safe single path component")
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
-        prior_by_window: dict[tuple[int, str], CaptureSnapshot] = {}
+        # Phase 207: reconstruct verified Phase-207 artifacts before issuing
+        # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
+        # are intentionally not guessed into a window/repeat position.
+        slot_latest: dict[tuple[int, int, str], CaptureSnapshot] = {}
+        plan_dir = self._root / plan_id
+        if resume and plan_dir.exists():
+            recovered: list[tuple[int, int, str, CaptureSnapshot]] = []
+            for artifact_path in sorted(plan_dir.glob("*.json")):
+                try:
+                    payload = json.loads(artifact_path.read_text(encoding="utf-8"))
+                    schema = payload.get("schema")
+                    if schema == "quantengine.phase206.capture.v1":
+                        # Phase-206 artifacts predate slot coordinates; preserve
+                        # them but never infer a resumable slot from their names.
+                        continue
+                    if schema != "quantengine.phase207.capture.v1":
+                        raise CapturePersistenceError("persisted capture schema is unsupported")
+                    if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
+                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                    repeat_index = payload.get("repeat_index")
+                    window_index = payload.get("window_index")
+                    endpoint = payload.get("endpoint")
+                    if (not _bounded_int(repeat_index, 0, plan.repeat_count - 1)
+                            or not _bounded_int(window_index, 0, len(windows) - 1)
+                            or endpoint not in plan.endpoints):
+                        raise CapturePersistenceError("persisted capture has invalid slot coordinates")
+                    capture = CaptureSnapshot.from_dict(payload.get("capture", {}))
+                    if capture.record_category != endpoint:
+                        raise CapturePersistenceError("persisted capture endpoint does not match its slot")
+                    if artifact_path.stem != capture.capture_id:
+                        raise CapturePersistenceError("persisted capture filename does not match capture identity")
+                    expected_product = None if endpoint == "wallet_transactions" else plan.product_id
+                    if (capture.venue.strip().lower() != plan.venue.strip().lower()
+                            or capture.account_id != plan.account_id
+                            or capture.product_id != expected_product):
+                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                    expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
+                    if payload.get("capture_status") != expected_status:
+                        raise CapturePersistenceError("persisted capture status does not match its completeness flags")
+                    expected_window = windows[window_index]
+                    expected_start, expected_end = expected_window.as_iso()
+                    if capture.window_start != expected_start or capture.window_end != expected_end:
+                        raise CapturePersistenceError("persisted capture window does not match its slot")
+                    if len(capture.records) > plan.max_records_per_snapshot:
+                        raise CapturePersistenceError("persisted capture exceeds per-snapshot record budget")
+                    recovered.append((repeat_index, window_index, endpoint, capture))
+                except CapturePersistenceError:
+                    raise
+                except Exception as exc:
+                    raise CapturePersistenceError(
+                        f"persisted capture could not be verified ({type(exc).__name__})"
+                    ) from None
+            for repeat_index, window_index, endpoint, capture in sorted(
+                    recovered, key=lambda item: (item[0], item[1], item[2], item[3].captured_at)):
+                result.snapshots.append(capture)
+                result.total_records += len(capture.records)
+                if result.total_records > plan.max_total_records:
+                    raise CapturePersistenceError("persisted captures exceed total record budget")
+                key = (repeat_index, window_index, endpoint)
+                previous = slot_latest.get(key)
+                if previous is None or capture.captured_at >= previous.captured_at:
+                    slot_latest[key] = capture
         run_count = 0
         for repeat in range(plan.repeat_count):
             for index, window in enumerate(windows):
-                run_count += 1
-                if run_count > plan.max_capture_runs:
+                start_iso, end_iso = window.as_iso()
+                missing_endpoints = tuple(
+                    endpoint for endpoint in plan.endpoints
+                    if (repeat, index, endpoint) not in slot_latest
+                    or not slot_latest[(repeat, index, endpoint)].complete
+                    or not slot_latest[(repeat, index, endpoint)].pagination_complete
+                )
+                if not missing_endpoints:
+                    result.completed_windows += 1
+                    continue
+                if run_count >= plan.max_capture_runs:
                     result.status = "PARTIAL"
                     result.errors.append("MAX_CAPTURE_RUNS_REACHED")
                     return result
-                start_iso, end_iso = window.as_iso()
+                run_count += 1
                 try:
                     raw = self._adapter.capture(
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
-                        endpoints=plan.endpoints,
+                        endpoints=missing_endpoints,
                         max_pages_per_endpoint=plan.max_pages_per_endpoint,
                         max_total_pages=plan.max_total_pages,
                         request_timeout_seconds=plan.request_timeout_seconds,
@@ -310,15 +385,13 @@ class HistoricalCaptureOrchestrator:
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
-                    all_endpoints_complete = True
-                    for endpoint in plan.endpoints:
+                    for endpoint in missing_endpoints:
                         records = _snapshot_records(raw, endpoint)
                         if len(records) > plan.max_records_per_snapshot:
                             raise CapturePlanError("MAX_RECORDS_PER_SNAPSHOT_REACHED")
                         if result.total_records + len(records) > plan.max_total_records:
                             raise CapturePlanError("MAX_TOTAL_RECORDS_REACHED")
                         endpoint_complete = endpoint_status.get(endpoint) == "OK"
-                        all_endpoints_complete = all_endpoints_complete and endpoint_complete
                         capture_id = str(uuid5(
                             NAMESPACE_URL,
                             f"{plan_id}:{repeat}:{index}:{endpoint}:{captured_at}",
@@ -334,8 +407,9 @@ class HistoricalCaptureOrchestrator:
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
                         payload = {
-                            "schema": "quantengine.phase206.capture.v1",
+                            "schema": "quantengine.phase207.capture.v1",
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
+                            "repeat_index": repeat, "window_index": index,
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
@@ -347,30 +421,19 @@ class HistoricalCaptureOrchestrator:
                         )
                         result.snapshots.append(capture)
                         result.total_records += len(records)
-                        key = (index, endpoint)
-                        previous = prior_by_window.get(key)
-                        if previous is not None:
-                            try:
-                                report = reconcile_two_captures(previous, capture)
-                                result.reconciliation_reports.append({
-                                    "window_index": index, "repeat": repeat,
-                                    "endpoint": endpoint,
-                                    "status": "RECONCILED" if endpoint_complete and previous.complete else "INCONCLUSIVE",
-                                    "result": report.to_dict() if hasattr(report, "to_dict") else report,
-                                })
-                            except IncompatibleScopeError:
-                                result.reconciliation_reports.append({
-                                    "window_index": index, "repeat": repeat,
-                                    "endpoint": endpoint, "status": "INCOMPATIBLE_SCOPE",
-                                })
-                        prior_by_window[key] = capture
+                        slot_latest[(repeat, index, endpoint)] = capture
                         if not endpoint_complete:
                             result.status = "PARTIAL"
                             status_label = endpoint_status.get(endpoint, "STATUS_MISSING")
                             result.errors.append(
                                 f"window={index};repeat={repeat};endpoint={endpoint};status={status_label}"
                             )
-                    if all_endpoints_complete:
+                    if all(
+                        (repeat, index, endpoint) in slot_latest
+                        and slot_latest[(repeat, index, endpoint)].complete
+                        and slot_latest[(repeat, index, endpoint)].pagination_complete
+                        for endpoint in plan.endpoints
+                    ):
                         result.completed_windows += 1
                 except CapturePlanError as exc:
                     result.status = "PARTIAL"
@@ -383,6 +446,67 @@ class HistoricalCaptureOrchestrator:
                     result.errors.append(f"window={index};repeat={repeat};error={type(exc).__name__}")
                 if plan.interval_seconds and run_count < plan.max_capture_runs:
                     self._sleep(plan.interval_seconds)
+        # Reconcile repeated observations for the same window independently
+        # of execution order so reports are reconstructed after restart too.
+        for repeat in range(1, plan.repeat_count):
+            for index in range(len(windows)):
+                for endpoint in plan.endpoints:
+                    earlier = slot_latest.get((repeat - 1, index, endpoint))
+                    later = slot_latest.get((repeat, index, endpoint))
+                    if earlier is None or later is None:
+                        continue
+                    try:
+                        report = reconcile_two_captures(earlier, later)
+                        result.reconciliation_reports.append({
+                            "window_index": index,
+                            "repeat": repeat,
+                            "endpoint": endpoint,
+                            "status": (
+                                report.status
+                                if earlier.complete and earlier.pagination_complete
+                                and later.complete and later.pagination_complete
+                                else "INCONCLUSIVE"
+                            ),
+                            "result": report.to_dict() if hasattr(report, "to_dict") else report,
+                        })
+                    except IncompatibleScopeError:
+                        result.reconciliation_reports.append({
+                            "window_index": index, "repeat": repeat,
+                            "endpoint": endpoint, "status": "INCOMPATIBLE_SCOPE",
+                        })
+        # Reconcile adjacent windows independently of repeated same-window
+        # observations. This runs after the loop so it also works when every
+        # slot was recovered from disk and no adapter call was necessary.
+        for repeat in range(plan.repeat_count):
+            for index in range(1, len(windows)):
+                for endpoint in plan.endpoints:
+                    earlier = slot_latest.get((repeat, index - 1, endpoint))
+                    later = slot_latest.get((repeat, index, endpoint))
+                    if earlier is None or later is None:
+                        continue
+                    try:
+                        report = reconcile_two_captures(earlier, later)
+                        result.cross_window_reconciliation_reports.append({
+                            "repeat": repeat,
+                            "earlier_window_index": index - 1,
+                            "later_window_index": index,
+                            "endpoint": endpoint,
+                            "status": (
+                                report.status
+                                if earlier.complete and earlier.pagination_complete
+                                and later.complete and later.pagination_complete
+                                else "INCONCLUSIVE"
+                            ),
+                            "result": report.to_dict() if hasattr(report, "to_dict") else report,
+                        })
+                    except IncompatibleScopeError:
+                        result.cross_window_reconciliation_reports.append({
+                            "repeat": repeat,
+                            "earlier_window_index": index - 1,
+                            "later_window_index": index,
+                            "endpoint": endpoint,
+                            "status": "INCOMPATIBLE_SCOPE",
+                        })
         return result
 
 

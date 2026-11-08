@@ -19,6 +19,8 @@ from pathlib import Path
 
 import pytest
 
+from tests.evidence_mode import require_artifact_files
+
 ROOT = Path(__file__).resolve().parents[1]
 DELIVERY = ROOT.parent.parent / "DELIVERY"
 
@@ -53,13 +55,16 @@ class TestPhase176Provenance:
     """Verify Phase 175 archive integrity as Phase 176 input baseline."""
 
     def test_phase175_zip_exists(self):
+        require_artifact_files(self, [PHASE175_ZIP], "Phase 175 archive integrity remains blocked pending original artifact recovery")
         assert PHASE175_ZIP.exists(), "Phase 175 release candidate ZIP is missing from DELIVERY/"
 
     def test_phase175_hash_file_exists(self):
+        require_artifact_files(self, [PHASE175_HASH_FILE], "Phase 175 detached provenance remains blocked pending original record recovery")
         assert PHASE175_HASH_FILE.exists(), "RELEASE_HASH_PHASE175.txt is missing from DELIVERY/"
 
     def test_phase175_hash_matches(self):
         """RELEASE_HASH_PHASE175.txt must contain the expected SHA-256."""
+        require_artifact_files(self, [PHASE175_HASH_FILE], "Phase 175 detached provenance remains blocked pending original record recovery")
         content = PHASE175_HASH_FILE.read_text(encoding="utf-8")
         assert PHASE175_EXPECTED_HASH in content, (
             f"RELEASE_HASH_PHASE175.txt does not contain expected hash {PHASE175_EXPECTED_HASH}"
@@ -67,6 +72,7 @@ class TestPhase176Provenance:
 
     def test_phase175_zip_sha256_correct(self):
         """Compute actual SHA-256 of Phase 175 ZIP and verify it matches."""
+        require_artifact_files(self, [PHASE175_ZIP], "Phase 175 archive integrity remains blocked pending original artifact recovery")
         import hashlib
         h = hashlib.sha256()
         with open(PHASE175_ZIP, "rb") as f:

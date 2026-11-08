@@ -9,6 +9,7 @@ from pathlib import Path
 from core.research.historical_reconstruction import (
     reconstruct_strategy_history,
 )
+from tests.evidence_mode import require_git_commits
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -24,6 +25,23 @@ class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
         )
 
         milestones = {m["name"]: m for m in report["milestones"]}
+        if report.get("evidence_status", "").startswith("BLOCKED_EVIDENCE"):
+            # A migrated checkout without the original commit objects must
+            # expose the missing evidence, not manufacture empty milestone hashes.
+            self.assertEqual(milestones["Phase 14 Baseline Mint"]["status"], "FILE_MISSING")
+            self.assertEqual(milestones["Phase 14 Runtime Boundary"]["status"], "FILE_MISSING")
+            self.assertEqual(milestones["Git HEAD (Current Branch)"]["status"], "FILE_MISSING")
+            self.assertTrue(all(
+                item["modified_since_phase14"] is None
+                and "BLOCKED_EVIDENCE" in item["notes"]
+                for item in report["file_reconciliation"]
+            ))
+            self.assertEqual(
+                milestones["Current Disk Working Tree"]["name"],
+                "Current Disk Working Tree",
+            )
+            return
+        self.assertEqual(report["evidence_status"], "VERIFIED")
         self.assertIn("Phase 14 Baseline Mint", milestones)
         self.assertIn("Phase 14 Runtime Boundary", milestones)
         self.assertIn("Git HEAD (Current Branch)", milestones)
@@ -52,6 +70,10 @@ class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
         )
 
     def test_file_reconciliation_layer_and_diffs(self):
+        require_git_commits(
+            self, ["3f19895", "fbeb860"],
+            "Phase 14 per-file comparison requires both original baseline commit objects",
+        )
         report = reconstruct_strategy_history(ROOT)
         reconciled = {f["file"]: f for f in report["file_reconciliation"]}
         self.assertEqual(len(reconciled), 9)

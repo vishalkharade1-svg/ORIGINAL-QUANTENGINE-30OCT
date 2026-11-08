@@ -79,14 +79,19 @@ def admit_9l_selection(selection, report):
             raise NineLSelectionError("entry_model does not match recovery alternative")
         if selection.regime_label is not None and selection.regime_label != finding.get("regime"):
             raise NineLSelectionError("regime constraint mismatch")
-    h=HypothesisRecord(
-        origin="9L", statement=selection.statement, symbol=selection.symbol,
-        direction=selection.direction, regime_dim=selection.regime_dim,
-        regime_label=selection.regime_label, params=dict(selection.params),
-        seven_e_no_go=False, walk_forward_passed=selection.walk_forward_passed,
-        walk_forward_note=selection.walk_forward_note, expected_outcome=selection.expected_outcome,
-        evidence=("9L:%s:%s:%s" % (selection.report_id, selection.surface, selection.finding_key),),
-    )
+    from core.research.oos.engine import _coerce_hypothesis
+    h = _coerce_hypothesis({
+        "origin": "9L", "statement": selection.statement,
+        "symbol": selection.symbol, "direction": selection.direction,
+        "regime_dim": selection.regime_dim,
+        "regime_label": selection.regime_label,
+        "params": dict(selection.params), "seven_e_no_go": False,
+        "walk_forward_passed": selection.walk_forward_passed,
+        "walk_forward_note": selection.walk_forward_note,
+        "expected_outcome": selection.expected_outcome,
+        "evidence": ("9L:%s:%s:%s" % (
+            selection.report_id, selection.surface, selection.finding_key),),
+    })
     try:
         validate_9l_binding(h, report)
     except DiscoveryBindingError as exc:

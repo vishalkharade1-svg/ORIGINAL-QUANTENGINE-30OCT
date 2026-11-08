@@ -22,6 +22,8 @@ from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 import unittest
 
+from tests.evidence_mode import require_artifact_files
+
 from core.execution.maker_execution_model import (
     calculate_round_trip,
     calculate_asymmetric_round_trip,
@@ -55,6 +57,10 @@ class TestPhase173AuditAndReproduction(unittest.TestCase):
         """Verify QuantEngine_PHASE172_RELEASE_CANDIDATE.zip matches detached record."""
         zip_path = ROOT.parent / "QuantEngine_PHASE172_RELEASE_CANDIDATE.zip"
         detached_path = ROOT.parent / "RELEASE_HASH_PHASE172.txt"
+        require_artifact_files(
+            self, [zip_path, detached_path],
+            "Phase 173 archive provenance remains BLOCKED_EVIDENCE until the original archive and detached record are recovered",
+        )
 
         self.assertTrue(zip_path.exists(), f"Missing archive: {zip_path}")
         self.assertTrue(detached_path.exists(), f"Missing detached hash: {detached_path}")

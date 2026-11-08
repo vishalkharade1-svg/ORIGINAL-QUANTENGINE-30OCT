@@ -10,6 +10,8 @@ import hashlib
 import json
 import os
 import zipfile
+
+from tests.evidence_mode import require_artifact_files
 from decimal import Decimal, ROUND_HALF_UP, ROUND_FLOOR, ROUND_CEILING
 import pytest
 
@@ -67,6 +69,7 @@ class TestPhase0BaselineAudit:
     def test_phase178_archive_and_detached_record_match(self):
         zip_path = os.path.join(DELIVERY_DIR, "QuantEngine_PHASE178_RELEASE_CANDIDATE.zip")
         rec_path = os.path.join(DELIVERY_DIR, "RELEASE_HASH_PHASE178.txt")
+        require_artifact_files(self, [zip_path, rec_path], "Phase 178 archive provenance remains blocked pending original artifact recovery")
         assert os.path.isfile(zip_path), f"Phase 178 zip missing: {zip_path}"
         assert os.path.isfile(rec_path), f"Phase 178 hash record missing: {rec_path}"
 
@@ -78,6 +81,7 @@ class TestPhase0BaselineAudit:
 
     def test_phase178_archive_integrity_and_cleanliness(self):
         zip_path = os.path.join(DELIVERY_DIR, "QuantEngine_PHASE178_RELEASE_CANDIDATE.zip")
+        require_artifact_files(self, [zip_path], "Phase 178 archive integrity remains blocked pending original artifact recovery")
         with zipfile.ZipFile(zip_path, "r") as zf:
             bad_crc = zf.testzip()
             assert bad_crc is None, f"Corrupted file in Phase 178 archive: {bad_crc}"
