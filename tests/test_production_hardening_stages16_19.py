@@ -2,7 +2,7 @@
 from core.governance.production_hardening_runtime import (
     EvidenceArtifactDescriptor,
     EvidencePackageEvidence,
-    TestnetDrillEvidence,
+    TestnetDrillEvidence as DrillEvidence,
     OperationalMonitorEvidence,
     ControlledReviewEvidence,
     evaluate_evidence_package,
@@ -105,7 +105,7 @@ def drill(**overrides):
         restart_recovery_passed=True,
     )
     values.update(overrides)
-    return TestnetDrillEvidence(**values)
+    return DrillEvidence(**values)
 
 
 def test_stage17_complete_drill_is_unverified_and_non_live():
