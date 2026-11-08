@@ -1,6 +1,9 @@
 name: Phase 207 full repository regression
 
 on:
+  push:
+    branches:
+      - phase207/triage-full-suite-failures
   pull_request:
     branches:
       - main
