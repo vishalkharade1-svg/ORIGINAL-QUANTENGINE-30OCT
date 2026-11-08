@@ -77,7 +77,7 @@ def evaluate_credential_incident(evidence: CredentialIncidentEvidence) -> GateAs
         (evidence.replacement_is_least_privilege, "least-privilege scope not attested"),
         (evidence.secret_scan_passed, "secret scan has not passed"),
     ):
-        if not attr:
+        if attr is not True:
             reasons.append(label)
     try:
         _utc(evidence.attested_at_utc, "attested_at_utc")
@@ -123,18 +123,23 @@ def evaluate_venue_cost_evidence(evidence: VenueCostEvidence) -> GateAssessment:
         ("independent review reference", evidence.independent_review_ref),
     )
     reasons.extend("%s missing" % name for name in _missing(refs))
-    if not evidence.instruments or any(not str(x).strip() for x in evidence.instruments):
+    if (not evidence.instruments
+            or any(not isinstance(x, str) or not x.strip() for x in evidence.instruments)):
         reasons.append("instrument coverage missing")
+    elif len(set(evidence.instruments)) != len(evidence.instruments):
+        reasons.append("instrument coverage contains duplicates")
     for name, value in (("per_trade", evidence.per_trade),
                         ("rate", evidence.rate),
                         ("slippage_bps", evidence.slippage_bps)):
         try:
+            if isinstance(value, bool):
+                raise ValueError
             number = float(value)
             if number < 0 or number != number or number in (float("inf"), float("-inf")):
                 raise ValueError
         except (TypeError, ValueError, OverflowError):
             reasons.append("%s must be finite and non-negative" % name)
-    if not evidence.funding_model_integrated:
+    if evidence.funding_model_integrated is not True:
         reasons.append("funding economics are not integrated into the accounting path")
     try:
         _utc(evidence.observed_at_utc, "observed_at_utc")
@@ -206,12 +211,18 @@ def evaluate_restart_recovery(evidence: RestartRecoveryEvidence) -> GateAssessme
         (evidence.local_exchange_identity_match, "local/exchange account identity mismatch"),
         (evidence.state_digest_match, "journal/state digest mismatch"),
     )
-    reasons.extend(message for passed, message in checks if not passed)
-    if evidence.unresolved_order_count != 0:
-        reasons.append("unresolved order count must be zero")
+    reasons.extend(message for passed, message in checks if passed is not True)
+    if (not isinstance(evidence.unresolved_order_count, int)
+            or isinstance(evidence.unresolved_order_count, bool)
+            or evidence.unresolved_order_count != 0):
+        reasons.append("unresolved order count must be integer zero")
+    if (not isinstance(evidence.max_snapshot_age_seconds, int)
+            or isinstance(evidence.max_snapshot_age_seconds, bool)
+            or evidence.max_snapshot_age_seconds <= 0):
+        reasons.append("maximum snapshot age must be a positive integer")
     if evidence.anomalies:
         reasons.extend("reconciliation anomaly: %s" % item for item in evidence.anomalies)
-    if not evidence.kill_switch_active:
+    if evidence.kill_switch_active is not True:
         reasons.append("kill switch must remain active during recovery")
     if reasons:
         return GateAssessment(10, "BLOCKED", tuple(reasons))
