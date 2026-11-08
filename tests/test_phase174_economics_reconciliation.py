@@ -22,6 +22,8 @@ import hashlib
 import json
 import math
 import unittest
+
+from tests.evidence_mode import require_artifact_files
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
