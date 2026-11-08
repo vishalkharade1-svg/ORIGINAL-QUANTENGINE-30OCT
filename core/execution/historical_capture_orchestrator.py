@@ -230,6 +230,8 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
     """Validate the shape and bounded sequence of persisted read-page metadata."""
     if not isinstance(value, list):
         raise CapturePersistenceError("persisted page provenance must be a list")
+    if len(value) > plan.max_total_pages:
+        raise CapturePersistenceError("persisted page provenance exceeds the total page budget")
     next_index: dict[str, int] = {}
     allowed_statuses = {"REQUEST_FAILED", "INVALID_RESPONSE", "SUCCESS", "RECORD_BUDGET_OVERRUN", "REPEATED_PAGE"}
     for page in value:
@@ -279,9 +281,14 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
             raise CapturePersistenceError("persisted page provenance HTTP status is invalid")
         if not isinstance(page.get("request_policy_enforced"), bool):
             raise CapturePersistenceError("persisted page provenance policy flag is invalid")
-        for optional_int in ("records_not_persisted", "record_budget_remaining"):
-            if optional_int in page and not _bounded_int(page[optional_int], 0, plan.max_records_per_snapshot):
-                raise CapturePersistenceError("persisted page provenance budget field is invalid")
+        if "records_not_persisted" in page:
+            not_persisted = page["records_not_persisted"]
+            if (not _bounded_int(not_persisted, 0, plan.max_records_per_snapshot)
+                    or not_persisted > record_count):
+                raise CapturePersistenceError("persisted page provenance dropped-record count is invalid")
+        if "record_budget_remaining" in page and not _bounded_int(
+                page["record_budget_remaining"], 0, plan.max_total_records):
+            raise CapturePersistenceError("persisted page provenance remaining-budget field is invalid")
         if "pagination_metadata_present" in page and not isinstance(page["pagination_metadata_present"], bool):
             raise CapturePersistenceError("persisted page provenance pagination flag is invalid")
         if "pagination_status" in page and not isinstance(page["pagination_status"], str):
