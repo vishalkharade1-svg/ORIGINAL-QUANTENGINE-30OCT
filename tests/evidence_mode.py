@@ -153,10 +153,17 @@ def require_artifact_files(case, paths: list[Path], detail: str) -> None:
     """
     missing = [str(path) for path in paths if not Path(path).is_file()]
     if missing:
-        case.skipTest(
+        reason = (
             "%s: required historical artifact(s) unavailable: %s. %s"
             % (SKIP_PREFIX, ", ".join(missing), detail)
         )
+        if hasattr(case, "skipTest"):
+            case.skipTest(reason)
+        try:
+            import pytest
+        except ImportError as exc:  # pragma: no cover - pytest is the test runner
+            raise RuntimeError(reason) from exc
+        pytest.skip(reason)
 
 
 def require_git_fact(case, fact_id: str, detail: str = "") -> None:
