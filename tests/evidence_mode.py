@@ -127,6 +127,23 @@ def _missing_commit_refs(refs: list[str], root: Path | None = None) -> list[str]
     return missing
 
 
+def require_git_commits(case, refs: list[str], detail: str = "") -> None:
+    """Skip a historical assertion unless every required commit object exists."""
+    mode, evidence = detect_mode()
+    if mode != MODE_GIT_CHECKOUT:
+        case.skipTest(
+            "%s: historical Git evidence unavailable (mode=%s); %s"
+            % (SKIP_PREFIX, mode, detail or "original checkout required")
+        )
+    missing = _missing_commit_refs(refs)
+    if missing:
+        case.skipTest(
+            "%s: required historical commit object(s) unavailable: %s; %s"
+            % (SKIP_PREFIX, ", ".join(missing),
+               detail or "historical ancestry cannot be established")
+        )
+
+
 def require_git_fact(case, fact_id: str, detail: str = "") -> None:
     """Enforce the contract for one Git-dependent test method.
 
