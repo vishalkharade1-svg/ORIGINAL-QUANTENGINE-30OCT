@@ -16,9 +16,9 @@ def credential(**kw):
     d.update(kw); return CredentialClosureEvidence(**d)
 
 def repository(**kw):
-    d=dict(source_commit="a"*64,clean_tree_attested=True,uncommitted_path_count=0,
+    d=dict(source_commit="a"*40,clean_tree_attested=True,uncommitted_path_count=0,
       index_lock_present=False,canonical_ancestor_verified=True,
-      canonical_ancestor_commit="b"*64,line_ending_policy_ref="policy:1",
+      canonical_ancestor_commit="b"*40,line_ending_policy_ref="policy:1",
       lf_fingerprint="c"*64,crlf_fingerprint="c"*64,
       fingerprint_reproducible=True,independent_repo_review_ref="review:repo")
     d.update(kw); return RepositoryIntegrityEvidence(**d)
