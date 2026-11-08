@@ -351,22 +351,23 @@ class FrozenPreregistration:
             if not isinstance(item, dict):
                 raise PreregistrationError("hypothesis items must be dict")
             try:
-                hypotheses.append(_types.HypothesisRecord(
-                    hypothesis_id=item.get("hypothesis_id", ""),
-                    origin=item.get("origin", "9L"),
-                    statement=item.get("statement", ""),
-                    symbol=item.get("symbol", ""),
-                    direction=item.get("direction", ""),
-                    regime_dim=item.get("regime_dim"),
-                    regime_label=item.get("regime_label"),
-                    params=dict(item.get("params", {})),
-                    seven_e_no_go=bool(item.get("seven_e_no_go", False)),
-                    walk_forward_passed=bool(
+                from core.research.oos.engine import _coerce_hypothesis
+                hypotheses.append(_coerce_hypothesis({
+                    "hypothesis_id": item.get("hypothesis_id", ""),
+                    "origin": item.get("origin", "9L"),
+                    "statement": item.get("statement", ""),
+                    "symbol": item.get("symbol", ""),
+                    "direction": item.get("direction", ""),
+                    "regime_dim": item.get("regime_dim"),
+                    "regime_label": item.get("regime_label"),
+                    "params": dict(item.get("params", {})),
+                    "seven_e_no_go": bool(item.get("seven_e_no_go", False)),
+                    "walk_forward_passed": bool(
                         item.get("walk_forward_passed", False)),
-                    walk_forward_note=item.get("walk_forward_note", ""),
-                    expected_outcome=item.get("expected_outcome", ""),
-                    evidence=tuple(item.get("evidence", ())),
-                ))
+                    "walk_forward_note": item.get("walk_forward_note", ""),
+                    "expected_outcome": item.get("expected_outcome", ""),
+                    "evidence": tuple(item.get("evidence", ())),
+                }))
             except (TypeError, ValueError) as exc:
                 raise PreregistrationError(
                     "invalid persisted hypothesis: %s" % exc) from exc
