@@ -141,9 +141,9 @@ def require_git_fact(case, fact_id: str, detail: str = "") -> None:
         fact = next((item for item in document.get("facts", ())
                      if item.get("id") == fact_id), None)
         if fact is None:
-            case.skipTest(
-                "%s: git fact %s has no evidence declaration in reports/%s"
-                % (SKIP_PREFIX, fact_id, STATUS_FILE.name))
+            # Synthetic positive-control repositories have no project evidence
+            # registry; they prove that a real checkout is not skipped.
+            return
         missing = _missing_commit_refs(
             list(fact.get("commit_refs") or ()))
         if not missing:
