@@ -101,6 +101,7 @@ def test_stage8_complete_operator_attestation_is_not_called_verified():
     {"provider_revocation_ref": ""},
     {"independent_review_ref": ""},
     {"attested_at_utc": "2026-11-08T10:00:00"},
+    {"old_key_revoked": "yes"},
 ])
 def test_stage8_missing_security_evidence_fails_closed(override):
     assert evaluate_credential_incident(credential(**override)).status == "INCOMPLETE"
@@ -121,6 +122,8 @@ def test_stage9_complete_cost_inputs_remain_unverified_until_external_validation
     {"observed_at_utc": "2026-11-08T10:00:00"},
     {"slippage_bps": float("nan")},
     {"rate": -0.01},
+    {"instruments": ("BTCUSD", "BTCUSD")},
+    {"funding_model_integrated": "true"},
 ])
 def test_stage9_incomplete_or_invalid_cost_evidence_fails_closed(override):
     assert evaluate_venue_cost_evidence(cost(**override)).status == "INCOMPLETE"
@@ -152,6 +155,9 @@ def test_stage10_clean_recovery_is_paper_only_and_keeps_kill_switch():
     {"anomalies": ("UNKNOWN_EXCHANGE_ORDER",)},
     {"kill_switch_active": False},
     {"exchange_snapshot_at_utc": "2026-11-08T09:50:00Z"},
+    {"query_complete": "yes"},
+    {"unresolved_order_count": False},
+    {"max_snapshot_age_seconds": 0},
 ])
 def test_stage10_any_recovery_gap_blocks_resume(override):
     assert evaluate_restart_recovery(recovery(**override)).status == "BLOCKED"
