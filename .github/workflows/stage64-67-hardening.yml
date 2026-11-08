@@ -1,0 +1,38 @@
+name: Stage 64–67 audit-driven hardening controls
+
+on:
+  pull_request:
+    branches: [main, production-hardening/stages-60-63]
+    paths:
+      - "core/governance/production_hardening_stages64_67.py"
+      - "tests/test_production_hardening_stages64_67.py"
+      - "docs/production_hardening_stages64_67.md"
+      - "BUILD_MANIFEST.sha256"
+      - ".github/workflows/stage64-67-hardening.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage64-67-hardening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage64-67:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest==9.0.3
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Compile Stage 64–67 module
+        run: python -m py_compile core/governance/production_hardening_stages64_67.py
+      - name: Stage 64–67 focused tests
+        run: python -m pytest -q tests/test_production_hardening_stages64_67.py
