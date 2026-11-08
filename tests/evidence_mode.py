@@ -19,9 +19,11 @@ genuine checkout, or it is *declared blocked*.  It is never quietly assumed.
 
 Contract
 --------
-* In a genuine checkout (``MODE_GIT_CHECKOUT``) ``require_git_fact`` returns
-  immediately, so the test's own assertions run unchanged.  Those assertions
-  are never removed or weakened by this module.
+* In a genuine checkout (``MODE_GIT_CHECKOUT``) ``require_git_fact`` first
+  verifies every historical commit required by that individual fact exists.
+  If a required commit is absent, that fact is skipped as ``BLOCKED_EVIDENCE``;
+  otherwise the test's own assertion runs unchanged.  Assertions are never
+  removed or weakened by this module.
 * In a source archive (``MODE_SOURCE_ARCHIVE``) it raises ``SkipTest`` carrying
   ``BLOCKED_EVIDENCE`` and the fact id.  A skip is not a pass: pytest reports
   it as skipped, and the release gate for ancestry stays blocked.
@@ -108,17 +110,53 @@ def detect_mode(root: Path | None = None) -> tuple[str, dict]:
     return MODE_GIT_CHECKOUT, evidence
 
 
+def _missing_commit_refs(refs: list[str], root: Path | None = None) -> list[str]:
+    """Return historical commit IDs that are not present in this Git object DB."""
+    missing = []
+    for ref in refs:
+        if not isinstance(ref, str) or not ref:
+            missing.append(str(ref))
+            continue
+        try:
+            probe = _git(["cat-file", "-e", "%s^{commit}" % ref], root)
+        except (OSError, subprocess.SubprocessError):
+            missing.append(ref)
+            continue
+        if probe.returncode != 0:
+            missing.append(ref)
+    return missing
+
+
 def require_git_fact(case, fact_id: str, detail: str = "") -> None:
     """Enforce the contract for one Git-dependent test method.
 
-    In a genuine checkout this returns and the caller's own assertions run.
-    In a source archive this skips the test with an explicit
-    ``BLOCKED_EVIDENCE`` reason naming the fact, so the fact is neither
-    silently assumed nor reported as verified.
+    Source archives block every Git-dependent fact.  A Git checkout can
+    establish current-tree facts, but historical ancestry facts are allowed
+    to run only when each referenced commit object is actually available.
+    Missing history is reported as BLOCKED_EVIDENCE, never as a test pass.
     """
     mode, evidence = detect_mode()
     if mode == MODE_GIT_CHECKOUT:
-        return
+        document = status_document() or {}
+        fact = next((item for item in document.get("facts", ())
+                     if item.get("id") == fact_id), None)
+        if fact is None:
+            case.skipTest(
+                "%s: git fact %s has no evidence declaration in reports/%s"
+                % (SKIP_PREFIX, fact_id, STATUS_FILE.name))
+        missing = _missing_commit_refs(
+            list(fact.get("commit_refs") or ()))
+        if not missing:
+            return
+        reason = (
+            "%s: git fact %s requires historical commit(s) unavailable "
+            "from this checkout: %s. Original ancestry cannot be established; "
+            "the fact remains blocked in reports/%s."
+            % (SKIP_PREFIX, fact_id, ", ".join(missing), STATUS_FILE.name)
+        )
+        if detail:
+            reason += " Required: %s." % detail
+        case.skipTest(reason)
     reason = (
         "%s: git fact %s cannot be established from a source archive "
         "(mode=%s; rev-parse --is-inside-work-tree returned %s). "
