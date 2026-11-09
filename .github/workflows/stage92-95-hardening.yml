@@ -1,0 +1,38 @@
+name: Stage 92-95 governance hardening
+
+on:
+  pull_request:
+    branches: [main, production-hardening/stages-88-91]
+    paths:
+      - "core/governance/production_hardening_stages92_95.py"
+      - "tests/test_production_hardening_stages92_95.py"
+      - "docs/production_hardening_stages92_95.md"
+      - "BUILD_MANIFEST.sha256"
+      - ".github/workflows/stage92-95-hardening.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage92-95-hardening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage92-95:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install pytest==9.0.3
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Compile Stage 92-95 module
+        run: python -m py_compile core/governance/production_hardening_stages92_95.py
+      - name: Stage 92-95 focused tests
+        run: python -m pytest -q tests/test_production_hardening_stages92_95.py
