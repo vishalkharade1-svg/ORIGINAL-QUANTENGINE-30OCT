@@ -1883,3 +1883,18 @@ The failure groups remain:
 The CI-context and source-manifest steps are therefore verified, but the repository regression is not green. The Phase 207 resume-integrity tests are not listed among the failures. No historical pin, sealed artifact, historical report, strategy identity, or ancestry assertion was changed to obtain this result.
 
 **Disposition:** keep all unresolved frozen-evidence discrepancies as blockers pending authoritative source/evidence recovery or a separately authorized versioned identity plus fresh research protocol. PR #6 remains draft/open and is not merge-ready. `RELEASE_GATE = HOLD`; edge NOT ESTABLISHED; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
+
+
+## Phase 207 — latest final-head regression result (2026-11-09, commit 16d2631a)
+
+Full repository regression run [42587076970](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42587076970), on commit 16d2631a0a4e6e1777bb75bd9b512a04320c1e40, completed **FAIL**: 4,961 passed, 58 skipped, 36 failed, and 446 subtests passed (1,067.99 seconds). Full-history checkout, explicit CI repository-context setup, dependency installation, and strict source-manifest verification passed before pytest. Secret Scan [42587076951](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42587076951) on the same head completed successfully. Scanner success does not establish provider-side credential revocation or remediation of historical credential exposure.
+
+The 36 failures remain grouped around frozen evidence and identity discrepancies:
+- **Strategy identity:** current composite digest f79aa68f87002fb692d4fa985dfa5da23ba46ab77dbbf348e94232069ec4879e differs from registered Phase 22 digest 26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666; this recurs across readiness, strategy-identity, and Phase 167–175 invariants.
+- **Phase 158:** 12 rebuilt research artifacts differ from the Phase 131 packaging manifest.
+- **Phase 26 / Phase 65:** funding evidence hash and D2 preserved hash/shape checks fail.
+- **Phase 170 / Phase 173–174:** reconciliation/provenance digest mismatch; Phase 171–175 historical-record checks repeat the Phase 170 report-byte mismatch.
+
+This reproduces the same failure count and major failure families as run 42582386961. No pinned digest, sealed artifact, historical report, OOS record, or ancestry assertion was rewritten to make tests pass. Phase 207 durable-capture resume tests are not listed among the failing tests. The full regression remains failed, not a release pass.
+
+**Disposition:** PR #6 remains draft/open and unmerged; do not merge while GitHub reports its mergeability as dirty. RELEASE_GATE = HOLD; edge NOT ESTABLISHED; live_arming_permitted = False. PAPER ONLY / NOT LIVE READY. Historical credential exposure still requires owner-led provider-side revocation and history remediation evidence; this work did not access or handle credentials.
