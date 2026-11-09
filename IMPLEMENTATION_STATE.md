@@ -1868,3 +1868,18 @@ The Phase 161 evidence registry had a metadata mismatch: the Stage 4 test assert
 The prior final-head run [42581504897](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42581504897) on `8088e3595485c7b206433147d82899d5d27a7a80` was superseded while its pytest step was still running by this follow-up commit; it produced no final test totals. On that superseded head, dependency installation and strict source-manifest verification passed, and Secret Scan [42581504864](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42581504864) passed. A fresh full-suite and Secret Scan run is triggered by the follow-up commit.
 
 No historical strategy pin, OOS record, sealed research artifact, or Stage 4 ancestry assertion was weakened or rewritten. `RELEASE_GATE = HOLD`; edge NOT ESTABLISHED; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
+
+
+## Phase 207 — latest final-head regression result (2026-11-09)
+
+Full repository regression run [42582386961](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42582386961), on commit `8294b64a746859ec449c5d15df6418bf8f5a916c`, completed **FAIL**: 4,961 passed, 58 skipped, 36 failed, and 446 subtests passed. Full-history checkout, explicit CI repository-context setup, dependency installation, and strict source-manifest verification all passed before pytest. The preceding final-head Secret Scan [42582386910](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42582386910) passed; as before, scanner success does not establish provider-side credential revocation or historical exposure remediation.
+
+The failure groups remain:
+- **Strategy identity:** the nine-file composite remains current `f79aa68f87002fb692d4fa985dfa5da23ba46ab77dbbf348e94232069ec4879e`, not registered Phase 22 `26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666`. This appears across OOS, readiness, strategy identity, and Phase 167–175 release-record tests.
+- **Phase 158 sealed bytes:** 12 rebuilt research artifacts differ from the Phase 131 packaging manifest.
+- **Phase 26 / Phase 65:** funding evidence binding and D2 preserved hash/shape checks fail.
+- **Phase 170 / Phase 173–174:** reconciliation report digest and provenance digests differ from the frozen values; Phase 171–175 historical-record tests repeat the Phase 170 report-byte mismatch.
+
+The CI-context and source-manifest steps are therefore verified, but the repository regression is not green. The Phase 207 resume-integrity tests are not listed among the failures. No historical pin, sealed artifact, historical report, strategy identity, or ancestry assertion was changed to obtain this result.
+
+**Disposition:** keep all unresolved frozen-evidence discrepancies as blockers pending authoritative source/evidence recovery or a separately authorized versioned identity plus fresh research protocol. PR #6 remains draft/open and is not merge-ready. `RELEASE_GATE = HOLD`; edge NOT ESTABLISHED; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
