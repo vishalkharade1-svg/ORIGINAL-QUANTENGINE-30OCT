@@ -1957,3 +1957,8 @@ Six new negative/compatibility tests cover explicit-plan-ID reuse with changed s
 - **SOURCE INTEGRITY:** the current build manifest was independently checked against the current SHA-256 of `core/execution/historical_capture_orchestrator.py`, `tests/test_phase207_durable_capture_resume.py`, `tests/test_phase206_historical_capture_pipeline.py`, and `IMPLEMENTATION_STATE.md`; all four entries match.
 - **VALIDATION STATUS:** plan-fingerprint/schema-v2 and authenticated page-policy hardening is committed but not yet verified by a completed test execution. Treat it as unverified until CI can run jobs or the owner executes the documented tests in a trusted local environment. Do not mark the phase complete based on the no-job workflow records.
 - **PULL REQUEST / RELEASE:** PR #6 remains draft/open and unmerged. `RELEASE_GATE = HOLD`; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
+
+
+### Phase 207 — preserve bounded page-overrun provenance
+
+The page-provenance validator now distinguishes the raw number of records received in a page from the smaller number permitted to persist in one capture snapshot. It bounds raw page and dropped-record counts by the larger of the plan's per-snapshot and total-record limits, while still requiring dropped count not to exceed raw count. This preserves legitimate `RECORD_BUDGET_OVERRUN` diagnostics instead of rejecting them solely because the server returned more rows than the snapshot storage budget. A regression test covers a three-row raw page, two persisted rows, and one explicitly dropped row under a two-record snapshot cap. CI verification remains pending because the latest GitHub Actions runs completed without creating jobs.

@@ -254,7 +254,8 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
             if cursor is not None and not isinstance(cursor, str):
                 raise CapturePersistenceError("persisted page provenance cursor is invalid")
         record_count = page.get("record_count")
-        if not _bounded_int(record_count, 0, plan.max_records_per_snapshot):
+        page_record_limit = max(plan.max_records_per_snapshot, plan.max_total_records)
+        if not _bounded_int(record_count, 0, page_record_limit):
             raise CapturePersistenceError("persisted page provenance record count is invalid")
         digest = page.get("content_sha256")
         if digest is not None and (not isinstance(digest, str) or len(digest) != 64
@@ -288,7 +289,7 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
             )
         if "records_not_persisted" in page:
             not_persisted = page["records_not_persisted"]
-            if (not _bounded_int(not_persisted, 0, plan.max_records_per_snapshot)
+            if (not _bounded_int(not_persisted, 0, page_record_limit)
                     or not_persisted > record_count):
                 raise CapturePersistenceError("persisted page provenance dropped-record count is invalid")
         if "record_budget_remaining" in page and not _bounded_int(

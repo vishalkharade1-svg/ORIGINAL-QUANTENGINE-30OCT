@@ -92,6 +92,27 @@ class AuthenticatedSequenceAdapter(SequenceAdapter):
         return raw
 
 
+class BudgetOverrunAdapter:
+    def capture(self, **kwargs):
+        page = _page_provenance(policy_enforced=False)
+        page.update(
+            response_status="RECORD_BUDGET_OVERRUN",
+            record_count=3,
+            records_not_persisted=1,
+            record_budget_remaining=2,
+        )
+        return SimpleNamespace(
+            captured_at="2026-10-01T00:30:00Z",
+            fills=(
+                {"id": "fill-1", "product_id": 84},
+                {"id": "fill-2", "product_id": 84},
+            ),
+            open_orders=(), order_history=(), positions=(), wallet_transactions=(),
+            endpoint_status={"fills": "RECORD_BUDGET_OVERRUN"},
+            page_provenance=(page,),
+        )
+
+
 def test_restart_skips_verified_complete_endpoint_window_slots(tmp_path):
     plan = make_plan()
     first_adapter = SequenceAdapter()
@@ -448,3 +469,22 @@ def test_resume_accepts_legacy_phase207_artifact_with_derived_plan_id(tmp_path):
     resumed = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
     assert resumed.status == "COMPLETE"
     assert resumed.snapshots
+
+
+def test_resume_persists_page_budget_overrun_with_raw_count_above_snapshot_limit(tmp_path):
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        max_records_per_snapshot=2,
+        max_total_records=10,
+    )
+    result = HistoricalCaptureOrchestrator(BudgetOverrunAdapter(), tmp_path).run(plan)
+
+    assert result.status == "PARTIAL"
+    assert len(result.snapshots) == 1
+    assert len(result.snapshots[0].records) == 2
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    page = payload["page_provenance"][0]
+    assert page["response_status"] == "RECORD_BUDGET_OVERRUN"
+    assert page["record_count"] == 3
+    assert page["records_not_persisted"] == 1
