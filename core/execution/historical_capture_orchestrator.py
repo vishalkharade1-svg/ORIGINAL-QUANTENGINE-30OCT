@@ -363,7 +363,11 @@ class HistoricalCaptureOrchestrator:
                 or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
                 or Path(plan_id).name != plan_id):
             raise CapturePlanError("plan_id must be a safe single path component")
-        result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
+        result = CaptureRunResult(
+            plan_id=plan_id,
+            status="COMPLETE",
+            requested_windows=len(windows) * plan.repeat_count,
+        )
         # Phase 207: reconstruct verified Phase-207 artifacts before issuing
         # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
         # are intentionally not guessed into a window/repeat position.
