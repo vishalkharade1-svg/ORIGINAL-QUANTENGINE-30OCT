@@ -1818,3 +1818,18 @@ The resulting current strategy-core composite is `f79aa68f87002fb692d4fa985dfa5d
 The three-file runtime-infrastructure group also has a single mismatch: `core/backtesting/accounting.py` and `backtesting/backtester.py` match their Phase 22 registered per-file digests, while `core/paper_trading/paper_trading_engine.py` differs (registered `7aa2518ec647efc9c559968a9f3fcde9cf916cfbfb2ca540290d6c903fe422e5`; current canonical `09fa4841fdde02abc3a904e4315ba05d53afdf5a7f8a59b2877637b07520749a`). The current runtime-infrastructure composite is `656c376a6ea6948aade92c58a1875c1192eaf4206536263d3821f339a9d674d9`, versus registered `997a21f21045551ed25e29d2289157d257b16b5f3b99bbf04e95c7f257b96294`.
 
 **Disposition:** identity mismatch is now localized to four files (three strategy-core, one runtime-infrastructure). Do not roll these files back or update the Phase 22 baseline merely to make tests green. The next admissible step is a commit-by-commit provenance and semantic-diff review against the original registration, followed by a separately authorized new versioned identity and fresh research protocol if the original state cannot be recovered.
+
+
+### Phase 207 — latest full-suite verification and provenance boundary (2026-11-09)
+
+Full repository regression run [42522541232](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42522541232), on head `cd4baf8b1b41740a2201468e4a9d76978b711a60`, completed **FAIL**: 4,958 passed, 58 skipped, 36 failed, and 446 subtests passed. The strict source-manifest step passed before pytest. Secret Scan [42522541241](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42522541241) completed successfully; this remains scanner evidence only and does not establish provider-side credential revocation or remediation of historical exposure.
+
+The 36 failures remain concentrated in the already identified frozen-evidence groups:
+- **Strategy identity:** the current nine-file composite remains `f79aa68f87002fb692d4fa985dfa5da23ba46ab77dbbf348e94232069ec4879e`, not the registered Phase 22 value `26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666`. This repeats across OOS, readiness, strategy-identity, and Phase 167–175 release-record tests.
+- **Sealed artifact bytes:** Phase 158 reports 12 rebuilt artifacts differing from Phase 131's recorded bytes.
+- **Funding / D2 evidence:** Phase 26 funding evidence binding and Phase 65 D2 hash/shape checks still fail.
+- **Reconciliation / provenance:** Phase 170 report bytes and Phase 173/174 provenance digests still differ from their recorded values; historical Phase 171–175 checks repeat the Phase 170 report-digest discrepancy.
+
+A read-only GitHub per-file-history check for the four files localized as mismatching found only the parentless migration-root commit `8e2d97bae3bc0bb3f8db4328c7114bd600e139e2` in the visible file histories. The previously referenced `d77af19` object is not retrievable from this repository snapshot. Consequently, the current repository does not provide enough ancestry to reconstruct a reliable commit-by-commit semantic diff for those files. This is an evidence limitation; it does not establish when, why, or under whose authority the differences arose.
+
+**Disposition:** no registered hash, sealed artifact, historical record, or ancestry assertion was changed. No historical ZIPs were synthesized. The next admissible action requires authoritative original source packages and detached evidence, or a separately authorized new versioned identity followed by a fresh research protocol. Until then: `RELEASE_GATE = HOLD`; edge NOT ESTABLISHED; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
