@@ -1971,3 +1971,16 @@ The page-provenance validator now distinguishes the raw number of records receiv
 - **PAGE-OVERRUN BOUND:** raw page record counts and `records_not_persisted` are now bounded by `max(max_records_per_snapshot, max_total_records)`, preserving explicit `RECORD_BUDGET_OVERRUN` diagnostics when a venue returns more rows than the per-snapshot persistence limit. A new test checks a 3-row raw page with 2 persisted and 1 dropped under a 2-row snapshot cap.
 - **LATEST HEAD:** `7c0e2468fb88f03455f018f4f6991eaee742e19b`. The updated manifest entries for the orchestrator, Phase-207 tests, and implementation-state document were independently recomputed and match. The no-job CI condition is an unresolved validation blocker; do not infer success or failure of the Python test suite from these workflow conclusions.
 - **PULL REQUEST / RELEASE:** PR #6 remains draft/open and unmerged. `RELEASE_GATE = HOLD`; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
+
+
+### Strategy policy audit — runtime R:R floor does not meet the requested 1:6 minimum (2026-11-09)
+
+A source-level audit of the active policy path finds a material requirement mismatch:
+
+- `core/risk/trading_policy.py` defines `DEFAULT_MIN_RR = 1.0` and `DEFAULT_MAX_RR = 20.0`; `TradingPolicy.min_rr` inherits the 1.0 default. The persisted global policy in `data/runtime/risk_policy_overrides.json` also explicitly sets `min_rr: 1.0`.
+- `core/backtesting/accounting.py:risk_reward_allowed` resolves the active policy and accepts fixed-target ratios in `policy.min_rr <= rr <= policy.max_rr`. `core/setup/decision_engine.py` and the normal (non-frozen) path in `core/risk/risk_engine.py` call this policy.
+- `config/risk_settings.py` retains `MIN_RISK_REWARD = 6.0` as a legacy frozen-era constant, but its active `TRADING_MIN_RISK_REWARD` compatibility value is 1.0. The persisted policy is authoritative for normal runtime.
+- `core/research/strategy_identity.py:frozen_runtime_requested()` is false unless `QUANTENGINE_FROZEN_OOS=1`; only that frozen replay branch uses `FROZEN_ERA_MIN_RR = 6.0`. `core/setup/trade_setup_builder.py` computes `reward / risk` and stores it on the candidate; it does not itself impose a 6R floor.
+- **Conclusion:** ordinary paper/runtime policy currently permits 1:1 through 1:20 (subject to instrument overrides), not a mandatory 1:6 minimum. The 1:6 threshold is frozen research/OOS semantics, not the default runtime trading floor. This is inconsistent with the user's stated requirement that every eligible trade meet at least 1:6.
+- **Governance:** do not silently change the policy defaults, override file, or pinned strategy-core files to make this appear compliant. A 1:6 hard-floor change requires an explicit versioned policy decision, reviewed effects on the strategy identity, and fresh independent OOS/economic validation. The existing frozen identity and evidence blockers remain unresolved. Until then, label the runtime policy as **1:1–1:20 configurable**, not 1:6 guaranteed.
+- **Historical-note clarification:** earlier Phase-23 notes describing a 1:6 gate at builder/decision/risk/backtester boundaries should not be interpreted as proof of a 1:6 floor in the ordinary runtime path; the current source branch above establishes the actual active behavior.
