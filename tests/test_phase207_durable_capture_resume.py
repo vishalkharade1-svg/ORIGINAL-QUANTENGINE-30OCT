@@ -261,3 +261,43 @@ def test_resume_rejects_inconsistent_capture_record_count(tmp_path):
     with pytest.raises(CapturePersistenceError, match="record count is missing or inconsistent"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
 
+
+
+@pytest.mark.parametrize("captured_at", (None, "not-a-timestamp"))
+def test_resume_rejects_invalid_capture_timestamp(tmp_path, captured_at):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    if captured_at is None:
+        payload["capture"].pop("captured_at")
+    else:
+        payload["capture"]["captured_at"] = captured_at
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="timestamp is invalid"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_resume_rejects_endpoint_status_that_contradicts_completeness(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["capture"]["endpoint_status"]["fills"] = "TEMPORARY_FAILURE"
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="contradicts completeness flags"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_resume_rejects_non_boolean_completeness_flags(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["capture"]["complete"] = "false"
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="completeness flags must be booleans"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)

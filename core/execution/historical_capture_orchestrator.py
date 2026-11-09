@@ -397,6 +397,34 @@ class HistoricalCaptureOrchestrator:
                     capture_payload = payload.get("capture")
                     if not isinstance(capture_payload, Mapping):
                         raise CapturePersistenceError("persisted capture payload is invalid")
+                    try:
+                        _utc(capture_payload.get("captured_at"), "captured_at")
+                    except CapturePlanError:
+                        raise CapturePersistenceError(
+                            "persisted capture timestamp is invalid"
+                        ) from None
+                    endpoint_status = capture_payload.get("endpoint_status")
+                    if (not isinstance(endpoint_status, Mapping)
+                            or set(endpoint_status) != {endpoint}):
+                        raise CapturePersistenceError(
+                            "persisted capture endpoint status does not match its endpoint"
+                        )
+                    endpoint_result = endpoint_status.get(endpoint)
+                    if not isinstance(endpoint_result, str) or not endpoint_result.strip():
+                        raise CapturePersistenceError(
+                            "persisted capture endpoint status is invalid"
+                        )
+                    complete_flag = capture_payload.get("complete")
+                    pagination_flag = capture_payload.get("pagination_complete")
+                    if not isinstance(complete_flag, bool) or not isinstance(pagination_flag, bool):
+                        raise CapturePersistenceError(
+                            "persisted capture completeness flags must be booleans"
+                        )
+                    expected_complete = endpoint_result == "OK"
+                    if complete_flag is not expected_complete or pagination_flag is not expected_complete:
+                        raise CapturePersistenceError(
+                            "persisted capture endpoint status contradicts completeness flags"
+                        )
                     content_checksum = capture_payload.get("raw_source_checksum")
                     if (not isinstance(content_checksum, str) or len(content_checksum) != 64
                             or any(ch not in "0123456789abcdef" for ch in content_checksum)):
