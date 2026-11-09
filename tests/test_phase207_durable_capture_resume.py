@@ -234,3 +234,28 @@ def test_completed_recovered_slots_do_not_consume_capture_run_budget(tmp_path):
     assert resumed.status == "COMPLETE"
     assert len(adapter.calls) == 1
     assert resumed.completed_windows == 2
+
+
+def test_resume_rejects_missing_capture_content_checksum(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["capture"].pop("raw_source_checksum")
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="content checksum is missing"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_resume_rejects_inconsistent_capture_record_count(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["capture"]["record_count"] += 1
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="record count is missing or inconsistent"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+

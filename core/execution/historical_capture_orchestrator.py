@@ -390,7 +390,28 @@ class HistoricalCaptureOrchestrator:
                             or not _bounded_int(window_index, 0, len(windows) - 1)
                             or endpoint not in plan.endpoints):
                         raise CapturePersistenceError("persisted capture has invalid slot coordinates")
-                    capture = CaptureSnapshot.from_dict(payload.get("capture", {}))
+                    capture_payload = payload.get("capture")
+                    if not isinstance(capture_payload, Mapping):
+                        raise CapturePersistenceError("persisted capture payload is invalid")
+                    content_checksum = capture_payload.get("raw_source_checksum")
+                    if (not isinstance(content_checksum, str) or len(content_checksum) != 64
+                            or any(ch not in "0123456789abcdef" for ch in content_checksum)):
+                        raise CapturePersistenceError(
+                            "persisted capture content checksum is missing or invalid"
+                        )
+                    capture_records = capture_payload.get("records")
+                    capture_record_count = capture_payload.get("record_count")
+                    if (not isinstance(capture_records, (list, tuple))
+                            or not _bounded_int(
+                                capture_record_count, 0, plan.max_records_per_snapshot
+                            )
+                            or capture_record_count != len(capture_records)):
+                        raise CapturePersistenceError(
+                            "persisted capture record count is missing or inconsistent"
+                        )
+                    if capture_payload.get("schema") != "quantengine.historical-capture.v1":
+                        raise CapturePersistenceError("persisted capture schema is unsupported")
+                    capture = CaptureSnapshot.from_dict(capture_payload)
                     if capture.record_category != endpoint:
                         raise CapturePersistenceError("persisted capture endpoint does not match its slot")
                     if artifact_path.stem != capture.capture_id:

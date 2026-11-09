@@ -435,7 +435,7 @@
     },
     {
       "commit_refs": [
-        "fad7329b24d614794b35deb0b6926e5dd138977a"
+        "b42e8181406091bf06af18e312508a93924dcc37"
       ],
       "file": "tests/test_stage4_paper_certification.py",
       "git_subcommands": [
@@ -445,8 +445,15 @@
       "id": "test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant",
       "phase157_detail": "the git command returned a non-zero status, so the test failed",
       "phase157_observation": "FAILED_LOUD",
-      "required_git_fact": "current branch is 'main'; HEAD descends from commit fad7329b24d614794b35deb0b6926e5dd138977a",
-      "status": "BLOCKED_EVIDENCE"
+      "required_git_fact": "current branch is 'main'; HEAD descends from commit b42e8181406091bf06af18e312508a93924dcc37",
+      "status": "BLOCKED_EVIDENCE",
+      "phase207_correction": {
+        "previous_commit_refs": [
+          "fad7329b24d614794b35deb0b6926e5dd138977a"
+        ],
+        "current_test_pin": "b42e8181406091bf06af18e312508a93924dcc37",
+        "reason": "The Stage 4 test source asserts the b42e818 replica commit; align the evidence guard to that exact assertion. The assertion is unchanged."
+      }
     },
     {
       "commit_refs": [],
@@ -528,5 +535,17 @@
   "vacuous_pass_finding": {
     "count": 21,
     "description": "in the Phase157 archive these tests passed because a failed git command produces empty output, which satisfied assertions of the form 'assert output == \"\"' or 'assert hits == []'. They verified nothing. They are now declared blocked instead of passing silently."
-  }
+  },
+  "phase207_corrections": [
+    {
+      "fact_id": "test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant",
+      "correction": "Guard commit reference aligned to the existing Stage 4 test assertion; no assertion or ancestry requirement was changed.",
+      "previous_commit_refs": [
+        "fad7329b24d614794b35deb0b6926e5dd138977a"
+      ],
+      "current_commit_refs": [
+        "b42e8181406091bf06af18e312508a93924dcc37"
+      ]
+    }
+  ]
 }

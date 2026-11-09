@@ -176,6 +176,18 @@ class TestGitEvidenceModeDetection(unittest.TestCase):
                          "these guards are not the first statement of their method, "
                          "so a git command could run before them")
 
+    def test_stage4_ancestry_guard_matches_pinned_commit(self):
+        doc = em.status_document()
+        self.assertIsNotNone(doc)
+        assert doc is not None
+        fact_id = "test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant"
+        fact = next((item for item in doc["facts"] if item["id"] == fact_id), None)
+        self.assertIsNotNone(fact, "missing Stage 4 ancestry evidence fact")
+        assert fact is not None
+        pinned = "b42e8181406091bf06af18e312508a93924dcc37"
+        self.assertEqual(fact["commit_refs"], [pinned])
+        self.assertIn(pinned, fact["required_git_fact"])
+
     def test_record_declares_the_vacuous_pass_finding(self):
         doc = em.status_document()
         self.assertIsNotNone(doc)
