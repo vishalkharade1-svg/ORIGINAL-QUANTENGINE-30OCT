@@ -14,6 +14,24 @@ from core.execution.historical_capture_orchestrator import (
 )
 
 
+def _page_provenance(*, policy_enforced=True):
+    return {
+        "endpoint": "fills",
+        "page_index": 0,
+        "request_cursor": None,
+        "response_cursor": None,
+        "response_status": "SUCCESS",
+        "record_count": 1,
+        "request_started_at": "2026-10-01T00:00:00Z",
+        "collected_at": "2026-10-01T00:00:00Z",
+        "request_duration_ms": 1.0,
+        "content_sha256": "a" * 64,
+        "retry_count": 0,
+        "http_status_code": 200,
+        "request_policy_enforced": policy_enforced,
+    }
+
+
 def make_plan(**changes):
     values = dict(
         venue="delta",
@@ -52,6 +70,26 @@ class SequenceAdapter:
             endpoint_status={"fills": status},
             page_provenance=(),
         )
+
+
+class AuthenticatedSequenceAdapter(SequenceAdapter):
+    def __init__(self, statuses=("OK",), start_sequence=0, *, policy_enforced=True,
+                 include_page_provenance=True):
+        super().__init__(statuses=statuses, start_sequence=start_sequence)
+        self._rest = SimpleNamespace(
+            authenticated=True,
+            get_with_policy=lambda *args, **kwargs: None,
+        )
+        self.policy_enforced = policy_enforced
+        self.include_page_provenance = include_page_provenance
+
+    def capture(self, **kwargs):
+        raw = super().capture(**kwargs)
+        raw.page_provenance = (
+            (_page_provenance(policy_enforced=self.policy_enforced),)
+            if self.include_page_provenance else ()
+        )
+        return raw
 
 
 def test_restart_skips_verified_complete_endpoint_window_slots(tmp_path):
@@ -301,3 +339,112 @@ def test_resume_rejects_non_boolean_completeness_flags(tmp_path):
 
     with pytest.raises(CapturePersistenceError, match="completeness flags must be booleans"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+
+def test_resume_rejects_changed_plan_under_same_explicit_plan_id(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id="phase207-plan-fingerprint")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+    changed_plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        plan_id="phase207-plan-fingerprint",
+        retry_budget=plan.retry_budget + 1,
+    )
+    with pytest.raises(CapturePersistenceError, match="plan fingerprint"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(changed_plan)
+
+
+def test_authenticated_capture_rejects_unenforced_request_policy_before_persisting(tmp_path):
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        plan_id="phase207-auth-policy-new",
+        mode="authenticated",
+    )
+    adapter = AuthenticatedSequenceAdapter(policy_enforced=False)
+    result = HistoricalCaptureOrchestrator(
+        adapter, tmp_path, owner_authorizer=lambda _: True
+    ).run(plan)
+
+    assert result.status == "PARTIAL"
+    assert result.snapshots == []
+    assert result.errors and "CapturePersistenceError" in result.errors[0]
+    assert list(Path(tmp_path).rglob("*.json")) == []
+
+
+def test_authenticated_resume_rejects_unenforced_request_policy(tmp_path):
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        plan_id="phase207-auth-policy-resume",
+        mode="authenticated",
+    )
+    first = HistoricalCaptureOrchestrator(
+        AuthenticatedSequenceAdapter(policy_enforced=True),
+        tmp_path,
+        owner_authorizer=lambda _: True,
+    ).run(plan)
+    assert first.status == "COMPLETE"
+
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["page_provenance"][0]["request_policy_enforced"] = False
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="bounded request policy"):
+        HistoricalCaptureOrchestrator(
+            AuthenticatedSequenceAdapter(policy_enforced=True),
+            tmp_path,
+            owner_authorizer=lambda _: True,
+        ).run(plan)
+
+
+
+def test_resume_rejects_fixture_artifact_reused_as_authenticated_plan(tmp_path):
+    fixture_plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        plan_id="phase207-mode-fingerprint",
+        mode="fixture",
+    )
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(fixture_plan)
+
+    authenticated_plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        plan_id="phase207-mode-fingerprint",
+        mode="authenticated",
+    )
+    adapter = AuthenticatedSequenceAdapter()
+    with pytest.raises(CapturePersistenceError, match="plan fingerprint"):
+        HistoricalCaptureOrchestrator(
+            adapter, tmp_path, owner_authorizer=lambda _: True
+        ).run(authenticated_plan)
+    assert adapter.calls == []
+
+
+def test_resume_rejects_legacy_phase207_artifact_with_explicit_plan_id(tmp_path):
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        plan_id="phase207-legacy-explicit-id",
+    )
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["schema"] = "quantengine.phase207.capture.v1"
+    payload.pop("plan_fingerprint")
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="explicit plan_id"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_resume_accepts_legacy_phase207_artifact_with_derived_plan_id(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["schema"] = "quantengine.phase207.capture.v1"
+    payload.pop("plan_fingerprint")
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    resumed = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    assert resumed.status == "COMPLETE"
+    assert resumed.snapshots

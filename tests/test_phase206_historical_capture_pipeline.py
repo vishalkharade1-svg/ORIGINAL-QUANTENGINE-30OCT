@@ -104,15 +104,40 @@ class FakeAdapter:
 
     def capture(self, **kwargs):
         self.calls.append(kwargs)
+        endpoint_rows = {
+            "open_orders": tuple(self.rows),
+            "order_history": (), "fills": (), "positions": (),
+            "wallet_transactions": (),
+        }
+        page_provenance = tuple({
+            "endpoint": endpoint,
+            "page_index": 0,
+            "request_cursor": None,
+            "response_cursor": None,
+            "response_status": "SUCCESS",
+            "record_count": len(endpoint_rows[endpoint]),
+            "request_started_at": "2026-10-01T00:00:00Z",
+            "collected_at": "2026-10-01T00:00:00Z",
+            "request_duration_ms": 1.0,
+            "content_sha256": "a" * 64,
+            "retry_count": 0,
+            "http_status_code": 200,
+            "request_policy_enforced": True,
+        } for endpoint in kwargs.get("endpoints", tuple(endpoint_rows)))
         return SimpleNamespace(
             captured_at="2026-10-01T04:00:00Z", product_id=84,
-            open_orders=tuple(self.rows), order_history=(), fills=(),
-            positions=(), wallet_transactions=(), complete=self.complete,
+            open_orders=endpoint_rows["open_orders"],
+            order_history=endpoint_rows["order_history"],
+            fills=endpoint_rows["fills"],
+            positions=endpoint_rows["positions"],
+            wallet_transactions=endpoint_rows["wallet_transactions"],
+            complete=self.complete,
             endpoint_status={
                 "open_orders": "OK" if self.complete else "INCOMPLETE_PAGINATION",
                 "order_history": "OK", "fills": "OK", "positions": "OK",
                 "wallet_transactions": "OK",
             },
+            page_provenance=page_provenance,
         )
 
 

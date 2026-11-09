@@ -279,8 +279,13 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
         http_status = page.get("http_status_code")
         if http_status is not None and not _bounded_int(http_status, 0, 999):
             raise CapturePersistenceError("persisted page provenance HTTP status is invalid")
-        if not isinstance(page.get("request_policy_enforced"), bool):
+        policy_enforced = page.get("request_policy_enforced")
+        if not isinstance(policy_enforced, bool):
             raise CapturePersistenceError("persisted page provenance policy flag is invalid")
+        if plan.mode == "authenticated" and policy_enforced is not True:
+            raise CapturePersistenceError(
+                "authenticated page provenance did not enforce bounded request policy"
+            )
         if "records_not_persisted" in page:
             not_persisted = page["records_not_persisted"]
             if (not _bounded_int(not_persisted, 0, plan.max_records_per_snapshot)
@@ -343,7 +348,7 @@ class HistoricalCaptureOrchestrator:
                 raise CaptureAuthorizationError("authenticated Delta REST client is not available")
             if not callable(getattr(rest_client, "get_with_policy", None)):
                 raise CaptureAuthorizationError("authenticated REST client lacks bounded timeout/retry policy support")
-        plan_id = plan.plan_id or str(uuid5(NAMESPACE_URL, canonical_json_bytes({
+        plan_identity = {
             "venue": plan.venue, "tenant": plan.tenant_id, "account": plan.account_id,
             "product": plan.product_id, "start_utc": windows[0].start.isoformat(),
             "end_utc": windows[-1].end.isoformat(),
@@ -358,7 +363,11 @@ class HistoricalCaptureOrchestrator:
             "max_capture_runs": plan.max_capture_runs,
             "interval_seconds": plan.interval_seconds, "mode": plan.mode,
             "endpoints": plan.endpoints,
-        }).decode("utf-8")))
+        }
+        plan_fingerprint = hashlib.sha256(canonical_json_bytes(plan_identity)).hexdigest()
+        plan_id = plan.plan_id or str(uuid5(
+            NAMESPACE_URL, canonical_json_bytes(plan_identity).decode("utf-8")
+        ))
         if (not isinstance(plan_id, str) or not plan_id.strip() or len(plan_id) > 128
                 or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
                 or Path(plan_id).name != plan_id):
@@ -383,7 +392,20 @@ class HistoricalCaptureOrchestrator:
                         # Phase-206 artifacts predate slot coordinates; preserve
                         # them but never infer a resumable slot from their names.
                         continue
-                    if schema != "quantengine.phase207.capture.v1":
+                    if schema == "quantengine.phase207.capture.v1":
+                        # Legacy Phase-207 artifacts have no plan fingerprint.
+                        # They are resumable only when the plan ID itself is the
+                        # deterministic UUID derived from this exact plan.
+                        if plan.plan_id is not None:
+                            raise CapturePersistenceError(
+                                "legacy Phase-207 artifact lacks a plan fingerprint and cannot be resumed with an explicit plan_id"
+                            )
+                    elif schema == "quantengine.phase207.capture.v2":
+                        if payload.get("plan_fingerprint") != plan_fingerprint:
+                            raise CapturePersistenceError(
+                                "persisted capture plan fingerprint does not match requested plan"
+                            )
+                    else:
                         raise CapturePersistenceError("persisted capture schema is unsupported")
                     if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
                         raise CapturePersistenceError("persisted capture scope does not match requested plan")
@@ -454,7 +476,14 @@ class HistoricalCaptureOrchestrator:
                     ))
                     if capture.capture_id != expected_capture_id:
                         raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
-                    _validate_page_provenance(payload.get("page_provenance"), plan)
+                    page_provenance = payload.get("page_provenance")
+                    _validate_page_provenance(page_provenance, plan)
+                    if (plan.mode == "authenticated" and capture.complete
+                            and capture.pagination_complete
+                            and not any(page.get("endpoint") == endpoint for page in page_provenance)):
+                        raise CapturePersistenceError(
+                            "authenticated completed capture is missing endpoint page provenance"
+                        )
                     expected_product = None if endpoint == "wallet_transactions" else plan.product_id
                     if (capture.venue.strip().lower() != plan.venue.strip().lower()
                             or capture.account_id != plan.account_id
@@ -515,6 +544,8 @@ class HistoricalCaptureOrchestrator:
                         retry_budget=plan.retry_budget, allow_partial=True,
                     )
                     endpoint_status = _endpoint_status(raw)
+                    page_provenance = list(getattr(raw, "page_provenance", ()) or ())
+                    _validate_page_provenance(page_provenance, plan)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
                     for endpoint in missing_endpoints:
                         records = _snapshot_records(raw, endpoint)
@@ -537,14 +568,20 @@ class HistoricalCaptureOrchestrator:
                             pagination_complete=endpoint_complete,
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
+                        if (plan.mode == "authenticated" and endpoint_complete
+                                and not any(page.get("endpoint") == endpoint for page in page_provenance)):
+                            raise CapturePersistenceError(
+                                "authenticated completed capture is missing endpoint page provenance"
+                            )
                         payload = {
-                            "schema": "quantengine.phase207.capture.v1",
+                            "schema": "quantengine.phase207.capture.v2",
+                            "plan_fingerprint": plan_fingerprint,
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
                             "repeat_index": repeat, "window_index": index,
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
-                            "page_provenance": [dict(page) for page in getattr(raw, "page_provenance", ())],
+                            "page_provenance": [dict(page) for page in page_provenance],
                         }
                         _safe_json_write(self._root / plan_id / capture_id, payload)
                         capture = CaptureSnapshot(
