@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - phase206/bounded-multi-window-capture
+      - phase207/mainline-durable-capture
   pull_request:
     branches:
       - main
@@ -11,6 +12,7 @@ on:
       - "core/execution/historical_capture_orchestrator.py"
       - "core/exchanges/delta/reconciliation_read_adapter.py"
       - "tests/test_phase206_historical_capture_pipeline.py"
+      - "tests/test_phase207_durable_capture_resume.py"
       - ".github/workflows/phase206-tests.yml"
 
 permissions:
@@ -57,5 +59,7 @@ jobs:
           python scripts/security/scan_secrets.py --check-staged
       - name: Run Phase 206 focused tests
         run: python -m pytest -q tests/test_phase206_historical_capture_pipeline.py
+      - name: Run Phase 207 durable resume tests
+        run: python -m pytest -q tests/test_phase207_durable_capture_resume.py
       - name: Run Phase 199 and Phase 205 regressions
         run: python -m pytest -q tests/test_phase199_delta_reconciliation_read_adapter.py tests/test_phase205_cross_capture_reconciliation.py
