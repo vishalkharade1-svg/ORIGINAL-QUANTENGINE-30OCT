@@ -211,6 +211,8 @@ def test_resume_reconstructs_same_window_repeat_reconciliation_reports(tmp_path)
     plan = make_plan(end="2026-10-01T01:00:00Z", repeat_count=2)
     first = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
     assert first.status == "COMPLETE"
+    assert first.requested_windows == 2
+    assert first.completed_windows == 2
     assert len(first.reconciliation_reports) == 1
 
     restarted = HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
