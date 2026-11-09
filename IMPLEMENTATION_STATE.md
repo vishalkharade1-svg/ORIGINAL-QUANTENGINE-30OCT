@@ -1962,3 +1962,12 @@ Six new negative/compatibility tests cover explicit-plan-ID reuse with changed s
 ### Phase 207 — preserve bounded page-overrun provenance
 
 The page-provenance validator now distinguishes the raw number of records received in a page from the smaller number permitted to persist in one capture snapshot. It bounds raw page and dropped-record counts by the larger of the plan's per-snapshot and total-record limits, while still requiring dropped count not to exceed raw count. This preserves legitimate `RECORD_BUDGET_OVERRUN` diagnostics instead of rejecting them solely because the server returned more rows than the snapshot storage budget. A regression test covers a three-row raw page, two persisted rows, and one explicitly dropped row under a two-record snapshot cap. CI verification remains pending because the latest GitHub Actions runs completed without creating jobs.
+
+
+### Phase 207 — repeated GitHub Actions no-job failures (2026-11-09)
+
+- After the no-job failures on `15b18243`, the full-regression and Secret Scan runs for `f83c299d` (`42672143623`, `42672144099`) and `7c0e2468` (`42672601258`, `42672601261`) also completed with conclusion `failure` and **zero jobs**. The corresponding `/jobs` endpoints return `total_count=0`; there are no check runs or job logs. These records do not demonstrate test or scanner execution.
+- The last verifiably executed full suite remains run `42666622982` on `0b0b10b`: 4,965 passed, 58 skipped, 36 failed, 446 subtests passed. Later Phase-207 changes (plan fingerprint, authenticated page-policy enforcement, schema v2 compatibility, and page-overrun bounds) are **not yet CI-verified**.
+- **PAGE-OVERRUN BOUND:** raw page record counts and `records_not_persisted` are now bounded by `max(max_records_per_snapshot, max_total_records)`, preserving explicit `RECORD_BUDGET_OVERRUN` diagnostics when a venue returns more rows than the per-snapshot persistence limit. A new test checks a 3-row raw page with 2 persisted and 1 dropped under a 2-row snapshot cap.
+- **LATEST HEAD:** `7c0e2468fb88f03455f018f4f6991eaee742e19b`. The updated manifest entries for the orchestrator, Phase-207 tests, and implementation-state document were independently recomputed and match. The no-job CI condition is an unresolved validation blocker; do not infer success or failure of the Python test suite from these workflow conclusions.
+- **PULL REQUEST / RELEASE:** PR #6 remains draft/open and unmerged. `RELEASE_GATE = HOLD`; `live_arming_permitted = False`. PAPER ONLY / NOT LIVE READY.
