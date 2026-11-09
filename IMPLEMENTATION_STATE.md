@@ -1984,3 +1984,14 @@ A source-level audit of the active policy path finds a material requirement mism
 - **Conclusion:** ordinary paper/runtime policy currently permits 1:1 through 1:20 (subject to instrument overrides), not a mandatory 1:6 minimum. The 1:6 threshold is frozen research/OOS semantics, not the default runtime trading floor. This is inconsistent with the user's stated requirement that every eligible trade meet at least 1:6.
 - **Governance:** do not silently change the policy defaults, override file, or pinned strategy-core files to make this appear compliant. A 1:6 hard-floor change requires an explicit versioned policy decision, reviewed effects on the strategy identity, and fresh independent OOS/economic validation. The existing frozen identity and evidence blockers remain unresolved. Until then, label the runtime policy as **1:1–1:20 configurable**, not 1:6 guaranteed.
 - **Historical-note clarification:** earlier Phase-23 notes describing a 1:6 gate at builder/decision/risk/backtester boundaries should not be interpreted as proof of a 1:6 floor in the ordinary runtime path; the current source branch above establishes the actual active behavior.
+
+
+The R:R policy audit also compared the active policy files with their Phase-131 frozen manifest entries:
+
+| File | Phase-131 SHA-256 | Current SHA-256 |
+|---|---|---|
+| `core/risk/trading_policy.py` | `e4208e309110c46a867a2d066665f96338c76b842af0f7fdc94ed5d98c626ffb` | `110aa7147b8b0d489271c848bd44f83fa12dde9131ea287ddf89a23ef6870c16` |
+| `data/runtime/risk_policy_overrides.json` | `a2b9f5c69f8e3ed4c915d2f52fcef6b4f2a992e75e663c49297a7ac0f35aab44` | `772fad4d5d036a7379de06416840a6284eaad7d05fbe609bfab005d042c63ee2` |
+| `tests/test_trading_policy.py` | `74856e64cb938f141f1bbeb65414a496f183efd0e320f92dd39889ee648f1fde` | `45f7c3240c2649984cead2635a20e35cfe08331c5e098136758b2dd4c1e25be4` |
+
+All three current files differ from their Phase-131 pins. Their visible per-path GitHub history also begins at the parentless migration commit. Therefore the current 1:1 default cannot be treated as a harmless edit to an otherwise intact Phase-131 policy baseline, and restoring 6R defaults by guessing old file bytes is not permissible. Any new hard-floor policy must be versioned and validated as a new policy release; the current branch remains non-certified.
