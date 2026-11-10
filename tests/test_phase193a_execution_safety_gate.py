@@ -446,7 +446,7 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         "post_only": True,
         "client_order_id": "ORD-SEALED-01",
     }
-    with pytest.raises(TransportWriteAuthorityError, match="integer product_id"):
+    with pytest.raises(TransportWriteAuthorityError, match="finite integer"):
         token_for_testnet_experiment(
             reserved,
             "https://cdn-ind.testnet.deltaex.org",
