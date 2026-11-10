@@ -81,7 +81,7 @@ def _create_approved_auth_record() -> OperatorAuthorizationRecord:
         require_valid_book=False,
         contract_size_btc=Decimal("0.001"),
         contract_metadata_product_id=84,
-        contract_metadata_sha256="ce0b9fdaca61e990b140cf91136579bb00461866",
+        contract_metadata_sha256="e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2",
     )
     record = OperatorAuthorizationRecord(
         authorization_id="SIMULATED-AUTH-001",
@@ -621,4 +621,30 @@ def test_reservation_persists_notional_inputs_and_metadata_provenance(tmp_path: 
     assert data["notional_usd"] == "80.000"
     assert data["contract_size_btc"] == "0.001"
     assert data["contract_metadata_product_id"] == 84
-    assert data["contract_metadata_sha256"] == "ce0b9fdaca61e990b140cf91136579bb00461866"
+    assert data["contract_metadata_sha256"] == "e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2"
+
+
+@pytest.mark.parametrize(
+    "metadata_changes",
+    [
+        {"contract_size_btc": Decimal("0.0005")},
+        {"contract_metadata_product_id": 999},
+        {"contract_metadata_sha256": "f" * 64},
+    ],
+)
+def test_reusable_gate_rejects_substituted_contract_metadata(tmp_path: Path, metadata_changes: dict):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    auth.scope = replace(auth.scope, **metadata_changes)
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "substituted-metadata-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="80000",
+    )
+    assert not decision.authorized
