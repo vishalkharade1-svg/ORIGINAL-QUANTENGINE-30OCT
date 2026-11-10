@@ -1073,6 +1073,8 @@ class TestScopeCapEnforcement(_TempDirCase):
             auth_record=record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), cl_ord_id="dup-1",
+            order_details={"side": "buy", "limit_price": "80000",
+                           "post_only": True},
             post_only=True)
         self.assertTrue(d1.is_armed())
         # While the reservation is still active (looks open), the retry
@@ -1113,6 +1115,8 @@ class TestScopeCapEnforcement(_TempDirCase):
             auth_record=record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), cl_ord_id="open-1",
+            order_details={"side": "buy", "limit_price": "80000",
+                           "post_only": True},
             post_only=True)
         self.assertTrue(d1.is_armed())
         open_before = gate.evaluate_preflight(
