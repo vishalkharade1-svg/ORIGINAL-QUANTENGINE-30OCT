@@ -157,6 +157,7 @@ class TestPhase189AuthorizationDocumentIntegrity(unittest.TestCase):
             symbol="BTCUSD",
             product_id=84,
             order_size_contracts=Decimal("1.0"),
+            limit_price=Decimal("50000"),
         )
         self.assertTrue(decision.authorized)
         # Preflight is diagnostic only; transport authority requires the
@@ -340,6 +341,7 @@ class TestPhase189PersistentAccountingAcrossRestarts(unittest.TestCase):
             symbol="BTCUSD",
             product_id=84,
             order_size_contracts=Decimal("1.0"),
+            limit_price=Decimal("50000"),
         )
         self.assertTrue(decision_19.authorized)
         self.assertEqual(decision_19.cumulative_orders_placed, 19)
