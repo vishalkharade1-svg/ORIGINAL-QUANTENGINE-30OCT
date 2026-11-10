@@ -62,7 +62,7 @@ def fixture_csv(n_minutes=3, per_minute=20, side="buy", start_ms=2_000_000_000_0
 
 class TestRepositoryHead(unittest.TestCase):
     def test_starting_head_ancestor(self):
-        require_git_fact(self, 'test_researcher_11g_n::TestRepositoryHead::test_starting_head_ancestor', required_commit='acab874d1a2cf256ab5f63a1b7fce5d061069b2d')
+        require_git_fact(self, 'test_researcher_11g_n::TestRepositoryHead::test_starting_head_ancestor', required_commit='004b2bcbe5f3ea8ab0b4d2be246bbb25dde61db2')
         r = subprocess.run(["git", "merge-base", "--is-ancestor",
                             "acab874d1a2cf256ab5f63a1b7fce5d061069b2d", "HEAD"],
                            capture_output=True, cwd=str(BASE_DIR))
