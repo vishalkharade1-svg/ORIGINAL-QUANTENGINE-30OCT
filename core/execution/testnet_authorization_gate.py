@@ -1006,12 +1006,14 @@ class TestnetAuthorizationGate:
                 authorized_product_id=decision.authorized_product_id,
                 authorized_order_size_contracts=decision.authorized_order_size_contracts,
                 authorized_post_only=decision.authorized_post_only,
-                authorized_order_details=tuple(sorted({
-                    "side": side,
-                    "limit_price": format(limit_price, "f"),
-                    "post_only": post_only,
-                    "notional_usd": str(notional_usd),
-                }.items())),
+                authorized_order_details=tuple(sorted(
+                    (str(key), str(value)) for key, value in {
+                        "side": side,
+                        "limit_price": format(limit_price, "f"),
+                        "post_only": post_only,
+                        "notional_usd": str(notional_usd),
+                    }.items()
+                )),
                 authorized_client_order_id=cl_ord_id_clean,
                 _mint_token=_GATE_MINT,
             )
