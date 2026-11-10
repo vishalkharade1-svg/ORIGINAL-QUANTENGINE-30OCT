@@ -54,6 +54,11 @@ log = get_logger(__name__)
 _AUDIT_COMPONENT = "TestnetAuthorizationGate"
 _GATE_MINT = secrets.token_hex(16)
 
+# Pinned to the Phase 185 Delta product snapshot; do not accept caller-substituted multipliers.
+BTCUSD_PRODUCT_ID = 84
+BTCUSD_CONTRACT_SIZE_BTC = Decimal("0.001")
+BTCUSD_PRODUCT_SNAPSHOT_SHA256 = "e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2"
+
 
 class AuthorizationState(str, Enum):
     """Explicit lifecycle states for experiment authorization."""
@@ -483,9 +488,9 @@ class TestnetAuthorizationGate:
             max_order_wait_seconds=120.0,
             require_post_only=True,
             forbid_market_conversion=True,
-            contract_size_btc=Decimal("0.001"),
-            contract_metadata_product_id=84,
-            contract_metadata_sha256="ce0b9fdaca61e990b140cf91136579bb00461866",
+            contract_size_btc=BTCUSD_CONTRACT_SIZE_BTC,
+            contract_metadata_product_id=BTCUSD_PRODUCT_ID,
+            contract_metadata_sha256=BTCUSD_PRODUCT_SNAPSHOT_SHA256,
         )
         self._kill_switch_active: bool = False
         self._kill_switch_reason: str = ""
@@ -720,16 +725,14 @@ class TestnetAuthorizationGate:
 
         contract_size = self.scope.contract_size_btc
         metadata_valid = True
-        if sym_clean != "BTCUSD" or product_id != 84:
+        if sym_clean != "BTCUSD" or product_id != BTCUSD_PRODUCT_ID:
             reasons.append("Notional metadata is authorized only for BTCUSD Product ID 84")
             metadata_valid = False
         if self.scope.contract_metadata_product_id != product_id:
             reasons.append("Contract metadata product ID is missing or does not match requested product")
             metadata_valid = False
-        if not isinstance(self.scope.contract_metadata_sha256, str) or not re.fullmatch(
-            r"[0-9a-f]{64}", self.scope.contract_metadata_sha256
-        ):
-            reasons.append("Verified contract metadata snapshot SHA-256 is missing or invalid")
+        if self.scope.contract_metadata_sha256 != BTCUSD_PRODUCT_SNAPSHOT_SHA256:
+            reasons.append("Contract metadata snapshot SHA-256 does not match the pinned verified BTCUSD product snapshot")
             metadata_valid = False
         try:
             if contract_size is None:
@@ -737,6 +740,8 @@ class TestnetAuthorizationGate:
             contract_size = Decimal(str(contract_size))
             if not contract_size.is_finite() or contract_size <= 0:
                 raise ValueError("invalid multiplier")
+            if contract_size != BTCUSD_CONTRACT_SIZE_BTC:
+                raise ValueError("multiplier differs from pinned BTCUSD product metadata")
         except Exception:
             reasons.append("Verified BTCUSD contract multiplier is missing or invalid")
             metadata_valid = False
@@ -933,10 +938,11 @@ class TestnetAuthorizationGate:
             try:
                 limit_price = Decimal(str(order_details["limit_price"]))
                 contract_size = Decimal(str(self.scope.contract_size_btc))
-                if (self.scope.contract_metadata_product_id != product_id
-                        or not re.fullmatch(r"[0-9a-f]{64}", self.scope.contract_metadata_sha256 or "")
+                if (product_id != BTCUSD_PRODUCT_ID
+                        or self.scope.contract_metadata_product_id != BTCUSD_PRODUCT_ID
+                        or self.scope.contract_metadata_sha256 != BTCUSD_PRODUCT_SNAPSHOT_SHA256
                         or not limit_price.is_finite() or limit_price <= 0
-                        or not contract_size.is_finite() or contract_size <= 0):
+                        or not contract_size.is_finite() or contract_size != BTCUSD_CONTRACT_SIZE_BTC):
                     raise ValueError("unverified product metadata or invalid price/multiplier")
                 notional_usd = (
                     decision.authorized_order_size_contracts
