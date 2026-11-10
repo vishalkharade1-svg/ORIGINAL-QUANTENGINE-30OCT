@@ -446,6 +446,12 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         "post_only": True,
         "client_order_id": "ORD-SEALED-01",
     }
+    with pytest.raises(TransportWriteAuthorityError, match="integer product_id"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={**payload, "product_id": 84.5},
+        )
     with pytest.raises(TransportWriteAuthorityError, match="operator-authorized REST endpoint"):
         token_for_testnet_experiment(
             reserved,
@@ -466,6 +472,13 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
             payload=payload,
         )
 
+    with pytest.raises(TransportWriteAuthorityError, match="positive integer order id"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={"id": 12345.5, "product_id": 84},
+            method="DELETE",
+        )
     cancel_payload = {"id": 12345, "product_id": 84}
     cancel_token = token_for_testnet_experiment(
         reserved,
