@@ -241,24 +241,9 @@ class TestReleaseRecords170(unittest.TestCase):
         self.assertIn(ARCHIVE_NAME, text)
 
     def test_versioned_strategy_identity_invariants(self):
+        from tests.strategy_identity_evidence import assert_unregistered_identity
         identities = get_versioned_identities(ROOT)
-        # Phase 22 re-registration: the versioned composites advanced with
-        # the delivered worktree (frozen-era OOS semantics restored; all
-        # recorded OOS funnels reproduce). Provenance:
-        # reports/PHASE22_STRATEGY_IDENTITY_BASELINE.json - the historical
-        # Phase 14 pin (c52e648c...) remains the authority.
-        self.assertEqual(
-            identities["strategy_core"]["sha256"],
-            "26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666"
-        )
-        self.assertEqual(
-            identities["runtime_infrastructure"]["sha256"],
-            "997a21f21045551ed25e29d2289157d257b16b5f3b99bbf04e95c7f257b96294"
-        )
-        self.assertEqual(
-            identities["composite_legacy_9_files"]["canonical_lf_sha256"],
-            "05986916c990dbda8329b7fa8230ced878f951c68ed87e071b6afd3b8475afda"
-        )
+        assert_unregistered_identity(self, identities, ROOT)
 
 
 if __name__ == "__main__":
