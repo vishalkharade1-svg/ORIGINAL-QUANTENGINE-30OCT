@@ -79,6 +79,9 @@ def _create_approved_auth_record() -> OperatorAuthorizationRecord:
         require_post_only=True,
         forbid_market_conversion=True,
         require_valid_book=False,
+        contract_size_btc=Decimal("0.001"),
+        contract_metadata_product_id=84,
+        contract_metadata_sha256="ce0b9fdaca61e990b140cf91136579bb00461866",
     )
     record = OperatorAuthorizationRecord(
         authorization_id="SIMULATED-AUTH-001",
@@ -416,6 +419,7 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         product_id=84,
         order_size_contracts=Decimal("1.0"),
         post_only=True,
+        limit_price=Decimal("80000"),
     )
     assert preflight.authorized
     assert not preflight.is_armed()
@@ -535,3 +539,86 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
                 payload=payload,
             )
 
+
+
+@pytest.mark.parametrize(
+    "price,expected_authorized",
+    [
+        ("100000", True),
+        ("100000.1", False),
+        ("NaN", False),
+        ("Infinity", False),
+        ("0", False),
+        ("-1", False),
+    ],
+)
+def test_reusable_gate_enforces_usd_notional_ceiling(tmp_path: Path, price: str, expected_authorized: bool):
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "notional-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=_create_approved_auth_record(),
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price=price,
+    )
+    assert decision.authorized is expected_authorized
+    if not expected_authorized:
+        assert any("notional" in reason.lower() or "limit price" in reason.lower() for reason in decision.reasons)
+
+
+def test_reusable_gate_refuses_unpriced_preflight(tmp_path: Path):
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "unpriced-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=_create_approved_auth_record(),
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+    )
+    assert not decision.authorized
+    assert any("Limit price is required" in reason for reason in decision.reasons)
+
+
+def test_reusable_gate_fails_closed_without_verified_contract_metadata(tmp_path: Path):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    auth.scope = replace(auth.scope, contract_size_btc=None, contract_metadata_product_id=None, contract_metadata_sha256="")
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "missing-metadata-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="80000",
+    )
+    assert not decision.authorized
+    assert any("contract multiplier" in reason.lower() for reason in decision.reasons)
+    assert any("snapshot sha-256" in reason.lower() for reason in decision.reasons)
+
+
+def test_reservation_persists_notional_inputs_and_metadata_provenance(tmp_path: Path):
+    ledger_path = tmp_path / "notional-reservation-ledger.jsonl"
+    gate = TestnetAuthorizationGate(ledger_path=ledger_path)
+    decision = gate.check_and_reserve_order(
+        auth_record=_create_approved_auth_record(),
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        cl_ord_id="ORD-NOTIONAL-BOUND-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
+        post_only=True,
+    )
+    assert decision.is_armed()
+    record = json.loads(ledger_path.read_text(encoding="utf-8").splitlines()[0])
+    data = record["data"]
+    assert data["notional_usd"] == "80.000"
+    assert data["contract_size_btc"] == "0.001"
+    assert data["contract_metadata_product_id"] == 84
+    assert data["contract_metadata_sha256"] == "ce0b9fdaca61e990b140cf91136579bb00461866"
