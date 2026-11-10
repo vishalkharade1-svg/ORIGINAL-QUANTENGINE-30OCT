@@ -281,6 +281,34 @@ class TestPhase192ReconciliationAdversarial(unittest.TestCase):
             for reason in report.reasons
         ))
 
+    def test_11_non_finite_exchange_quantity_is_held_not_released(self):
+        local_orders = {
+            "ord_nan_fill": {
+                "state": OrderLifecycleState.ACKNOWLEDGED,
+                "order_size": "1.0",
+            },
+        }
+        report = self.reconciler.reconcile(
+            local_orders=local_orders,
+            exchange_orders=[{
+                "id": 711,
+                "cl_ord_id": "ord_nan_fill",
+                "state": "open",
+                "size": "1.0",
+                "size_filled": "NaN",
+            }],
+        )
+        self.assertEqual(report.status, ReconciliationStatus.BLOCKED)
+        self.assertFalse(report.execution_permitted)
+        record = report.reconciled_orders["ord_nan_fill"]
+        self.assertEqual(
+            record.reconciled_state,
+            OrderLifecycleState.RECONCILIATION_REQUIRED,
+        )
+        self.assertFalse(record.risk_released)
+        self.assertFalse(record.unfilled_quota_released)
+        self.assertTrue(record.position_exposure_held)
+
     def test_10_missing_identifiers_and_redaction(self):
         """Exchange record missing cl_ord_id is safely handled, and credentials are redacted."""
         local_orders = {
