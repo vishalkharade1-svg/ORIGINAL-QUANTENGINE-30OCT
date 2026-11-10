@@ -289,11 +289,12 @@ class LiveSafetyGate:
         """
 
         if has_credentials is not None:
-            return bool(has_credentials)
+            return ExecutionMode._as_bool("has_credentials", has_credentials)
 
         try:
             return bool(
-                (api_key or "") and (api_secret or "")
+                str(api_key or "").strip()
+                and str(api_secret or "").strip()
             )
         except Exception:
             return False
@@ -329,9 +330,11 @@ class LiveSafetyGate:
                 "one of PAPER, LIVE, ANALYZE.".format(mode)
             )
 
-        allow = bool(allow_live)
-
-        execute = bool(live_execute)
+        # Never use Python truthiness for security arming flags:
+        # bool("false") is True. Accept only explicit boolean spellings
+        # and reject ambiguous values through the shared strict parser.
+        allow = ExecutionMode._as_bool("ALLOW_LIVE", allow_live)
+        execute = ExecutionMode._as_bool("LIVE_EXECUTE", live_execute)
 
         creds = cls._has_credentials(
             api_key=api_key,
@@ -531,10 +534,11 @@ class LiveSafetyGate:
         if settings_obj is None:
             from config.settings import settings as settings_obj
 
-        allow = bool(getattr(settings_obj, "ALLOW_LIVE", False))
-
-        execute = bool(
-            getattr(settings_obj, "LIVE_EXECUTE", False)
+        allow = ExecutionMode._as_bool(
+            "ALLOW_LIVE", getattr(settings_obj, "ALLOW_LIVE", False)
+        )
+        execute = ExecutionMode._as_bool(
+            "LIVE_EXECUTE", getattr(settings_obj, "LIVE_EXECUTE", False)
         )
 
         if mode is None:
