@@ -700,7 +700,17 @@ class TestnetAuthorizationGate:
         elif not auth_record.is_currently_valid():
             reasons.append("Authorization record signature or operator credentials invalid")
 
-        # 4. Scope and instrument check
+        # 4. Scope and instrument check. The signed operator scope must
+        # agree with the gate's pinned notional boundary; otherwise fail closed.
+        signed_scope = auth_record.scope
+        if (
+            signed_scope.max_order_notional_usd != self.scope.max_order_notional_usd
+            or signed_scope.contract_size_btc != self.scope.contract_size_btc
+            or signed_scope.contract_metadata_product_id != self.scope.contract_metadata_product_id
+            or signed_scope.contract_metadata_sha256 != self.scope.contract_metadata_sha256
+        ):
+            reasons.append("Signed authorization notional scope does not match the gate's pinned notional boundary")
+
         sym_clean = str(symbol or "").strip().upper()
         if sym_clean not in self.scope.allowed_symbols:
             reasons.append(f"Symbol {sym_clean!r} not in authorized scope: {self.scope.allowed_symbols}")
