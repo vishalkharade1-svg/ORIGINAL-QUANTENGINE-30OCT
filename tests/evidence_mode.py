@@ -150,6 +150,43 @@ def require_git_fact(case, fact_id: str, detail: str = "",
             )
 
 
+def require_history_depth(case, fact_id: str, minimum_commits: int = 2) -> None:
+    """Block historical-byte claims when the checkout is only a migration snapshot.
+
+    The caller's original hash assertions still run when sufficient Git history
+    is present. A one-commit import cannot establish whether historical report
+    bytes were changed before migration, so it must be reported as blocked.
+    """
+    mode, evidence = detect_mode()
+    if mode != MODE_GIT_CHECKOUT:
+        case.skipTest(
+            "%s: historical record bytes %s cannot be established from a "
+            "source archive (mode=%s)" % (SKIP_PREFIX, fact_id, mode)
+        )
+    try:
+        probe = _git(["rev-list", "--count", "HEAD"])
+    except (OSError, subprocess.SubprocessError) as exc:  # pragma: no cover
+        case.skipTest(
+            "%s: Git history depth unavailable for %s (%s: %s)"
+            % (SKIP_PREFIX, fact_id, type(exc).__name__, exc)
+        )
+    if probe.returncode != 0:
+        case.skipTest(
+            "%s: Git history depth unavailable for %s; original history "
+            "is BLOCKED_EVIDENCE" % (SKIP_PREFIX, fact_id)
+        )
+    try:
+        count = int(probe.stdout.strip())
+    except ValueError:
+        count = 0
+    if count < minimum_commits:
+        case.skipTest(
+            "%s: only %s Git commit(s) are present for %s; this is a migration "
+            "snapshot, not the original history, so historical byte identity "
+            "is BLOCKED_EVIDENCE" % (SKIP_PREFIX, count, fact_id)
+        )
+
+
 def status_document() -> dict | None:
     """The packaged machine-readable record, or ``None`` when absent."""
     if not STATUS_FILE.exists():
