@@ -359,6 +359,33 @@ class TestnetStateReconciler:
                         f"Order {cl_id!r} has invalid or inconsistent exchange quantities: "
                         f"total={ex_total}, filled={ex_filled}, remaining={ex_unfilled}"
                     )
+                if invalid_quantities:
+                    if ex_total.is_finite() and ex_total != l_qty:
+                        reasons.append(
+                            f"Order {cl_id!r} size contradiction: local={l_qty} vs exchange={ex_total}"
+                        )
+                    exposure_qty = (
+                        ex_filled if ex_filled.is_finite()
+                        and ex_filled > Decimal("0") else Decimal("0")
+                    )
+                    reconciled_dict[cl_id] = ReconciledOrderRecord(
+                        cl_ord_id=cl_id,
+                        exchange_order_id=ex_order_id,
+                        local_state=l_state,
+                        exchange_state=ex_state,
+                        local_qty=l_qty,
+                        exchange_filled_qty=exposure_qty,
+                        exchange_remaining_qty=Decimal("0"),
+                        reconciled_state=OrderLifecycleState.RECONCILIATION_REQUIRED,
+                        anomalies=order_anomalies,
+                        risk_released=False,
+                        unfilled_quota_released=False,
+                        position_exposure_held=True,
+                        position_exposure_qty=exposure_qty,
+                        notes=["Invalid exchange quantities; retain exposure and require operator reconciliation"],
+                    )
+                    continue
+
                 if ex_total != l_qty:
                     order_anomalies.append(ReconciliationAnomalyType.CONTRADICTORY_RECORD)
                     reasons.append(
