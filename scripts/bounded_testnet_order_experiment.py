@@ -251,9 +251,12 @@ def main(argv: list[str] | None = None) -> int:
         contract_size = float(
             product.get("contract_size")
             or product.get("contract_value") or 0)
-        if not contract_size > 0:
+        if not contract_size > 0 or not math.isfinite(contract_size):
             return fail("BTCUSD contract_size unavailable; refusing to "
                         "bound notional")
+        if gate is not None and Decimal(str(contract_size)) != gate.scope.contract_size_btc:
+            return fail("live BTCUSD contract size differs from the signed "
+                        "authorization scope")
         notional = SIZE_CONTRACTS * contract_size * ask
         step("touch", bid=bid, ask=ask, buy_px=buy_px, sell_px=sell_px,
              contract_size=contract_size, est_notional=round(notional, 2))
