@@ -323,11 +323,40 @@ class TestnetStateReconciler:
                 # Order found on exchange
                 ex_state = str(ex_order.get("state", "")).lower()
                 ex_filled = Decimal(str(ex_order.get("size_filled", ex_order.get("filled_qty", "0.0"))))
-                ex_unfilled = Decimal(str(ex_order.get("unfilled_size", ex_order.get("unfilled_qty", "0.0"))))
                 ex_total = Decimal(str(ex_order.get("size", ex_order.get("qty", l_qty))))
+                raw_unfilled = ex_order.get("unfilled_size", ex_order.get("unfilled_qty"))
+                # Some venue order responses omit remaining size. Derive it
+                # only when absent; an explicitly supplied inconsistent
+                # remaining quantity is contradictory evidence.
+                ex_unfilled = Decimal(str(
+                    raw_unfilled if raw_unfilled is not None
+                    else max(Decimal("0"), ex_total - ex_filled)
+                ))
                 ex_order_id = ex_order.get("id") or ex_order.get("order_id")
 
-                # Check quantity contradiction
+                # Check quantity contradiction, including venue-internal
+                # arithmetic. A mismatched filled + remaining quantity can
+                # otherwise be treated as a clean partial fill and allow
+                # the coordinator to reason from inconsistent exposure.
+                invalid_quantities = (
+                    not ex_total.is_finite()
+                    or not ex_filled.is_finite()
+                    or not ex_unfilled.is_finite()
+                    or ex_total <= Decimal("0")
+                    or ex_filled < Decimal("0")
+                    or ex_unfilled < Decimal("0")
+                    or ex_filled > ex_total
+                    or (
+                        raw_unfilled is not None
+                        and ex_filled + ex_unfilled != ex_total
+                    )
+                )
+                if invalid_quantities:
+                    order_anomalies.append(ReconciliationAnomalyType.CONTRADICTORY_RECORD)
+                    reasons.append(
+                        f"Order {cl_id!r} has invalid or inconsistent exchange quantities: "
+                        f"total={ex_total}, filled={ex_filled}, remaining={ex_unfilled}"
+                    )
                 if ex_total != l_qty:
                     order_anomalies.append(ReconciliationAnomalyType.CONTRADICTORY_RECORD)
                     reasons.append(
