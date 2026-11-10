@@ -55,8 +55,7 @@ HARD RULES for this module:
 ====================================================
 """
 
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field, replace
 
 import secrets
 
@@ -255,6 +254,11 @@ class SafetyDecision:
     # checked by identity in require_decision(), never shown.
     _mint: str = field(default="", repr=False, compare=False)
 
+    # Only require() may mint operator-authorized decisions. Pure decide()
+    # results are diagnostic verdicts, not transport capabilities.
+    # test_armed() uses OFFLINE_TEST and is restricted at the write boundary.
+    _authority: str = field(default="", repr=False, compare=False)
+
     # -------------------------------------------------
 
     @property
@@ -432,6 +436,8 @@ class LiveSafetyGate:
                 )
             )
 
+        decision = replace(decision, _authority="LIVE_OPERATOR")
+
         log.warning(
             "LIVE_EXECUTION_ARMED mode=%s component=%s",
             decision.mode,
@@ -466,6 +472,13 @@ class LiveSafetyGate:
                 decision,
                 "decision was not minted by LiveSafetyGate.decide "
                 "(fabricated token)",
+                component,
+            )
+
+        if decision._authority not in {"LIVE_OPERATOR", "OFFLINE_TEST"}:
+            return cls._refuse_decision(
+                decision,
+                "decision is a diagnostic verdict, not an armed capability",
                 component,
             )
 
@@ -584,12 +597,13 @@ class LiveSafetyGate:
         call this -- main.py arms via from_settings +
         require over operator configuration."""
 
-        return cls.decide(
+        decision = cls.decide(
             mode=ExecutionMode.LIVE,
             allow_live=True,
             live_execute=True,
             has_credentials=True,
         )
+        return replace(decision, _authority="OFFLINE_TEST")
 
     # -------------------------------------------------
 
