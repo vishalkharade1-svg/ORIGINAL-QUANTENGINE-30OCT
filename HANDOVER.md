@@ -24,3 +24,9 @@ Working branch: `audit/deep-hardening-2026-11-10`
 - Historical Phase 14/22 strategy pins remain immutable; current strategy identity drift remains unregistered and must not be silently blessed.
 - Historical credential exposure in Git history remains an operator remediation item: revoke/rotate affected credentials and decide on history rewrite with repository owners.
 - No live trading, testnet orders, credential rotation, destructive Git cleanup, or production release was performed by this audit.
+
+### Additional authorization-gate hardening
+- Moved the BTCUSD USD-notional ceiling into the authorization gate itself. The signed scope now binds the observed 0.001 BTC contract value, and each reservation computes notional from contract count × signed contract value × limit price.
+- The gate now refuses incomplete order details and any extra caller-supplied fields; ledger identity, symbol, product, size, state, and timestamps cannot be overwritten through `order_details`.
+- Both bounded testnet experiment entry points verify that the live BTCUSD contract is operational and matches the signed contract-value scope before any write.
+- Added tests for notional-cap enforcement and attempted ledger-identity override. The focused Phase 206 workflow passed these gate, transport, live-safety, and capture regressions.
