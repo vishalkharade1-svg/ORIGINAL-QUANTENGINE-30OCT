@@ -548,11 +548,22 @@ class DeltaOrderExecutor:
 
         side = "sell" if direction == "BEARISH" else "buy"
 
+        try:
+            payload_product_id = Decimal(str(contract.product_id))
+        except (InvalidOperation, TypeError, ValueError) as exc:
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has invalid product_id"
+            ) from exc
+        if (not payload_product_id.is_finite()
+                or payload_product_id <= 0
+                or payload_product_id != payload_product_id.to_integral_value()):
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has non-integer product_id"
+            )
+
         payload = {
 
-            "product_id": int(
-                contract.product_id
-            ),
+            "product_id": int(payload_product_id),
 
             "order_type": "limit_order",
 
