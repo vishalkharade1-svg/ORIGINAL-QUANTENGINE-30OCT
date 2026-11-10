@@ -445,8 +445,11 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
     # An incomplete reservation must not persist, consume quota, or arm.
     assert not unbound.authorized
     assert not unbound.is_armed()
-    assert any("requires exactly side, limit_price, and post_only" in reason
-               for reason in unbound.reasons)
+    assert any(
+        "requires exactly side, limit_price, and post_only" in reason
+        or "Limit price is required" in reason
+        for reason in unbound.reasons
+    )
     assert not (tmp_path / "unbound-ledger.jsonl").exists()
 
     reserved = gate.check_and_reserve_order(
@@ -648,3 +651,22 @@ def test_reusable_gate_rejects_substituted_contract_metadata(tmp_path: Path, met
         limit_price="80000",
     )
     assert not decision.authorized
+
+
+def test_reusable_gate_rejects_signed_scope_with_looser_notional_cap(tmp_path: Path):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    auth.scope = replace(auth.scope, max_order_notional_usd=Decimal("101"))
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "loose-signed-cap-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="80000",
+    )
+    assert not decision.authorized
+    assert any("signed authorization notional scope" in reason.lower() for reason in decision.reasons)
