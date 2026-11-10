@@ -32,7 +32,7 @@ If and when authorized by an explicit operator signature, execution shall be str
 | **Product Metadata Provenance** | Phase 185 snapshot SHA-256: `e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2` | Exact digest, product ID, symbol, and multiplier are pinned in the reusable authorization gate and included in the signed scope |
 | **Maximum Order Notional** | **$100.00 USD** | Enforced by reusable preflight and atomic reservation using `contracts × 0.001 BTC × limit_price_USD`; missing price or unverified metadata blocks authorization |
 | **Tick Size** | `$0.10` USD | Non-tick-aligned prices rejected pre-flight |
-| **Order Sizing** | Exactly **1 contract** (0.001 BTC / ~$82.80 notional at the snapshot's reference price) | Rejection if size > 1 contract or computed notional > $100.00 USD |
+| **Order Sizing** | Exactly **1 contract** (0.001 BTC / $82.80 notional at an illustrative BTCUSD price of $82,800) | Rejection if size > 1 contract or computed notional > $100.00 USD |
 | **Maximum Simultaneous Open Orders** | Exactly **1 open order** | Strictly serialized: Order $N+1$ blocked until Order $N$ is terminal |
 | **Maximum Cumulative Orders** | Exactly **20 orders total** | Enforced across process restarts via persistent ledger |
 | **Order Resting Policy** | Strict **120.0 seconds** max resting time | Active cancellation dispatched at 120s; no market chasing |
