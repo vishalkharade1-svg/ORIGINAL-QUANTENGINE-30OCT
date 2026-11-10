@@ -75,7 +75,7 @@ def fixture_bars(csv_text, symbol="BTCUSDT"):
 
 class TestStartingState(unittest.TestCase):
     def test_head_descends_from_q(self):
-        require_git_fact(self, 'test_researcher_11g_r::TestStartingState::test_head_descends_from_q', required_commit='bd21e9ac06b33857f2b314925f25e528ecf0ea2b')
+        require_git_fact(self, 'test_researcher_11g_r::TestStartingState::test_head_descends_from_q', required_commit='29959c536610be610653bf34ac7fd331270d96fa')
         r = subprocess.run(["git", "merge-base", "--is-ancestor",
                             "bd21e9ac06b33857f2b314925f25e528ecf0ea2b", "HEAD"],
                            capture_output=True, cwd=str(BASE_DIR))
