@@ -670,3 +670,26 @@ def test_reusable_gate_rejects_signed_scope_with_looser_notional_cap(tmp_path: P
     )
     assert not decision.authorized
     assert any("signed authorization notional scope" in reason.lower() for reason in decision.reasons)
+
+
+def test_custom_gate_scope_cannot_raise_the_hard_100_usd_ceiling(tmp_path: Path):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    raised_scope = replace(auth.scope, max_order_notional_usd=Decimal("101"))
+    auth.scope = raised_scope
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(
+        ledger_path=tmp_path / "raised-gate-cap-ledger.jsonl",
+        default_scope=raised_scope,
+    )
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="100500",
+    )
+    assert not decision.authorized
+    assert any("pinned notional boundary" in reason.lower() for reason in decision.reasons)
