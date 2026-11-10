@@ -177,12 +177,23 @@ def test_phase26_funding_recapture_closes_head_gap():
     assert int(old["events"][0]["time"]) == 1788624000
 
 
-def test_phase26_funding_artifacts_bind_to_both_datasets():
+def test_phase26_funding_artifacts_bind_to_both_datasets(tmp_path):
     from research.economics.funding_evidence import load_and_verify
 
     dataset = ROOT / "data" / "history" / "BTCUSDT_1m_phase17_fresh.json"
     topup = ROOT / "data" / "history" / "BTCUSDT_1m_oos_topup.json"
-    phase18_artifact = load_and_verify(P26_BOUND_P18, market_data_path=dataset)
+
+    # The Phase26 Phase18 binding was minted against the CRLF byte form.
+    # GitHub's current canonical checkout is LF; reconstruct the exact
+    # historical byte representation for verification without rewriting
+    # either the dataset or its immutable evidence record.
+    phase18_lf = dataset.read_bytes()
+    phase18_crlf = phase18_lf.replace(b"\\r\\n", b"\\n").replace(b"\\n", b"\\r\\n")
+    phase18_historical_bytes = tmp_path / "phase18_historical_crlf.json"
+    phase18_historical_bytes.write_bytes(phase18_crlf)
+
+    phase18_artifact = load_and_verify(
+        P26_BOUND_P18, market_data_path=phase18_historical_bytes)
     oos_artifact = load_and_verify(P26_BOUND_OOS, market_data_path=topup)
     assert phase18_artifact.provenance_status == "REAL"
     assert oos_artifact.provenance_status == "REAL"
