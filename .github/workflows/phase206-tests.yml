@@ -22,6 +22,7 @@ on:
       - "core/execution/live_safety_gate.py"
       - "core/execution/order_executor.py"
       - "core/exchanges/delta/delta_exchange.py"
+      - "core/exchanges/delta/write_authority.py"
       - "tests/test_live_block_11.py"
       - ".github/workflows/phase206-tests.yml"
 
