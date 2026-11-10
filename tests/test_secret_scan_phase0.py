@@ -256,5 +256,34 @@ class TestPhase0SecretScanner(unittest.TestCase):
         self.assertNotIn("phase193b-history-canary-v", str(unsafe))
 
 
+    def test_hist_scanner_finds_credentials_in_non_env_python_files(self):
+        """History scan must include Python credential files beyond root .env."""
+        import subprocess
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.email", "t@t.invalid"],
+                           cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "t"],
+                           cwd=root, check=True)
+            (root / "README.md").write_text("safe baseline\\n", encoding="utf-8")
+            subprocess.run(["git", "add", "README.md"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "safe baseline"],
+                           cwd=root, check=True)
+            (root / "env").mkdir()
+            python_key = "DELTA_API_" + "SECRET"
+            python_assignment = python_key + " = " + '"' + "phase-history-python-canary" + '"' + "\\n"
+            (root / "env" / ".env.py").write_text(
+                python_assignment, encoding="utf-8")
+            subprocess.run(["git", "add", "env/.env.py"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "historical python credential"],
+                           cwd=root, check=True)
+            head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
+                                  check=True, capture_output=True,
+                                  text=True).stdout.strip()
+            unsafe = _SCANNER.scan_env_history(root)
+        self.assertEqual(unsafe, [head])
+        self.assertNotIn("phase-history-python-canary", str(unsafe))
+
 if __name__ == "__main__":
     unittest.main()
