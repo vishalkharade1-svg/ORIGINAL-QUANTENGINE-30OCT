@@ -464,6 +464,30 @@ class DeltaOrderExecutor:
                 f"contract for symbol {intent.symbol!r} produced an invalid tick price"
             ) from exc
 
+        tp_key = "bracket_take_profit_price"
+        sl_key = "bracket_stop_loss_price"
+        has_tp = tp_key in payload
+        has_sl = sl_key in payload
+        if has_tp != has_sl:
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has an incomplete protective bracket"
+            )
+        if has_tp and has_sl:
+            take_profit_decimal = Decimal(str(payload[tp_key]))
+            stop_loss_decimal = Decimal(str(payload[sl_key]))
+            side = str(payload.get("side", "")).lower()
+            if side == "buy":
+                valid_bracket = stop_loss_decimal < limit_decimal < take_profit_decimal
+            elif side == "sell":
+                valid_bracket = take_profit_decimal < limit_decimal < stop_loss_decimal
+            else:
+                valid_bracket = False
+            if not valid_bracket:
+                raise InvalidContractError(
+                    f"contract for symbol {intent.symbol!r} has bracket prices "
+                    "on the wrong side of the entry"
+                )
+
         if not (size > 0) or size > quantity + dust:
             raise InvalidContractError(
                 f"contract for symbol {intent.symbol!r} would "
