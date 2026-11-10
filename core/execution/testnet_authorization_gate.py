@@ -755,7 +755,9 @@ class TestnetAuthorizationGate:
             reasons.append("Market data order book validation required by scope, but no book tracker provided")
 
         is_authorized = len(reasons) == 0
-        # Preflight is diagnostic only. It never grants write authority; only\n        # check_and_reserve_order() may mint a transport capability.\n        mint_token = ""
+        # Preflight is diagnostic only. It never grants write authority; only
+        # check_and_reserve_order() may mint a transport capability.
+        mint_token = ""
 
         return AuthorizationDecision(
             authorized=is_authorized,
