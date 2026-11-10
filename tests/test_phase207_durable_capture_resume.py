@@ -11,6 +11,7 @@ from core.execution.historical_capture_orchestrator import (
     CapturePlanError,
     HistoricalCaptureOrchestrator,
     HistoricalCapturePlan,
+    _validate_page_provenance,
 )
 
 
@@ -488,3 +489,14 @@ def test_resume_persists_page_budget_overrun_with_raw_count_above_snapshot_limit
     assert page["response_status"] == "RECORD_BUDGET_OVERRUN"
     assert page["record_count"] == 3
     assert page["records_not_persisted"] == 1
+
+
+def test_page_provenance_accepts_only_known_delta_routes_for_selected_endpoints():
+    plan = make_plan(endpoints=("open_orders",))
+    page = _page_provenance()
+    page["endpoint"] = "/v2/orders"
+    _validate_page_provenance([page], plan)
+
+    page["endpoint"] = "/v2/unknown"
+    with pytest.raises(CapturePersistenceError, match="endpoint is unsupported"):
+        _validate_page_provenance([page], plan)

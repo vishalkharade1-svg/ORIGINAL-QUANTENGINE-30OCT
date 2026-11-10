@@ -1995,3 +1995,13 @@ The R:R policy audit also compared the active policy files with their Phase-131 
 | `tests/test_trading_policy.py` | `74856e64cb938f141f1bbeb65414a496f183efd0e320f92dd39889ee648f1fde` | `45f7c3240c2649984cead2635a20e35cfe08331c5e098136758b2dd4c1e25be4` |
 
 All three current files differ from their Phase-131 pins. Their visible per-path GitHub history also begins at the parentless migration commit. Therefore the current 1:1 default cannot be treated as a harmless edit to an otherwise intact Phase-131 policy baseline, and restoring 6R defaults by guessing old file bytes is not permissible. Any new hard-floor policy must be versioned and validated as a new policy release; the current branch remains non-certified.
+
+
+### Phase 207 — REST-route provenance normalization fix (2026-11-09)
+
+- Full-suite run [42673636016](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42673636016) on `35d6766e26ce7223367a6f780188a47fa156c5d7` failed with **4,971 passed, 58 skipped, 37 failed, 446 subtests passed**. Strict source-manifest verification passed. Failure count rose by one because `test_phase206_persists_partial_records_after_later_page_failure` exposed a real adapter/orchestrator contract mismatch.
+- Root cause: `DeltaReconciliationReadAdapter` records concrete REST route names (for example `/v2/orders`) in page provenance, but `HistoricalCapturePlan` scopes use logical endpoint categories (for example `open_orders`). Phase-207 validation compared these namespaces directly and rejected the otherwise valid partial response before persisting its records.
+- Fix: introduced an explicit, allowlisted one-to-one route-to-category mapping at the capture boundary; page indices are still sequenced by logical endpoint, and unknown routes or routes outside the plan remain rejected. Completed authenticated capture checks now use the same mapping.
+- Added a focused validator test for a known Delta route and rejection of an unknown route. Phase-206 integration regression and Phase-207 focused tests are pending CI.
+- The Secret Scan workflow run [42673635681](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42673635681) concluded failure but GitHub reports zero jobs/check-runs for that run; therefore no scanner step executed and no credential finding is evidenced by this run. Workflow execution remains unresolved; historical credential exposure/revocation remains a separate open blocker.
+- No frozen strategy or evidence hash was altered. PR #6 remains draft/unmerged; release HOLD / PAPER ONLY / NOT LIVE READY; `live_arming_permitted = False`.

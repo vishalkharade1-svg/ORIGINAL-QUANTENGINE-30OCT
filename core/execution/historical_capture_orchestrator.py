@@ -39,6 +39,25 @@ class CapturePersistenceError(RuntimeError):
     """A capture artifact could not be persisted safely."""
 
 
+# Delta's read adapter records the concrete REST route in page provenance,
+# while capture plans use stable logical endpoint categories. Accept only
+# this explicit one-to-one mapping at the persistence boundary.
+_PAGE_ENDPOINT_ROUTE_TO_CATEGORY = {
+    "/v2/orders": "open_orders",
+    "/v2/orders/history": "order_history",
+    "/v2/fills": "fills",
+    "/v2/positions": "positions",
+    "/v2/wallet/transactions": "wallet_transactions",
+}
+
+
+def _page_endpoint_category(value: Any, plan: HistoricalCapturePlan) -> str | None:
+    if value in plan.endpoints:
+        return value
+    category = _PAGE_ENDPOINT_ROUTE_TO_CATEGORY.get(value) if isinstance(value, str) else None
+    return category if category in plan.endpoints else None
+
+
 @dataclass(frozen=True)
 class CaptureWindow:
     start: datetime
@@ -237,8 +256,9 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
     for page in value:
         if not isinstance(page, Mapping):
             raise CapturePersistenceError("persisted page provenance entry must be a mapping")
-        endpoint = page.get("endpoint")
-        if endpoint not in plan.endpoints:
+        endpoint_value = page.get("endpoint")
+        endpoint = _page_endpoint_category(endpoint_value, plan)
+        if endpoint is None:
             raise CapturePersistenceError("persisted page provenance endpoint is unsupported")
         page_index = page.get("page_index")
         expected_index = next_index.get(endpoint, 0)
@@ -481,7 +501,8 @@ class HistoricalCaptureOrchestrator:
                     _validate_page_provenance(page_provenance, plan)
                     if (plan.mode == "authenticated" and capture.complete
                             and capture.pagination_complete
-                            and not any(page.get("endpoint") == endpoint for page in page_provenance)):
+                            and not any(_page_endpoint_category(page.get("endpoint"), plan) == endpoint
+                                    for page in page_provenance)):
                         raise CapturePersistenceError(
                             "authenticated completed capture is missing endpoint page provenance"
                         )
