@@ -725,8 +725,8 @@ class TestnetAuthorizationGate:
                     notional = sz * contract_size * price
                     if notional > self.scope.max_order_notional_usd:
                         reasons.append(
-                            f"Order notional (\${notional}) exceeds maximum authorized "
-                            f"(\${self.scope.max_order_notional_usd})"
+                            f"Order notional (${notional}) exceeds maximum authorized "
+                            f"(${self.scope.max_order_notional_usd})"
                         )
             except Exception:
                 reasons.append("Malformed limit price or contract-size metadata")
@@ -919,8 +919,8 @@ class TestnetAuthorizationGate:
                     authorized=False,
                     state=AuthorizationState.INVALID_SCOPE,
                     reasons=[
-                        f"Order notional (\${notional_usd}) exceeds maximum authorized "
-                        f"(\${self.scope.max_order_notional_usd})"
+                        f"Order notional (${notional_usd}) exceeds maximum authorized "
+                        f"(${self.scope.max_order_notional_usd})"
                     ],
                     cumulative_orders_placed=decision.cumulative_orders_placed,
                     current_open_orders=len(self._active_open_orders),
