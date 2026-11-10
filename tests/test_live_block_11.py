@@ -323,6 +323,91 @@ class TestLiveSafetyGateMatrix(unittest.TestCase):
         )
         self.assertTrue(armed.allowed)
 
+    def test_string_false_live_flags_fail_closed(self):
+        """String false values must never become LIVE arming permission."""
+        for flag in ("allow_live", "live_execute"):
+            params = {
+                "mode": ExecutionMode.LIVE,
+                "allow_live": True,
+                "live_execute": True,
+                "api_key": "SYNTHETIC",
+                "api_secret": "SYNTHETIC",
+            }
+            params[flag] = "false"
+            decision = LiveSafetyGate.decide(**params)
+            self.assertFalse(decision.allowed, msg=flag)
+            with self.assertRaises(LiveBlockedError, msg=flag):
+                LiveSafetyGate.require(**params, component="string-false-test")
+
+    def test_invalid_live_flag_values_fail_closed(self):
+        for flag in ("allow_live", "live_execute"):
+            params = {
+                "mode": ExecutionMode.LIVE,
+                "allow_live": True,
+                "live_execute": True,
+                "api_key": "SYNTHETIC",
+                "api_secret": "SYNTHETIC",
+            }
+            params[flag] = "sometimes"
+            with self.assertRaises(ConfigurationError, msg=flag):
+                LiveSafetyGate.decide(**params)
+
+    def test_string_false_explicit_credential_verdict_blocks(self):
+        decision = LiveSafetyGate.decide(
+            mode=ExecutionMode.LIVE,
+            allow_live=True,
+            live_execute=True,
+            has_credentials="false",
+        )
+        self.assertFalse(decision.allowed)
+        self.assertIn("credentials missing", decision.reason)
+
+    def test_from_settings_does_not_truthify_string_false(self):
+        from types import SimpleNamespace
+
+        settings = SimpleNamespace(
+            ALLOW_LIVE="false",
+            LIVE_EXECUTE="false",
+            PAPER_MODE=False,
+            LIVE_MODE=False,
+            EXECUTION_MODE="LIVE",
+            API_KEY="SYNTHETIC",
+            API_SECRET="SYNTHETIC",
+        )
+        inputs = LiveSafetyGate.from_settings(settings_obj=settings)
+        decision = LiveSafetyGate.decide(**inputs)
+        self.assertFalse(decision.allowed)
+        self.assertFalse(decision.allow_live)
+        self.assertFalse(decision.live_execute)
+
+    def test_diagnostic_decision_cannot_authorize_transport(self):
+        decision = LiveSafetyGate.decide(
+            mode=ExecutionMode.LIVE,
+            allow_live=True,
+            live_execute=True,
+            has_credentials=True,
+        )
+        self.assertTrue(decision.allowed)
+        with self.assertRaises(LiveBlockedError):
+            LiveSafetyGate.require_decision(decision, component="diagnostic-only")
+
+    def test_test_armed_capability_is_offline_only(self):
+        from core.exchanges.delta.write_authority import (
+            OFFLINE_FALLBACK_BASE_URL,
+            TransportWriteAuthorityError,
+            token_for_live_safety,
+        )
+
+        decision = LiveSafetyGate.test_armed()
+        token = token_for_live_safety(
+            decision, OFFLINE_FALLBACK_BASE_URL, payload={"test": True}
+        )
+        self.assertEqual(token.base_url, OFFLINE_FALLBACK_BASE_URL)
+        with self.assertRaises(TransportWriteAuthorityError):
+            token_for_live_safety(
+                decision, "https://api.delta.exchange", payload={"test": True}
+            )
+
     def test_unknown_mode_decide_rejected(self):
         with self.assertRaises(ConfigurationError):
             LiveSafetyGate.decide(mode="BOGUS")
@@ -355,6 +440,38 @@ class TestLiveTransportBoundary(unittest.TestCase):
             )
 
         self.assertEqual(fake.calls, [])
+
+    def test_executor_does_not_override_paper_mode(self):
+        """Direct executor use must honor PAPER_MODE even if opt-in flags are true."""
+        import config.settings as settings_module
+
+        settings = settings_module.settings
+        names = (
+            "PAPER_MODE", "LIVE_MODE", "EXECUTION_MODE",
+            "ALLOW_LIVE", "LIVE_EXECUTE", "API_KEY", "API_SECRET",
+        )
+        saved = {name: getattr(settings, name) for name in names}
+        try:
+            settings.PAPER_MODE = True
+            settings.LIVE_MODE = False
+            settings.EXECUTION_MODE = ""
+            settings.ALLOW_LIVE = True
+            settings.LIVE_EXECUTE = True
+            settings.API_KEY = "SYNTHETIC-TEST-KEY"
+            settings.API_SECRET = "SYNTHETIC-TEST-SECRET"
+
+            fake = CountingREST()
+            executor = DeltaOrderExecutor(
+                exchange=live_exchange(fake),
+                registry=registry(),
+                order_id_factory=lambda i: "QE-TEST",
+            )
+            with self.assertRaises(LiveBlockedError):
+                executor.execute(intent())
+            self.assertEqual(fake.calls, [])
+        finally:
+            for name, value in saved.items():
+                setattr(settings, name, value)
 
     def test_default_settings_execute_blocked_zero_calls(self):
         """No explicit token: the gate falls back to
@@ -420,6 +537,30 @@ class TestLiveTransportBoundary(unittest.TestCase):
 
         with self.assertRaises(RuntimeError):
             exchange.place_order({"product_id": 2})
+
+    def test_transport_authentication_string_false_fails_closed(self):
+        """A truthy string must not be accepted as authenticated state."""
+        class AmbiguousREST:
+            authenticated = "false"
+
+        exchange = DeltaExchange(
+            api_key="SYNTHETIC-TEST-KEY",
+            api_secret="SYNTHETIC-TEST-SECRET",
+            rest=AmbiguousREST(),
+        )
+        self.assertFalse(exchange.authenticated)
+        with self.assertRaises(RuntimeError):
+            exchange._require_auth()
+
+    def test_whitespace_credentials_are_not_authenticated(self):
+        exchange = DeltaExchange(
+            api_key="   ",
+            api_secret="   ",
+            rest=object(),
+        )
+        self.assertFalse(exchange.authenticated)
+        with self.assertRaises(RuntimeError):
+            exchange._require_auth()
 
     def test_broker_live_construction_requires_safety(self):
         """Accidental BrokerEngine(dry_run=False) without

@@ -393,3 +393,146 @@ def test_corrupt_ledger_fails_closed(tmp_path: Path):
     )
     assert not dec.authorized
     assert any("corrupted" in r.lower() or "unparseable" in r.lower() for r in dec.reasons)
+
+def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Path):
+    """Preflight cannot write; a reserved decision cannot be altered via dataclasses.replace."""
+    from dataclasses import replace
+    from core.exchanges.delta.write_authority import (
+        TransportWriteAuthorityError,
+        token_for_testnet_experiment,
+    )
+
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "sealed-ledger.jsonl")
+    auth = _create_approved_auth_record()
+
+    preflight = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1.0"),
+        post_only=True,
+    )
+    assert preflight.authorized
+    assert not preflight.is_armed()
+    with pytest.raises(TransportWriteAuthorityError):
+        token_for_testnet_experiment(
+            preflight,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={"product_id": 84, "size": "1.0", "side": "buy"},
+        )
+
+    unbound_gate = TestnetAuthorizationGate(
+        ledger_path=tmp_path / "unbound-ledger.jsonl"
+    )
+    unbound = unbound_gate.check_and_reserve_order(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1.0"),
+        cl_ord_id="ORD-UNBOUND-01",
+        post_only=True,
+    )
+    assert unbound.is_armed()
+    with pytest.raises(TransportWriteAuthorityError, match="does not bind required order details"):
+        token_for_testnet_experiment(
+            unbound,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={
+                "product_id": 84, "size": "1.0", "side": "buy",
+                "limit_price": "80000", "post_only": True,
+                "client_order_id": "ORD-UNBOUND-01",
+            },
+        )
+
+    reserved = gate.check_and_reserve_order(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1.0"),
+        cl_ord_id="ORD-SEALED-01",
+        order_details={
+            "side": "buy",
+            "limit_price": "80000",
+            "post_only": True,
+        },
+        post_only=True,
+    )
+    assert reserved.is_armed()
+
+    payload = {
+        "product_id": 84,
+        "size": "1.0",
+        "side": "buy",
+        "limit_price": "80000",
+        "post_only": True,
+        "client_order_id": "ORD-SEALED-01",
+    }
+    with pytest.raises(TransportWriteAuthorityError, match="finite integer"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={**payload, "product_id": 84.5},
+        )
+    with pytest.raises(TransportWriteAuthorityError, match="operator-authorized REST endpoint"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://testnet-api.delta.exchange",
+            payload=payload,
+        )
+
+    token = token_for_testnet_experiment(
+        reserved,
+        "https://cdn-ind.testnet.deltaex.org",
+        payload=payload,
+    )
+    assert token.kind == "TESTNET_EXPERIMENT"
+    with pytest.raises(TransportWriteAuthorityError, match="already minted"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload=payload,
+        )
+
+    with pytest.raises(TransportWriteAuthorityError, match="positive integer order id"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={"id": 12345.5, "product_id": 84},
+            method="DELETE",
+        )
+    cancel_payload = {"id": 12345, "product_id": 84}
+    cancel_token = token_for_testnet_experiment(
+        reserved,
+        "https://cdn-ind.testnet.deltaex.org",
+        payload=cancel_payload,
+        method="DELETE",
+    )
+    assert cancel_token.method == "DELETE"
+    with pytest.raises(TransportWriteAuthorityError, match="DELETE"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload=cancel_payload,
+            method="DELETE",
+        )
+
+    forged_decisions = (
+        replace(reserved, authorized_product_id=999),
+        replace(reserved, authorized_order_size_contracts=Decimal("2.0")),
+        replace(reserved, authorized_symbol="ETHUSD"),
+        replace(reserved, authorized_rest_url="https://testnet-api.delta.exchange"),
+        replace(reserved, authorized_client_order_id="ORD-ATTACK"),
+        replace(reserved, authorized=False),
+    )
+    for forged in forged_decisions:
+        assert not forged.is_armed()
+        with pytest.raises(TransportWriteAuthorityError):
+            token_for_testnet_experiment(
+                forged,
+                "https://cdn-ind.testnet.deltaex.org",
+                payload=payload,
+            )
+

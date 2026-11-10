@@ -1,0 +1,68 @@
+name: Deep audit full regression
+
+on:
+  push:
+    branches:
+      - audit/deep-hardening-2026-11-10
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/audit-full-suite.yml"
+      - "core/**"
+      - "backtesting/**"
+      - "risk/**"
+      - "config/**"
+      - "tests/**"
+      - "scripts/**"
+      - "requirements.txt"
+      - "pytest.ini"
+      - "BUILD_MANIFEST.sha256"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deep-audit-full-suite-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full-suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - name: Establish expected local branch identity
+        run: git switch -C main "$GITHUB_SHA"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned project dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Verify strict source manifest
+        run: python scripts/generate_manifest.py --verify --strict
+      - name: Run worktree and staged secret scans
+        run: |
+          python scripts/security/scan_secrets.py
+          python scripts/security/scan_secrets.py --check-staged
+      - name: Run complete repository test suite
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m pytest tests/ -q -p no:cacheprovider --tb=short -rfs 2>&1 | tee "$RUNNER_TEMP/quantengine-full-suite.log"
+          result=${PIPESTATUS[0]}
+          echo "pytest_exit_code=${result}"
+          exit "${result}"
+      - name: Preserve full-suite log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quantengine-full-suite-log
+          path: ${{ runner.temp }}/quantengine-full-suite.log
+          if-no-files-found: warn

@@ -55,8 +55,7 @@ HARD RULES for this module:
 ====================================================
 """
 
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field, replace
 
 import secrets
 
@@ -74,6 +73,8 @@ _AUDIT_COMPONENT = "LiveSafetyGate"
 # built to look armed. The secret is never logged, never
 # serialized, and never leaves the process.
 _MINT = secrets.token_hex(16)
+_LIVE_OPERATOR_AUTHORITY = object()
+_OFFLINE_TEST_AUTHORITY = object()
 
 
 # ==================================================
@@ -255,6 +256,11 @@ class SafetyDecision:
     # checked by identity in require_decision(), never shown.
     _mint: str = field(default="", repr=False, compare=False)
 
+    # Only require() may mint operator-authorized decisions. Pure decide()
+    # results are diagnostic verdicts, not transport capabilities.
+    # test_armed() uses OFFLINE_TEST and is restricted at the write boundary.
+    _authority: object = field(default=None, repr=False, compare=False)
+
     # -------------------------------------------------
 
     @property
@@ -262,6 +268,11 @@ class SafetyDecision:
         """Alias operators/tests read naturally."""
 
         return self.allowed
+
+    @property
+    def offline_test_only(self):
+        """Whether this capability is the process-local offline test token."""
+        return self._authority is _OFFLINE_TEST_AUTHORITY
 
 
 # ==================================================
@@ -289,11 +300,12 @@ class LiveSafetyGate:
         """
 
         if has_credentials is not None:
-            return bool(has_credentials)
+            return ExecutionMode._as_bool("has_credentials", has_credentials)
 
         try:
             return bool(
-                (api_key or "") and (api_secret or "")
+                str(api_key or "").strip()
+                and str(api_secret or "").strip()
             )
         except Exception:
             return False
@@ -329,9 +341,11 @@ class LiveSafetyGate:
                 "one of PAPER, LIVE, ANALYZE.".format(mode)
             )
 
-        allow = bool(allow_live)
-
-        execute = bool(live_execute)
+        # Never use Python truthiness for security arming flags:
+        # bool("false") is True. Accept only explicit boolean spellings
+        # and reject ambiguous values through the shared strict parser.
+        allow = ExecutionMode._as_bool("ALLOW_LIVE", allow_live)
+        execute = ExecutionMode._as_bool("LIVE_EXECUTE", live_execute)
 
         creds = cls._has_credentials(
             api_key=api_key,
@@ -429,6 +443,8 @@ class LiveSafetyGate:
                 )
             )
 
+        decision = replace(decision, _authority=_LIVE_OPERATOR_AUTHORITY)
+
         log.warning(
             "LIVE_EXECUTION_ARMED mode=%s component=%s",
             decision.mode,
@@ -463,6 +479,13 @@ class LiveSafetyGate:
                 decision,
                 "decision was not minted by LiveSafetyGate.decide "
                 "(fabricated token)",
+                component,
+            )
+
+        if decision._authority is not _LIVE_OPERATOR_AUTHORITY and decision._authority is not _OFFLINE_TEST_AUTHORITY:
+            return cls._refuse_decision(
+                decision,
+                "decision is a diagnostic verdict, not an armed capability",
                 component,
             )
 
@@ -531,10 +554,11 @@ class LiveSafetyGate:
         if settings_obj is None:
             from config.settings import settings as settings_obj
 
-        allow = bool(getattr(settings_obj, "ALLOW_LIVE", False))
-
-        execute = bool(
-            getattr(settings_obj, "LIVE_EXECUTE", False)
+        allow = ExecutionMode._as_bool(
+            "ALLOW_LIVE", getattr(settings_obj, "ALLOW_LIVE", False)
+        )
+        execute = ExecutionMode._as_bool(
+            "LIVE_EXECUTE", getattr(settings_obj, "LIVE_EXECUTE", False)
         )
 
         if mode is None:
@@ -580,12 +604,13 @@ class LiveSafetyGate:
         call this -- main.py arms via from_settings +
         require over operator configuration."""
 
-        return cls.decide(
+        decision = cls.decide(
             mode=ExecutionMode.LIVE,
             allow_live=True,
             live_execute=True,
             has_credentials=True,
         )
+        return replace(decision, _authority=_OFFLINE_TEST_AUTHORITY)
 
     # -------------------------------------------------
 

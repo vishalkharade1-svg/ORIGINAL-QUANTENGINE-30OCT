@@ -42,10 +42,10 @@ import sys
 from typing import Iterable
 
 try:  # imported as ``scripts.security.scan_secrets`` (namespace package)
-    from scripts.security.text_decode import read_text_file  # type: ignore
+    from scripts.security.text_decode import decode_bytes, read_text_file  # type: ignore
 except ImportError:  # direct execution or spec_from_file_location loading
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from text_decode import read_text_file  # type: ignore
+    from text_decode import decode_bytes, read_text_file  # type: ignore
 
 
 _SKIP_DIRS = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".kilo"}
@@ -162,39 +162,86 @@ def scan_staged(root: Path) -> list[Finding]:
 
 
 def scan_env_history(root: Path) -> list[str]:
-    """Return commits whose historical .env has a known non-empty Delta key."""
+    """Return commits whose changed historical blobs contain known credentials.
+
+    Scan every reachable commit, not just the root .env path. Candidate
+    commits are found by credential identifiers, then each changed non-deleted
+    blob is decoded and checked by the same content rules as the worktree.
+    History inspection fails closed when Git is unavailable or shallow.
+    Only commit IDs are returned; secret values are never emitted.
+    """
+    history_pattern = (
+        r"DELTA_API_(KEY|SECRET)|"
+        r"DELTA_INDIA_TESTNET_API_(KEY|SECRET)|"
+        r"DELTA_SANDBOX_API_(KEY|SECRET)|"
+        r"OPENAI_API_KEY|ANTHROPIC_API_KEY|OPENROUTER_API_KEY|"
+        r"CONTROL_API_TOKEN|REMOTE_(VIEW|CONTROL|EMERGENCY)_TOKEN|"
+        r"BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY"
+    )
     try:
+        shallow = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=root, check=True, capture_output=True, text=True, timeout=30,
+        ).stdout.strip().lower()
+        if shallow == "true":
+            raise RuntimeError(
+                "history scan requires a full, non-shallow Git checkout"
+            )
         revisions = subprocess.run(
-            ["git", "rev-list", "--all", "--", ".env"],
-            cwd=root,
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=30,
+            ["git", "log", "--all", "--format=%H", "-G", history_pattern, "--", "."],
+            cwd=root, check=True, capture_output=True, text=True, timeout=120,
         ).stdout.splitlines()
-    except (OSError, subprocess.SubprocessError):
-        return []
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise RuntimeError(
+            "history scan could not enumerate Git commits; refusing to pass"
+        ) from exc
 
     unsafe: list[str] = []
+    seen: set[str] = set()
     for revision in revisions:
-        try:
-            content = subprocess.run(
-                ["git", "show", f"{revision}:.env"],
-                cwd=root,
-                check=True,
-                capture_output=True,
-                text=True,
-                timeout=30,
-            ).stdout
-        except (OSError, subprocess.SubprocessError):
+        if not revision or revision in seen:
             continue
-        if any(
-            _KNOWN_SECRET.match(line)
-            for line in content.splitlines()
-        ):
-            unsafe.append(revision)
+        seen.add(revision)
+        try:
+            listing = subprocess.run(
+                ["git", "diff-tree", "--root", "--no-commit-id", "--name-status",
+                 "-r", "--no-renames", revision],
+                cwd=root, check=True, capture_output=True, text=True, timeout=30,
+            ).stdout.splitlines()
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise RuntimeError(
+                "history scan could not enumerate changed paths for commit " + revision
+            ) from exc
+        for record in listing:
+            if not record:
+                continue
+            try:
+                status, relative = record.split("\t", 1)
+            except ValueError as exc:
+                raise RuntimeError(
+                    "history scan received an invalid Git path record"
+                ) from exc
+            if status == "D":
+                continue
+            try:
+                raw = subprocess.run(
+                    ["git", "show", f"{revision}:{relative}"],
+                    cwd=root, check=True, capture_output=True, timeout=30,
+                ).stdout
+            except (OSError, subprocess.SubprocessError) as exc:
+                raise RuntimeError(
+                    "history scan could not read changed blob " + relative
+                    + " at commit " + revision
+                ) from exc
+            decoded = decode_bytes(raw)
+            if decoded.binary:
+                continue
+            path = Path(relative)
+            findings = _scan_text_lines(relative, path.name, path.suffix, decoded.text)
+            if findings:
+                unsafe.append(revision)
+                break
     return unsafe
-
 
 # Operator-local runtime configuration that release packaging excludes by
 # policy (``scripts/generate_manifest.py``).  This set is used ONLY to label

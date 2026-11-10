@@ -64,15 +64,14 @@ class DeltaExchange(BaseExchange):
 
     @property
     def authenticated(self):
-
+        # Authentication state is a security boundary. Do not let a
+        # truthy string such as "false" authorize private endpoints.
+        rest_state = getattr(self.rest, "authenticated", None)
+        if rest_state is not None:
+            return rest_state is True
         return bool(
-            getattr(
-                self.rest,
-                "authenticated",
-                bool(
-                    self.api_key and self.api_secret
-                ),
-            )
+            str(self.api_key or "").strip()
+            and str(self.api_secret or "").strip()
         )
 
     # -------------------------------------------------

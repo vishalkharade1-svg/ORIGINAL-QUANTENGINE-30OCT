@@ -30,6 +30,7 @@ from core.execution.live_safety_gate import LiveSafetyGate
 from core.risk.costs import post_cost_rr
 
 import math
+from decimal import Decimal, InvalidOperation
 
 
 class InvalidContractError(ValueError):
@@ -192,8 +193,10 @@ class DeltaOrderExecutor:
 
         if safety is None:
 
+            # Resolve the configured mode instead of forcing LIVE.
+            # A live executor must not override PAPER_MODE/ANALYZE or
+            # bypass conflicting execution-mode configuration.
             gate_inputs = LiveSafetyGate.from_settings(
-                mode="LIVE",
                 api_key=getattr(
                     self.exchange, "api_key", None
                 ),
@@ -308,13 +311,21 @@ class DeltaOrderExecutor:
             )
 
         try:
-            product_id = int(contract.product_id)
-        except (TypeError, ValueError) as exc:
+            product_id_decimal = Decimal(str(contract.product_id))
+        except (InvalidOperation, TypeError, ValueError) as exc:
             raise InvalidContractError(
                 f"contract for symbol {intent.symbol!r} "
                 f"has non-numeric product_id "
                 f"{contract.product_id!r}"
             ) from exc
+
+        if (not product_id_decimal.is_finite()
+                or product_id_decimal != product_id_decimal.to_integral_value()):
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has non-integer "
+                f"product_id {contract.product_id!r}"
+            )
+        product_id = int(product_id_decimal)
 
         if product_id <= 0:
             raise InvalidContractError(
@@ -418,6 +429,65 @@ class DeltaOrderExecutor:
 
         dust = 1e-9 * max(1.0, abs(quantity), abs(entry))
 
+        # Decimal precision is not the same as venue tick alignment. A
+        # rounded decimal can still be off-grid (e.g. 100.13 with tick 0.25).
+        # Refuse rather than submit a price the venue will reject.
+        try:
+            tick_decimal = Decimal(str(contract.tick_size))
+            limit_decimal = Decimal(str(payload["limit_price"]))
+            if (not tick_decimal.is_finite() or tick_decimal <= 0
+                    or not limit_decimal.is_finite() or limit_decimal <= 0
+                    or limit_decimal % tick_decimal != 0):
+                raise InvalidContractError(
+                    f"contract for symbol {intent.symbol!r} produced a "
+                    f"limit price not aligned to tick_size {contract.tick_size!r}"
+                )
+            for field_name in (
+                "bracket_take_profit_price",
+                "bracket_take_profit_limit_price",
+                "bracket_stop_loss_price",
+                "bracket_stop_loss_limit_price",
+            ):
+                if field_name not in payload:
+                    continue
+                bracket_decimal = Decimal(str(payload[field_name]))
+                if (not bracket_decimal.is_finite() or bracket_decimal <= 0
+                        or bracket_decimal % tick_decimal != 0):
+                    raise InvalidContractError(
+                        f"contract for symbol {intent.symbol!r} produced "
+                        f"{field_name} not aligned to tick_size {contract.tick_size!r}"
+                    )
+        except (InvalidOperation, TypeError, ValueError) as exc:
+            if isinstance(exc, InvalidContractError):
+                raise
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} produced an invalid tick price"
+            ) from exc
+
+        tp_key = "bracket_take_profit_price"
+        sl_key = "bracket_stop_loss_price"
+        has_tp = tp_key in payload
+        has_sl = sl_key in payload
+        if has_tp != has_sl:
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has an incomplete protective bracket"
+            )
+        if has_tp and has_sl:
+            take_profit_decimal = Decimal(str(payload[tp_key]))
+            stop_loss_decimal = Decimal(str(payload[sl_key]))
+            side = str(payload.get("side", "")).lower()
+            if side == "buy":
+                valid_bracket = stop_loss_decimal < limit_decimal < take_profit_decimal
+            elif side == "sell":
+                valid_bracket = take_profit_decimal < limit_decimal < stop_loss_decimal
+            else:
+                valid_bracket = False
+            if not valid_bracket:
+                raise InvalidContractError(
+                    f"contract for symbol {intent.symbol!r} has bracket prices "
+                    "on the wrong side of the entry"
+                )
+
         if not (size > 0) or size > quantity + dust:
             raise InvalidContractError(
                 f"contract for symbol {intent.symbol!r} would "
@@ -453,12 +523,18 @@ class DeltaOrderExecutor:
         floored DOWN to quantity_precision (never rounded up:
         rounding up would silently exceed the validated risk).
         A sub-representation epsilon (1e-9 relative) bridges
-        float-grid dust only — never a true half-step. Price
-        follows venue tick rounding; execute() revalidates the
-        built payload before any write (see _validated_payload).
+        float-grid dust only — never a true half-step. Price is
+        formatted to venue precision, then execute() requires exact
+        tick-grid alignment and refuses off-grid values before any write.
         """
 
         precision = contract.price_precision
+        direction = str(getattr(intent, "direction", "")).strip().upper()
+        if direction not in {"BULLISH", "BEARISH"}:
+            raise InvalidContractError(
+                f"intent for symbol {intent.symbol!r} has invalid direction "
+                f"{getattr(intent, 'direction', None)!r}"
+            )
 
         def price(value):
             return f"{round(value, precision):.{precision}f}"
@@ -470,17 +546,24 @@ class DeltaOrderExecutor:
                 math.floor(float(value) * scale + dust) / scale
             )
 
-        side = (
-            "sell"
-            if intent.direction.upper() == "BEARISH"
-            else "buy"
-        )
+        side = "sell" if direction == "BEARISH" else "buy"
+
+        try:
+            payload_product_id = Decimal(str(contract.product_id))
+        except (InvalidOperation, TypeError, ValueError) as exc:
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has invalid product_id"
+            ) from exc
+        if (not payload_product_id.is_finite()
+                or payload_product_id <= 0
+                or payload_product_id != payload_product_id.to_integral_value()):
+            raise InvalidContractError(
+                f"contract for symbol {intent.symbol!r} has non-integer product_id"
+            )
 
         payload = {
 
-            "product_id": int(
-                contract.product_id
-            ),
+            "product_id": int(payload_product_id),
 
             "order_type": "limit_order",
 

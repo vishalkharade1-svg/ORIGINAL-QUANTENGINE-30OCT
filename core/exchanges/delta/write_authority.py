@@ -36,6 +36,7 @@ state beyond the process mint.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from decimal import Decimal, InvalidOperation
 import hashlib
 import json
 import secrets
@@ -44,6 +45,8 @@ import threading
 _MINT = secrets.token_hex(32)
 _CONSUMED_NONCES = set()
 _CONSUMED_LOCK = threading.Lock()
+_CONSUMED_TESTNET_DECISION_METHODS = set()
+_CONSUMED_TESTNET_DECISION_METHODS_LOCK = threading.Lock()
 
 KIND_OFFLINE_TEST = "OFFLINE_TEST"
 KIND_LIVE_SAFETY = "LIVE_SAFETY"
@@ -147,6 +150,10 @@ def token_for_live_safety(decision, base_url, *, payload,
 
     verified = LiveSafetyGate.require_decision(
         decision, component="write_authority.token_for_live_safety")
+    if (verified.offline_test_only
+            and _bind_base_url(base_url) != OFFLINE_FALLBACK_BASE_URL):
+        raise TransportWriteAuthorityError(
+            "OFFLINE_TEST safety capability cannot authorize a configured exchange endpoint")
     resolved_method = str(method or _infer_write_method(payload)).upper()
     return _issue(KIND_LIVE_SAFETY, _bind_base_url(base_url), endpoint, payload, resolved_method)
 
@@ -156,8 +163,9 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
                                  ) -> WriteAuthorityToken:
     """Arm a transport write from an armed testnet authorization decision.
 
-    Requires an ``AuthorizationDecision`` minted by
-    ``TestnetAuthorizationGate.evaluate_preflight`` (``is_armed()``).
+    Requires a sealed ``AuthorizationDecision`` minted only by
+    ``TestnetAuthorizationGate.check_and_reserve_order`` after the atomic
+    persistent reservation succeeds.
     """
     is_armed = getattr(decision, "is_armed", None)
     if not callable(is_armed) or not decision.is_armed():
@@ -165,18 +173,37 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
             "testnet experiment write requires an armed "
             "TestnetAuthorizationGate decision (PENDING_OPERATOR_APPROVAL "
             "or refused scope arms nothing)")
+    requested_base = _bind_base_url(base_url).strip().rstrip("/")
+    authorized_base = str(getattr(decision, "authorized_rest_url", "")).strip().rstrip("/")
+    if not authorized_base or requested_base != authorized_base:
+        raise TransportWriteAuthorityError(
+            "testnet write endpoint differs from the operator-authorized REST endpoint")
     if not isinstance(payload, dict):
         raise TransportWriteAuthorityError("testnet write payload must be a JSON object")
     resolved_method = str(method or _infer_write_method(payload)).upper()
     if resolved_method not in {"POST", "DELETE"}:
         raise TransportWriteAuthorityError("testnet write method must be POST or DELETE")
     try:
-        if int(payload.get("product_id")) != int(decision.authorized_product_id):
+        payload_product_id = Decimal(str(payload.get("product_id")))
+        authorized_product_id = Decimal(str(decision.authorized_product_id))
+        if (not payload_product_id.is_finite()
+                or payload_product_id != payload_product_id.to_integral_value()):
+            raise TransportWriteAuthorityError(
+                "testnet payload product_id must be a finite integer")
+        if payload_product_id != authorized_product_id:
             raise TransportWriteAuthorityError(
                 "testnet payload product_id differs from the preflight-authorized product")
-    except (TypeError, ValueError):
+    except (InvalidOperation, TypeError, ValueError):
         raise TransportWriteAuthorityError(
-            "testnet payload has no valid product_id matching preflight")
+            "testnet payload has no valid integer product_id matching preflight")
+
+    details = dict(getattr(decision, "authorized_order_details", ()) or ())
+    required_details = ("side", "limit_price", "post_only")
+    missing_details = [key for key in required_details if key not in details]
+    if missing_details:
+        raise TransportWriteAuthorityError(
+            "testnet reservation does not bind required order details: %s"
+            % ", ".join(missing_details))
 
     if resolved_method == "POST":
         required = {"product_id", "size", "side"}
@@ -186,7 +213,6 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
                 "testnet order payload missing required fields: " + ", ".join(missing))
         if str(payload.get("side", "")).lower() not in {"buy", "sell"}:
             raise TransportWriteAuthorityError("testnet order payload side must be buy or sell")
-        from decimal import Decimal, InvalidOperation
         try:
             size = Decimal(str(payload["size"]))
             authorized_size = Decimal(str(decision.authorized_order_size_contracts))
@@ -198,9 +224,8 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
         if decision.authorized_post_only and payload.get("post_only") is not True:
             raise TransportWriteAuthorityError(
                 "testnet payload must preserve the preflight-required post_only flag")
-        details = dict(getattr(decision, "authorized_order_details", ()) or ())
-        for key in ("side", "limit_price", "post_only"):
-            if key in details and str(payload.get(key)) != details[key]:
+        for key in required_details:
+            if str(payload.get(key)) != details[key]:
                 raise TransportWriteAuthorityError(
                     "testnet payload field %s differs from the reserved order details" % key)
         client_order_id = getattr(decision, "authorized_client_order_id", "")
@@ -212,11 +237,32 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
             raise TransportWriteAuthorityError(
                 "testnet cancellation payload must contain only id and product_id")
         try:
-            if int(payload["id"]) <= 0:
-                raise ValueError("non-positive order id")
-        except (TypeError, ValueError):
-            raise TransportWriteAuthorityError("testnet cancellation requires a positive order id")
-    return _issue(KIND_TESTNET_EXPERIMENT, _bind_base_url(base_url), endpoint, payload, resolved_method)
+            order_id = Decimal(str(payload["id"]))
+            if (not order_id.is_finite() or order_id <= 0
+                    or order_id != order_id.to_integral_value()):
+                raise ValueError("order id must be a positive integer")
+        except (InvalidOperation, TypeError, ValueError):
+            raise TransportWriteAuthorityError(
+                "testnet cancellation requires a positive integer order id")
+    # A reserved testnet decision authorizes one placement token and one
+    # cancellation token. Re-minting either method is refused, while the
+    # same reservation can still safely cancel its one acknowledged order.
+    token = _issue(
+        KIND_TESTNET_EXPERIMENT, _bind_base_url(base_url),
+        endpoint, payload, resolved_method,
+    )
+    decision_seal = getattr(decision, "_seal", "")
+    if not decision_seal:
+        raise TransportWriteAuthorityError(
+            "testnet experiment decision has no sealed reservation capability")
+    decision_method_key = (decision_seal, resolved_method)
+    with _CONSUMED_TESTNET_DECISION_METHODS_LOCK:
+        if decision_method_key in _CONSUMED_TESTNET_DECISION_METHODS:
+            raise TransportWriteAuthorityError(
+                "testnet reservation capability has already minted a %s write token"
+                % resolved_method)
+        _CONSUMED_TESTNET_DECISION_METHODS.add(decision_method_key)
+    return token
 
 
 def require_write_authority(token, *, base_url: str, endpoint: str,
