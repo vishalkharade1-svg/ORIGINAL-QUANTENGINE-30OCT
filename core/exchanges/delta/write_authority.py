@@ -171,6 +171,11 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
             "testnet experiment write requires an armed "
             "TestnetAuthorizationGate decision (PENDING_OPERATOR_APPROVAL "
             "or refused scope arms nothing)")
+    requested_base = _bind_base_url(base_url).strip().rstrip("/")
+    authorized_base = str(getattr(decision, "authorized_rest_url", "")).strip().rstrip("/")
+    if not authorized_base or requested_base != authorized_base:
+        raise TransportWriteAuthorityError(
+            "testnet write endpoint differs from the operator-authorized REST endpoint")
     if not isinstance(payload, dict):
         raise TransportWriteAuthorityError("testnet write payload must be a JSON object")
     resolved_method = str(method or _infer_write_method(payload)).upper()
