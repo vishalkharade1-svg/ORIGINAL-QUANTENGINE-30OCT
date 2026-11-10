@@ -30,7 +30,7 @@ import unittest
 
 from core.exchanges.contract_registry import ContractRegistry
 from core.exchanges.delta.delta_contract import DeltaContract
-from core.execution.order_executor import DeltaOrderExecutor
+from core.execution.order_executor import DeltaOrderExecutor, InvalidContractError
 from core.risk.order_intent import OrderIntent
 
 
@@ -130,6 +130,12 @@ class TestBuildPayload(unittest.TestCase):
         self.assertEqual(payload["post_only"], False)
         self.assertEqual(payload["client_order_id"], "QE-TEST")
 
+    def test_invalid_direction_is_rejected_not_defaulted_to_buy(self):
+        with self.assertRaises(InvalidContractError):
+            self._executor().build_payload(
+                intent(direction="SIDEWAYS"), contract()
+            )
+
     def test_short_maps_to_sell(self):
         payload = self._executor().build_payload(
             intent(direction="BEARISH"), contract()
@@ -211,6 +217,48 @@ class TestExecute(unittest.TestCase):
         self.assertEqual(result["payload"]["product_id"], 2)
         self.assertEqual(result["response"]["result"]["state"], "open")
         self.assertEqual(exchange.placed, [result["payload"]])
+
+    def test_fractional_product_id_refused_before_write(self):
+        from core.execution.live_safety_gate import LiveSafetyGate
+
+        executor, exchange = self._executor()
+        registry = ContractRegistry()
+        registry.add(contract(product_id=2.5))
+        executor.registry = registry
+
+        with self.assertRaises(InvalidContractError):
+            executor.execute(intent(), safety=LiveSafetyGate.test_armed())
+        self.assertEqual(exchange.placed, [])
+
+    def test_off_tick_entry_price_refused_before_write(self):
+        from core.execution.live_safety_gate import LiveSafetyGate
+
+        executor, exchange = self._executor()
+        registry = ContractRegistry()
+        registry.add(contract(price_precision=2, tick_size=0.25))
+        executor.registry = registry
+
+        with self.assertRaises(InvalidContractError):
+            executor.execute(
+                intent(entry=80000.13),
+                safety=LiveSafetyGate.test_armed(),
+            )
+        self.assertEqual(exchange.placed, [])
+
+    def test_off_tick_bracket_price_refused_before_write(self):
+        from core.execution.live_safety_gate import LiveSafetyGate
+
+        executor, exchange = self._executor()
+        registry = ContractRegistry()
+        registry.add(contract(price_precision=2, tick_size=0.25))
+        executor.registry = registry
+
+        with self.assertRaises(InvalidContractError):
+            executor.execute(
+                intent(entry=80000.25, stop_loss=79500.25, take_profit=81000.13),
+                safety=LiveSafetyGate.test_armed(),
+            )
+        self.assertEqual(exchange.placed, [])
 
     def test_execute_rejects_invalid_intent(self):
         executor, exchange = self._executor()
