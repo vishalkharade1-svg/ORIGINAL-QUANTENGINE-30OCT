@@ -36,10 +36,27 @@
     "phase199_phase205_regressions": "TESTED_62_PASSED_COMBINED",
     "strict_manifest": "PASS",
     "secret_scan": "PASS_WORKTREE_STAGED_AND_HISTORY",
-    "full_suite": "NOT_RUN",
+    "full_suite": "FAILED_69_FAILED_5159_PASSED_32_SKIPPED_445_SUBTESTS_PASSED",
     "release_archive": "NOT_BUILT",
     "fresh_extraction": "NOT_RUN",
     "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
-    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42409352002"
+    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42786147543"
+  },
+  "verification_environment": {
+    "python": "3.12.16",
+    "pytest": "9.0.3",
+    "platform": "ubuntu-latest (GitHub Actions)",
+    "dependencies": {
+      "cryptography": "46.0.4",
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    },
+    "source_commit": "9eb6a1d25c347d3ba100b3dc1726ab29f9242f20",
+    "workflow_run": "42786147543"
   }
 }
