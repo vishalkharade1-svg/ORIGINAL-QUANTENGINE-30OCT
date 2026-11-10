@@ -1027,11 +1027,12 @@ class TestScopeCapEnforcement(_TempDirCase):
         self.assertTrue(any("Cumulative experiment order limit" in r
                             for r in d.reasons))
 
-    def test_cumulative_boundary_19_still_arms(self):
+    def test_cumulative_boundary_19_still_authorizes_preflight(self):
         self._seed(19)
         gate, record = self._gate()
         d = self._preflight(gate, record)
-        self.assertTrue(d.is_armed())
+        self.assertTrue(d.authorized)
+        self.assertFalse(d.is_armed())
         self.assertEqual(d.cumulative_orders_placed, 19)
 
     def test_duplicate_cl_ord_retry_refused(self):
