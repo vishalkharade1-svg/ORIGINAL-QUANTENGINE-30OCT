@@ -393,6 +393,7 @@ class AuthorizationDecision:
     current_realized_loss_usd: Decimal = Decimal("0.0")
     timestamp_utc: float = field(default_factory=time.time)
     authorized_symbol: str = ""
+    authorized_rest_url: str = ""
     authorized_product_id: Optional[int] = None
     authorized_order_size_contracts: Optional[Decimal] = None
     authorized_post_only: Optional[bool] = None
@@ -411,6 +412,7 @@ class AuthorizationDecision:
             "current_realized_loss_usd": str(self.current_realized_loss_usd),
             "timestamp_utc": self.timestamp_utc,
             "authorized_symbol": self.authorized_symbol,
+            "authorized_rest_url": self.authorized_rest_url,
             "authorized_product_id": self.authorized_product_id,
             "authorized_order_size_contracts": (
                 str(self.authorized_order_size_contracts)
@@ -771,6 +773,7 @@ class TestnetAuthorizationGate:
             current_open_orders=current_open,
             current_realized_loss_usd=Decimal(str(cumulative_realized_loss)),
             authorized_symbol=sym_clean if is_authorized else "",
+            authorized_rest_url=url_clean if is_authorized else "",
             authorized_product_id=product_id if is_authorized else None,
             authorized_order_size_contracts=sz if is_authorized else None,
             authorized_post_only=bool(post_only) if is_authorized else None,
@@ -892,6 +895,7 @@ class TestnetAuthorizationGate:
                 current_open_orders=len(self._active_open_orders),
                 current_realized_loss_usd=decision.current_realized_loss_usd,
                 authorized_symbol=decision.authorized_symbol,
+                authorized_rest_url=decision.authorized_rest_url,
                 authorized_product_id=decision.authorized_product_id,
                 authorized_order_size_contracts=decision.authorized_order_size_contracts,
                 authorized_post_only=decision.authorized_post_only,
