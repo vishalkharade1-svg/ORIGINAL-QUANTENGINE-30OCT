@@ -1083,6 +1083,8 @@ class TestScopeCapEnforcement(_TempDirCase):
             auth_record=record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), cl_ord_id="dup-1",
+            order_details={"side": "buy", "limit_price": "80000",
+                           "post_only": True},
             post_only=True)
         self.assertFalse(d2.is_armed())
         self.assertTrue(any("Single-open-order limit reached" in r or
