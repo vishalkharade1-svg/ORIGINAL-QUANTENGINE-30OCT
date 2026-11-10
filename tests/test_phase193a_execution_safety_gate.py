@@ -446,6 +446,13 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         "post_only": True,
         "client_order_id": "ORD-SEALED-01",
     }
+    with pytest.raises(TransportWriteAuthorityError, match="operator-authorized REST endpoint"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://testnet-api.delta.exchange",
+            payload=payload,
+        )
+
     token = token_for_testnet_experiment(
         reserved,
         "https://cdn-ind.testnet.deltaex.org",
@@ -479,6 +486,7 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         replace(reserved, authorized_product_id=999),
         replace(reserved, authorized_order_size_contracts=Decimal("2.0")),
         replace(reserved, authorized_symbol="ETHUSD"),
+        replace(reserved, authorized_rest_url="https://testnet-api.delta.exchange"),
         replace(reserved, authorized_client_order_id="ORD-ATTACK"),
         replace(reserved, authorized=False),
     )
