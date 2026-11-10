@@ -52,6 +52,8 @@ jobs:
         run: |
           python scripts/security/scan_secrets.py
           python scripts/security/scan_secrets.py --check-staged
+      - name: Compile all Python modules
+        run: python -m compileall -q core backtesting risk config scripts tests
       - name: Run complete repository test suite
         shell: bash
         run: |
