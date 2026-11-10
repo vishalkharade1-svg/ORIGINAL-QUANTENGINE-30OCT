@@ -138,6 +138,15 @@ class TestNormalizedStrategyDigest(unittest.TestCase):
         )
         if probe.returncode != 0 or probe.stdout.strip() != "true":
             self.skipTest("historical ancestry verification requires the original Git checkout")
+        commit_probe = subprocess.run(
+            ["git", "cat-file", "-e", "47fbecd^{commit}"],
+            capture_output=True, text=True, cwd=str(ROOT), timeout=15,
+        )
+        if commit_probe.returncode != 0:
+            self.skipTest(
+                "BLOCKED_EVIDENCE: historical baseline commit 47fbecd is absent "
+                "from this checkout; cannot establish the Phase 4 diff"
+            )
         out = subprocess.run(
             ["git", "diff", "47fbecd", "HEAD", "--name-only", "--",
              *STRATEGY_FILES],
