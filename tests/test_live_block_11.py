@@ -413,6 +413,38 @@ class TestLiveTransportBoundary(unittest.TestCase):
 
         self.assertEqual(fake.calls, [])
 
+    def test_executor_does_not_override_paper_mode(self):
+        """Direct executor use must honor PAPER_MODE even if opt-in flags are true."""
+        import config.settings as settings_module
+
+        settings = settings_module.settings
+        names = (
+            "PAPER_MODE", "LIVE_MODE", "EXECUTION_MODE",
+            "ALLOW_LIVE", "LIVE_EXECUTE", "API_KEY", "API_SECRET",
+        )
+        saved = {name: getattr(settings, name) for name in names}
+        try:
+            settings.PAPER_MODE = True
+            settings.LIVE_MODE = False
+            settings.EXECUTION_MODE = ""
+            settings.ALLOW_LIVE = True
+            settings.LIVE_EXECUTE = True
+            settings.API_KEY = "SYNTHETIC-TEST-KEY"
+            settings.API_SECRET = "SYNTHETIC-TEST-SECRET"
+
+            fake = CountingREST()
+            executor = DeltaOrderExecutor(
+                exchange=live_exchange(fake),
+                registry=registry(),
+                order_id_factory=lambda i: "QE-TEST",
+            )
+            with self.assertRaises(LiveBlockedError):
+                executor.execute(intent())
+            self.assertEqual(fake.calls, [])
+        finally:
+            for name, value in saved.items():
+                setattr(settings, name, value)
+
     def test_default_settings_execute_blocked_zero_calls(self):
         """No explicit token: the gate falls back to
         operator settings. With the test-forced
