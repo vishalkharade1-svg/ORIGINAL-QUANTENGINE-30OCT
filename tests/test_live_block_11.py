@@ -510,6 +510,30 @@ class TestLiveTransportBoundary(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             exchange.place_order({"product_id": 2})
 
+    def test_transport_authentication_string_false_fails_closed(self):
+        """A truthy string must not be accepted as authenticated state."""
+        class AmbiguousREST:
+            authenticated = "false"
+
+        exchange = DeltaExchange(
+            api_key="SYNTHETIC-TEST-KEY",
+            api_secret="SYNTHETIC-TEST-SECRET",
+            rest=AmbiguousREST(),
+        )
+        self.assertFalse(exchange.authenticated)
+        with self.assertRaises(RuntimeError):
+            exchange._require_auth()
+
+    def test_whitespace_credentials_are_not_authenticated(self):
+        exchange = DeltaExchange(
+            api_key="   ",
+            api_secret="   ",
+            rest=object(),
+        )
+        self.assertFalse(exchange.authenticated)
+        with self.assertRaises(RuntimeError):
+            exchange._require_auth()
+
     def test_broker_live_construction_requires_safety(self):
         """Accidental BrokerEngine(dry_run=False) without
         the arming token fails at construction -- zero
