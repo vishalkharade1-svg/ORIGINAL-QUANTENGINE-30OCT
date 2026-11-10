@@ -29,18 +29,22 @@
     "http_status_metadata": "IMPLEMENTED",
     "partial_capture_persistence": "IMPLEMENTED",
     "record_budget_early_stop": "PARTIAL",
-    "process_restart_resume": "PARTIAL"
+    "process_restart_resume": "PARTIAL",
+    "historical_git_lineage": "BLOCKED_ORIGINAL_OBJECT_HISTORY_NOT_IN_MIGRATION",
+    "strategy_identity": "BLOCKED_PHASE22_REGISTERED_HASH_DRIFT",
+    "historical_data_provenance": "BLOCKED_RECORDED_SHA256_MISMATCH",
+    "release_archive_reproduction": "BLOCKED_DELIVERY_ARCHIVES_NOT_MOUNTED"
   },
   "verification": {
     "focused_tests": "TESTED_37_PASSED",
     "phase199_phase205_regressions": "TESTED_62_PASSED_COMBINED",
     "strict_manifest": "PASS",
     "secret_scan": "PASS_WORKTREE_STAGED_AND_HISTORY",
-    "full_suite": "FAILED_69_FAILED_5159_PASSED_32_SKIPPED_445_SUBTESTS_PASSED",
+    "full_suite": "FAILED_40_FAILED_5162_PASSED_58_SKIPPED_445_SUBTESTS_PASSED",
     "release_archive": "NOT_BUILT",
     "fresh_extraction": "NOT_RUN",
     "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
-    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42786147543"
+    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42791665560"
   },
   "verification_environment": {
     "python": "3.12.16",
@@ -56,7 +60,7 @@
       "pyarrow": "23.0.1",
       "pytest": "9.0.3"
     },
-    "source_commit": "9eb6a1d25c347d3ba100b3dc1726ab29f9242f20",
-    "workflow_run": "42786147543"
+    "source_commit": "577791b7dc7dfe928e263bf1860087eb1e9191f3",
+    "workflow_run": "42791665560"
   }
 }

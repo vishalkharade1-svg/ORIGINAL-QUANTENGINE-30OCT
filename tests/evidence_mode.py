@@ -42,7 +42,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-STATUS_FILE = ROOT / "reports" / "PHASE161_GIT_EVIDENCE_STATUS.json"
+STATUS_FILE = ROOT / "reports" / "PHASE206_GIT_EVIDENCE_STATUS.json"
 
 MODE_GIT_CHECKOUT = "GIT_CHECKOUT"
 MODE_SOURCE_ARCHIVE = "SOURCE_ARCHIVE"
@@ -109,7 +109,7 @@ def detect_mode(root: Path | None = None) -> tuple[str, dict]:
 
 
 def require_git_fact(case, fact_id: str, detail: str = "",
-                     required_commit: str | None = None) -> None:
+                     required_commit: str | tuple[str, ...] | None = None) -> None:
     """Enforce the contract for one Git-dependent test method.
 
     In a genuine checkout this returns when all requested objects exist.
@@ -130,20 +130,23 @@ def require_git_fact(case, fact_id: str, detail: str = "",
             reason += " Required: %s." % detail
         case.skipTest(reason)
 
-    if required_commit:
+    required_commits = (
+        (required_commit,) if isinstance(required_commit, str)
+        else tuple(required_commit or ())
+    )
+    for commit in required_commits:
         try:
-            probe = _git(["cat-file", "-e", "%s^{commit}" % required_commit])
+            probe = _git(["cat-file", "-e", "%s^{commit}" % commit])
         except (OSError, subprocess.SubprocessError) as exc:  # pragma: no cover
             case.skipTest(
                 "%s: historical commit %s unavailable for %s (%s: %s)"
-                % (SKIP_PREFIX, required_commit, fact_id,
-                   type(exc).__name__, exc)
+                % (SKIP_PREFIX, commit, fact_id, type(exc).__name__, exc)
             )
         if probe.returncode != 0:
             case.skipTest(
                 "%s: historical commit %s is absent from this checkout; "
                 "ancestry fact %s is BLOCKED_EVIDENCE, not verified"
-                % (SKIP_PREFIX, required_commit, fact_id)
+                % (SKIP_PREFIX, commit, fact_id)
             )
 
 

@@ -22,13 +22,8 @@ class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
     def test_historical_reconstruction_structure_and_milestones(self):
         require_git_fact(
             self,
-            "test_strategy_historical_reconstruction_phase168::baseline_milestones",
-            required_commit="3f19895",
-        )
-        require_git_fact(
-            self,
-            "test_strategy_historical_reconstruction_phase168::runtime_milestone",
-            required_commit="fbeb860",
+            "test_strategy_historical_reconstruction_phase168::baseline_and_runtime_milestones",
+            required_commit=("3f19895", "fbeb860"),
         )
         report = reconstruct_strategy_history(ROOT)
         self.assertEqual(report["schema"], "quantengine.strategy-historical-reconstruction.v1")

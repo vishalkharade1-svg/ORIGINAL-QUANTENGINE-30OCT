@@ -60,18 +60,11 @@ class TestPhase174EconomicsReconciliation(unittest.TestCase):
         """Independently audit Phase 172 and 173 candidate ZIPs and detached records."""
         parent = ROOT.parent
 
-        # Phase 172
+        # Delivery archives are external to the source checkout. If the
+        # operator has not mounted the complete Phase 172/173 bundle, the
+        # provenance check is BLOCKED_EVIDENCE, not a fabricated pass/fail.
         p172_zip = parent / "QuantEngine_PHASE172_RELEASE_CANDIDATE.zip"
         p172_txt = parent / "RELEASE_HASH_PHASE172.txt"
-        self.assertTrue(p172_zip.exists(), "Missing Phase 172 release candidate ZIP")
-        self.assertTrue(p172_txt.exists(), "Missing Phase 172 detached hash file")
-
-        p172_expected = p172_txt.read_text(encoding="utf-8").strip().split()[0].lower()
-        p172_actual = hashlib.sha256(p172_zip.read_bytes()).hexdigest().lower()
-        self.assertEqual(p172_actual, p172_expected)
-        self.assertEqual(p172_actual, "67d3e60e88f21c7c53fd5c0d0b5fbfc7f789df65099fe9636c2b6ffc8d33571c")
-
-        # Phase 173
         p173_zip = parent / "QuantEngine_PHASE173_RELEASE_CANDIDATE.zip"
         p173_txt = parent / "RELEASE_HASH_PHASE173.txt"
         if not all(path.is_file() for path in
@@ -80,9 +73,13 @@ class TestPhase174EconomicsReconciliation(unittest.TestCase):
                 "BLOCKED_EVIDENCE: Phase 172/173 ZIPs and detached hashes "
                 "are absent from this source checkout"
             )
-        self.assertTrue(p173_zip.exists(), "Missing Phase 173 release candidate ZIP")
-        self.assertTrue(p173_txt.exists(), "Missing Phase 173 detached hash file")
 
+        p172_expected = p172_txt.read_text(encoding="utf-8").strip().split()[0].lower()
+        p172_actual = hashlib.sha256(p172_zip.read_bytes()).hexdigest().lower()
+        self.assertEqual(p172_actual, p172_expected)
+        self.assertEqual(p172_actual, "67d3e60e88f21c7c53fd5c0d0b5fbfc7f789df65099fe9636c2b6ffc8d33571c")
+
+        # Phase 173
         p173_expected = p173_txt.read_text(encoding="utf-8").strip().split()[0].lower()
         p173_actual = hashlib.sha256(p173_zip.read_bytes()).hexdigest().lower()
         self.assertEqual(p173_actual, p173_expected)
