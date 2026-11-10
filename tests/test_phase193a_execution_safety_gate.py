@@ -422,6 +422,30 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
             payload={"product_id": 84, "size": "1.0", "side": "buy"},
         )
 
+    unbound_gate = TestnetAuthorizationGate(
+        ledger_path=tmp_path / "unbound-ledger.jsonl"
+    )
+    unbound = unbound_gate.check_and_reserve_order(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1.0"),
+        cl_ord_id="ORD-UNBOUND-01",
+        post_only=True,
+    )
+    assert unbound.is_armed()
+    with pytest.raises(TransportWriteAuthorityError, match="does not bind required order details"):
+        token_for_testnet_experiment(
+            unbound,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={
+                "product_id": 84, "size": "1.0", "side": "buy",
+                "limit_price": "80000", "post_only": True,
+                "client_order_id": "ORD-UNBOUND-01",
+            },
+        )
+
     reserved = gate.check_and_reserve_order(
         auth_record=auth,
         rest_url="https://cdn-ind.testnet.deltaex.org",
