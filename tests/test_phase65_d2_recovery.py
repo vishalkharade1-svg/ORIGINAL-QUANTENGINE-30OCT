@@ -10,8 +10,13 @@ EXPECTED = {
 def test_preserved_d2_hashes_and_shape():
     for _, (rel, expected) in EXPECTED.items():
         p = ROOT / rel
-        assert hashlib.sha256(p.read_bytes()).hexdigest() == expected
-        bars = json.loads(p.read_text())["candles"]
+        raw = p.read_bytes()
+        # The recorded D2 pins were minted from CRLF bytes. The Git
+        # repository now stores the same JSON content with LF endings.
+        assert b"\\r\\n" not in raw
+        historical_crlf = raw.replace(b"\\r\\n", b"\\n").replace(b"\\n", b"\\r\\n")
+        assert hashlib.sha256(historical_crlf).hexdigest() == expected
+        bars = json.loads(raw)["candles"]
         assert len(bars) == 3000
         ts = [int(x["time"]) for x in bars]
         assert all(b - a == 60 for a, b in zip(ts, ts[1:]))
