@@ -192,8 +192,10 @@ class DeltaOrderExecutor:
 
         if safety is None:
 
+            # Resolve the configured mode instead of forcing LIVE.
+            # A live executor must not override PAPER_MODE/ANALYZE or
+            # bypass conflicting execution-mode configuration.
             gate_inputs = LiveSafetyGate.from_settings(
-                mode="LIVE",
                 api_key=getattr(
                     self.exchange, "api_key", None
                 ),
