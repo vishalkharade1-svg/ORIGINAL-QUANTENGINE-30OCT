@@ -44,8 +44,8 @@ import threading
 _MINT = secrets.token_hex(32)
 _CONSUMED_NONCES = set()
 _CONSUMED_LOCK = threading.Lock()
-_CONSUMED_TESTNET_DECISIONS = set()
-_CONSUMED_TESTNET_DECISIONS_LOCK = threading.Lock()
+_CONSUMED_TESTNET_DECISION_METHODS = set()
+_CONSUMED_TESTNET_DECISION_METHODS_LOCK = threading.Lock()
 
 KIND_OFFLINE_TEST = "OFFLINE_TEST"
 KIND_LIVE_SAFETY = "LIVE_SAFETY"
@@ -222,9 +222,9 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
                 raise ValueError("non-positive order id")
         except (TypeError, ValueError):
             raise TransportWriteAuthorityError("testnet cancellation requires a positive order id")
-    # A reserved testnet decision authorizes exactly one write-token mint.
-    # This prevents callers from minting fresh nonces from the same reservation
-    # and bypassing the persistent duplicate/order-quota ledger.
+    # A reserved testnet decision authorizes one placement token and one
+    # cancellation token. Re-minting either method is refused, while the
+    # same reservation can still safely cancel its one acknowledged order.
     token = _issue(
         KIND_TESTNET_EXPERIMENT, _bind_base_url(base_url),
         endpoint, payload, resolved_method,
@@ -233,11 +233,13 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
     if not decision_seal:
         raise TransportWriteAuthorityError(
             "testnet experiment decision has no sealed reservation capability")
-    with _CONSUMED_TESTNET_DECISIONS_LOCK:
-        if decision_seal in _CONSUMED_TESTNET_DECISIONS:
+    decision_method_key = (decision_seal, resolved_method)
+    with _CONSUMED_TESTNET_DECISION_METHODS_LOCK:
+        if decision_method_key in _CONSUMED_TESTNET_DECISION_METHODS:
             raise TransportWriteAuthorityError(
-                "testnet reservation capability has already minted a write token")
-        _CONSUMED_TESTNET_DECISIONS.add(decision_seal)
+                "testnet reservation capability has already minted a %s write token"
+                % resolved_method)
+        _CONSUMED_TESTNET_DECISION_METHODS.add(decision_method_key)
     return token
 
 
