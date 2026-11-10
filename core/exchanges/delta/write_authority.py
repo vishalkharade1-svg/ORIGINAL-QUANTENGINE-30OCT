@@ -147,7 +147,7 @@ def token_for_live_safety(decision, base_url, *, payload,
 
     verified = LiveSafetyGate.require_decision(
         decision, component="write_authority.token_for_live_safety")
-    if (getattr(verified, "_authority", "") == "OFFLINE_TEST"
+    if (verified.offline_test_only
             and _bind_base_url(base_url) != OFFLINE_FALLBACK_BASE_URL):
         raise TransportWriteAuthorityError(
             "OFFLINE_TEST safety capability cannot authorize a configured exchange endpoint")
