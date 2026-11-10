@@ -108,28 +108,43 @@ def detect_mode(root: Path | None = None) -> tuple[str, dict]:
     return MODE_GIT_CHECKOUT, evidence
 
 
-def require_git_fact(case, fact_id: str, detail: str = "") -> None:
+def require_git_fact(case, fact_id: str, detail: str = "",
+                     required_commit: str | None = None) -> None:
     """Enforce the contract for one Git-dependent test method.
 
-    In a genuine checkout this returns and the caller's own assertions run.
-    In a source archive this skips the test with an explicit
-    ``BLOCKED_EVIDENCE`` reason naming the fact, so the fact is neither
-    silently assumed nor reported as verified.
+    In a genuine checkout this returns when all requested objects exist.
+    Source archives and partial/synthetic histories skip with an explicit
+    BLOCKED_EVIDENCE reason; they never silently pass ancestry assertions.
     """
     mode, evidence = detect_mode()
-    if mode == MODE_GIT_CHECKOUT:
-        return
-    reason = (
-        "%s: git fact %s cannot be established from a source archive "
-        "(mode=%s; rev-parse --is-inside-work-tree returned %s). "
-        "The fact is recorded as blocked, not verified, in reports/%s."
-        % (SKIP_PREFIX, fact_id, mode,
-           evidence.get("rev_parse_is_inside_work_tree", {}).get("returncode", "n/a"),
-           STATUS_FILE.name)
-    )
-    if detail:
-        reason += " Required: %s." % detail
-    case.skipTest(reason)
+    if mode != MODE_GIT_CHECKOUT:
+        reason = (
+            "%s: git fact %s cannot be established from a source archive "
+            "(mode=%s; rev-parse --is-inside-work-tree returned %s). "
+            "The fact is recorded as blocked, not verified, in reports/%s."
+            % (SKIP_PREFIX, fact_id, mode,
+               evidence.get("rev_parse_is_inside_work_tree", {}).get("returncode", "n/a"),
+               STATUS_FILE.name)
+        )
+        if detail:
+            reason += " Required: %s." % detail
+        case.skipTest(reason)
+
+    if required_commit:
+        try:
+            probe = _git(["cat-file", "-e", "%s^{commit}" % required_commit])
+        except (OSError, subprocess.SubprocessError) as exc:  # pragma: no cover
+            case.skipTest(
+                "%s: historical commit %s unavailable for %s (%s: %s)"
+                % (SKIP_PREFIX, required_commit, fact_id,
+                   type(exc).__name__, exc)
+            )
+        if probe.returncode != 0:
+            case.skipTest(
+                "%s: historical commit %s is absent from this checkout; "
+                "ancestry fact %s is BLOCKED_EVIDENCE, not verified"
+                % (SKIP_PREFIX, required_commit, fact_id)
+            )
 
 
 def status_document() -> dict | None:
