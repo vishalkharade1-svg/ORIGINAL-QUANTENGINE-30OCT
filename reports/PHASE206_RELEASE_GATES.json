@@ -31,9 +31,10 @@
     "record_budget_early_stop": "PARTIAL",
     "process_restart_resume": "PARTIAL",
     "historical_git_lineage": "BLOCKED_ORIGINAL_OBJECT_HISTORY_NOT_IN_MIGRATION",
-    "strategy_identity": "BLOCKED_PHASE22_REGISTERED_HASH_DRIFT",
+    "strategy_identity": "BLOCKED_UNREGISTERED_CURRENT_IDENTITY_DRIFT",
     "historical_data_provenance": "BLOCKED_RECORDED_SHA256_MISMATCH",
-    "release_archive_reproduction": "BLOCKED_DELIVERY_ARCHIVES_NOT_MOUNTED"
+    "release_archive_reproduction": "BLOCKED_DELIVERY_ARCHIVES_NOT_MOUNTED",
+    "historical_research_artifact_bytes": "BLOCKED_ORIGINAL_BYTES_NOT_IN_MIGRATION"
   },
   "verification": {
     "focused_tests": "TESTED_37_PASSED",
@@ -64,5 +65,32 @@
     },
     "source_commit": "577791b7dc7dfe928e263bf1860087eb1e9191f3",
     "workflow_run": "42791665560"
+  },
+  "strategy_identity_observation": {
+    "status": "OBSERVED_UNREGISTERED",
+    "identity_source_commit": "5a539083bdcc0560bbe52ffea1793331889da2c5",
+    "historical_phase14_pin": "c52e648ca24fb03b9ba818ebb766e32b035b48df201d5a2a1b254d04f7f3d5a6",
+    "phase22_registered_baseline": {
+      "strategy_core": "26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666",
+      "runtime_infrastructure": "997a21f21045551ed25e29d2289157d257b16b5f3b99bbf04e95c7f257b96294",
+      "composite_legacy_9_files": "05986916c990dbda8329b7fa8230ced878f951c68ed87e071b6afd3b8475afda"
+    },
+    "observed_current_unregistered": {
+      "strategy_core": "f79aa68f87002fb692d4fa985dfa5da23ba46ab77dbbf348e94232069ec4879e",
+      "runtime_infrastructure": "656c376a6ea6948aade92c58a1875c1192eaf4206536263d3821f339a9d674d9",
+      "composite_legacy_9_files": "ab888553092d997a46815a4455f5ddc334b8a2fe6f164a885643af003e6e270d"
+    },
+    "approved_for_research": false,
+    "note": "These are observed hashes of the migrated source snapshot, not a new strategy registration. Do not use them for research or release claims until the required strategy recertification is completed."
+  },
+  "historical_research_artifact_reconciliation": {
+    "status": "BLOCKED_ORIGINAL_BYTES_NOT_IN_MIGRATION",
+    "repository_history": "single migration commit; original Phase131/Phase154 Git objects and delivery archives are absent",
+    "current_authority": "BUILD_MANIFEST.sha256",
+    "historical_authorities": [
+      "MANIFEST_SHA256_PHASE131.txt",
+      "reports/PHASE154_ARCHIVE_INTEGRITY.json"
+    ],
+    "policy": "preserve historical hashes; verify current bytes against current manifest; never relabel current bytes as historical originals"
   }
 }
