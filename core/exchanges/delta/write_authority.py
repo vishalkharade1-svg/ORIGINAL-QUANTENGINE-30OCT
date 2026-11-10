@@ -187,8 +187,10 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
         payload_product_id = Decimal(str(payload.get("product_id")))
         authorized_product_id = Decimal(str(decision.authorized_product_id))
         if (not payload_product_id.is_finite()
-                or payload_product_id != payload_product_id.to_integral_value()
-                or payload_product_id != authorized_product_id):
+                or payload_product_id != payload_product_id.to_integral_value()):
+            raise TransportWriteAuthorityError(
+                "testnet payload product_id must be a finite integer")
+        if payload_product_id != authorized_product_id:
             raise TransportWriteAuthorityError(
                 "testnet payload product_id differs from the preflight-authorized product")
     except (InvalidOperation, TypeError, ValueError):
