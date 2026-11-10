@@ -599,7 +599,10 @@ def test_reusable_gate_fails_closed_without_verified_contract_metadata(tmp_path:
     auth = _create_approved_auth_record()
     auth.scope = replace(auth.scope, contract_size_btc=None, contract_metadata_product_id=None, contract_metadata_sha256="")
     auth = approve_for_test(auth)
-    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "missing-metadata-ledger.jsonl")
+    gate = TestnetAuthorizationGate(
+        ledger_path=tmp_path / "missing-metadata-ledger.jsonl",
+        default_scope=auth.scope,
+    )
     decision = gate.evaluate_preflight(
         auth_record=auth,
         rest_url="https://cdn-ind.testnet.deltaex.org",
