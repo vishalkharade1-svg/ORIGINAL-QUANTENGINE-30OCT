@@ -591,7 +591,8 @@ class HistoricalCaptureOrchestrator:
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
                         if (plan.mode == "authenticated" and endpoint_complete
-                                and not any(page.get("endpoint") == endpoint for page in page_provenance)):
+                                and not any(_page_endpoint_category(page.get("endpoint"), plan) == endpoint
+                                        for page in page_provenance)):
                             raise CapturePersistenceError(
                                 "authenticated completed capture is missing endpoint page provenance"
                             )

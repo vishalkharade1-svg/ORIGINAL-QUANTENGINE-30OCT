@@ -2005,3 +2005,6 @@ All three current files differ from their Phase-131 pins. Their visible per-path
 - Added a focused validator test for a known Delta route and rejection of an unknown route. Phase-206 integration regression and Phase-207 focused tests are pending CI.
 - The Secret Scan workflow run [42673635681](https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42673635681) concluded failure but GitHub reports zero jobs/check-runs for that run; therefore no scanner step executed and no credential finding is evidenced by this run. Workflow execution remains unresolved; historical credential exposure/revocation remains a separate open blocker.
 - No frozen strategy or evidence hash was altered. PR #6 remains draft/unmerged; release HOLD / PAPER ONLY / NOT LIVE READY; `live_arming_permitted = False`.
+
+
+- Follow-up review of the route normalization patch found one remaining completed-authenticated-capture check still comparing raw route strings directly. That second check now uses the same explicit route-to-category allowlist as the persistence validator. The source manifest has been refreshed for this correction; CI remains the verification authority.
