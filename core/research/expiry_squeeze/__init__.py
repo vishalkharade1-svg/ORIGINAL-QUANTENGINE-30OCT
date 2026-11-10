@@ -1,4 +1,4 @@
-"Research-only SENSEX expiry-squeeze data capture primitives.
+"""Research-only SENSEX expiry-squeeze data capture primitives.
 
 This package records observations. It does not generate orders, connect to a
 broker, or certify a trading strategy.

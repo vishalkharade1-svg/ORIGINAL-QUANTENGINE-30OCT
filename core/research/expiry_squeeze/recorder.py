@@ -24,17 +24,9 @@ from typing import Any, Mapping
 
 SCHEMA = "quantengine.expiry_squeeze.event.v1"
 _ALLOWED_EVENT_TYPES = frozenset({
-    "SESSION_MARKER",
-    "OPTION_CHAIN_SNAPSHOT",
-    "OPTION_QUOTE",
-    "OPTION_TRADE",
-    "OPTION_BOOK",
-    "OPTION_CANDLE_1M",
-    "INDEX_CANDLE_1M",
-    "INDEX_CANDLE_5M",
-    "CANDIDATE",
-    "REJECTION",
-    "OUTCOME_LABEL",
+    "SESSION_MARKER", "OPTION_CHAIN_SNAPSHOT", "OPTION_QUOTE", "OPTION_TRADE",
+    "OPTION_BOOK", "OPTION_CANDLE_1M", "INDEX_CANDLE_1M", "INDEX_CANDLE_5M",
+    "CANDIDATE", "REJECTION", "OUTCOME_LABEL",
 })
 _ALLOWED_CANDIDATE_STATES = frozenset({"OBSERVED", "ELIGIBLE", "REJECTED"})
 _SESSION_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,95}$")
@@ -56,11 +48,8 @@ class CorruptJournalError(RecorderError):
 def _canonical_bytes(value: Any) -> bytes:
     try:
         return json.dumps(
-            value,
-            sort_keys=True,
-            separators=(",", ":"),
-            ensure_ascii=False,
-            allow_nan=False,
+            value, sort_keys=True, separators=(",", ":"),
+            ensure_ascii=False, allow_nan=False,
         ).encode("utf-8")
     except (TypeError, ValueError) as exc:
         raise RecorderError(f"event is not strict JSON: {type(exc).__name__}") from None
@@ -96,19 +85,9 @@ def candidate_identity(session_id: str, instrument_id: str, decision_timestamp: 
 class ExpirySqueezeRecorder:
     """Durable, append-only journal for normalized market observations.
 
-    Parameters
-    ----------
-    journal_path:
-        One JSONL file for one capture session. Existing files are verified
-        before the recorder becomes writable.
-    session_id:
-        Safe session identifier, e.g. SENSEX-2026-11-12.
-    max_events / max_bytes:
-        Hard local budgets. The recorder refuses the next append rather than
-        deleting, rotating, or overwriting earlier evidence.
-
-    This class is intentionally single-writer. A provider integration should
-    serialize callbacks through one recorder instance/queue.
+    One JSONL file belongs to one session. Existing files are fully verified
+    before writing resumes. The recorder is single-writer; provider callbacks
+    should be serialized through one instance or queue.
     """
 
     def __init__(self, journal_path: str | Path, session_id: str,
@@ -138,7 +117,7 @@ class ExpirySqueezeRecorder:
         try:
             with self.path.open("rb") as stream:
                 for line_number, raw_line in enumerate(stream, 1):
-                    if not raw_line.endswith(b"\\n"):
+                    if not raw_line.endswith(b"\n"):
                         raise CorruptJournalError(f"truncated journal line {line_number}")
                     try:
                         event = json.loads(raw_line.decode("utf-8"))
@@ -210,7 +189,7 @@ class ExpirySqueezeRecorder:
             }
             digest = _hash_event(body)
             event = {**body, "event_hash": digest}
-            encoded = _canonical_bytes(event) + b"\\n"
+            encoded = _canonical_bytes(event) + b"\n"
             current_size = self.path.stat().st_size if self.path.exists() else 0
             if current_size + len(encoded) > self.max_bytes:
                 raise CaptureLimitError("MAX_BYTES_REACHED")
