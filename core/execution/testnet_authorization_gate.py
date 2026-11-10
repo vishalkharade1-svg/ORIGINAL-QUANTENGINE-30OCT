@@ -58,6 +58,7 @@ _GATE_MINT = secrets.token_hex(16)
 BTCUSD_PRODUCT_ID = 84
 BTCUSD_CONTRACT_SIZE_BTC = Decimal("0.001")
 BTCUSD_PRODUCT_SNAPSHOT_SHA256 = "e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2"
+MAX_TESTNET_ORDER_NOTIONAL_USD = Decimal("100.00")
 
 
 class AuthorizationState(str, Enum):
@@ -704,7 +705,8 @@ class TestnetAuthorizationGate:
         # agree with the gate's pinned notional boundary; otherwise fail closed.
         signed_scope = auth_record.scope
         if (
-            signed_scope.max_order_notional_usd != self.scope.max_order_notional_usd
+            self.scope.max_order_notional_usd != MAX_TESTNET_ORDER_NOTIONAL_USD
+            or signed_scope.max_order_notional_usd != MAX_TESTNET_ORDER_NOTIONAL_USD
             or signed_scope.contract_size_btc != self.scope.contract_size_btc
             or signed_scope.contract_metadata_product_id != self.scope.contract_metadata_product_id
             or signed_scope.contract_metadata_sha256 != self.scope.contract_metadata_sha256
@@ -766,10 +768,10 @@ class TestnetAuthorizationGate:
                     reasons.append("Limit price must be finite and positive")
                 else:
                     notional = sz * contract_size * price
-                    if notional > self.scope.max_order_notional_usd:
+                    if notional > MAX_TESTNET_ORDER_NOTIONAL_USD:
                         reasons.append(
                             f"Order notional (${notional}) exceeds maximum authorized "
-                            f"(${self.scope.max_order_notional_usd})"
+                            f"(${MAX_TESTNET_ORDER_NOTIONAL_USD})"
                         )
             except Exception:
                 reasons.append("Malformed limit price or contract-size metadata")
