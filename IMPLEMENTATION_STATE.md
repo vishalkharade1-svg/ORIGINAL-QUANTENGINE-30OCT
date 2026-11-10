@@ -2008,3 +2008,20 @@ All three current files differ from their Phase-131 pins. Their visible per-path
 
 
 - Follow-up review of the route normalization patch found one remaining completed-authenticated-capture check still comparing raw route strings directly. That second check now uses the same explicit route-to-category allowlist as the persistence validator. The source manifest has been refreshed for this correction; CI remains the verification authority.
+
+
+### Phase 207 — exact restoration of frozen evidence bytes (2026-11-10)
+
+A cross-check of the failing byte assertions found a common cause: the current working-tree files had LF bytes, while the preserved Phase-131 manifest and Phase-154 archive inventory pin CRLF bytes. For every restored artifact below, converting only line endings from LF to CRLF reproduced the exact digest in the existing independent pin(s); no content fields, expected hashes, or historical assertions were changed.
+
+- **Phase 158 sealed artifacts:** all 12 failing artifacts (Phase-11G N/O/P/Q/R/S/T/U and Phase-33/35/36/48 results) now reproduce the exact hash in both `MANIFEST_SHA256_PHASE131.txt` and `reports/PHASE154_ARCHIVE_INTEGRITY.json`.
+- **Phase 65 D2 datasets:** BTC and ETH files reproduce their existing test-pinned hashes after CRLF restoration; their 3,000-candle payloads are unchanged.
+- **Phase 173/174 L2 provenance:** the L2 archive's CRLF digest exactly matches the preserved `b14f39e...` provenance pin.
+- **Phase 170 historical report:** CRLF digest exactly matches the historical release-record pin `418bb9...`.
+- **Phase 26 funding binding:** the Phase-18 BTCUSDT dataset's CRLF digest exactly matches the `market_data_sha256` already stored in both Phase-26 funding artifacts (`986fdae...`); the Phase-30 top-up dataset already matches its recorded LF digest and was not changed.
+- **Cross-platform preservation:** exact paths are marked `-text` in `.gitattributes`, so Git does not normalize these pinned raw bytes during checkout. `BUILD_MANIFEST.sha256` is refreshed for the restored files and the attributes/document updates.
+- **Integrity method:** the Phase-131 manifest and Phase-154 inventory were treated as existing authorities. Each restored CRLF digest was recomputed before commit and matches the pre-existing value. No historical pin or expected test hash was changed.
+
+The remaining strategy-core identity discrepancy is not explained by these line endings: three of six registered strategy-core source files still differ from the Phase-22 per-file baseline. The Stage-4 pinned ancestry object remains absent. The route-provenance fix from this phase is included in the current head and requires the full regression to verify it.
+
+CI verification is pending on this restoration commit. Release remains HOLD / PAPER ONLY / NOT LIVE READY; `live_arming_permitted = False`.
