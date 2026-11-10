@@ -265,6 +265,10 @@ class ExperimentScope:
     require_post_only: bool
     forbid_market_conversion: bool
     require_valid_book: bool = False
+    # BTCUSD inverse contract value from the observed Delta product record.
+    # The signed authorization binds this multiplier; callers cannot choose
+    # a smaller multiplier to evade the USD notional ceiling.
+    contract_size_btc: Decimal = Decimal("0.001")
 
 
 @dataclass
@@ -315,6 +319,7 @@ class OperatorAuthorizationRecord:
                 "max_simultaneous_open_orders": scope.max_simultaneous_open_orders,
                 "max_order_size_contracts": str(scope.max_order_size_contracts),
                 "max_order_notional_usd": str(scope.max_order_notional_usd),
+                "contract_size_btc": str(scope.contract_size_btc),
                 "max_loss_budget_usd": str(scope.max_loss_budget_usd),
                 "max_order_wait_seconds": scope.max_order_wait_seconds,
                 "require_post_only": scope.require_post_only,
@@ -637,6 +642,7 @@ class TestnetAuthorizationGate:
         post_only: bool = True,
         cumulative_realized_loss: Decimal | float = Decimal("0.0"),
         book_tracker: Optional[Any] = None,
+        limit_price: Decimal | float | str | None = None,
     ) -> AuthorizationDecision:
         """Evaluate preflight gate prior to order placement attempt.
 
@@ -691,16 +697,39 @@ class TestnetAuthorizationGate:
             reasons.append(f"Product ID {product_id} not in authorized scope: {self.scope.allowed_product_ids}")
 
         # 5. Order sizing
+        sz = None
         try:
             sz = Decimal(str(order_size_contracts))
-            if sz <= 0:
+            if not sz.is_finite():
+                reasons.append("Order size must be finite")
+            elif sz <= 0:
                 reasons.append("Order size must be positive")
             elif sz > self.scope.max_order_size_contracts:
                 reasons.append(
                     f"Order size ({sz}) exceeds maximum authorized ({self.scope.max_order_size_contracts})"
                 )
-        except Exception as exc:
-            reasons.append(f"Malformed order size: {exc}")
+        except Exception:
+            reasons.append("Malformed order size")
+
+        # 5A. USD notional is enforced at the authorization boundary,
+        # not merely by the current experiment script.
+        if limit_price is not None and sz is not None and sz.is_finite():
+            try:
+                price = Decimal(str(limit_price))
+                contract_size = Decimal(str(self.scope.contract_size_btc))
+                if not price.is_finite() or price <= 0:
+                    reasons.append("Limit price must be finite and positive")
+                elif not contract_size.is_finite() or contract_size <= 0:
+                    reasons.append("Authorized BTCUSD contract size is invalid")
+                else:
+                    notional = sz * contract_size * price
+                    if notional > self.scope.max_order_notional_usd:
+                        reasons.append(
+                            f"Order notional (\${notional}) exceeds maximum authorized "
+                            f"(\${self.scope.max_order_notional_usd})"
+                        )
+            except Exception:
+                reasons.append("Malformed limit price or contract-size metadata")
 
         # 6. Post-only enforcement
         if self.scope.require_post_only and not post_only:
@@ -822,9 +851,81 @@ class TestnetAuthorizationGate:
                 post_only=post_only,
                 cumulative_realized_loss=cumulative_realized_loss,
                 book_tracker=book_tracker,
+                limit_price=(
+                    order_details.get("limit_price")
+                    if isinstance(order_details, dict) else None
+                ),
             )
             if not decision.authorized:
                 return decision
+
+            # Preflight alone is diagnostic. A write-capable reservation must
+            # bind every field used by the transport capability before any
+            # durable reservation is appended.
+            required_details = {"side", "limit_price", "post_only"}
+            if (not isinstance(order_details, dict)
+                    or set(order_details) != required_details):
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=[
+                        "Order reservation requires exactly side, limit_price, and post_only details"
+                    ],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            side = str(order_details.get("side", "")).strip().lower()
+            if side not in {"buy", "sell"}:
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=["Order side must be buy or sell"],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            if (type(order_details.get("post_only")) is not bool
+                    or order_details["post_only"] is not post_only):
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=["Reserved post_only detail must exactly match the authorization request"],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            try:
+                limit_price = Decimal(str(order_details["limit_price"]))
+                contract_size = Decimal(str(self.scope.contract_size_btc))
+                if (not limit_price.is_finite() or limit_price <= 0
+                        or not contract_size.is_finite() or contract_size <= 0):
+                    raise ValueError("invalid price or contract size")
+                notional_usd = (
+                    decision.authorized_order_size_contracts
+                    * contract_size * limit_price
+                )
+            except Exception:
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=["Limit price or authorized contract size is invalid"],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            if notional_usd > self.scope.max_order_notional_usd:
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.INVALID_SCOPE,
+                    reasons=[
+                        f"Order notional (\${notional_usd}) exceeds maximum authorized "
+                        f"(\${self.scope.max_order_notional_usd})"
+                    ],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
 
             # 2. Check for duplicate cl_ord_id in active or ambiguous tracking
             if cl_ord_id_clean in self._active_open_orders or cl_ord_id_clean in self._ambiguous_orders:
@@ -866,8 +967,14 @@ class TestnetAuthorizationGate:
                 "state": OrderLifecycleState.RESERVED.value,
                 "timestamp_monotonic": time.monotonic(),
             }
-            if order_details:
-                reservation_data.update(order_details)
+            # Never let caller-supplied details overwrite reservation
+            # identity, product scope, quantity, state, or timestamps.
+            reservation_data.update({
+                "side": side,
+                "limit_price": format(limit_price, "f"),
+                "post_only": post_only,
+                "notional_usd": str(notional_usd),
+            })
 
             self.ledger_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.ledger_path, "a", encoding="utf-8") as f:
@@ -899,8 +1006,12 @@ class TestnetAuthorizationGate:
                 authorized_product_id=decision.authorized_product_id,
                 authorized_order_size_contracts=decision.authorized_order_size_contracts,
                 authorized_post_only=decision.authorized_post_only,
-                authorized_order_details=tuple(sorted(
-                    (str(k), str(v)) for k, v in (order_details or {}).items())),
+                authorized_order_details=tuple(sorted({
+                    "side": side,
+                    "limit_price": format(limit_price, "f"),
+                    "post_only": post_only,
+                    "notional_usd": str(notional_usd),
+                }.items())),
                 authorized_client_order_id=cl_ord_id_clean,
                 _mint_token=_GATE_MINT,
             )
