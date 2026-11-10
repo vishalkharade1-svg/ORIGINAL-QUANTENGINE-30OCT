@@ -380,6 +380,34 @@ class TestLiveSafetyGateMatrix(unittest.TestCase):
         self.assertFalse(decision.allow_live)
         self.assertFalse(decision.live_execute)
 
+    def test_diagnostic_decision_cannot_authorize_transport(self):
+        decision = LiveSafetyGate.decide(
+            mode=ExecutionMode.LIVE,
+            allow_live=True,
+            live_execute=True,
+            has_credentials=True,
+        )
+        self.assertTrue(decision.allowed)
+        with self.assertRaises(LiveBlockedError):
+            LiveSafetyGate.require_decision(decision, component="diagnostic-only")
+
+    def test_test_armed_capability_is_offline_only(self):
+        from core.exchanges.delta.write_authority import (
+            OFFLINE_FALLBACK_BASE_URL,
+            TransportWriteAuthorityError,
+            token_for_live_safety,
+        )
+
+        decision = LiveSafetyGate.test_armed()
+        token = token_for_live_safety(
+            decision, OFFLINE_FALLBACK_BASE_URL, payload={"test": True}
+        )
+        self.assertEqual(token.base_url, OFFLINE_FALLBACK_BASE_URL)
+        with self.assertRaises(TransportWriteAuthorityError):
+            token_for_live_safety(
+                decision, "https://api.delta.exchange", payload={"test": True}
+            )
+
     def test_unknown_mode_decide_rejected(self):
         with self.assertRaises(ConfigurationError):
             LiveSafetyGate.decide(mode="BOGUS")
