@@ -342,7 +342,7 @@ class TestPhase173AuditAndReproduction(unittest.TestCase):
 
         l2_raw = l2_path.read_bytes()
         self.assertNotIn(b"\r\n", l2_raw)
-        l2_historical_crlf = l2_raw.replace(b"\r\n", b"\\n").replace(b"\\n", b"\r\n")
+        l2_historical_crlf = l2_raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
         l2_hash = hashlib.sha256(l2_historical_crlf).hexdigest().lower()
         self.assertEqual(l2_hash, "b14f39e019e5c5d0483d02be4251d04852416c13ab49da76a41410f21c986e3a")
 
