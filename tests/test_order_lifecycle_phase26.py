@@ -188,7 +188,7 @@ def test_phase26_funding_artifacts_bind_to_both_datasets(tmp_path):
     # historical byte representation for verification without rewriting
     # either the dataset or its immutable evidence record.
     phase18_lf = dataset.read_bytes()
-    phase18_crlf = phase18_lf.replace(b"\\r\\n", b"\\n").replace(b"\\n", b"\\r\\n")
+    phase18_crlf = phase18_lf.replace(b"\r\n", b"\\n").replace(b"\\n", b"\r\n")
     phase18_historical_bytes = tmp_path / "phase18_historical_crlf.json"
     phase18_historical_bytes.write_bytes(phase18_crlf)
 
