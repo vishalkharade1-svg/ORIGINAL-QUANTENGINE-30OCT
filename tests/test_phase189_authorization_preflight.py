@@ -179,6 +179,79 @@ class TestPhase189AuthorizationDocumentIntegrity(unittest.TestCase):
         self.assertTrue(reserved.is_armed())
 
 
+    def test_notional_cap_is_enforced_inside_authorization_gate(self):
+        import time
+        unsigned_text = """# QuantEngine Testnet Authorization
+- **Authorization ID**: P189-NOTIONAL-001
+- **Status**: OPERATOR_APPROVED
+- **Authorizing Operator**: SENIOR_QUANT_OPS_01
+- **Signed Timestamp UTC**: 2026-11-10T00:00:00Z
+- **Expiry Timestamp UTC**: 2026-11-11T00:00:00Z
+- **Operator Signature**: SIGNATURE_TO_BE_REPLACED
+"""
+        record = self.gate.parse_authorization_document(unsigned_text)
+        record.signature_payload = sign_record_for_test(record)
+        record = self.gate.parse_authorization_document(
+            unsigned_text.replace(
+                "SIGNATURE_TO_BE_REPLACED", record.signature_payload
+            )
+        )
+        configure_test_verification_key()
+        self.assertTrue(record.is_currently_valid())
+
+        decision = self.gate.check_and_reserve_order(
+            auth_record=record,
+            rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal("1"),
+            cl_ord_id="P189-NOTIONAL-OVER-CAP",
+            order_details={
+                "side": "buy", "limit_price": "100001",
+                "post_only": True,
+            },
+            post_only=True,
+        )
+        self.assertFalse(decision.authorized)
+        self.assertFalse(decision.is_armed())
+        self.assertTrue(any("Order notional" in reason
+                            for reason in decision.reasons))
+        self.assertFalse(self.ledger_file.exists())
+
+    def test_reservation_rejects_caller_override_of_ledger_identity(self):
+        unsigned_text = """# QuantEngine Testnet Authorization
+- **Authorization ID**: P189-OVERRIDE-001
+- **Status**: OPERATOR_APPROVED
+- **Authorizing Operator**: SENIOR_QUANT_OPS_01
+- **Signed Timestamp UTC**: 2026-11-10T00:00:00Z
+- **Expiry Timestamp UTC**: 2026-11-11T00:00:00Z
+- **Operator Signature**: SIGNATURE_TO_BE_REPLACED
+"""
+        record = self.gate.parse_authorization_document(unsigned_text)
+        record.signature_payload = sign_record_for_test(record)
+        record = self.gate.parse_authorization_document(
+            unsigned_text.replace(
+                "SIGNATURE_TO_BE_REPLACED", record.signature_payload
+            )
+        )
+        configure_test_verification_key()
+        decision = self.gate.check_and_reserve_order(
+            auth_record=record,
+            rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal("1"),
+            cl_ord_id="P189-RESERVED-ID",
+            order_details={
+                "side": "buy", "limit_price": "50000",
+                "post_only": True, "cl_ord_id": "P189-ATTACKER-ID",
+            },
+            post_only=True,
+        )
+        self.assertFalse(decision.authorized)
+        self.assertFalse(self.ledger_file.exists())
+
+
 class TestPhase189EndpointIsolationAndAmbiguity(unittest.TestCase):
     """Test Suite 2: Absolute Production Endpoint Isolation."""
 
