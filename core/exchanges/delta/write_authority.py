@@ -162,8 +162,9 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
                                  ) -> WriteAuthorityToken:
     """Arm a transport write from an armed testnet authorization decision.
 
-    Requires an ``AuthorizationDecision`` minted by
-    ``TestnetAuthorizationGate.evaluate_preflight`` (``is_armed()``).
+    Requires a sealed ``AuthorizationDecision`` minted only by
+    ``TestnetAuthorizationGate.check_and_reserve_order`` after the atomic
+    persistent reservation succeeds.
     """
     is_armed = getattr(decision, "is_armed", None)
     if not callable(is_armed) or not decision.is_armed():
