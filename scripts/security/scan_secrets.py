@@ -216,7 +216,7 @@ def scan_env_history(root: Path) -> list[str]:
             if not record:
                 continue
             try:
-                status, relative = record.split("\\t", 1)
+                status, relative = record.split("\t", 1)
             except ValueError as exc:
                 raise RuntimeError(
                     "history scan received an invalid Git path record"
