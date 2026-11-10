@@ -20,11 +20,16 @@ The schema is quantengine.expiry_squeeze.event.v1 and stores:
   provider symbol where applicable);
 - provider-normalized payload, previous-event hash, and event hash.
 
-The journal is JSONL, strict-JSON (NaN/Infinity rejected), append-only, and
-fsynced after each event. Its SHA-256 chain is verified on every restart.
-A truncated, malformed, out-of-order, cross-session, or tampered journal is
-rejected; it is never silently repaired. One writer owns each session file.
-Hard event and byte budgets stop capture without deleting earlier evidence.
+The journal is JSONL, strict-JSON (NaN/Infinity rejected), append-only through
+the recorder API, and fsynced after each event. Its SHA-256 chain is verified
+on every restart. A truncated, malformed, out-of-order, cross-session, or
+modified-without-rehash journal is rejected; it is never silently repaired.
+This hash chain detects accidental changes and edits that do not recompute the
+chain. It is NOT a digital signature or an adversarial tamper-proof anchor: an
+actor able to rewrite the entire file can recompute the chain. A future
+certification step must externally sign or anchor the final session digest.
+One writer owns each session file. Hard event and byte budgets stop capture
+without deleting earlier evidence.
 
 ## Candidate handling
 
