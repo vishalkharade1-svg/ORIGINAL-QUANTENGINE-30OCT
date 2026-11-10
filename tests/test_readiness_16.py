@@ -544,18 +544,11 @@ class TestFrozenRecords(unittest.TestCase):
         self.assertIn("NO-GO", text_m)
 
     def test_strategy_hash_pinned(self):
-        # Phase 22 registered versioned identity (Phase-165
-        # architecture; see
-        # reports/PHASE22_STRATEGY_IDENTITY_BASELINE.json): the
-        # Phase-14 pooled identity stays the historical record; live
-        # registration covers the LF-canonical alpha core and runtime
-        # infrastructure composites. Any strategy modification (or
-        # file-list change) fails loudly and must be re-registered
-        # deliberately.
         from core.research.strategy_identity import (
             HISTORICAL_PHASE14_STRATEGY_HASH,
             get_versioned_identities,
         )
+        from tests.strategy_identity_evidence import assert_unregistered_identity
         files = [
             "core/execution/entry_model.py",
             "core/setup/trade_setup_builder.py",
@@ -567,16 +560,10 @@ class TestFrozenRecords(unittest.TestCase):
             "core/paper_trading/paper_trading_engine.py",
             "config/risk_settings.py",
         ]
-        ident = get_versioned_identities(ROOT)
         art = load_p14()
-        self.assertEqual(art["strategy_hash"],
-                         HISTORICAL_PHASE14_STRATEGY_HASH)
+        self.assertEqual(art["strategy_hash"], HISTORICAL_PHASE14_STRATEGY_HASH)
         self.assertEqual(art["strategy_files"], files)
-        self.assertEqual(
-            ident["strategy_core"]["sha256"], PHASE22_CORE_SHA256)
-        self.assertEqual(
-            ident["runtime_infrastructure"]["sha256"],
-            PHASE22_INFRA_SHA256)
+        assert_unregistered_identity(self, get_versioned_identities(ROOT), ROOT)
 
 
 if __name__ == "__main__":
