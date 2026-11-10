@@ -452,6 +452,12 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         payload=payload,
     )
     assert token.kind == "TESTNET_EXPERIMENT"
+    with pytest.raises(TransportWriteAuthorityError, match="already minted"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload=payload,
+        )
 
     forged_decisions = (
         replace(reserved, authorized_product_id=999),
