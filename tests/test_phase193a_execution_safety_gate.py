@@ -459,6 +459,22 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
             payload=payload,
         )
 
+    cancel_payload = {"id": 12345, "product_id": 84}
+    cancel_token = token_for_testnet_experiment(
+        reserved,
+        "https://cdn-ind.testnet.deltaex.org",
+        payload=cancel_payload,
+        method="DELETE",
+    )
+    assert cancel_token.method == "DELETE"
+    with pytest.raises(TransportWriteAuthorityError, match="DELETE"):
+        token_for_testnet_experiment(
+            reserved,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload=cancel_payload,
+            method="DELETE",
+        )
+
     forged_decisions = (
         replace(reserved, authorized_product_id=999),
         replace(reserved, authorized_order_size_contracts=Decimal("2.0")),
