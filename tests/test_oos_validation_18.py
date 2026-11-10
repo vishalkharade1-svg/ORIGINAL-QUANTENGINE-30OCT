@@ -111,14 +111,22 @@ class TestStrategyIdentity(unittest.TestCase):
     def test_no_strategy_mutation_after_runs(self):
         from core.research.oos_validation.execution import run_frozen_oos
         from core.research.strategy_identity import get_versioned_identities
+        from tests.strategy_identity_evidence import assert_unregistered_identity
+
+        before = get_versioned_identities(ROOT)
+        assert_unregistered_identity(self, before, ROOT)
         rows, _ = fresh_rows_asc()
         run_frozen_oos(rows[:300])
-        ident = get_versioned_identities(ROOT)
+        after = get_versioned_identities(ROOT)
+        assert_unregistered_identity(self, after, ROOT)
+        self.assertEqual(before["strategy_core"]["sha256"],
+                         after["strategy_core"]["sha256"])
+        self.assertEqual(before["runtime_infrastructure"]["sha256"],
+                         after["runtime_infrastructure"]["sha256"])
         self.assertEqual(
-            ident["strategy_core"]["sha256"], PHASE22_CORE_SHA256)
-        self.assertEqual(
-            ident["runtime_infrastructure"]["sha256"],
-            PHASE22_INFRA_SHA256)
+            before["composite_legacy_9_files"]["canonical_lf_sha256"],
+            after["composite_legacy_9_files"]["canonical_lf_sha256"],
+        )
 
 
 # --------------------------------------------------
