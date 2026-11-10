@@ -136,6 +136,17 @@ class TestBuildPayload(unittest.TestCase):
                 intent(direction="SIDEWAYS"), contract()
             )
 
+    def test_bearish_brackets_must_be_on_correct_sides_of_entry(self):
+        executor = self._executor()
+        with self.assertRaises(InvalidContractError):
+            executor._validated_payload(intent(direction="BEARISH"), contract())
+
+        payload = executor._validated_payload(
+            intent(direction="BEARISH", stop_loss=80500, take_profit=79500),
+            contract(),
+        )
+        self.assertEqual(payload["side"], "sell")
+
     def test_short_maps_to_sell(self):
         payload = self._executor().build_payload(
             intent(direction="BEARISH"), contract()
