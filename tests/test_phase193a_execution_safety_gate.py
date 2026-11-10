@@ -393,3 +393,79 @@ def test_corrupt_ledger_fails_closed(tmp_path: Path):
     )
     assert not dec.authorized
     assert any("corrupted" in r.lower() or "unparseable" in r.lower() for r in dec.reasons)
+
+def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Path):
+    """Preflight cannot write; a reserved decision cannot be altered via dataclasses.replace."""
+    from dataclasses import replace
+    from core.exchanges.delta.write_authority import (
+        TransportWriteAuthorityError,
+        token_for_testnet_experiment,
+    )
+
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "sealed-ledger.jsonl")
+    auth = _create_approved_auth_record()
+
+    preflight = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1.0"),
+        post_only=True,
+    )
+    assert preflight.authorized
+    assert not preflight.is_armed()
+    with pytest.raises(TransportWriteAuthorityError):
+        token_for_testnet_experiment(
+            preflight,
+            "https://cdn-ind.testnet.deltaex.org",
+            payload={"product_id": 84, "size": "1.0", "side": "buy"},
+        )
+
+    reserved = gate.check_and_reserve_order(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1.0"),
+        cl_ord_id="ORD-SEALED-01",
+        order_details={
+            "side": "buy",
+            "limit_price": "80000",
+            "post_only": True,
+        },
+        post_only=True,
+    )
+    assert reserved.is_armed()
+
+    payload = {
+        "product_id": 84,
+        "size": "1.0",
+        "side": "buy",
+        "limit_price": "80000",
+        "post_only": True,
+        "client_order_id": "ORD-SEALED-01",
+    }
+    token = token_for_testnet_experiment(
+        reserved,
+        "https://cdn-ind.testnet.deltaex.org",
+        payload=payload,
+    )
+    assert token.kind == "TESTNET_EXPERIMENT"
+
+    forged_decisions = (
+        replace(reserved, authorized_product_id=999),
+        replace(reserved, authorized_order_size_contracts=Decimal("2.0")),
+        replace(reserved, authorized_symbol="ETHUSD"),
+        replace(reserved, authorized_client_order_id="ORD-ATTACK"),
+        replace(reserved, authorized=False),
+    )
+    for forged in forged_decisions:
+        assert not forged.is_armed()
+        with pytest.raises(TransportWriteAuthorityError):
+            token_for_testnet_experiment(
+                forged,
+                "https://cdn-ind.testnet.deltaex.org",
+                payload=payload,
+            )
+
