@@ -969,13 +969,13 @@ class TestnetAuthorizationGate:
                     current_open_orders=len(self._active_open_orders),
                     current_realized_loss_usd=decision.current_realized_loss_usd,
                 )
-            if notional_usd > self.scope.max_order_notional_usd:
+            if notional_usd > MAX_TESTNET_ORDER_NOTIONAL_USD:
                 return AuthorizationDecision(
                     authorized=False,
                     state=AuthorizationState.INVALID_SCOPE,
                     reasons=[
                         f"Order notional (${notional_usd}) exceeds maximum authorized "
-                        f"(${self.scope.max_order_notional_usd})"
+                        f"(${MAX_TESTNET_ORDER_NOTIONAL_USD})"
                     ],
                     cumulative_orders_placed=decision.cumulative_orders_placed,
                     current_open_orders=len(self._active_open_orders),
