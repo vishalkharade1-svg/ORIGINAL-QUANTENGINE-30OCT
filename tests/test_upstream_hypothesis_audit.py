@@ -46,8 +46,8 @@ def _tracked_jsons():
 
 
 class TestNoFindingToHypothesisEdge(unittest.TestCase):
-    def test_only_explicit_admission_boundaries_construct_records_in_core(self):
-        require_git_fact(self, 'test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_explicit_admission_boundaries_construct_records_in_core')
+    def test_only_coercion_constructs_records_in_core(self):
+        require_git_fact(self, 'test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_coercion_constructs_records_in_core')
         import subprocess
         out = subprocess.run(
             ["git", "grep", "-l", "HypothesisRecord(",
