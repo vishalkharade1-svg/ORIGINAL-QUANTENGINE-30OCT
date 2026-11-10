@@ -407,6 +407,8 @@ class TestReleaseRecords175(unittest.TestCase):
             self.assertNotEqual(doc.get("system_status"), "PRODUCTION_READY")
 
     def test_historical_records_are_preserved_and_labelled(self):
+        from tests.evidence_mode import require_history_depth
+        require_history_depth(self, "phase175.historical_records")
         for rel, expected in HISTORICAL_PINS.items():
             p = ROOT / rel
             self.assertTrue(p.exists(), f"historical record missing: {rel}")
