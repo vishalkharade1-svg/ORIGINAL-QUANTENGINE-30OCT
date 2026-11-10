@@ -124,6 +124,7 @@ def test_uninitialized_book_blocks_preflight_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=uninit_tracker,
     )
     assert not dec.authorized
@@ -137,6 +138,7 @@ def test_uninitialized_book_blocks_preflight_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-UNINIT-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         book_tracker=uninit_tracker,
     )
     assert not res_dec.authorized
@@ -179,6 +181,7 @@ def test_crossed_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=tracker,
     )
     assert not dec.authorized
@@ -191,6 +194,7 @@ def test_crossed_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-CROSSED-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         book_tracker=tracker,
     )
     assert not res_dec.authorized
@@ -224,6 +228,7 @@ def test_stale_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=tracker,
     )
     assert not dec.authorized
@@ -236,6 +241,7 @@ def test_stale_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-STALE-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         book_tracker=tracker,
     )
     assert not res_dec.authorized
@@ -274,6 +280,7 @@ def test_missing_sequence_gap_blocks_authorization(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=tracker,
     )
     assert not dec.authorized
@@ -357,6 +364,7 @@ def test_ambiguous_orders_cannot_be_blindly_resubmitted_and_retain_risk(tmp_path
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-AMBIG-02",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
     )
     assert not res2.authorized
     assert any("Open order limit exceeded" in r or "ambiguous" in r for r in res2.reasons)
@@ -369,6 +377,7 @@ def test_ambiguous_orders_cannot_be_blindly_resubmitted_and_retain_risk(tmp_path
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-AMBIG-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
     )
     assert not res3.authorized
     assert any("ambiguous" in r.lower() or "duplicate" in r.lower() for r in res3.reasons)
