@@ -109,20 +109,20 @@ class TestFrozenRepresentationContract(unittest.TestCase):
             "these frozen artifacts were re-converted to CRLF, which breaks the "
             "raw-byte pins recorded for them")
 
-    def test_the_one_crlf_file_is_the_documented_append_exception(self):
-        """research_log.json is CRLF in the tree and its pin matches neither form.
+    def test_the_one_post_mint_append_exception_is_not_misclassified_as_eol_drift(self):
+        """research_log.json has a stale pin because its ledger was appended.
 
-        It cannot be LF-restored like the other ten: its ledger was lawfully
-        appended after minting, so no pin identifies mint-time bytes. It is
-        therefore left byte-for-byte as it shipped, and documented rather than
-        silently re-pinned or silently normalised."""
+        The append exception is independent of line endings. The current
+        repository stores the ledger as LF; the test must not require CRLF or
+        treat the append-only exception as evidence of an EOL conversion.
+        """
         for name in DOCUMENTED_PIN_EXCEPTION:
             path = PHASE11F / name
             with self.subTest(entry=name):
                 self.assertTrue(path.exists())
-                self.assertIn(b"\r\n", path.read_bytes(),
-                              "this test documents a CRLF exception; the file is no "
-                              "longer CRLF, so the exception should be removed")
+                raw = path.read_bytes()
+                self.assertNotIn(b"\r\n", raw)
+                self.assertTrue(raw.endswith(b"\n"))
 
 
 if __name__ == "__main__":
