@@ -328,10 +328,12 @@ class TestnetStateReconciler:
                 # Some venue order responses omit remaining size. Derive it
                 # only when absent; an explicitly supplied inconsistent
                 # remaining quantity is contradictory evidence.
-                ex_unfilled = Decimal(str(
-                    raw_unfilled if raw_unfilled is not None
-                    else max(Decimal("0"), ex_total - ex_filled)
-                ))
+                if raw_unfilled is not None:
+                    ex_unfilled = Decimal(str(raw_unfilled))
+                elif ex_total.is_finite() and ex_filled.is_finite():
+                    ex_unfilled = max(Decimal("0"), ex_total - ex_filled)
+                else:
+                    ex_unfilled = Decimal("NaN")
                 ex_order_id = ex_order.get("id") or ex_order.get("order_id")
 
                 # Check quantity contradiction, including venue-internal
