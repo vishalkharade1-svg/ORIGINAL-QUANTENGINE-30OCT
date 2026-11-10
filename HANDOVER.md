@@ -30,3 +30,8 @@ Working branch: `audit/deep-hardening-2026-11-10`
 - The gate now refuses incomplete order details and any extra caller-supplied fields; ledger identity, symbol, product, size, state, and timestamps cannot be overwritten through `order_details`.
 - Both bounded testnet experiment entry points verify that the live BTCUSD contract is operational and matches the signed contract-value scope before any write.
 - Added tests for notional-cap enforcement and attempted ledger-identity override. The focused Phase 206 workflow passed these gate, transport, live-safety, and capture regressions.
+
+### Authorization-boundary verification
+- The Phase 206 workflow completed successfully on the latest gate-hardening code: strict manifest, secret scan, LIVE gate, order executor, testnet authorization, transport authority, Phase 206/207 capture, and Phase 199/205 reconciliation steps all passed.
+- The run's manifest-refresh step committed the current source manifest; branch head after refresh: `3dcf721c9d3312573f57ffdd9cec6d8462b7f02d`.
+- A fresh full-suite run is being started against the manifest-current branch head. The earlier run was concurrent with the manifest refresh and therefore is not the full-suite result for this tree.
