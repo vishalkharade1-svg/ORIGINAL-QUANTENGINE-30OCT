@@ -19,6 +19,8 @@ on:
       - "scripts/security/scan_secrets.py"
       - "tests/test_secret_scan_phase0.py"
       - "tests/test_secret_scan_phase193b.py"
+      - "core/execution/live_safety_gate.py"
+      - "tests/test_live_block_11.py"
       - ".github/workflows/phase206-tests.yml"
 
 permissions:
@@ -64,6 +66,8 @@ jobs:
           python scripts/security/scan_secrets.py --check-staged
       - name: Run secret scanner regression tests
         run: python -m pytest -q tests/test_secret_scan_phase0.py tests/test_secret_scan_phase193b.py
+      - name: Run LIVE safety gate regressions
+        run: python -m pytest -q tests/test_live_block_11.py tests/test_safety_guards_11a.py
       - name: Run Phase 206 focused tests
         run: python -m pytest -q tests/test_phase206_historical_capture_pipeline.py
       - name: Run Phase 207 durable resume tests
