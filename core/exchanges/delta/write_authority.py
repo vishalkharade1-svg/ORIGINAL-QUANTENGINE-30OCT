@@ -36,6 +36,7 @@ state beyond the process mint.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from decimal import Decimal, InvalidOperation
 import hashlib
 import json
 import secrets
@@ -183,12 +184,16 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
     if resolved_method not in {"POST", "DELETE"}:
         raise TransportWriteAuthorityError("testnet write method must be POST or DELETE")
     try:
-        if int(payload.get("product_id")) != int(decision.authorized_product_id):
+        payload_product_id = Decimal(str(payload.get("product_id")))
+        authorized_product_id = Decimal(str(decision.authorized_product_id))
+        if (not payload_product_id.is_finite()
+                or payload_product_id != payload_product_id.to_integral_value()
+                or payload_product_id != authorized_product_id):
             raise TransportWriteAuthorityError(
                 "testnet payload product_id differs from the preflight-authorized product")
-    except (TypeError, ValueError):
+    except (InvalidOperation, TypeError, ValueError):
         raise TransportWriteAuthorityError(
-            "testnet payload has no valid product_id matching preflight")
+            "testnet payload has no valid integer product_id matching preflight")
 
     if resolved_method == "POST":
         required = {"product_id", "size", "side"}
@@ -198,7 +203,6 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
                 "testnet order payload missing required fields: " + ", ".join(missing))
         if str(payload.get("side", "")).lower() not in {"buy", "sell"}:
             raise TransportWriteAuthorityError("testnet order payload side must be buy or sell")
-        from decimal import Decimal, InvalidOperation
         try:
             size = Decimal(str(payload["size"]))
             authorized_size = Decimal(str(decision.authorized_order_size_contracts))
@@ -224,10 +228,13 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
             raise TransportWriteAuthorityError(
                 "testnet cancellation payload must contain only id and product_id")
         try:
-            if int(payload["id"]) <= 0:
-                raise ValueError("non-positive order id")
-        except (TypeError, ValueError):
-            raise TransportWriteAuthorityError("testnet cancellation requires a positive order id")
+            order_id = Decimal(str(payload["id"]))
+            if (not order_id.is_finite() or order_id <= 0
+                    or order_id != order_id.to_integral_value()):
+                raise ValueError("order id must be a positive integer")
+        except (InvalidOperation, TypeError, ValueError):
+            raise TransportWriteAuthorityError(
+                "testnet cancellation requires a positive integer order id")
     # A reserved testnet decision authorizes one placement token and one
     # cancellation token. Re-minting either method is refused, while the
     # same reservation can still safely cancel its one acknowledged order.
