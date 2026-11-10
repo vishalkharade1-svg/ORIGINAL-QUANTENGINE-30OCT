@@ -523,9 +523,9 @@ class DeltaOrderExecutor:
         floored DOWN to quantity_precision (never rounded up:
         rounding up would silently exceed the validated risk).
         A sub-representation epsilon (1e-9 relative) bridges
-        float-grid dust only — never a true half-step. Price
-        follows venue tick rounding; execute() revalidates the
-        built payload before any write (see _validated_payload).
+        float-grid dust only — never a true half-step. Price is
+        formatted to venue precision, then execute() requires exact
+        tick-grid alignment and refuses off-grid values before any write.
         """
 
         precision = contract.price_precision
