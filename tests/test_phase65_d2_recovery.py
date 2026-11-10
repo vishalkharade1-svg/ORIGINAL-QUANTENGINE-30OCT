@@ -13,8 +13,8 @@ def test_preserved_d2_hashes_and_shape():
         raw = p.read_bytes()
         # The recorded D2 pins were minted from CRLF bytes. The Git
         # repository now stores the same JSON content with LF endings.
-        assert b"\\r\\n" not in raw
-        historical_crlf = raw.replace(b"\\r\\n", b"\\n").replace(b"\\n", b"\\r\\n")
+        assert b"\r\n" not in raw
+        historical_crlf = raw.replace(b"\r\n", b"\\n").replace(b"\\n", b"\r\n")
         assert hashlib.sha256(historical_crlf).hexdigest() == expected
         bars = json.loads(raw)["candles"]
         assert len(bars) == 3000
