@@ -197,6 +197,14 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
         raise TransportWriteAuthorityError(
             "testnet payload has no valid integer product_id matching preflight")
 
+    details = dict(getattr(decision, "authorized_order_details", ()) or ())
+    required_details = ("side", "limit_price", "post_only")
+    missing_details = [key for key in required_details if key not in details]
+    if missing_details:
+        raise TransportWriteAuthorityError(
+            "testnet reservation does not bind required order details: %s"
+            % ", ".join(missing_details))
+
     if resolved_method == "POST":
         required = {"product_id", "size", "side"}
         missing = sorted(required.difference(payload))
@@ -216,9 +224,8 @@ def token_for_testnet_experiment(decision, base_url, *, payload,
         if decision.authorized_post_only and payload.get("post_only") is not True:
             raise TransportWriteAuthorityError(
                 "testnet payload must preserve the preflight-required post_only flag")
-        details = dict(getattr(decision, "authorized_order_details", ()) or ())
-        for key in ("side", "limit_price", "post_only"):
-            if key in details and str(payload.get(key)) != details[key]:
+        for key in required_details:
+            if str(payload.get(key)) != details[key]:
                 raise TransportWriteAuthorityError(
                     "testnet payload field %s differs from the reserved order details" % key)
         client_order_id = getattr(decision, "authorized_client_order_id", "")
