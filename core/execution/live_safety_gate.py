@@ -73,6 +73,8 @@ _AUDIT_COMPONENT = "LiveSafetyGate"
 # built to look armed. The secret is never logged, never
 # serialized, and never leaves the process.
 _MINT = secrets.token_hex(16)
+_LIVE_OPERATOR_AUTHORITY = object()
+_OFFLINE_TEST_AUTHORITY = object()
 
 
 # ==================================================
@@ -257,7 +259,7 @@ class SafetyDecision:
     # Only require() may mint operator-authorized decisions. Pure decide()
     # results are diagnostic verdicts, not transport capabilities.
     # test_armed() uses OFFLINE_TEST and is restricted at the write boundary.
-    _authority: str = field(default="", repr=False, compare=False)
+    _authority: object = field(default=None, repr=False, compare=False)
 
     # -------------------------------------------------
 
@@ -266,6 +268,11 @@ class SafetyDecision:
         """Alias operators/tests read naturally."""
 
         return self.allowed
+
+    @property
+    def offline_test_only(self):
+        """Whether this capability is the process-local offline test token."""
+        return self._authority is _OFFLINE_TEST_AUTHORITY
 
 
 # ==================================================
@@ -436,7 +443,7 @@ class LiveSafetyGate:
                 )
             )
 
-        decision = replace(decision, _authority="LIVE_OPERATOR")
+        decision = replace(decision, _authority=_LIVE_OPERATOR_AUTHORITY)
 
         log.warning(
             "LIVE_EXECUTION_ARMED mode=%s component=%s",
@@ -475,7 +482,7 @@ class LiveSafetyGate:
                 component,
             )
 
-        if decision._authority not in {"LIVE_OPERATOR", "OFFLINE_TEST"}:
+        if decision._authority is not _LIVE_OPERATOR_AUTHORITY and decision._authority is not _OFFLINE_TEST_AUTHORITY:
             return cls._refuse_decision(
                 decision,
                 "decision is a diagnostic verdict, not an armed capability",
@@ -603,7 +610,7 @@ class LiveSafetyGate:
             live_execute=True,
             has_credentials=True,
         )
-        return replace(decision, _authority="OFFLINE_TEST")
+        return replace(decision, _authority=_OFFLINE_TEST_AUTHORITY)
 
     # -------------------------------------------------
 
