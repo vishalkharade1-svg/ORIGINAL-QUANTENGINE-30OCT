@@ -21,6 +21,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from enum import Enum
 import hashlib
+import hmac
 import base64
 import json
 import os
@@ -398,9 +399,50 @@ class AuthorizationDecision:
     authorized_order_details: tuple = ()
     authorized_client_order_id: str = ""
     _mint_token: str = field(default="", repr=False)
+    _seal: str = field(default="", repr=False)
+
+    def _seal_payload(self) -> bytes:
+        payload = {
+            "authorized": self.authorized,
+            "state": self.state.value if isinstance(self.state, Enum) else str(self.state),
+            "reasons": [str(reason) for reason in self.reasons],
+            "cumulative_orders_placed": self.cumulative_orders_placed,
+            "current_open_orders": self.current_open_orders,
+            "current_realized_loss_usd": str(self.current_realized_loss_usd),
+            "timestamp_utc": self.timestamp_utc,
+            "authorized_symbol": self.authorized_symbol,
+            "authorized_product_id": self.authorized_product_id,
+            "authorized_order_size_contracts": (
+                str(self.authorized_order_size_contracts)
+                if self.authorized_order_size_contracts is not None else None
+            ),
+            "authorized_post_only": self.authorized_post_only,
+            "authorized_order_details": [
+                [str(key), str(value)] for key, value in self.authorized_order_details
+            ],
+            "authorized_client_order_id": self.authorized_client_order_id,
+        }
+        return json.dumps(
+            payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode("utf-8")
+
+    def _expected_seal(self) -> str:
+        return hmac.new(
+            _GATE_MINT.encode("ascii"), self._seal_payload(), hashlib.sha256
+        ).hexdigest()
 
     def is_armed(self) -> bool:
-        return self.authorized and self._mint_token == _GATE_MINT
+        if not self.authorized or self._mint_token != _GATE_MINT or not self._seal:
+            return False
+        return hmac.compare_digest(self._seal, self._expected_seal())
+
+
+def _mint_reserved_decision(**kwargs) -> AuthorizationDecision:
+    """Create the sole write-capable decision: an atomic ledger reservation."""
+    decision = AuthorizationDecision(**kwargs)
+    if decision.authorized and decision._mint_token == _GATE_MINT:
+        object.__setattr__(decision, "_seal", decision._expected_seal())
+    return decision
 
 
 class TestnetAuthorizationGate:
@@ -713,7 +755,7 @@ class TestnetAuthorizationGate:
             reasons.append("Market data order book validation required by scope, but no book tracker provided")
 
         is_authorized = len(reasons) == 0
-        mint_token = _GATE_MINT if is_authorized else ""
+        # Preflight is diagnostic only. It never grants write authority; only\n        # check_and_reserve_order() may mint a transport capability.\n        mint_token = ""
 
         return AuthorizationDecision(
             authorized=is_authorized,
@@ -840,7 +882,7 @@ class TestnetAuthorizationGate:
                 "details": reservation_data,
             }
 
-            return AuthorizationDecision(
+            return _mint_reserved_decision(
                 authorized=True,
                 state=auth_record.state,
                 reasons=[],
