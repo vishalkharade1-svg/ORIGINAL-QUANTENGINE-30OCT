@@ -62,6 +62,31 @@ from authorization_test_utils import configure_test_verification_key, sign_recor
 
 TESTNET_REST = "https://cdn-ind.testnet.deltaex.org"
 
+# Offline venue fixtures shared by the script-flow tests. Values are chosen
+# to satisfy the explicitly bounded $100 notional cap without contacting
+# Delta or relying on operator credentials.
+_PRODUCTS_ROW = {
+    "id": 84,
+    "symbol": "BTCUSD",
+    "contract_type": "perpetual_futures",
+    "state": "live",
+    "trading_status": "operational",
+    "tick_size": "0.1",
+    "contract_size": "0.001",
+}
+_TOUCH_BOOK = {
+    "result": {
+        "buy": [{"price": "50000.5"}],
+        "sell": [{"price": "50010.0"}],
+    }
+}
+_ETH_TOUCH_BOOK = {
+    "result": {
+        "buy": [{"price": "3500.00"}],
+        "sell": [{"price": "3500.05"}],
+    }
+}
+
 PENDING_CONTENT = (
     "# TESTNET ORDER EXPERIMENT AUTHORIZATION\n"
     "## Status: PENDING_OPERATOR_APPROVAL\n"
