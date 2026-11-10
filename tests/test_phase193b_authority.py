@@ -302,8 +302,13 @@ class TestAdapterPassesAuthorityToEnforcingRest(unittest.TestCase):
     def test_place_order_writes_once_through_enforced_rest(self):
         token = self._armed_token()
         self.exchange.place_order(
-            {"product_id": 84, "size": 1, "side": "buy",
-             "post_only": True}, authority=token)
+            {
+                "product_id": 84, "size": "1", "side": "buy",
+                "limit_price": "80000", "post_only": True,
+                "client_order_id": "P193B-ORDER-01",
+            },
+            authority=token,
+        )
         self.assertEqual([c[0] for c in self.transport.calls],
                          ["post"])
 
