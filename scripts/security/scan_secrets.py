@@ -164,13 +164,11 @@ def scan_staged(root: Path) -> list[Finding]:
 def scan_env_history(root: Path) -> list[str]:
     """Return commits whose changed historical blobs contain known credentials.
 
-    Scan every reachable commit, not just the root .env path. The prior
-    implementation followed only .env and therefore missed credentials
-    committed in paths such as env/.env.py or ordinary Python modules.
-    Git's pickaxe limits inspection to commits whose changed lines mention a
-    known credential identifier/private-key marker; each changed blob in those
-    commits is then decoded by content and passed through the same rules as
-    the worktree scanner. Only commit IDs are returned, never secret values.
+    Scan every reachable commit, not just the root .env path. Candidate
+    commits are found by credential identifiers, then each changed non-deleted
+    blob is decoded and checked by the same content rules as the worktree.
+    History inspection fails closed when Git is unavailable or shallow.
+    Only commit IDs are returned; secret values are never emitted.
     """
     history_pattern = (
         r"DELTA_API_(KEY|SECRET)|"
@@ -181,12 +179,22 @@ def scan_env_history(root: Path) -> list[str]:
         r"BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY"
     )
     try:
+        shallow = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=root, check=True, capture_output=True, text=True, timeout=30,
+        ).stdout.strip().lower()
+        if shallow == "true":
+            raise RuntimeError(
+                "history scan requires a full, non-shallow Git checkout"
+            )
         revisions = subprocess.run(
             ["git", "log", "--all", "--format=%H", "-G", history_pattern, "--", "."],
             cwd=root, check=True, capture_output=True, text=True, timeout=120,
         ).stdout.splitlines()
-    except (OSError, subprocess.SubprocessError):
-        return []
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise RuntimeError(
+            "history scan could not enumerate Git commits; refusing to pass"
+        ) from exc
 
     unsafe: list[str] = []
     seen: set[str] = set()
@@ -196,22 +204,35 @@ def scan_env_history(root: Path) -> list[str]:
         seen.add(revision)
         try:
             listing = subprocess.run(
-                ["git", "diff-tree", "--root", "--no-commit-id", "--name-only",
+                ["git", "diff-tree", "--root", "--no-commit-id", "--name-status",
                  "-r", "--no-renames", revision],
                 cwd=root, check=True, capture_output=True, text=True, timeout=30,
             ).stdout.splitlines()
-        except (OSError, subprocess.SubprocessError):
-            continue
-        for relative in listing:
-            if not relative:
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise RuntimeError(
+                "history scan could not enumerate changed paths for commit " + revision
+            ) from exc
+        for record in listing:
+            if not record:
+                continue
+            try:
+                status, relative = record.split("\\t", 1)
+            except ValueError as exc:
+                raise RuntimeError(
+                    "history scan received an invalid Git path record"
+                ) from exc
+            if status == "D":
                 continue
             try:
                 raw = subprocess.run(
                     ["git", "show", f"{revision}:{relative}"],
                     cwd=root, check=True, capture_output=True, timeout=30,
                 ).stdout
-            except (OSError, subprocess.SubprocessError):
-                continue
+            except (OSError, subprocess.SubprocessError) as exc:
+                raise RuntimeError(
+                    "history scan could not read changed blob " + relative
+                    + " at commit " + revision
+                ) from exc
             decoded = decode_bytes(raw)
             if decoded.binary:
                 continue
