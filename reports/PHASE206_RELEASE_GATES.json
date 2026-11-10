@@ -44,7 +44,9 @@
     "release_archive": "NOT_BUILT",
     "fresh_extraction": "NOT_RUN",
     "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
-    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42791665560"
+    "ci_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42791665560",
+    "secret_scanner_fail_closed": "TESTED_NEW_FAILURE_PATH_REGRESSIONS_PASS",
+    "focused_security_run": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/42795467839"
   },
   "verification_environment": {
     "python": "3.12.16",
