@@ -1,6 +1,7 @@
 name: Deep audit full regression
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - audit/deep-hardening-2026-11-10
