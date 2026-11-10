@@ -42,10 +42,10 @@ import sys
 from typing import Iterable
 
 try:  # imported as ``scripts.security.scan_secrets`` (namespace package)
-    from scripts.security.text_decode import read_text_file  # type: ignore
+    from scripts.security.text_decode import decode_bytes, read_text_file  # type: ignore
 except ImportError:  # direct execution or spec_from_file_location loading
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from text_decode import read_text_file  # type: ignore
+    from text_decode import decode_bytes, read_text_file  # type: ignore
 
 
 _SKIP_DIRS = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".kilo"}
@@ -162,39 +162,65 @@ def scan_staged(root: Path) -> list[Finding]:
 
 
 def scan_env_history(root: Path) -> list[str]:
-    """Return commits whose historical .env has a known non-empty Delta key."""
+    """Return commits whose changed historical blobs contain known credentials.
+
+    Scan every reachable commit, not just the root .env path. The prior
+    implementation followed only .env and therefore missed credentials
+    committed in paths such as env/.env.py or ordinary Python modules.
+    Git's pickaxe limits inspection to commits whose changed lines mention a
+    known credential identifier/private-key marker; each changed blob in those
+    commits is then decoded by content and passed through the same rules as
+    the worktree scanner. Only commit IDs are returned, never secret values.
+    """
+    history_pattern = (
+        r"DELTA_API_(KEY|SECRET)|"
+        r"DELTA_INDIA_TESTNET_API_(KEY|SECRET)|"
+        r"DELTA_SANDBOX_API_(KEY|SECRET)|"
+        r"OPENAI_API_KEY|ANTHROPIC_API_KEY|OPENROUTER_API_KEY|"
+        r"CONTROL_API_TOKEN|REMOTE_(VIEW|CONTROL|EMERGENCY)_TOKEN|"
+        r"BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY"
+    )
     try:
         revisions = subprocess.run(
-            ["git", "rev-list", "--all", "--", ".env"],
-            cwd=root,
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=30,
+            ["git", "log", "--all", "--format=%H", "-G", history_pattern, "--", "."],
+            cwd=root, check=True, capture_output=True, text=True, timeout=120,
         ).stdout.splitlines()
     except (OSError, subprocess.SubprocessError):
         return []
 
     unsafe: list[str] = []
+    seen: set[str] = set()
     for revision in revisions:
+        if not revision or revision in seen:
+            continue
+        seen.add(revision)
         try:
-            content = subprocess.run(
-                ["git", "show", f"{revision}:.env"],
-                cwd=root,
-                check=True,
-                capture_output=True,
-                text=True,
-                timeout=30,
-            ).stdout
+            listing = subprocess.run(
+                ["git", "diff-tree", "--root", "--no-commit-id", "--name-only",
+                 "-r", "--no-renames", revision],
+                cwd=root, check=True, capture_output=True, text=True, timeout=30,
+            ).stdout.splitlines()
         except (OSError, subprocess.SubprocessError):
             continue
-        if any(
-            _KNOWN_SECRET.match(line)
-            for line in content.splitlines()
-        ):
-            unsafe.append(revision)
+        for relative in listing:
+            if not relative:
+                continue
+            try:
+                raw = subprocess.run(
+                    ["git", "show", f"{revision}:{relative}"],
+                    cwd=root, check=True, capture_output=True, timeout=30,
+                ).stdout
+            except (OSError, subprocess.SubprocessError):
+                continue
+            decoded = decode_bytes(raw)
+            if decoded.binary:
+                continue
+            path = Path(relative)
+            findings = _scan_text_lines(relative, path.name, path.suffix, decoded.text)
+            if findings:
+                unsafe.append(revision)
+                break
     return unsafe
-
 
 # Operator-local runtime configuration that release packaging excludes by
 # policy (``scripts/generate_manifest.py``).  This set is used ONLY to label
