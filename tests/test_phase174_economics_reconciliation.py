@@ -388,8 +388,8 @@ class TestPhase174EconomicsReconciliation(unittest.TestCase):
 
         pq_hash = hashlib.sha256(pq.read_bytes()).hexdigest().lower()
         l2_raw = l2.read_bytes()
-        self.assertNotIn(b"\\r\\n", l2_raw)
-        l2_historical_crlf = l2_raw.replace(b"\\r\\n", b"\\n").replace(b"\\n", b"\\r\\n")
+        self.assertNotIn(b"\r\n", l2_raw)
+        l2_historical_crlf = l2_raw.replace(b"\r\n", b"\\n").replace(b"\\n", b"\r\n")
         l2_hash = hashlib.sha256(l2_historical_crlf).hexdigest().lower()
 
         self.assertEqual(pq_hash, "3c6836848e4c78a11422f103aacf997d438c5ef9050902f5f376429b71c8933f")
