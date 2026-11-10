@@ -335,8 +335,12 @@ def test_ambiguous_orders_cannot_be_blindly_resubmitted_and_retain_risk(tmp_path
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-AMBIG-01",
+        order_details={
+            "side": "buy", "limit_price": "80000", "post_only": True,
+        },
+        post_only=True,
     )
-    assert res.authorized
+    assert res.is_armed()
 
     # Simulate submission timeout -> transition to ambiguous
     gate.register_ack_timeout("ORD-AMBIG-01")
@@ -434,17 +438,12 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         cl_ord_id="ORD-UNBOUND-01",
         post_only=True,
     )
-    assert unbound.is_armed()
-    with pytest.raises(TransportWriteAuthorityError, match="does not bind required order details"):
-        token_for_testnet_experiment(
-            unbound,
-            "https://cdn-ind.testnet.deltaex.org",
-            payload={
-                "product_id": 84, "size": "1.0", "side": "buy",
-                "limit_price": "80000", "post_only": True,
-                "client_order_id": "ORD-UNBOUND-01",
-            },
-        )
+    # An incomplete reservation must not persist, consume quota, or arm.
+    assert not unbound.authorized
+    assert not unbound.is_armed()
+    assert any("requires exactly side, limit_price, and post_only" in reason
+               for reason in unbound.reasons)
+    assert not (tmp_path / "unbound-ledger.jsonl").exists()
 
     reserved = gate.check_and_reserve_order(
         auth_record=auth,
