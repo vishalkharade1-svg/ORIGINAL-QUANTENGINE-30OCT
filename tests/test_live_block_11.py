@@ -323,6 +323,63 @@ class TestLiveSafetyGateMatrix(unittest.TestCase):
         )
         self.assertTrue(armed.allowed)
 
+    def test_string_false_live_flags_fail_closed(self):
+        """String false values must never become LIVE arming permission."""
+        for flag in ("allow_live", "live_execute"):
+            params = {
+                "mode": ExecutionMode.LIVE,
+                "allow_live": True,
+                "live_execute": True,
+                "api_key": "SYNTHETIC",
+                "api_secret": "SYNTHETIC",
+            }
+            params[flag] = "false"
+            decision = LiveSafetyGate.decide(**params)
+            self.assertFalse(decision.allowed, msg=flag)
+            with self.assertRaises(LiveBlockedError, msg=flag):
+                LiveSafetyGate.require(**params, component="string-false-test")
+
+    def test_invalid_live_flag_values_fail_closed(self):
+        for flag in ("allow_live", "live_execute"):
+            params = {
+                "mode": ExecutionMode.LIVE,
+                "allow_live": True,
+                "live_execute": True,
+                "api_key": "SYNTHETIC",
+                "api_secret": "SYNTHETIC",
+            }
+            params[flag] = "sometimes"
+            with self.assertRaises(ConfigurationError, msg=flag):
+                LiveSafetyGate.decide(**params)
+
+    def test_string_false_explicit_credential_verdict_blocks(self):
+        decision = LiveSafetyGate.decide(
+            mode=ExecutionMode.LIVE,
+            allow_live=True,
+            live_execute=True,
+            has_credentials="false",
+        )
+        self.assertFalse(decision.allowed)
+        self.assertIn("credentials missing", decision.reason)
+
+    def test_from_settings_does_not_truthify_string_false(self):
+        from types import SimpleNamespace
+
+        settings = SimpleNamespace(
+            ALLOW_LIVE="false",
+            LIVE_EXECUTE="false",
+            PAPER_MODE=False,
+            LIVE_MODE=False,
+            EXECUTION_MODE="LIVE",
+            API_KEY="SYNTHETIC",
+            API_SECRET="SYNTHETIC",
+        )
+        inputs = LiveSafetyGate.from_settings(settings_obj=settings)
+        decision = LiveSafetyGate.decide(**inputs)
+        self.assertFalse(decision.allowed)
+        self.assertFalse(decision.allow_live)
+        self.assertFalse(decision.live_execute)
+
     def test_unknown_mode_decide_rejected(self):
         with self.assertRaises(ConfigurationError):
             LiveSafetyGate.decide(mode="BOGUS")
