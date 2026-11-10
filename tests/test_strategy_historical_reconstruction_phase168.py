@@ -10,11 +10,26 @@ from core.research.historical_reconstruction import (
     reconstruct_strategy_history,
 )
 
+try:
+    from tests.evidence_mode import require_git_fact
+except ImportError:
+    from evidence_mode import require_git_fact
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
     def test_historical_reconstruction_structure_and_milestones(self):
+        require_git_fact(
+            self,
+            "test_strategy_historical_reconstruction_phase168::baseline_milestones",
+            required_commit="3f19895",
+        )
+        require_git_fact(
+            self,
+            "test_strategy_historical_reconstruction_phase168::runtime_milestone",
+            required_commit="fbeb860",
+        )
         report = reconstruct_strategy_history(ROOT)
         self.assertEqual(report["schema"], "quantengine.strategy-historical-reconstruction.v1")
         self.assertEqual(report["phase"], 168)
@@ -52,6 +67,11 @@ class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
         )
 
     def test_file_reconciliation_layer_and_diffs(self):
+        require_git_fact(
+            self,
+            "test_strategy_historical_reconstruction_phase168::file_reconciliation",
+            required_commit="3f19895",
+        )
         report = reconstruct_strategy_history(ROOT)
         reconciled = {f["file"]: f for f in report["file_reconciliation"]}
         self.assertEqual(len(reconciled), 9)
