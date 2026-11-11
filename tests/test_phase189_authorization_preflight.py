@@ -181,13 +181,15 @@ class TestPhase189AuthorizationDocumentIntegrity(unittest.TestCase):
 
 
     def test_notional_cap_is_enforced_inside_authorization_gate(self):
-        import time
-        unsigned_text = """# QuantEngine Testnet Authorization
+        now = time.time()
+        signed = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now - 2))
+        expiry = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now + 3600))
+        unsigned_text = f"""# QuantEngine Testnet Authorization
 - **Authorization ID**: P189-NOTIONAL-001
 - **Status**: OPERATOR_APPROVED
 - **Authorizing Operator**: SENIOR_QUANT_OPS_01
-- **Signed Timestamp UTC**: 2026-11-10T00:00:00Z
-- **Expiry Timestamp UTC**: 2026-11-11T00:00:00Z
+- **Signed Timestamp UTC**: {signed}
+- **Expiry Timestamp UTC**: {expiry}
 - **Operator Signature**: SIGNATURE_TO_BE_REPLACED
 """
         record = self.gate.parse_authorization_document(unsigned_text)
