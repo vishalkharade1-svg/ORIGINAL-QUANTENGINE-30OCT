@@ -98,6 +98,7 @@ class TestPhase191CrashConsistencyAndRecovery(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_crash_b2",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         # Crash occurs here before HTTP POST is sent
 

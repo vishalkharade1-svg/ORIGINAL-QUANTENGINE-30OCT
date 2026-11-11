@@ -72,6 +72,7 @@ class TestPhase191LedgerConcurrencyAudit(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=cl_id,
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
             return idx, decision
 
@@ -118,6 +119,7 @@ class TestPhase191LedgerConcurrencyAudit(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=cl_id,
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
             return cl_id, d
 
@@ -173,6 +175,7 @@ class TestPhase191LedgerConcurrencyAudit(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=shared_cl_id,
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
@@ -202,6 +205,7 @@ class TestPhase191LedgerConcurrencyAudit(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=f"ord_attempt_{idx}",
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:

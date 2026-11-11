@@ -1018,6 +1018,7 @@ class TestScopeCapEnforcement(_TempDirCase):
             auth_record=record, rest_url=TESTNET_REST,
             symbol=symbol, product_id=product,
             order_size_contracts=size, post_only=post_only,
+            limit_price=Decimal("80000"),
             cumulative_realized_loss=loss)
 
     def test_oversized_order_refused(self):

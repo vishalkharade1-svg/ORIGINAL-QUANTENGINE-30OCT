@@ -125,6 +125,7 @@ class TestPhase190LedgerCorruptionAndBoundaryAudit(unittest.TestCase):
             symbol="BTCUSD",
             product_id=84,
             order_size_contracts=Decimal("1.0"),
+            limit_price=Decimal("80000"),
         )
         self.assertTrue(d19.authorized)
         self.assertEqual(d19.cumulative_orders_placed, 19)
