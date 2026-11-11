@@ -494,7 +494,8 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         preflight = self.h.gate.evaluate_preflight(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
-            order_size_contracts=Decimal(1), post_only=True)
+            order_size_contracts=Decimal(1),
+            limit_price=Decimal("80000"), post_only=True)
         self.assertTrue(preflight.authorized)
         self.assertFalse(preflight.is_armed())
         decision = self._reserve()
