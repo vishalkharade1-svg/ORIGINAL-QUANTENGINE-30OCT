@@ -348,7 +348,6 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
         )
         self.gate.register_order_submitted(
             cl_ord_id="ord_dispatched_unacked",
-            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             details={"symbol": "BTCUSD", "size": "1.0"},
         )
 
