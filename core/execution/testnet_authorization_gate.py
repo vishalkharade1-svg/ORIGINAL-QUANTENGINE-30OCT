@@ -59,6 +59,9 @@ BTCUSD_PRODUCT_ID = 84
 BTCUSD_CONTRACT_SIZE_BTC = Decimal("0.001")
 BTCUSD_PRODUCT_SNAPSHOT_SHA256 = "e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2"
 MAX_TESTNET_ORDER_NOTIONAL_USD = Decimal("100.00")
+# Phase 189 policy boundary; this value is policy-pinned, not inferred from the snapshot.
+BTCUSD_PRICE_TICK_USD = Decimal("0.10")
+BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS = Decimal("1")
 
 
 class AuthorizationState(str, Enum):
@@ -732,6 +735,10 @@ class TestnetAuthorizationGate:
                 reasons.append(
                     f"Order size ({sz}) exceeds maximum authorized ({self.scope.max_order_size_contracts})"
                 )
+            elif sz != BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS:
+                reasons.append(
+                    f"Order size must be exactly {BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS} contract"
+                )
         except Exception:
             reasons.append("Malformed order size")
 
@@ -767,6 +774,10 @@ class TestnetAuthorizationGate:
                 if not price.is_finite() or price <= 0:
                     reasons.append("Limit price must be finite and positive")
                 else:
+                    if price % BTCUSD_PRICE_TICK_USD != 0:
+                        reasons.append(
+                            f"Limit price must align to the \u0024{BTCUSD_PRICE_TICK_USD} USD tick size"
+                        )
                     notional = sz * contract_size * price
                     if notional > MAX_TESTNET_ORDER_NOTIONAL_USD:
                         reasons.append(
@@ -954,6 +965,8 @@ class TestnetAuthorizationGate:
                         or self.scope.contract_metadata_product_id != BTCUSD_PRODUCT_ID
                         or self.scope.contract_metadata_sha256 != BTCUSD_PRODUCT_SNAPSHOT_SHA256
                         or not limit_price.is_finite() or limit_price <= 0
+                        or limit_price % BTCUSD_PRICE_TICK_USD != 0
+                        or decision.authorized_order_size_contracts != BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS
                         or not contract_size.is_finite() or contract_size != BTCUSD_CONTRACT_SIZE_BTC):
                     raise ValueError("unverified product metadata or invalid price/multiplier")
                 notional_usd = (

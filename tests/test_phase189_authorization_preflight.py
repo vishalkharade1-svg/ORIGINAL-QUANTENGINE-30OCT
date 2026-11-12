@@ -160,6 +160,30 @@ class TestPhase189AuthorizationDocumentIntegrity(unittest.TestCase):
             limit_price=Decimal("50000"),
         )
         self.assertTrue(decision.authorized)
+
+        fractional = self.gate.evaluate_preflight(
+            auth_record=record, rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD", product_id=84, order_size_contracts=Decimal("0.5"),
+            limit_price=Decimal("50000"),
+        )
+        self.assertFalse(fractional.authorized)
+        self.assertTrue(any("exactly 1 contract" in reason for reason in fractional.reasons))
+
+        off_tick = self.gate.evaluate_preflight(
+            auth_record=record, rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD", product_id=84, order_size_contracts=Decimal("1"),
+            limit_price=Decimal("50000.05"),
+        )
+        self.assertFalse(off_tick.authorized)
+        self.assertTrue(any("tick size" in reason for reason in off_tick.reasons))
+
+        aligned_tick = self.gate.evaluate_preflight(
+            auth_record=record, rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD", product_id=84, order_size_contracts=Decimal("1"),
+            limit_price=Decimal("50000.10"),
+        )
+        self.assertTrue(aligned_tick.authorized)
+
         # Preflight is diagnostic only; transport authority requires the
         # atomic reservation that persists the client order id first.
         self.assertFalse(decision.is_armed())
