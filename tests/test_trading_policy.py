@@ -96,7 +96,7 @@ class TestTradingPolicy(unittest.TestCase):
                 for key in sorted(manager._overrides)
             },
         }
-        expected = (json.dumps(payload, sort_keys=True, indent=2) + "\\n").encode("utf-8")
+        expected = (json.dumps(payload, sort_keys=True, indent=2) + "\n").encode("utf-8")
         self.assertEqual(tp_mod._POLICY_PATH.read_bytes(), expected)
 
     def test_default_path_is_repo_anchored_not_cwd(self):
