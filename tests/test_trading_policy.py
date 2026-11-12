@@ -84,6 +84,21 @@ class TestTradingPolicy(unittest.TestCase):
             m.reset_instrument("NIFTY")
             self.assertEqual(m.get("NIFTY").min_rr, 3.0)
 
+    def test_repo_runtime_policy_matches_canonical_persistence_bytes(self):
+        from dataclasses import asdict
+        from core.risk import trading_policy as tp_mod
+
+        manager = TradingPolicyManager(tp_mod._POLICY_PATH)
+        payload = {
+            "global": asdict(manager._global),
+            "instruments": {
+                manager._display_keys.get(key, key): asdict(manager._overrides[key])
+                for key in sorted(manager._overrides)
+            },
+        }
+        expected = (json.dumps(payload, sort_keys=True, indent=2) + "\\n").encode("utf-8")
+        self.assertEqual(tp_mod._POLICY_PATH.read_bytes(), expected)
+
     def test_default_path_is_repo_anchored_not_cwd(self):
         import os
         from core.risk import trading_policy as tp_mod

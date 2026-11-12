@@ -58,9 +58,21 @@ class TestNoSettingsFloorInProduction(unittest.TestCase):
 class PolicyOverrideCase(unittest.TestCase):
     SYMBOL = "TEST100"
 
-    def tearDown(self):
+    def setUp(self):
         from core.risk.trading_policy import trading_policy_manager
-        trading_policy_manager().reset_instrument(self.SYMBOL)
+        self._manager = trading_policy_manager()
+        self._previous_overrides = {
+            key: values
+            for key, values in self._manager.snapshot()["instruments"].items()
+            if self._manager._key(key) == self._manager._key(self.SYMBOL)
+        }
+        # The tests assert the default policy before applying their override.
+        self._manager.reset_instrument(self.SYMBOL)
+
+    def tearDown(self):
+        self._manager.reset_instrument(self.SYMBOL)
+        for key, values in self._previous_overrides.items():
+            self._manager.set_instrument(key, values)
 
     def set_min(self, minimum):
         from core.risk.trading_policy import trading_policy_manager
