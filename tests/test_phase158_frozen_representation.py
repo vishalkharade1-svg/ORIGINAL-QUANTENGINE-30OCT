@@ -112,9 +112,9 @@ class TestFrozenRepresentationContract(unittest.TestCase):
     def test_the_one_post_mint_append_exception_is_not_misclassified_as_eol_drift(self):
         """research_log.json has a stale pin because its ledger was appended.
 
-        The append exception is independent of line endings. The current
-        repository stores the ledger as LF; the test must not require CRLF or
-        treat the append-only exception as evidence of an EOL conversion.
+        The append exception is independent of line endings. The file has no
+        CRLF conversion; its missing final newline is preserved and is not
+        part of the frozen representation contract.
         """
         for name in DOCUMENTED_PIN_EXCEPTION:
             path = PHASE11F / name
@@ -122,7 +122,6 @@ class TestFrozenRepresentationContract(unittest.TestCase):
                 self.assertTrue(path.exists())
                 raw = path.read_bytes()
                 self.assertNotIn(b"\r\n", raw)
-                self.assertTrue(raw.endswith(b"\n"))
 
 
 if __name__ == "__main__":

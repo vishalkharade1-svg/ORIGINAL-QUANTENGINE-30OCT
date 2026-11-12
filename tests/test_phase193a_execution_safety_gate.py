@@ -79,6 +79,9 @@ def _create_approved_auth_record() -> OperatorAuthorizationRecord:
         require_post_only=True,
         forbid_market_conversion=True,
         require_valid_book=False,
+        contract_size_btc=Decimal("0.001"),
+        contract_metadata_product_id=84,
+        contract_metadata_sha256="e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2",
     )
     record = OperatorAuthorizationRecord(
         authorization_id="SIMULATED-AUTH-001",
@@ -121,6 +124,7 @@ def test_uninitialized_book_blocks_preflight_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=uninit_tracker,
     )
     assert not dec.authorized
@@ -134,6 +138,7 @@ def test_uninitialized_book_blocks_preflight_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-UNINIT-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         book_tracker=uninit_tracker,
     )
     assert not res_dec.authorized
@@ -176,6 +181,7 @@ def test_crossed_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=tracker,
     )
     assert not dec.authorized
@@ -188,6 +194,7 @@ def test_crossed_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-CROSSED-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         book_tracker=tracker,
     )
     assert not res_dec.authorized
@@ -221,6 +228,7 @@ def test_stale_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=tracker,
     )
     assert not dec.authorized
@@ -233,6 +241,7 @@ def test_stale_book_blocks_authorization_and_reservation(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-STALE-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         book_tracker=tracker,
     )
     assert not res_dec.authorized
@@ -271,6 +280,7 @@ def test_missing_sequence_gap_blocks_authorization(tmp_path: Path):
         product_id=84,
         order_size_contracts=1.0,
         post_only=True,
+        limit_price=Decimal("80000"),
         book_tracker=tracker,
     )
     assert not dec.authorized
@@ -354,6 +364,7 @@ def test_ambiguous_orders_cannot_be_blindly_resubmitted_and_retain_risk(tmp_path
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-AMBIG-02",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
     )
     assert not res2.authorized
     assert any("Open order limit exceeded" in r or "ambiguous" in r for r in res2.reasons)
@@ -366,6 +377,7 @@ def test_ambiguous_orders_cannot_be_blindly_resubmitted_and_retain_risk(tmp_path
         product_id=84,
         order_size_contracts=1.0,
         cl_ord_id="ORD-AMBIG-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
     )
     assert not res3.authorized
     assert any("ambiguous" in r.lower() or "duplicate" in r.lower() for r in res3.reasons)
@@ -416,6 +428,7 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
         product_id=84,
         order_size_contracts=Decimal("1.0"),
         post_only=True,
+        limit_price=Decimal("80000"),
     )
     assert preflight.authorized
     assert not preflight.is_armed()
@@ -441,8 +454,11 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
     # An incomplete reservation must not persist, consume quota, or arm.
     assert not unbound.authorized
     assert not unbound.is_armed()
-    assert any("requires exactly side, limit_price, and post_only" in reason
-               for reason in unbound.reasons)
+    assert any(
+        "requires exactly side, limit_price, and post_only" in reason
+        or "Limit price is required" in reason
+        for reason in unbound.reasons
+    )
     assert not (tmp_path / "unbound-ledger.jsonl").exists()
 
     reserved = gate.check_and_reserve_order(
@@ -535,3 +551,157 @@ def test_only_atomic_reservation_mints_scope_bound_write_capability(tmp_path: Pa
                 payload=payload,
             )
 
+
+
+@pytest.mark.parametrize(
+    "price,expected_authorized",
+    [
+        ("100000", True),
+        ("100000.1", False),
+        ("NaN", False),
+        ("Infinity", False),
+        ("0", False),
+        ("-1", False),
+    ],
+)
+def test_reusable_gate_enforces_usd_notional_ceiling(tmp_path: Path, price: str, expected_authorized: bool):
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "notional-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=_create_approved_auth_record(),
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price=price,
+    )
+    assert decision.authorized is expected_authorized
+    if not expected_authorized:
+        assert any("notional" in reason.lower() or "limit price" in reason.lower() for reason in decision.reasons)
+
+
+def test_reusable_gate_refuses_unpriced_preflight(tmp_path: Path):
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "unpriced-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=_create_approved_auth_record(),
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+    )
+    assert not decision.authorized
+    assert any("Limit price is required" in reason for reason in decision.reasons)
+
+
+def test_reusable_gate_fails_closed_without_verified_contract_metadata(tmp_path: Path):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    auth.scope = replace(auth.scope, contract_size_btc=None, contract_metadata_product_id=None, contract_metadata_sha256="")
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(
+        ledger_path=tmp_path / "missing-metadata-ledger.jsonl",
+        default_scope=auth.scope,
+    )
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="80000",
+    )
+    assert not decision.authorized
+    assert any("contract multiplier" in reason.lower() for reason in decision.reasons)
+    assert any("snapshot sha-256" in reason.lower() for reason in decision.reasons)
+
+
+def test_reservation_persists_notional_inputs_and_metadata_provenance(tmp_path: Path):
+    ledger_path = tmp_path / "notional-reservation-ledger.jsonl"
+    gate = TestnetAuthorizationGate(ledger_path=ledger_path)
+    decision = gate.check_and_reserve_order(
+        auth_record=_create_approved_auth_record(),
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        cl_ord_id="ORD-NOTIONAL-BOUND-01",
+        order_details={"side": "buy", "limit_price": "80000", "post_only": True},
+        post_only=True,
+    )
+    assert decision.is_armed()
+    record = json.loads(ledger_path.read_text(encoding="utf-8").splitlines()[0])
+    data = record["data"]
+    assert data["notional_usd"] == "80.000"
+    assert data["contract_size_btc"] == "0.001"
+    assert data["contract_metadata_product_id"] == 84
+    assert data["contract_metadata_sha256"] == "e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2"
+
+
+@pytest.mark.parametrize(
+    "metadata_changes",
+    [
+        {"contract_size_btc": Decimal("0.0005")},
+        {"contract_metadata_product_id": 999},
+        {"contract_metadata_sha256": "f" * 64},
+    ],
+)
+def test_reusable_gate_rejects_substituted_contract_metadata(tmp_path: Path, metadata_changes: dict):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    auth.scope = replace(auth.scope, **metadata_changes)
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "substituted-metadata-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="80000",
+    )
+    assert not decision.authorized
+
+
+def test_reusable_gate_rejects_signed_scope_with_looser_notional_cap(tmp_path: Path):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    auth.scope = replace(auth.scope, max_order_notional_usd=Decimal("101"))
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(ledger_path=tmp_path / "loose-signed-cap-ledger.jsonl")
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="80000",
+    )
+    assert not decision.authorized
+    assert any("signed authorization notional scope" in reason.lower() for reason in decision.reasons)
+
+
+def test_custom_gate_scope_cannot_raise_the_hard_100_usd_ceiling(tmp_path: Path):
+    from dataclasses import replace
+    auth = _create_approved_auth_record()
+    raised_scope = replace(auth.scope, max_order_notional_usd=Decimal("101"))
+    auth.scope = raised_scope
+    auth = approve_for_test(auth)
+    gate = TestnetAuthorizationGate(
+        ledger_path=tmp_path / "raised-gate-cap-ledger.jsonl",
+        default_scope=raised_scope,
+    )
+    decision = gate.evaluate_preflight(
+        auth_record=auth,
+        rest_url="https://cdn-ind.testnet.deltaex.org",
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal("1"),
+        post_only=True,
+        limit_price="100500",
+    )
+    assert not decision.authorized
+    assert any("pinned notional boundary" in reason.lower() for reason in decision.reasons)

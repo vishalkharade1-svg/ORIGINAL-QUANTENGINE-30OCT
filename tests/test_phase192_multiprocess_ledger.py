@@ -126,6 +126,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=cl_id,
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
             return idx, decision
 
@@ -162,6 +163,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="over_limit_order",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(decision.authorized)
         self.assertTrue(any("Cumulative experiment order limit reached" in r for r in decision.reasons))
@@ -216,6 +218,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=f"fresh_ord_{idx}",
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
@@ -272,6 +275,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_after_corrupt",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(decision.authorized)
         self.assertTrue(any("ledger corrupted" in r.lower() for r in decision.reasons))
@@ -291,6 +295,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="order_dup_test_1",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertTrue(d1.authorized)
 
@@ -303,6 +308,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="order_dup_test_1",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(d2.authorized)
         self.assertTrue(any("Duplicate cl_ord_id" in r for r in d2.reasons))
@@ -316,6 +322,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_crashed_before_dispatch",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
 
         # Simulate restart
@@ -337,6 +344,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_dispatched_unacked",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.gate.register_order_submitted(
             cl_ord_id="ord_dispatched_unacked",
@@ -368,6 +376,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="io_fail_order",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(decision.authorized)
         self.assertTrue(bad_gate._ledger_corrupted)
@@ -387,6 +396,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
                 product_id=84,
                 order_size_contracts=Decimal("1.0"),
                 cl_ord_id=cl_id,
+                order_details={"side": "buy", "limit_price": "80000", "post_only": True},
             )
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as ex:
@@ -419,6 +429,7 @@ class TestPhase192MultiprocessLedger(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_on_stale",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(d1.authorized)
 

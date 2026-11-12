@@ -133,6 +133,7 @@ class TestPhase192LifecycleTransitions(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_ambig_sub_1",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertTrue(d.authorized)
         self.gate.register_order_submitted("ord_ambig_sub_1", {"size": "1.0"})
@@ -148,6 +149,7 @@ class TestPhase192LifecycleTransitions(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_next_attempt",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(d2.authorized)
         self.assertTrue(any("ambiguous/unreconciled" in r for r in d2.reasons))
@@ -228,6 +230,7 @@ class TestPhase192LifecycleTransitions(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_cancel_req_test",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.gate.register_order_submitted("ord_cancel_req_test", {"size": "1.0"})
         self.gate.register_order_acknowledged("ord_cancel_req_test", 1001)
@@ -249,6 +252,7 @@ class TestPhase192LifecycleTransitions(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_after_cancel_req",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(d_next.authorized)
         self.assertTrue(any("Single-open-order limit reached" in r for r in d_next.reasons))
@@ -307,6 +311,7 @@ class TestPhase192LifecycleTransitions(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
             cl_ord_id="ord_after_corrupt",
+            order_details={"side": "buy", "limit_price": "80000", "post_only": True},
         )
         self.assertFalse(d.authorized)
 
