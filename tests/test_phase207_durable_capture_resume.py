@@ -614,7 +614,8 @@ def test_compatibility_writer_rejects_symlinked_storage_root(tmp_path):
 
     assert not (storage_root / "symlink-plan").exists()
 
-def test_orchestrator_rejects_symlinked_storage_root(tmp_path):
+@pytest.mark.parametrize("resume", [False, True])
+def test_orchestrator_rejects_symlinked_storage_root(tmp_path, resume):
     storage_root = tmp_path / "real-storage"
     storage_root.mkdir()
     linked_root = tmp_path / "storage-link"
@@ -625,7 +626,7 @@ def test_orchestrator_rejects_symlinked_storage_root(tmp_path):
 
     with pytest.raises(CapturePersistenceError, match="storage root"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), linked_root).run(
-            plan, resume=False
+            plan, resume=resume
         )
 
     assert not (storage_root / "orchestrator-symlink-root").exists()
