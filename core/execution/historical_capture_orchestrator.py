@@ -565,76 +565,76 @@ class HistoricalCaptureOrchestrator:
                 for artifact_name in artifact_names:
                     try:
                         payload = _read_capture_artifact_at(plan_directory_fd, artifact_name)
-                    schema = payload.get("schema")
-                    if schema in {"quantengine.phase206.capture.v1", "quantengine.phase207.capture.v1"}:
-                        # Older artifacts lack plan/source fingerprints; preserve
-                        # them but never trust them as resumable slots.
-                        continue
-                    if schema != _CAPTURE_ARTIFACT_SCHEMA:
-                        raise CapturePersistenceError("persisted capture schema is unsupported")
-                    if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
-                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
-                    if payload.get("plan_fingerprint") != plan_fingerprint:
-                        raise CapturePersistenceError("persisted capture plan/policy fingerprint does not match")
-                    if payload.get("adapter_identity") != adapter_identity:
-                        raise CapturePersistenceError("persisted capture adapter/source identity does not match")
-                    if payload.get("adapter_fingerprint") != adapter_fingerprint:
-                        raise CapturePersistenceError("persisted capture adapter/source fingerprint does not match")
-                    repeat_index = payload.get("repeat_index")
-                    window_index = payload.get("window_index")
-                    endpoint = payload.get("endpoint")
-                    if (not _bounded_int(repeat_index, 0, plan.repeat_count - 1)
-                            or not _bounded_int(window_index, 0, len(windows) - 1)
-                            or endpoint not in plan.endpoints):
-                        raise CapturePersistenceError("persisted capture has invalid slot coordinates")
-                    capture_payload = payload.get("capture")
-                    if not isinstance(capture_payload, Mapping):
-                        raise CapturePersistenceError("persisted capture payload is invalid")
-                    content_checksum = capture_payload.get("raw_source_checksum")
-                    if (not isinstance(content_checksum, str) or len(content_checksum) != 64
-                            or any(ch not in "0123456789abcdef" for ch in content_checksum)):
-                        raise CapturePersistenceError(
-                            "persisted capture content checksum is missing or invalid"
-                        )
-                    capture_records = capture_payload.get("records")
-                    capture_record_count = capture_payload.get("record_count")
-                    if (not isinstance(capture_records, (list, tuple))
-                            or not _bounded_int(
-                                capture_record_count, 0, plan.max_records_per_snapshot
+                        schema = payload.get("schema")
+                        if schema in {"quantengine.phase206.capture.v1", "quantengine.phase207.capture.v1"}:
+                            # Older artifacts lack plan/source fingerprints; preserve
+                            # them but never trust them as resumable slots.
+                            continue
+                        if schema != _CAPTURE_ARTIFACT_SCHEMA:
+                            raise CapturePersistenceError("persisted capture schema is unsupported")
+                        if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
+                            raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                        if payload.get("plan_fingerprint") != plan_fingerprint:
+                            raise CapturePersistenceError("persisted capture plan/policy fingerprint does not match")
+                        if payload.get("adapter_identity") != adapter_identity:
+                            raise CapturePersistenceError("persisted capture adapter/source identity does not match")
+                        if payload.get("adapter_fingerprint") != adapter_fingerprint:
+                            raise CapturePersistenceError("persisted capture adapter/source fingerprint does not match")
+                        repeat_index = payload.get("repeat_index")
+                        window_index = payload.get("window_index")
+                        endpoint = payload.get("endpoint")
+                        if (not _bounded_int(repeat_index, 0, plan.repeat_count - 1)
+                                or not _bounded_int(window_index, 0, len(windows) - 1)
+                                or endpoint not in plan.endpoints):
+                            raise CapturePersistenceError("persisted capture has invalid slot coordinates")
+                        capture_payload = payload.get("capture")
+                        if not isinstance(capture_payload, Mapping):
+                            raise CapturePersistenceError("persisted capture payload is invalid")
+                        content_checksum = capture_payload.get("raw_source_checksum")
+                        if (not isinstance(content_checksum, str) or len(content_checksum) != 64
+                                or any(ch not in "0123456789abcdef" for ch in content_checksum)):
+                            raise CapturePersistenceError(
+                                "persisted capture content checksum is missing or invalid"
                             )
-                            or capture_record_count != len(capture_records)):
-                        raise CapturePersistenceError(
-                            "persisted capture record count is missing or inconsistent"
-                        )
-                    if capture_payload.get("schema") != "quantengine.historical-capture.v1":
-                        raise CapturePersistenceError("persisted capture schema is unsupported")
-                    capture = CaptureSnapshot.from_dict(capture_payload)
-                    if capture.record_category != endpoint:
-                        raise CapturePersistenceError("persisted capture endpoint does not match its slot")
-                    if artifact_name[:-5] != capture.capture_id:
-                        raise CapturePersistenceError("persisted capture filename does not match capture identity")
-                    expected_capture_id = str(uuid5(
-                        NAMESPACE_URL,
-                        f"{plan_id}:{repeat_index}:{window_index}:{endpoint}:{capture.captured_at}",
-                    ))
-                    if capture.capture_id != expected_capture_id:
-                        raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
-                    _validate_page_provenance(payload.get("page_provenance"), plan)
-                    expected_product = None if endpoint == "wallet_transactions" else plan.product_id
-                    if (capture.venue.strip().lower() != plan.venue.strip().lower()
-                            or capture.account_id != plan.account_id
-                            or capture.product_id != expected_product):
-                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
-                    expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
-                    if payload.get("capture_status") != expected_status:
-                        raise CapturePersistenceError("persisted capture status does not match its completeness flags")
-                    expected_window = windows[window_index]
-                    expected_start, expected_end = expected_window.as_iso()
-                    if capture.window_start != expected_start or capture.window_end != expected_end:
-                        raise CapturePersistenceError("persisted capture window does not match its slot")
-                    if len(capture.records) > plan.max_records_per_snapshot:
-                        raise CapturePersistenceError("persisted capture exceeds per-snapshot record budget")
-                    recovered.append((repeat_index, window_index, endpoint, capture))
+                        capture_records = capture_payload.get("records")
+                        capture_record_count = capture_payload.get("record_count")
+                        if (not isinstance(capture_records, (list, tuple))
+                                or not _bounded_int(
+                                    capture_record_count, 0, plan.max_records_per_snapshot
+                                )
+                                or capture_record_count != len(capture_records)):
+                            raise CapturePersistenceError(
+                                "persisted capture record count is missing or inconsistent"
+                            )
+                        if capture_payload.get("schema") != "quantengine.historical-capture.v1":
+                            raise CapturePersistenceError("persisted capture schema is unsupported")
+                        capture = CaptureSnapshot.from_dict(capture_payload)
+                        if capture.record_category != endpoint:
+                            raise CapturePersistenceError("persisted capture endpoint does not match its slot")
+                        if artifact_name[:-5] != capture.capture_id:
+                            raise CapturePersistenceError("persisted capture filename does not match capture identity")
+                        expected_capture_id = str(uuid5(
+                            NAMESPACE_URL,
+                            f"{plan_id}:{repeat_index}:{window_index}:{endpoint}:{capture.captured_at}",
+                        ))
+                        if capture.capture_id != expected_capture_id:
+                            raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
+                        _validate_page_provenance(payload.get("page_provenance"), plan)
+                        expected_product = None if endpoint == "wallet_transactions" else plan.product_id
+                        if (capture.venue.strip().lower() != plan.venue.strip().lower()
+                                or capture.account_id != plan.account_id
+                                or capture.product_id != expected_product):
+                            raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                        expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
+                        if payload.get("capture_status") != expected_status:
+                            raise CapturePersistenceError("persisted capture status does not match its completeness flags")
+                        expected_window = windows[window_index]
+                        expected_start, expected_end = expected_window.as_iso()
+                        if capture.window_start != expected_start or capture.window_end != expected_end:
+                            raise CapturePersistenceError("persisted capture window does not match its slot")
+                        if len(capture.records) > plan.max_records_per_snapshot:
+                            raise CapturePersistenceError("persisted capture exceeds per-snapshot record budget")
+                        recovered.append((repeat_index, window_index, endpoint, capture))
                     except CapturePersistenceError:
                         raise
                     except Exception as exc:
