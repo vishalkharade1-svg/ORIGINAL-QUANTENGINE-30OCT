@@ -351,3 +351,23 @@ def test_authenticated_capture_requires_explicit_non_secret_source_identity(tmp_
     with pytest.raises(CapturePlanError, match="stable non-secret provenance_identity"):
         orchestrator.run(plan)
     assert adapter.calls == []
+
+
+
+def test_adapter_source_identity_change_during_capture_fails_closed(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    class ChangingSourceAdapter(SequenceAdapter):
+        def __init__(self):
+            super().__init__()
+            self.provenance_identity = {"source": "delta-fixture-a", "api_version": "v1"}
+
+        def capture(self, **kwargs):
+            result = super().capture(**kwargs)
+            self.provenance_identity = {"source": "delta-fixture-b", "api_version": "v1"}
+            return result
+
+    adapter = ChangingSourceAdapter()
+    with pytest.raises(CapturePersistenceError, match="changed during capture"):
+        HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
+    assert len(adapter.calls) == 1
+    assert list(Path(tmp_path).rglob("*.json")) == []
