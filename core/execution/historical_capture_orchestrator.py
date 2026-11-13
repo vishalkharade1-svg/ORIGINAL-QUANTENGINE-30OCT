@@ -460,7 +460,6 @@ def _adapter_identity_payload(adapter: Any, *, require_source_identity: bool = F
         "read_adapter_class": class_name(read_adapter),
         "rest_client_class": class_name(rest_client),
     }
-    source_found = False
     for label, component in (
         ("adapter_source", adapter),
         ("read_adapter_source", read_adapter),
@@ -477,7 +476,6 @@ def _adapter_identity_payload(adapter: Any, *, require_source_identity: bool = F
             raise CapturePlanError("adapter provenance_identity must be a string or JSON mapping")
         reject_secret_fields(source_identity)
         identity[label] = source_identity
-        source_found = True
     if require_source_identity and "rest_source" not in identity:
         raise CapturePlanError(
             "authenticated adapter REST client must expose a stable non-secret provenance_identity"
