@@ -282,3 +282,16 @@ def test_phase206_persists_partial_records_after_later_page_failure(tmp_path):
     assert [page["response_status"] for page in persisted["page_provenance"]] == [
         "SUCCESS", "REQUEST_FAILED"
     ]
+
+
+
+def test_delta_read_adapter_exposes_stable_non_secret_provenance_identity():
+    adapter = DeltaReconciliationReadAdapter(
+        SimpleNamespace(authenticated=True, get=lambda *args, **kwargs: {})
+    )
+    assert adapter.provenance_identity == {
+        "venue": "delta",
+        "api_version": "v2",
+        "adapter": "reconciliation-read",
+        "policy_version": "delta-get-only-evidence-v1",
+    }
