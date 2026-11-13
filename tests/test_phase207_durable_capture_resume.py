@@ -261,3 +261,73 @@ def test_resume_rejects_inconsistent_capture_record_count(tmp_path):
     with pytest.raises(CapturePersistenceError, match="record count is missing or inconsistent"):
         HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
 
+
+
+
+def test_resume_rejects_changed_collection_policy_under_same_explicit_plan_id(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id="stable-plan")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+    changed = make_plan(
+        end="2026-10-01T01:00:00Z", plan_id="stable-plan", retry_budget=3
+    )
+    with pytest.raises(CapturePersistenceError, match="plan/policy fingerprint"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(changed)
+
+
+def test_resume_rejects_changed_adapter_source_identity_under_same_plan_id(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id="stable-plan")
+    first_adapter = SequenceAdapter()
+    first_adapter.provenance_identity = {"source": "delta-fixture-a", "api_version": "v1"}
+    HistoricalCaptureOrchestrator(first_adapter, tmp_path).run(plan)
+
+    changed_adapter = SequenceAdapter()
+    changed_adapter.provenance_identity = {"source": "delta-fixture-b", "api_version": "v1"}
+    with pytest.raises(CapturePersistenceError, match="adapter/source fingerprint"):
+        HistoricalCaptureOrchestrator(changed_adapter, tmp_path).run(plan)
+
+
+def test_resume_rejects_fixture_artifacts_for_authenticated_mode(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id="stable-plan")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+    authenticated_adapter = SequenceAdapter()
+    authenticated_adapter._rest = SimpleNamespace(
+        authenticated=True, get_with_policy=lambda *args, **kwargs: None
+    )
+    authenticated_plan = make_plan(
+        end="2026-10-01T01:00:00Z", plan_id="stable-plan", mode="authenticated"
+    )
+    orchestrator = HistoricalCaptureOrchestrator(
+        authenticated_adapter, tmp_path, owner_authorizer=lambda _: True
+    )
+    with pytest.raises(CapturePersistenceError, match="plan/policy fingerprint"):
+        orchestrator.run(authenticated_plan)
+    assert authenticated_adapter.calls == []
+
+
+def test_resume_rejects_malformed_page_provenance(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+    artifact = next(Path(tmp_path).rglob("*.json"))
+    payload = __import__("json").loads(artifact.read_text(encoding="utf-8"))
+    payload["page_provenance"] = {"not": "a-list"}
+    artifact.write_text(__import__("json").dumps(payload), encoding="utf-8")
+
+    with pytest.raises(CapturePersistenceError, match="page provenance"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), tmp_path).run(plan)
+
+
+def test_invalid_new_page_provenance_stops_capture_without_becoming_partial(tmp_path):
+    plan = make_plan()
+    class InvalidProvenanceAdapter(SequenceAdapter):
+        def capture(self, **kwargs):
+            result = super().capture(**kwargs)
+            result.page_provenance = [{}]
+            return result
+
+    adapter = InvalidProvenanceAdapter()
+    with pytest.raises(CapturePersistenceError, match="page provenance"):
+        HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
+    assert len(adapter.calls) == 1
+    assert list(Path(tmp_path).rglob("*.json")) == []
