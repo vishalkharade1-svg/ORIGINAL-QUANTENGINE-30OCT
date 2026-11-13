@@ -53,6 +53,13 @@ class TestDeltaRESTTransportBoundary(unittest.TestCase):
             rest.post("https://attacker.example/orders", {"size": 1})
         rest.client.post.assert_not_called()
 
+    def test_delete_target_is_validated_before_authority_consumption(self):
+        rest = self._client("https://testnet.delta.example")
+        with self.assertRaisesRegex(ValueError, "must not override"):
+            rest.delete("https://attacker.example/orders")
+        rest.client.request.assert_not_called()
+        rest.client.delete.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
