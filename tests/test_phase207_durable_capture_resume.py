@@ -294,7 +294,9 @@ def test_resume_rejects_fixture_artifacts_for_authenticated_mode(tmp_path):
 
     authenticated_adapter = SequenceAdapter()
     authenticated_adapter._rest = SimpleNamespace(
-        authenticated=True, get_with_policy=lambda *args, **kwargs: None
+        authenticated=True,
+        provenance_identity={"origin": "https://testnet.delta.example", "api_version": "v1"},
+        get_with_policy=lambda *args, **kwargs: None,
     )
     authenticated_adapter.provenance_identity = {
         "source": "delta-production", "api_version": "v1"
