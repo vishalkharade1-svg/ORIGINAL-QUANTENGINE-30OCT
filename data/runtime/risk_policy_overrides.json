@@ -5,9 +5,7 @@
     "min_rr": 1.0,
     "trailing_activation_r": 1.0,
     "trailing_distance_r": 0.5,
-    "trailing_enabled": true,
-    "trailing_method": "R_DISTANCE",
-    "trailing_step_r": 0.0
+    "trailing_enabled": true
   },
   "instruments": {}
 }
