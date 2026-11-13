@@ -12,11 +12,11 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import os
-import tempfile
+import stat
 from pathlib import Path
 import time
 from typing import Any, Callable, Mapping, Protocol
-from uuid import uuid5, NAMESPACE_URL
+from uuid import uuid4, uuid5, NAMESPACE_URL
 
 from core.execution.cross_capture_reconciliation import (
     CaptureSnapshot,
@@ -175,43 +175,96 @@ def _endpoint_status(snapshot: Any) -> Mapping[str, str]:
     return dict(getattr(snapshot, "endpoint_status", {}) or {})
 
 
-def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
-    """Atomically create an immutable JSON artifact and return its SHA-256.
+def _open_capture_plan_directory(root: Path, plan_id: str, *, create: bool) -> int | None:
+    """Open a plan directory without following a plan-directory symlink."""
+    if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY"):
+        raise CapturePersistenceError("platform lacks no-follow directory operations")
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    try:
+        if create:
+            root.mkdir(parents=True, exist_ok=True)
+        elif not root.exists():
+            return None
+        root_fd = os.open(str(root), flags)
+    except Exception:
+        raise CapturePersistenceError("capture storage root is not a safe directory") from None
+    try:
+        try:
+            plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
+        except FileNotFoundError:
+            if not create:
+                return None
+            os.mkdir(plan_id, mode=0o700, dir_fd=root_fd)
+            plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
+        return plan_fd
+    except Exception:
+        raise CapturePersistenceError("capture plan directory is not a safe directory") from None
+    finally:
+        os.close(root_fd)
 
-    A same-directory temporary file is fully written and fsynced before an
-    atomic hard-link publishes it under the final create-only name. Existing
-    artifacts are never overwritten; an identical retry is idempotent.
-    """
-    path.parent.mkdir(parents=True, exist_ok=True)
+
+def _read_capture_artifact_at(directory_fd: int, name: str) -> Mapping[str, Any]:
+    """Read one regular artifact file without following a symlink."""
+    if not name.endswith(".json") or name in {".json", "..json"} or "/" in name or "\\" in name:
+        raise CapturePersistenceError("persisted capture artifact filename is invalid")
+    try:
+        fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory_fd)
+        with os.fdopen(fd, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise CapturePersistenceError("persisted capture artifact is not a regular file")
+            payload = json.loads(stream.read().decode("utf-8"))
+        if not isinstance(payload, Mapping):
+            raise CapturePersistenceError("persisted capture artifact payload is invalid")
+        return payload
+    except CapturePersistenceError:
+        raise
+    except Exception as exc:
+        raise CapturePersistenceError(
+            f"persisted capture could not be opened safely ({type(exc).__name__})"
+        ) from None
+
+
+def _safe_json_write(root: Path, plan_id: str, capture_id: str,
+                     payload: Mapping[str, Any]) -> str:
+    """Atomically create an immutable artifact using no-follow directory handles."""
+    if not capture_id or "/" in capture_id or "\\" in capture_id:
+        raise CapturePersistenceError("capture artifact identity is not a safe filename")
     encoded = canonical_json_bytes(payload)
     digest = hashlib.sha256(encoded).hexdigest()
-    target = path.with_suffix(path.suffix + ".json")
-    fd, temporary_name = tempfile.mkstemp(
-        prefix=f".{target.name}.", suffix=".tmp", dir=str(target.parent)
-    )
+    target_name = f"{capture_id}.json"
+    directory_fd = _open_capture_plan_directory(root, plan_id, create=True)
+    temporary_name = f".{target_name}.{uuid4().hex}.tmp"
     try:
+        fd = os.open(
+            temporary_name,
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600,
+            dir_fd=directory_fd,
+        )
         with os.fdopen(fd, "wb") as stream:
             stream.write(encoded)
             stream.flush()
             os.fsync(stream.fileno())
         try:
-            # Hard-link creation is atomic and fails if target already exists.
-            # Both paths are in the same directory/filesystem by construction.
-            os.link(temporary_name, target)
+            os.link(
+                temporary_name, target_name,
+                src_dir_fd=directory_fd, dst_dir_fd=directory_fd,
+                follow_symlinks=False,
+            )
         except FileExistsError:
-            existing = target.read_bytes()
+            existing_fd = os.open(
+                target_name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory_fd
+            )
+            with os.fdopen(existing_fd, "rb") as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                    raise CapturePersistenceError("existing capture artifact is not a regular file")
+                existing = stream.read()
             if hashlib.sha256(existing).hexdigest() == digest:
                 return digest
             raise CapturePersistenceError(
                 "capture artifact already exists with different content"
             ) from None
-        # Persist the directory entry where the platform supports directory fsync.
-        if hasattr(os, "O_DIRECTORY"):
-            directory_fd = os.open(str(target.parent), os.O_RDONLY | os.O_DIRECTORY)
-            try:
-                os.fsync(directory_fd)
-            finally:
-                os.close(directory_fd)
+        os.fsync(directory_fd)
         return digest
     except CapturePersistenceError:
         raise
@@ -221,9 +274,12 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
         ) from None
     finally:
         try:
-            os.unlink(temporary_name)
+            os.unlink(temporary_name, dir_fd=directory_fd)
         except FileNotFoundError:
             pass
+        except OSError:
+            pass
+        os.close(directory_fd)
 
 
 def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
@@ -443,7 +499,7 @@ class HistoricalCaptureOrchestrator:
                  clock: Callable[[], datetime] | None = None,
                  sleeper: Callable[[float], None] = time.sleep):
         self._adapter = adapter
-        self._root = Path(storage_root)
+        self._root = Path(storage_root).resolve()
         self._owner_authorizer = owner_authorizer
         self._clock = clock or (lambda: datetime.now(timezone.utc))
         self._sleep = sleeper
@@ -496,12 +552,19 @@ class HistoricalCaptureOrchestrator:
         # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
         # are intentionally not guessed into a window/repeat position.
         slot_latest: dict[tuple[int, int, str], CaptureSnapshot] = {}
-        plan_dir = self._root / plan_id
-        if resume and plan_dir.exists():
+        plan_directory_fd = (
+            _open_capture_plan_directory(self._root, plan_id, create=False)
+            if resume else None
+        )
+        if plan_directory_fd is not None:
             recovered: list[tuple[int, int, str, CaptureSnapshot]] = []
-            for artifact_path in sorted(plan_dir.glob("*.json")):
-                try:
-                    payload = json.loads(artifact_path.read_text(encoding="utf-8"))
+            try:
+                artifact_names = sorted(
+                    name for name in os.listdir(plan_directory_fd) if name.endswith(".json")
+                )
+                for artifact_name in artifact_names:
+                    try:
+                        payload = _read_capture_artifact_at(plan_directory_fd, artifact_name)
                     schema = payload.get("schema")
                     if schema in {"quantengine.phase206.capture.v1", "quantengine.phase207.capture.v1"}:
                         # Older artifacts lack plan/source fingerprints; preserve
@@ -548,7 +611,7 @@ class HistoricalCaptureOrchestrator:
                     capture = CaptureSnapshot.from_dict(capture_payload)
                     if capture.record_category != endpoint:
                         raise CapturePersistenceError("persisted capture endpoint does not match its slot")
-                    if artifact_path.stem != capture.capture_id:
+                    if artifact_name[:-5] != capture.capture_id:
                         raise CapturePersistenceError("persisted capture filename does not match capture identity")
                     expected_capture_id = str(uuid5(
                         NAMESPACE_URL,
@@ -572,12 +635,14 @@ class HistoricalCaptureOrchestrator:
                     if len(capture.records) > plan.max_records_per_snapshot:
                         raise CapturePersistenceError("persisted capture exceeds per-snapshot record budget")
                     recovered.append((repeat_index, window_index, endpoint, capture))
-                except CapturePersistenceError:
-                    raise
-                except Exception as exc:
-                    raise CapturePersistenceError(
-                        f"persisted capture could not be verified ({type(exc).__name__})"
-                    ) from None
+                    except CapturePersistenceError:
+                        raise
+                    except Exception as exc:
+                        raise CapturePersistenceError(
+                            f"persisted capture could not be verified ({type(exc).__name__})"
+                        ) from None
+            finally:
+                os.close(plan_directory_fd)
             for repeat_index, window_index, endpoint, capture in sorted(
                     recovered, key=lambda item: (item[0], item[1], item[2], item[3].captured_at)):
                 result.snapshots.append(capture)
@@ -661,7 +726,7 @@ class HistoricalCaptureOrchestrator:
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
                             "page_provenance": page_provenance,
                         }
-                        _safe_json_write(self._root / plan_id / capture_id, payload)
+                        _safe_json_write(self._root, plan_id, capture_id, payload)
                         capture = CaptureSnapshot(
                             **{**capture.__dict__, "raw_source_checksum": capture.content_identity()}
                         )
