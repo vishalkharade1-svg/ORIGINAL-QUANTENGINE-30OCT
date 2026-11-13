@@ -330,12 +330,13 @@ def _plan_fingerprint(plan: HistoricalCapturePlan, windows: tuple[CaptureWindow,
     return hashlib.sha256(canonical_json_bytes(policy)).hexdigest()
 
 
-def _adapter_fingerprint(adapter: Any) -> str:
-    """Bind evidence to the adapter stack and an optional stable source identifier.
+def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False) -> str:
+    """Bind evidence to the adapter stack and stable upstream source identity.
 
-    Adapters may expose a non-secret provenance_identity string or JSON mapping,
-    such as upstream source/API version and environment. Credentials must never
-    be included. Adapter, read-adapter, and REST-client classes are always bound.
+    Authenticated adapters must expose a non-secret provenance_identity string
+    or JSON mapping on the adapter, read adapter, or REST client. It should
+    identify the upstream source/API version and environment. Credentials must
+    never be included. All adapter-stack classes are always bound.
     """
     def class_name(value: Any) -> str | None:
         if value is None:
@@ -352,13 +353,27 @@ def _adapter_fingerprint(adapter: Any) -> str:
         "read_adapter_class": class_name(read_adapter),
         "rest_client_class": class_name(rest_client),
     }
-    source_identity = getattr(adapter, "provenance_identity", None)
-    if callable(source_identity):
-        source_identity = source_identity()
-    if source_identity is not None:
+    source_found = False
+    for label, component in (
+        ("adapter_source", adapter),
+        ("read_adapter_source", read_adapter),
+        ("rest_source", rest_client),
+    ):
+        if component is None:
+            continue
+        source_identity = getattr(component, "provenance_identity", None)
+        if callable(source_identity):
+            source_identity = source_identity()
+        if source_identity is None:
+            continue
         if not isinstance(source_identity, (str, Mapping)):
             raise CapturePlanError("adapter provenance_identity must be a string or JSON mapping")
-        identity["source"] = source_identity
+        identity[label] = source_identity
+        source_found = True
+    if require_source_identity and not source_found:
+        raise CapturePlanError(
+            "authenticated adapter must expose a stable non-secret provenance_identity"
+        )
     try:
         encoded = canonical_json_bytes(identity)
     except Exception:
@@ -433,7 +448,9 @@ class HistoricalCaptureOrchestrator:
                 or Path(plan_id).name != plan_id):
             raise CapturePlanError("plan_id must be a safe single path component")
         plan_fingerprint = _plan_fingerprint(plan, windows)
-        adapter_fingerprint = _adapter_fingerprint(self._adapter)
+        adapter_fingerprint = _adapter_fingerprint(
+            self._adapter, require_source_identity=plan.mode == "authenticated"
+        )
         result = CaptureRunResult(
             plan_id=plan_id,
             status="COMPLETE",
