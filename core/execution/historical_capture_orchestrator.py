@@ -185,6 +185,13 @@ def _endpoint_status(snapshot: Any) -> Mapping[str, str]:
 
 def _open_capture_plan_directory(root: Path, plan_id: str, *, create: bool) -> int | None:
     """Open storage-root ancestors and the plan directory without following symlinks."""
+    # This is a storage boundary, not merely an orchestrator helper: the
+    # compatibility writer also calls it directly and must not escape via
+    # a parent-directory component.
+    if (not isinstance(plan_id, str) or not plan_id.strip()
+            or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
+            or Path(plan_id).name != plan_id):
+        raise CapturePersistenceError("capture plan identity is not a safe path component")
     if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY"):
         raise CapturePersistenceError("platform lacks no-follow directory operations")
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW

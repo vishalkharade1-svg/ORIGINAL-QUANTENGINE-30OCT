@@ -617,6 +617,17 @@ def test_authenticated_resume_validates_page_provenance_per_endpoint_slot(tmp_pa
 
 
 
+def test_compatibility_writer_rejects_parent_traversal_plan_component(tmp_path):
+    storage_root = tmp_path / "storage"
+    storage_root.mkdir()
+    escaped_artifact = tmp_path / "escaped.json.json"
+
+    with pytest.raises(CapturePersistenceError, match="safe path component"):
+        _safe_json_write(storage_root / ".." / "escaped.json", {"safe": True})
+
+    assert not escaped_artifact.exists()
+
+
 def test_compatibility_writer_rejects_symlinked_storage_root(tmp_path):
     storage_root = tmp_path / "real-storage"
     storage_root.mkdir()
