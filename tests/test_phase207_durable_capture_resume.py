@@ -648,4 +648,5 @@ def test_orchestrator_rejects_symlinked_storage_root_ancestor(tmp_path, resume):
         )
 
     assert not (real_parent / "capture-storage").exists()
+    assert adapter.calls == []
 

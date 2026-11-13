@@ -606,10 +606,14 @@ class HistoricalCaptureOrchestrator:
         # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
         # are intentionally not guessed into a window/repeat position.
         slot_latest: dict[tuple[int, int, str], CaptureSnapshot] = {}
-        plan_directory_fd = (
-            _open_capture_plan_directory(self._root, plan_id, create=False)
-            if resume else None
+        # Validate the complete storage path before any adapter reads, even
+        # when resume is disabled. A symlinked ancestor must fail closed early.
+        plan_directory_fd = _open_capture_plan_directory(
+            self._root, plan_id, create=False
         )
+        if not resume and plan_directory_fd is not None:
+            os.close(plan_directory_fd)
+            plan_directory_fd = None
         if plan_directory_fd is not None:
             recovered: list[tuple[int, int, str, CaptureSnapshot]] = []
             try:
