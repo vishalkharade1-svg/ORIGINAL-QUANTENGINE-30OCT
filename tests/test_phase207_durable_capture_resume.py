@@ -283,7 +283,7 @@ def test_resume_rejects_changed_adapter_source_identity_under_same_plan_id(tmp_p
 
     changed_adapter = SequenceAdapter()
     changed_adapter.provenance_identity = {"source": "delta-fixture-b", "api_version": "v1"}
-    with pytest.raises(CapturePersistenceError, match="adapter/source fingerprint"):
+    with pytest.raises(CapturePersistenceError, match="adapter/source identity"):
         HistoricalCaptureOrchestrator(changed_adapter, tmp_path).run(plan)
 
 
@@ -371,3 +371,31 @@ def test_adapter_source_identity_change_during_capture_fails_closed(tmp_path):
         HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
     assert len(adapter.calls) == 1
     assert list(Path(tmp_path).rglob("*.json")) == []
+
+
+
+def test_artifact_records_non_secret_adapter_identity_for_audit(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    adapter = SequenceAdapter()
+    adapter.provenance_identity = {"source": "delta-fixture", "api_version": "v1"}
+    HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
+
+    payload = __import__("json").loads(
+        next(Path(tmp_path).rglob("*.json")).read_text(encoding="utf-8")
+    )
+    assert payload["schema"] == "quantengine.phase208.capture.v1"
+    assert payload["adapter_identity"]["adapter_class"].endswith("SequenceAdapter")
+    assert payload["adapter_identity"]["adapter_source"] == {
+        "source": "delta-fixture", "api_version": "v1"
+    }
+    assert len(payload["adapter_fingerprint"]) == 64
+
+
+def test_adapter_identity_rejects_credential_like_metadata_fields(tmp_path):
+    plan = make_plan(end="2026-10-01T01:00:00Z")
+    adapter = SequenceAdapter()
+    adapter.provenance_identity = {"source": "delta-fixture", "api_key": "must-not-persist"}
+
+    with pytest.raises(CapturePlanError, match="credential-like"):
+        HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
+    assert adapter.calls == []
