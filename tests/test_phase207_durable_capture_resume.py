@@ -641,9 +641,10 @@ def test_orchestrator_rejects_symlinked_storage_root_ancestor(tmp_path, resume):
     plan = make_plan(
         end="2026-10-01T01:00:00Z", plan_id="ancestor-symlink-storage"
     )
+    adapter = SequenceAdapter()
 
     with pytest.raises(CapturePersistenceError, match="storage root or plan directory"):
-        HistoricalCaptureOrchestrator(SequenceAdapter(), storage_root).run(
+        HistoricalCaptureOrchestrator(adapter, storage_root).run(
             plan, resume=resume
         )
 
