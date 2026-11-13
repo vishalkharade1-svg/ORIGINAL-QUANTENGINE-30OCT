@@ -12,6 +12,7 @@ from core.execution.historical_capture_orchestrator import (
     HistoricalCaptureOrchestrator,
     HistoricalCapturePlan,
     _validate_page_provenance,
+    _safe_json_write,
 )
 
 
@@ -600,3 +601,15 @@ def test_authenticated_resume_validates_page_provenance_per_endpoint_slot(tmp_pa
     assert resumed_adapter.calls[0]["endpoints"] == ("positions",)
     assert resumed.completed_windows == 1
 
+
+
+def test_compatibility_writer_rejects_symlinked_storage_root(tmp_path):
+    storage_root = tmp_path / "real-storage"
+    storage_root.mkdir()
+    linked_root = tmp_path / "storage-link"
+    linked_root.symlink_to(storage_root, target_is_directory=True)
+
+    with pytest.raises(CapturePersistenceError, match="storage root"):
+        _safe_json_write(linked_root / "symlink-plan" / "capture.json", {"safe": True})
+
+    assert not (storage_root / "symlink-plan").exists()
