@@ -198,6 +198,25 @@ class DeltaSignedREST:
             self.api_key and self.api_secret
         )
 
+    @property
+    def provenance_identity(self):
+        """Return the non-secret upstream origin bound to captured evidence."""
+        parsed = urllib.parse.urlsplit(self.base_url)
+        if not parsed.scheme or not parsed.hostname:
+            raise ValueError("Delta REST base_url must include a scheme and hostname")
+        hostname = parsed.hostname.lower()
+        if ":" in hostname and not hostname.startswith("["):
+            hostname = f"[{hostname}]"
+        authority = hostname
+        if parsed.port is not None:
+            authority = f"{authority}:{parsed.port}"
+        return {
+            "venue": "delta",
+            "api_version": "v2",
+            "origin": f"{parsed.scheme.lower()}://{authority}",
+            "base_path": parsed.path.rstrip("/"),
+        }
+
     # -------------------------------------------------
 
     def _headers(
