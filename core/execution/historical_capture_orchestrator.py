@@ -164,6 +164,14 @@ _ENDPOINT_FIELDS = {
     "wallet_transactions": "wallet_transactions",
 }
 
+_ENDPOINT_PATHS = {
+    "open_orders": "/v2/orders",
+    "order_history": "/v2/orders/history",
+    "fills": "/v2/fills",
+    "positions": "/v2/positions",
+    "wallet_transactions": "/v2/wallet/transactions",
+}
+
 
 def _snapshot_records(snapshot: Any, endpoint: str) -> tuple[dict[str, Any], ...]:
     """Return only records belonging to one endpoint/category."""
@@ -224,8 +232,8 @@ def _read_capture_artifact_at(directory_fd: int, name: str) -> Mapping[str, Any]
         ) from None
 
 
-def _safe_json_write(root: Path, plan_id: str, capture_id: str,
-                     payload: Mapping[str, Any]) -> str:
+def _safe_json_write_at(root: Path, plan_id: str, capture_id: str,
+                        payload: Mapping[str, Any]) -> str:
     """Atomically create an immutable artifact using no-follow directory handles."""
     if not capture_id or "/" in capture_id or "\\" in capture_id:
         raise CapturePersistenceError("capture artifact identity is not a safe filename")
@@ -282,6 +290,15 @@ def _safe_json_write(root: Path, plan_id: str, capture_id: str,
         os.close(directory_fd)
 
 
+
+def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
+    """Compatibility wrapper retaining the historical path/payload call shape."""
+    path = Path(path)
+    return _safe_json_write_at(
+        path.parent.parent.resolve(), path.parent.name, path.name, payload
+    )
+
+
 def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
     """Validate the shape and bounded sequence of persisted read-page metadata."""
     if not isinstance(value, list):
@@ -289,12 +306,16 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
     if len(value) > plan.max_total_pages:
         raise CapturePersistenceError("persisted page provenance exceeds the total page budget")
     next_index: dict[str, int] = {}
+    allowed_page_endpoints = {
+        name for endpoint in plan.endpoints
+        for name in (endpoint, _ENDPOINT_PATHS[endpoint])
+    }
     allowed_statuses = {"REQUEST_FAILED", "INVALID_RESPONSE", "SUCCESS", "RECORD_BUDGET_OVERRUN", "REPEATED_PAGE"}
     for page in value:
         if not isinstance(page, Mapping):
             raise CapturePersistenceError("persisted page provenance entry must be a mapping")
         endpoint = page.get("endpoint")
-        if endpoint not in plan.endpoints:
+        if endpoint not in allowed_page_endpoints:
             raise CapturePersistenceError("persisted page provenance endpoint is unsupported")
         page_index = page.get("page_index")
         expected_index = next_index.get(endpoint, 0)
@@ -726,7 +747,7 @@ class HistoricalCaptureOrchestrator:
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
                             "page_provenance": page_provenance,
                         }
-                        _safe_json_write(self._root, plan_id, capture_id, payload)
+                        _safe_json_write(self._root / plan_id / capture_id, payload)
                         capture = CaptureSnapshot(
                             **{**capture.__dict__, "raw_source_checksum": capture.content_identity()}
                         )
