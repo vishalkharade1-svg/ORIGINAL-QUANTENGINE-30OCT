@@ -219,6 +219,26 @@ class DeltaSignedREST:
 
     # -------------------------------------------------
 
+    def _validate_request_target(self, path):
+        """Refuse absolute or authority-relative targets before signing credentials."""
+        if (not isinstance(path, str) or not path.startswith("/")
+                or path.startswith("//") or "\\\\" in path
+                or any(ord(char) < 32 or ord(char) == 127 for char in path)):
+            raise ValueError("Delta REST request path must be an origin-relative URL path")
+        parsed = urllib.parse.urlsplit(path)
+        if parsed.scheme or parsed.netloc or parsed.fragment:
+            raise ValueError("Delta REST request path must not override the configured origin")
+
+        base = urllib.parse.urlsplit(self.base_url)
+        if (base.scheme.lower() not in {"https", "http"} or not base.hostname
+                or base.username is not None or base.password is not None
+                or base.query or base.fragment):
+            raise ValueError("Delta REST base_url must be a clean HTTP(S) origin")
+        if self.authenticated and base.scheme.lower() != "https":
+            raise ValueError("authenticated Delta REST requests require HTTPS")
+
+    # -------------------------------------------------
+
     def _headers(
         self,
         method,
@@ -266,6 +286,7 @@ class DeltaSignedREST:
         params=None,
     ):
 
+        self._validate_request_target(path)
         path_with_query = (
             path + query_string(params)
         )
@@ -310,6 +331,7 @@ class DeltaSignedREST:
         if (isinstance(retry_budget, bool) or not isinstance(retry_budget, int)
                 or not 0 <= retry_budget <= 5):
             raise ValueError("retry_budget must be between 0 and 5")
+        self._validate_request_target(path)
         path_with_query = path + query_string(params)
 
         def retry_delay(response, attempt):
@@ -369,6 +391,7 @@ class DeltaSignedREST:
         authority=None,
     ):
 
+        self._validate_request_target(path)
         if self.enforce_write_authority:
             consume_write_authority(
                 authority, base_url=self.base_url, endpoint=path,
