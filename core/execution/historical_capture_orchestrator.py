@@ -184,19 +184,29 @@ def _endpoint_status(snapshot: Any) -> Mapping[str, str]:
 
 
 def _open_capture_plan_directory(root: Path, plan_id: str, *, create: bool) -> int | None:
-    """Open a plan directory without following a plan-directory symlink."""
+    """Open storage-root ancestors and the plan directory without following symlinks."""
     if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY"):
         raise CapturePersistenceError("platform lacks no-follow directory operations")
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    root = Path(os.path.abspath(os.fspath(root)))
+    root_fd = None
     try:
-        if create:
-            root.mkdir(parents=True, exist_ok=True)
-        elif not root.exists():
-            return None
-        root_fd = os.open(str(root), flags)
-    except Exception:
-        raise CapturePersistenceError("capture storage root is not a safe directory") from None
-    try:
+        # Walk from the filesystem root using directory descriptors. O_NOFOLLOW
+        # on only the final path component would still follow symlinked parents.
+        root_fd = os.open(os.sep, flags)
+        for component in root.parts[1:]:
+            try:
+                next_fd = os.open(component, flags, dir_fd=root_fd)
+            except FileNotFoundError:
+                if not create:
+                    return None
+                try:
+                    os.mkdir(component, mode=0o777, dir_fd=root_fd)
+                except FileExistsError:
+                    pass
+                next_fd = os.open(component, flags, dir_fd=root_fd)
+            os.close(root_fd)
+            root_fd = next_fd
         try:
             plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
         except FileNotFoundError:
@@ -206,9 +216,10 @@ def _open_capture_plan_directory(root: Path, plan_id: str, *, create: bool) -> i
             plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
         return plan_fd
     except Exception:
-        raise CapturePersistenceError("capture plan directory is not a safe directory") from None
+        raise CapturePersistenceError("capture storage root or plan directory is not a safe directory") from None
     finally:
-        os.close(root_fd)
+        if root_fd is not None:
+            os.close(root_fd)
 
 
 def _read_capture_artifact_at(directory_fd: int, name: str) -> Mapping[str, Any]:

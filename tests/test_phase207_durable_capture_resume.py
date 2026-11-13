@@ -631,3 +631,21 @@ def test_orchestrator_rejects_symlinked_storage_root(tmp_path, resume):
 
     assert not (storage_root / "orchestrator-symlink-root").exists()
 
+@pytest.mark.parametrize("resume", [False, True])
+def test_orchestrator_rejects_symlinked_storage_root_ancestor(tmp_path, resume):
+    real_parent = tmp_path / "real-parent"
+    real_parent.mkdir()
+    linked_parent = tmp_path / "linked-parent"
+    linked_parent.symlink_to(real_parent, target_is_directory=True)
+    storage_root = linked_parent / "capture-storage"
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z", plan_id="ancestor-symlink-storage"
+    )
+
+    with pytest.raises(CapturePersistenceError, match="storage root or plan directory"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), storage_root).run(
+            plan, resume=resume
+        )
+
+    assert not (real_parent / "capture-storage").exists()
+
