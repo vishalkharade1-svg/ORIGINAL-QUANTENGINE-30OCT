@@ -433,6 +433,7 @@ class DeltaSignedREST:
         authority=None,
     ):
 
+        self._validate_request_target(path)
         if self.enforce_write_authority:
             consume_write_authority(
                 authority, base_url=self.base_url, endpoint=path,
