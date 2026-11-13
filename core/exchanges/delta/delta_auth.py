@@ -221,13 +221,14 @@ class DeltaSignedREST:
 
     def _validate_request_target(self, path):
         """Refuse absolute or authority-relative targets before signing credentials."""
-        if (not isinstance(path, str) or not path.startswith("/")
-                or path.startswith("//") or "\\" in path
+        if (not isinstance(path, str)
                 or any(ord(char) < 32 or ord(char) == 127 for char in path)):
             raise ValueError("Delta REST request path must be an origin-relative URL path")
         parsed = urllib.parse.urlsplit(path)
         if parsed.scheme or parsed.netloc or parsed.fragment:
             raise ValueError("Delta REST request path must not override the configured origin")
+        if not path.startswith("/") or path.startswith("//") or "\\" in path:
+            raise ValueError("Delta REST request path must be an origin-relative URL path")
 
         base = urllib.parse.urlsplit(self.base_url)
         if (base.scheme.lower() not in {"https", "http"} or not base.hostname
