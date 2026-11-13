@@ -485,8 +485,8 @@ def _assert_adapter_fingerprint(
         current = _adapter_fingerprint(
             adapter, require_source_identity=require_source_identity
         )
-    except CapturePlanError:
-        raise CapturePersistenceError("adapter/source identity became invalid during capture") from None
+    except Exception:
+        raise CapturePersistenceError("adapter/source identity could not be verified during capture") from None
     if current != expected:
         raise CapturePersistenceError("adapter/source identity changed during capture")
 
