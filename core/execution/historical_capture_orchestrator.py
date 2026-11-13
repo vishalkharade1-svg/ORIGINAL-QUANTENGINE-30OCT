@@ -300,7 +300,8 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
 
 
 def _validate_page_provenance(
-    value: Any, plan: HistoricalCapturePlan, *, require_enforced_policy: bool = False
+    value: Any, plan: HistoricalCapturePlan, *, require_enforced_policy: bool = False,
+    expected_endpoints: set[str] | None = None,
 ) -> None:
     """Validate bounded read-page metadata and authenticated request-policy evidence."""
     if not isinstance(value, list):
@@ -388,8 +389,13 @@ def _validate_page_provenance(
             raise CapturePersistenceError("persisted page provenance pagination status is invalid")
         if "error_type" in page and (not isinstance(page["error_type"], str) or not page["error_type"]):
             raise CapturePersistenceError("persisted page provenance error type is invalid")
-    if require_enforced_policy and not set(plan.endpoints).issubset(observed_endpoints):
+    required_endpoints = set(plan.endpoints) if expected_endpoints is None else set(expected_endpoints)
+    if not required_endpoints.issubset(set(plan.endpoints)):
+        raise CapturePersistenceError("page provenance expected endpoint scope is invalid")
+    if require_enforced_policy and not required_endpoints.issubset(observed_endpoints):
         raise CapturePersistenceError("authenticated capture is missing endpoint page provenance")
+    if require_enforced_policy and not observed_endpoints.issubset(required_endpoints):
+        raise CapturePersistenceError("authenticated capture contains unexpected endpoint page provenance")
 
 
 _CAPTURE_ARTIFACT_SCHEMA = "quantengine.phase208.capture.v1"
@@ -659,6 +665,7 @@ class HistoricalCaptureOrchestrator:
                         _validate_page_provenance(
                             payload.get("page_provenance"), plan,
                             require_enforced_policy=plan.mode == "authenticated",
+                            expected_endpoints={endpoint},
                         )
                         expected_product = None if endpoint == "wallet_transactions" else plan.product_id
                         if (capture.venue.strip().lower() != plan.venue.strip().lower()
@@ -756,6 +763,17 @@ class HistoricalCaptureOrchestrator:
                         _validate_page_provenance(
                             page_provenance, plan,
                             require_enforced_policy=plan.mode == "authenticated",
+                            expected_endpoints=set(missing_endpoints),
+                        )
+                        endpoint_paths = {endpoint, _ENDPOINT_PATHS[endpoint]}
+                        endpoint_page_provenance = [
+                            page for page in page_provenance
+                            if page.get("endpoint") in endpoint_paths
+                        ]
+                        _validate_page_provenance(
+                            endpoint_page_provenance, plan,
+                            require_enforced_policy=plan.mode == "authenticated",
+                            expected_endpoints={endpoint},
                         )
                         payload = {
                             "schema": _CAPTURE_ARTIFACT_SCHEMA,
@@ -767,7 +785,7 @@ class HistoricalCaptureOrchestrator:
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
-                            "page_provenance": page_provenance,
+                            "page_provenance": endpoint_page_provenance,
                         }
                         _safe_json_write(self._root / plan_id / capture_id, payload)
                         capture = CaptureSnapshot(
