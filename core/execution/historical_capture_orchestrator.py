@@ -299,13 +299,18 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
     )
 
 
-def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
-    """Validate the shape and bounded sequence of persisted read-page metadata."""
+def _validate_page_provenance(
+    value: Any, plan: HistoricalCapturePlan, *, require_enforced_policy: bool = False
+) -> None:
+    """Validate bounded read-page metadata and authenticated request-policy evidence."""
     if not isinstance(value, list):
         raise CapturePersistenceError("persisted page provenance must be a list")
     if len(value) > plan.max_total_pages:
         raise CapturePersistenceError("persisted page provenance exceeds the total page budget")
+    if require_enforced_policy and not value:
+        raise CapturePersistenceError("authenticated capture is missing per-page request-policy provenance")
     next_index: dict[str, int] = {}
+    observed_endpoints: set[str] = set()
     allowed_page_endpoints = {
         name for endpoint in plan.endpoints
         for name in (endpoint, _ENDPOINT_PATHS[endpoint])
@@ -323,6 +328,10 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
                 or page_index != expected_index):
             raise CapturePersistenceError("persisted page provenance index is invalid or non-sequential")
         next_index[endpoint] = expected_index + 1
+        observed_endpoints.add(
+            endpoint if endpoint in plan.endpoints
+            else next(name for name in plan.endpoints if _ENDPOINT_PATHS[name] == endpoint)
+        )
         status = page.get("response_status")
         if status not in allowed_statuses:
             raise CapturePersistenceError("persisted page provenance response status is unsupported")
@@ -356,8 +365,15 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
         http_status = page.get("http_status_code")
         if http_status is not None and not _bounded_int(http_status, 0, 999):
             raise CapturePersistenceError("persisted page provenance HTTP status is invalid")
-        if not isinstance(page.get("request_policy_enforced"), bool):
+        policy_enforced = page.get("request_policy_enforced")
+        if not isinstance(policy_enforced, bool):
             raise CapturePersistenceError("persisted page provenance policy flag is invalid")
+        if require_enforced_policy and not policy_enforced:
+            raise CapturePersistenceError("authenticated capture page did not enforce bounded request policy")
+        if require_enforced_policy and status == "SUCCESS":
+            if (retry_count is None or retry_count > plan.retry_budget
+                    or http_status is None or not 200 <= http_status < 300):
+                raise CapturePersistenceError("authenticated successful page lacks bounded retry/HTTP evidence")
         if "records_not_persisted" in page:
             not_persisted = page["records_not_persisted"]
             if (not _bounded_int(not_persisted, 0, plan.max_records_per_snapshot)
@@ -372,6 +388,8 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
             raise CapturePersistenceError("persisted page provenance pagination status is invalid")
         if "error_type" in page and (not isinstance(page["error_type"], str) or not page["error_type"]):
             raise CapturePersistenceError("persisted page provenance error type is invalid")
+    if require_enforced_policy and not set(plan.endpoints).issubset(observed_endpoints):
+        raise CapturePersistenceError("authenticated capture is missing endpoint page provenance")
 
 
 _CAPTURE_ARTIFACT_SCHEMA = "quantengine.phase208.capture.v1"
@@ -640,7 +658,10 @@ class HistoricalCaptureOrchestrator:
                         ))
                         if capture.capture_id != expected_capture_id:
                             raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
-                        _validate_page_provenance(payload.get("page_provenance"), plan)
+                        _validate_page_provenance(
+                            payload.get("page_provenance"), plan,
+                            require_enforced_policy=plan.mode == "authenticated",
+                        )
                         expected_product = None if endpoint == "wallet_transactions" else plan.product_id
                         if (capture.venue.strip().lower() != plan.venue.strip().lower()
                                 or capture.account_id != plan.account_id
@@ -734,7 +755,10 @@ class HistoricalCaptureOrchestrator:
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
                         page_provenance = [dict(page) for page in getattr(raw, "page_provenance", ())]
-                        _validate_page_provenance(page_provenance, plan)
+                        _validate_page_provenance(
+                            page_provenance, plan,
+                            require_enforced_policy=plan.mode == "authenticated",
+                        )
                         payload = {
                             "schema": _CAPTURE_ARTIFACT_SCHEMA,
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
