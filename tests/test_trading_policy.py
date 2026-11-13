@@ -84,6 +84,18 @@ class TestTradingPolicy(unittest.TestCase):
             m.reset_instrument("NIFTY")
             self.assertEqual(m.get("NIFTY").min_rr, 3.0)
 
+    def test_repo_runtime_policy_save_preserves_authentic_bytes(self):
+        from core.risk import trading_policy as tp_mod
+
+        path = tp_mod._POLICY_PATH
+        before = path.read_bytes()
+        manager = TradingPolicyManager(path)
+        manager._persist()
+        self.assertEqual(
+            path.read_bytes(), before,
+            "saving the loaded default policy must preserve its authentic "
+            "Phase131 byte representation")
+
     def test_default_path_is_repo_anchored_not_cwd(self):
         import os
         from core.risk import trading_policy as tp_mod

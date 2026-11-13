@@ -142,10 +142,22 @@ class TradingPolicyManager:
 
     def _persist(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        def persisted_values(policy: TradingPolicy) -> dict:
+            # Phase131 pins the authentic runtime policy bytes, whose default
+            # trailing method and step are intentionally omitted. Keep those
+            # defaults implicit so a load/save or set/reset cycle does not
+            # rewrite the historical LF snapshot with redundant fields.
+            values = asdict(policy)
+            if values["trailing_method"] == DEFAULT_TRAILING_METHOD:
+                values.pop("trailing_method")
+            if values["trailing_step_r"] == DEFAULT_TRAILING_STEP_R:
+                values.pop("trailing_step_r")
+            return values
+
         payload = {
-            "global": asdict(self._global),
+            "global": persisted_values(self._global),
             "instruments": {
-                self._display_keys.get(key, key): asdict(self._overrides[key])
+                self._display_keys.get(key, key): persisted_values(self._overrides[key])
                 for key in sorted(self._overrides)
             },
         }

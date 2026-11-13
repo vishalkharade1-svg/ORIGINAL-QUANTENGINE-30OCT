@@ -6,8 +6,7 @@ on:
       - phase206/bounded-multi-window-capture
       - phase207/mainline-durable-capture
       - main
-      - audit/deep-hardening-2026-11-10
-      - audit/deep-hardening-clean-2026-11-10
+      - 'audit/**'
   pull_request:
     branches:
       - main
