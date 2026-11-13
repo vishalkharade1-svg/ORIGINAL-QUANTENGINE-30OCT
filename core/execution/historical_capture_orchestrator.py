@@ -381,6 +381,19 @@ def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False)
     return hashlib.sha256(encoded).hexdigest()
 
 
+def _assert_adapter_fingerprint(
+    adapter: Any, expected: str, *, require_source_identity: bool
+) -> None:
+    try:
+        current = _adapter_fingerprint(
+            adapter, require_source_identity=require_source_identity
+        )
+    except CapturePlanError:
+        raise CapturePersistenceError("adapter/source identity became invalid during capture") from None
+    if current != expected:
+        raise CapturePersistenceError("adapter/source identity changed during capture")
+
+
 class DeltaCaptureAdapter(Protocol):
     def capture(self, *, product_id: int, window_start: str, window_end: str,
                 overlap_seconds: int = 60, endpoints: tuple[str, ...] | None = None,
@@ -569,6 +582,10 @@ class HistoricalCaptureOrchestrator:
                     return result
                 run_count += 1
                 try:
+                    _assert_adapter_fingerprint(
+                        self._adapter, adapter_fingerprint,
+                        require_source_identity=plan.mode == "authenticated",
+                    )
                     raw = self._adapter.capture(
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
@@ -577,6 +594,10 @@ class HistoricalCaptureOrchestrator:
                         max_total_pages=plan.max_total_pages,
                         request_timeout_seconds=plan.request_timeout_seconds,
                         retry_budget=plan.retry_budget, allow_partial=True,
+                    )
+                    _assert_adapter_fingerprint(
+                        self._adapter, adapter_fingerprint,
+                        require_source_identity=plan.mode == "authenticated",
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
