@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from core.exchanges.delta.delta_auth import DeltaSignedREST
 from core.exchanges.delta.reconciliation_read_adapter import DeltaReconciliationReadAdapter
 from core.execution.historical_capture_orchestrator import (
     CaptureAuthorizationError, CapturePersistenceError, CapturePlanError, HistoricalCapturePlan,
@@ -295,3 +296,18 @@ def test_delta_read_adapter_exposes_stable_non_secret_provenance_identity():
         "adapter": "reconciliation-read",
         "policy_version": "delta-get-only-evidence-v1",
     }
+
+
+
+def test_delta_signed_rest_provenance_identity_pins_origin_without_credentials():
+    rest = object.__new__(DeltaSignedREST)
+    rest.base_url = "https://user:password@testnet.delta.example:8443/custom/api?token=do-not-store"
+
+    assert rest.provenance_identity == {
+        "venue": "delta",
+        "api_version": "v2",
+        "origin": "https://testnet.delta.example:8443",
+        "base_path": "/custom/api",
+    }
+    assert "password" not in str(rest.provenance_identity)
+    assert "token" not in str(rest.provenance_identity)
