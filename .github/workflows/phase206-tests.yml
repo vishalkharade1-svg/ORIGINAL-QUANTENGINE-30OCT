@@ -75,6 +75,7 @@ jobs:
               "tests/test_phase206_historical_capture_pipeline.py",
               "core/execution/historical_capture_orchestrator.py",
               "tests/test_phase207_durable_capture_resume.py",
+              ".github/workflows/phase206-tests.yml",
           ):
               data = pathlib.Path(name).read_bytes()
               print("manifest-debug", name, len(data), hashlib.sha256(data).hexdigest(),
