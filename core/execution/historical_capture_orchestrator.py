@@ -478,9 +478,9 @@ def _adapter_identity_payload(adapter: Any, *, require_source_identity: bool = F
         reject_secret_fields(source_identity)
         identity[label] = source_identity
         source_found = True
-    if require_source_identity and not source_found:
+    if require_source_identity and "rest_source" not in identity:
         raise CapturePlanError(
-            "authenticated adapter must expose a stable non-secret provenance_identity"
+            "authenticated adapter REST client must expose a stable non-secret provenance_identity"
         )
     try:
         canonical_json_bytes(identity)
