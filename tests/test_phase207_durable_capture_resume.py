@@ -517,3 +517,86 @@ def test_authenticated_capture_requires_rest_origin_identity_not_only_adapter_la
     with pytest.raises(CapturePlanError, match="REST client must expose a stable non-secret provenance_identity"):
         orchestrator.run(plan)
     assert adapter.calls == []
+
+def test_authenticated_resume_validates_page_provenance_per_endpoint_slot(tmp_path):
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z",
+        endpoints=("fills", "positions"),
+        mode="authenticated",
+    )
+
+    class PartialAuthenticatedAdapter:
+        def __init__(self):
+            self.calls = []
+            self.sequence = 0
+            self.provenance_identity = {"adapter": "phase207-resume-fixture"}
+            self._rest = SimpleNamespace(
+                authenticated=True,
+                provenance_identity={
+                    "venue": "delta",
+                    "origin": "https://testnet.delta.example",
+                    "api_version": "v2",
+                },
+                get_with_policy=lambda *args, **kwargs: None,
+            )
+
+        def capture(self, **kwargs):
+            self.calls.append(kwargs)
+            self.sequence += 1
+            endpoints = kwargs["endpoints"]
+            failed_positions = self.sequence == 1
+            statuses = {
+                endpoint: (
+                    "REQUEST_FAILED"
+                    if endpoint == "positions" and failed_positions
+                    else "OK"
+                )
+                for endpoint in endpoints
+            }
+            pages = []
+            for endpoint in endpoints:
+                failed = endpoint == "positions" and failed_positions
+                pages.append({
+                    "endpoint": endpoint,
+                    "page_index": 0,
+                    "request_cursor": None,
+                    "response_cursor": None,
+                    "response_status": "REQUEST_FAILED" if failed else "SUCCESS",
+                    "record_count": 0,
+                    "content_sha256": None if failed else "a" * 64,
+                    "request_started_at": "2026-10-01T00:00:00Z",
+                    "collected_at": "2026-10-01T00:00:01Z",
+                    "request_duration_ms": 1.0,
+                    "retry_count": 0,
+                    "http_status_code": 503 if failed else 200,
+                    "request_policy_enforced": True,
+                })
+            return SimpleNamespace(
+                captured_at=f"2026-10-01T0{self.sequence}:00:00Z",
+                fills=(),
+                positions=(),
+                open_orders=(),
+                order_history=(),
+                wallet_transactions=(),
+                endpoint_status=statuses,
+                page_provenance=tuple(pages),
+            )
+
+    first_adapter = PartialAuthenticatedAdapter()
+    first = HistoricalCaptureOrchestrator(
+        first_adapter, tmp_path, owner_authorizer=lambda _: True
+    ).run(plan)
+    assert first.status == "PARTIAL"
+    assert len(first_adapter.calls) == 1
+    assert first_adapter.calls[0]["endpoints"] == ("fills", "positions")
+
+    resumed_adapter = PartialAuthenticatedAdapter()
+    resumed_adapter.sequence = 1
+    resumed = HistoricalCaptureOrchestrator(
+        resumed_adapter, tmp_path, owner_authorizer=lambda _: True
+    ).run(plan)
+    assert resumed.status == "COMPLETE"
+    assert len(resumed_adapter.calls) == 1
+    assert resumed_adapter.calls[0]["endpoints"] == ("positions",)
+    assert resumed.completed_windows == 1
+
