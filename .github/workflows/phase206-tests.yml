@@ -64,32 +64,6 @@ jobs:
             git commit -m "chore(phase206): refresh source integrity manifest"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
-      - name: Diagnose source manifest bytes
-        run: |
-          python - <<'PY'
-          import hashlib
-          import pathlib
-          import subprocess
-          for name in (
-              "core/exchanges/delta/reconciliation_read_adapter.py",
-              "tests/test_phase206_historical_capture_pipeline.py",
-              "core/execution/historical_capture_orchestrator.py",
-              "tests/test_phase207_durable_capture_resume.py",
-              ".github/workflows/phase206-tests.yml",
-          ):
-              data = pathlib.Path(name).read_bytes()
-              print("manifest-debug", name, len(data), hashlib.sha256(data).hexdigest(),
-                    "crlf", data.count(b"\\r\\n"), "lf", data.count(b"\\n"))
-          for args in (
-              ["git", "config", "--show-origin", "--get", "core.autocrlf"],
-              ["git", "check-attr", "text", "eol", "--",
-               "core/exchanges/delta/reconciliation_read_adapter.py",
-               "tests/test_phase206_historical_capture_pipeline.py",
-               "core/execution/historical_capture_orchestrator.py"],
-          ):
-              result = subprocess.run(args, capture_output=True, text=True)
-              print("manifest-debug-config", args, result.returncode, result.stdout.strip(), result.stderr.strip())
-          PY
       - name: Verify strict source manifest
         run: python scripts/generate_manifest.py --verify --strict
       - name: Run repository secret scan
