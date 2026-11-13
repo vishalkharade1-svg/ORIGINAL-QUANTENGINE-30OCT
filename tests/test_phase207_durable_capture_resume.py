@@ -497,3 +497,21 @@ def test_authenticated_page_provenance_rejects_unhashable_fields(overrides):
             plan,
             require_enforced_policy=True,
         )
+
+
+
+def test_authenticated_capture_requires_rest_origin_identity_not_only_adapter_label(tmp_path):
+    adapter = SequenceAdapter()
+    adapter._rest = SimpleNamespace(
+        authenticated=True, get_with_policy=lambda *args, **kwargs: None
+    )
+    adapter.provenance_identity = {"adapter": "delta-read-adapter"}
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z", mode="authenticated", plan_id="authenticated-plan"
+    )
+    orchestrator = HistoricalCaptureOrchestrator(
+        adapter, tmp_path, owner_authorizer=lambda _: True
+    )
+    with pytest.raises(CapturePlanError, match="REST client must expose a stable non-secret provenance_identity"):
+        orchestrator.run(plan)
+    assert adapter.calls == []
