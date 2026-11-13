@@ -479,3 +479,21 @@ def test_authenticated_success_page_requires_bounded_retry_and_http_evidence():
             plan,
             require_enforced_policy=True,
         )
+
+
+
+@pytest.mark.parametrize(
+    "overrides",
+    [
+        {"endpoint": []},
+        {"response_status": []},
+    ],
+)
+def test_authenticated_page_provenance_rejects_unhashable_fields(overrides):
+    plan = make_plan(mode="authenticated")
+    with pytest.raises(CapturePersistenceError, match="endpoint is unsupported|response status is unsupported"):
+        _validate_page_provenance(
+            [_authenticated_page_provenance(**overrides)],
+            plan,
+            require_enforced_policy=True,
+        )
