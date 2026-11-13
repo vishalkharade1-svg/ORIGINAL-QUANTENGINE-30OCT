@@ -613,3 +613,20 @@ def test_compatibility_writer_rejects_symlinked_storage_root(tmp_path):
         _safe_json_write(linked_root / "symlink-plan" / "capture.json", {"safe": True})
 
     assert not (storage_root / "symlink-plan").exists()
+
+def test_orchestrator_rejects_symlinked_storage_root(tmp_path):
+    storage_root = tmp_path / "real-storage"
+    storage_root.mkdir()
+    linked_root = tmp_path / "storage-link"
+    linked_root.symlink_to(storage_root, target_is_directory=True)
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z", plan_id="orchestrator-symlink-root"
+    )
+
+    with pytest.raises(CapturePersistenceError, match="storage root"):
+        HistoricalCaptureOrchestrator(SequenceAdapter(), linked_root).run(
+            plan, resume=False
+        )
+
+    assert not (storage_root / "orchestrator-symlink-root").exists()
+
