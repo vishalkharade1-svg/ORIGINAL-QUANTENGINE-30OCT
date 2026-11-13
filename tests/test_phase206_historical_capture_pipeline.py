@@ -89,6 +89,7 @@ def test_trusted_callback_and_authenticated_fake_adapter_allow_fixture_exercise(
     authenticated_plan = plan(mode="authenticated")
     adapter = FakeAdapter()
     adapter._rest.authenticated = True
+    adapter.provenance_identity = {"source": "delta-test-double", "api_version": "fixture-v1"}
     result = HistoricalCaptureOrchestrator(
         adapter, tmp_path, owner_authorizer=lambda _: True
     ).run(authenticated_plan)
