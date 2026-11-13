@@ -295,7 +295,7 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
     """Compatibility wrapper retaining the historical path/payload call shape."""
     path = Path(path)
     return _safe_json_write_at(
-        path.parent.parent.resolve(), path.parent.name, path.name, payload
+        path.parent.parent, path.parent.name, path.name, payload
     )
 
 
