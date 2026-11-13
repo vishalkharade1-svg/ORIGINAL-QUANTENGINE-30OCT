@@ -175,6 +175,75 @@ def _endpoint_status(snapshot: Any) -> Mapping[str, str]:
     return dict(getattr(snapshot, "endpoint_status", {}) or {})
 
 
+_CAPTURE_ARTIFACT_SCHEMA = "quantengine.phase208.capture.v1"
+_CAPTURE_POLICY_VERSION = "phase208-bounded-read-capture-v1"
+
+
+def _plan_fingerprint(plan: HistoricalCapturePlan, windows: tuple[CaptureWindow, ...]) -> str:
+    """Fingerprint every plan input that can affect collection or evidence meaning."""
+    start_iso, end_iso = windows[0].as_iso()[0], windows[-1].as_iso()[1]
+    policy = {
+        "policy_version": _CAPTURE_POLICY_VERSION,
+        "venue": plan.venue.strip().lower(),
+        "tenant_id": plan.tenant_id,
+        "account_id": plan.account_id,
+        "product_id": plan.product_id,
+        "start": start_iso,
+        "end": end_iso,
+        "window_seconds": plan.window_seconds,
+        "overlap_seconds": plan.overlap_seconds,
+        "repeat_count": plan.repeat_count,
+        "max_windows": plan.max_windows,
+        "max_records_per_snapshot": plan.max_records_per_snapshot,
+        "max_total_records": plan.max_total_records,
+        "max_pages_per_endpoint": plan.max_pages_per_endpoint,
+        "max_total_pages": plan.max_total_pages,
+        "request_timeout_seconds": plan.request_timeout_seconds,
+        "retry_budget": plan.retry_budget,
+        "max_capture_runs": plan.max_capture_runs,
+        "interval_seconds": plan.interval_seconds,
+        "mode": plan.mode,
+        "endpoints": list(plan.endpoints),
+    }
+    return hashlib.sha256(canonical_json_bytes(policy)).hexdigest()
+
+
+def _adapter_fingerprint(adapter: Any) -> str:
+    """Fingerprint adapter implementation plus its optional stable source identity.
+
+    Adapters may expose a non-secret provenance_identity string or JSON mapping
+    (for example source/API version and environment). Credentials must never be
+    included. The fully-qualified adapter class is always part of the fingerprint.
+    """
+    adapter_type = type(adapter)
+    identity: dict[str, Any] = {
+        "adapter_class": f"{adapter_type.__module__}.{adapter_type.__qualname__}",
+    }
+    source_identity = getattr(adapter, "provenance_identity", None)
+    if callable(source_identity):
+        source_identity = source_identity()
+    if source_identity is not None:
+        if not isinstance(source_identity, (str, Mapping)):
+            raise CapturePlanError("adapter provenance_identity must be a string or JSON mapping")
+        identity["source"] = source_identity
+    try:
+        encoded = canonical_json_bytes(identity)
+    except Exception:
+        raise CapturePlanError("adapter provenance_identity must be canonical JSON data") from None
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _validated_page_provenance(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, (list, tuple)) or any(not isinstance(page, Mapping) for page in value):
+        raise CapturePersistenceError("capture page provenance has an invalid structure")
+    try:
+        normalized = [dict(page) for page in value]
+        canonical_json_bytes(normalized)
+    except Exception:
+        raise CapturePersistenceError("capture page provenance is not canonical JSON data") from None
+    return normalized
+
+
 def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
     """Atomically create an immutable JSON artifact and return its SHA-256.
 
@@ -292,6 +361,8 @@ class HistoricalCaptureOrchestrator:
                 or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
                 or Path(plan_id).name != plan_id):
             raise CapturePlanError("plan_id must be a safe single path component")
+        plan_fingerprint = _plan_fingerprint(plan, windows)
+        adapter_fingerprint = _adapter_fingerprint(self._adapter)
         result = CaptureRunResult(plan_id=plan_id, status="COMPLETE", requested_windows=len(windows))
         # Phase 207: reconstruct verified Phase-207 artifacts before issuing
         # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
@@ -304,14 +375,19 @@ class HistoricalCaptureOrchestrator:
                 try:
                     payload = json.loads(artifact_path.read_text(encoding="utf-8"))
                     schema = payload.get("schema")
-                    if schema == "quantengine.phase206.capture.v1":
-                        # Phase-206 artifacts predate slot coordinates; preserve
-                        # them but never infer a resumable slot from their names.
+                    if schema in {"quantengine.phase206.capture.v1", "quantengine.phase207.capture.v1"}:
+                        # Older artifacts lack complete collection/source fingerprints;
+                        # preserve them but never trust them as resumable slots.
                         continue
-                    if schema != "quantengine.phase207.capture.v1":
+                    if schema != _CAPTURE_ARTIFACT_SCHEMA:
                         raise CapturePersistenceError("persisted capture schema is unsupported")
                     if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
                         raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                    if payload.get("plan_fingerprint") != plan_fingerprint:
+                        raise CapturePersistenceError("persisted capture plan/policy fingerprint does not match")
+                    if payload.get("adapter_fingerprint") != adapter_fingerprint:
+                        raise CapturePersistenceError("persisted capture adapter/source fingerprint does not match")
+                    _validated_page_provenance(payload.get("page_provenance"))
                     repeat_index = payload.get("repeat_index")
                     window_index = payload.get("window_index")
                     endpoint = payload.get("endpoint")
@@ -407,13 +483,17 @@ class HistoricalCaptureOrchestrator:
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
                         payload = {
-                            "schema": "quantengine.phase207.capture.v1",
+                            "schema": _CAPTURE_ARTIFACT_SCHEMA,
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
+                            "plan_fingerprint": plan_fingerprint,
+                            "adapter_fingerprint": adapter_fingerprint,
                             "repeat_index": repeat, "window_index": index,
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
-                            "page_provenance": [dict(page) for page in getattr(raw, "page_provenance", ())],
+                            "page_provenance": _validated_page_provenance(
+                                getattr(raw, "page_provenance", ())
+                            ),
                         }
                         _safe_json_write(self._root / plan_id / capture_id, payload)
                         capture = CaptureSnapshot(
