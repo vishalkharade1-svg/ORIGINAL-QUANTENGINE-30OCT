@@ -320,7 +320,7 @@ def _validate_page_provenance(
         if not isinstance(page, Mapping):
             raise CapturePersistenceError("persisted page provenance entry must be a mapping")
         endpoint = page.get("endpoint")
-        if endpoint not in allowed_page_endpoints:
+        if not isinstance(endpoint, str) or endpoint not in allowed_page_endpoints:
             raise CapturePersistenceError("persisted page provenance endpoint is unsupported")
         page_index = page.get("page_index")
         expected_index = next_index.get(endpoint, 0)
@@ -333,7 +333,7 @@ def _validate_page_provenance(
             else next(name for name in plan.endpoints if _ENDPOINT_PATHS[name] == endpoint)
         )
         status = page.get("response_status")
-        if status not in allowed_statuses:
+        if not isinstance(status, str) or status not in allowed_statuses:
             raise CapturePersistenceError("persisted page provenance response status is unsupported")
         for cursor_name in ("request_cursor", "response_cursor"):
             cursor = page.get(cursor_name)
