@@ -330,19 +330,31 @@ def _plan_fingerprint(plan: HistoricalCapturePlan, windows: tuple[CaptureWindow,
     return hashlib.sha256(canonical_json_bytes(policy)).hexdigest()
 
 
-def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False) -> str:
-    """Bind evidence to the adapter stack and stable upstream source identity.
-
-    Authenticated adapters must expose a non-secret provenance_identity string
-    or JSON mapping on the adapter, read adapter, or REST client. It should
-    identify the upstream source/API version and environment. Credentials must
-    never be included. All adapter-stack classes are always bound.
-    """
+def _adapter_identity_payload(adapter: Any, *, require_source_identity: bool = False) -> dict[str, Any]:
+    """Return auditable, non-secret adapter/source identity metadata."""
     def class_name(value: Any) -> str | None:
         if value is None:
             return None
         cls = type(value)
         return f"{cls.__module__}.{cls.__qualname__}"
+
+    def reject_secret_fields(value: Any) -> None:
+        if isinstance(value, Mapping):
+            forbidden = (
+                "secret", "password", "api_key", "apikey", "credential",
+                "authorization", "private_key", "access_token", "refresh_token",
+                "signature",
+            )
+            for key, nested in value.items():
+                normalized = str(key).lower().replace("-", "_")
+                if any(term in normalized for term in forbidden):
+                    raise CapturePlanError(
+                        "adapter provenance_identity contains a credential-like field"
+                    )
+                reject_secret_fields(nested)
+        elif isinstance(value, (list, tuple)):
+            for nested in value:
+                reject_secret_fields(nested)
 
     read_adapter = getattr(adapter, "_read_adapter", None)
     rest_client = getattr(adapter, "_rest", None)
@@ -368,6 +380,7 @@ def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False)
             continue
         if not isinstance(source_identity, (str, Mapping)):
             raise CapturePlanError("adapter provenance_identity must be a string or JSON mapping")
+        reject_secret_fields(source_identity)
         identity[label] = source_identity
         source_found = True
     if require_source_identity and not source_found:
@@ -375,10 +388,17 @@ def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False)
             "authenticated adapter must expose a stable non-secret provenance_identity"
         )
     try:
-        encoded = canonical_json_bytes(identity)
+        canonical_json_bytes(identity)
     except Exception:
         raise CapturePlanError("adapter provenance_identity must be canonical JSON data") from None
-    return hashlib.sha256(encoded).hexdigest()
+    return identity
+
+
+def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False) -> str:
+    identity = _adapter_identity_payload(
+        adapter, require_source_identity=require_source_identity
+    )
+    return hashlib.sha256(canonical_json_bytes(identity)).hexdigest()
 
 
 def _assert_adapter_fingerprint(
@@ -461,9 +481,12 @@ class HistoricalCaptureOrchestrator:
                 or Path(plan_id).name != plan_id):
             raise CapturePlanError("plan_id must be a safe single path component")
         plan_fingerprint = _plan_fingerprint(plan, windows)
-        adapter_fingerprint = _adapter_fingerprint(
+        adapter_identity = _adapter_identity_payload(
             self._adapter, require_source_identity=plan.mode == "authenticated"
         )
+        adapter_fingerprint = hashlib.sha256(
+            canonical_json_bytes(adapter_identity)
+        ).hexdigest()
         result = CaptureRunResult(
             plan_id=plan_id,
             status="COMPLETE",
@@ -490,6 +513,8 @@ class HistoricalCaptureOrchestrator:
                         raise CapturePersistenceError("persisted capture scope does not match requested plan")
                     if payload.get("plan_fingerprint") != plan_fingerprint:
                         raise CapturePersistenceError("persisted capture plan/policy fingerprint does not match")
+                    if payload.get("adapter_identity") != adapter_identity:
+                        raise CapturePersistenceError("persisted capture adapter/source identity does not match")
                     if payload.get("adapter_fingerprint") != adapter_fingerprint:
                         raise CapturePersistenceError("persisted capture adapter/source fingerprint does not match")
                     repeat_index = payload.get("repeat_index")
@@ -628,6 +653,7 @@ class HistoricalCaptureOrchestrator:
                             "schema": _CAPTURE_ARTIFACT_SCHEMA,
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
                             "plan_fingerprint": plan_fingerprint,
+                            "adapter_identity": adapter_identity,
                             "adapter_fingerprint": adapter_fingerprint,
                             "repeat_index": repeat, "window_index": index,
                             "endpoint": endpoint,
