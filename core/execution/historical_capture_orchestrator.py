@@ -214,7 +214,14 @@ def _open_capture_plan_directory(root: Path, plan_id: str, *, create: bool) -> i
                 return None
             os.mkdir(plan_id, mode=0o700, dir_fd=root_fd)
             plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
+        if os.fstat(plan_fd).st_mode & 0o077:
+            os.close(plan_fd)
+            raise CapturePersistenceError(
+                "capture plan directory must not grant group or other access"
+            )
         return plan_fd
+    except CapturePersistenceError:
+        raise
     except Exception:
         raise CapturePersistenceError("capture storage root or plan directory is not a safe directory") from None
     finally:

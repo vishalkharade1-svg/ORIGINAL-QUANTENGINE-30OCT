@@ -420,10 +420,24 @@ def test_resume_rejects_plan_directory_symlink_escape(tmp_path):
     assert adapter.calls == []
 
 
+def test_resume_rejects_group_or_world_accessible_plan_directory(tmp_path):
+    storage_root = tmp_path / "storage"
+    plan_dir = storage_root / "shared-plan"
+    plan_dir.mkdir(parents=True)
+    plan_dir.chmod(0o755)
+    adapter = SequenceAdapter()
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id="shared-plan")
+
+    with pytest.raises(CapturePersistenceError, match="group or other access"):
+        HistoricalCaptureOrchestrator(adapter, storage_root).run(plan)
+    assert adapter.calls == []
+
+
 def test_resume_rejects_symlinked_artifact_file(tmp_path):
     storage_root = tmp_path / "storage"
     plan_dir = storage_root / "symlink-artifact-plan"
     plan_dir.mkdir(parents=True)
+    plan_dir.chmod(0o700)
     outside_file = tmp_path / "outside.json"
     outside_file.write_text('{"schema":"quantengine.phase208.capture.v1"}', encoding="utf-8")
     (plan_dir / "linked.json").symlink_to(outside_file)
