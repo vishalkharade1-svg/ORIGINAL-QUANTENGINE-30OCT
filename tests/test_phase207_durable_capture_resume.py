@@ -11,6 +11,7 @@ from core.execution.historical_capture_orchestrator import (
     CapturePlanError,
     HistoricalCaptureOrchestrator,
     HistoricalCapturePlan,
+    _validate_page_provenance,
 )
 
 
@@ -431,3 +432,50 @@ def test_resume_rejects_symlinked_artifact_file(tmp_path):
     with pytest.raises(CapturePersistenceError, match="opened safely"):
         HistoricalCaptureOrchestrator(adapter, storage_root).run(plan)
     assert adapter.calls == []
+
+
+
+def _authenticated_page_provenance(**overrides):
+    page = {
+        "endpoint": "fills",
+        "page_index": 0,
+        "request_cursor": None,
+        "response_cursor": None,
+        "response_status": "SUCCESS",
+        "record_count": 0,
+        "content_sha256": "a" * 64,
+        "request_started_at": "2026-10-01T00:00:00Z",
+        "collected_at": "2026-10-01T00:00:01Z",
+        "request_duration_ms": 1000.0,
+        "retry_count": 0,
+        "http_status_code": 200,
+        "request_policy_enforced": True,
+    }
+    page.update(overrides)
+    return page
+
+
+def test_authenticated_capture_requires_per_page_policy_evidence():
+    plan = make_plan(mode="authenticated")
+    with pytest.raises(CapturePersistenceError, match="missing per-page request-policy provenance"):
+        _validate_page_provenance([], plan, require_enforced_policy=True)
+
+
+def test_authenticated_capture_rejects_pages_without_bounded_policy():
+    plan = make_plan(mode="authenticated")
+    with pytest.raises(CapturePersistenceError, match="did not enforce bounded request policy"):
+        _validate_page_provenance(
+            [_authenticated_page_provenance(request_policy_enforced=False)],
+            plan,
+            require_enforced_policy=True,
+        )
+
+
+def test_authenticated_success_page_requires_bounded_retry_and_http_evidence():
+    plan = make_plan(mode="authenticated")
+    with pytest.raises(CapturePersistenceError, match="lacks bounded retry/HTTP evidence"):
+        _validate_page_provenance(
+            [_authenticated_page_provenance(retry_count=None)],
+            plan,
+            require_enforced_policy=True,
+        )
