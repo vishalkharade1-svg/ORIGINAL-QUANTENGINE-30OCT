@@ -295,6 +295,9 @@ def test_resume_rejects_fixture_artifacts_for_authenticated_mode(tmp_path):
     authenticated_adapter._rest = SimpleNamespace(
         authenticated=True, get_with_policy=lambda *args, **kwargs: None
     )
+    authenticated_adapter.provenance_identity = {
+        "source": "delta-production", "api_version": "v1"
+    }
     authenticated_plan = make_plan(
         end="2026-10-01T01:00:00Z", plan_id="stable-plan", mode="authenticated"
     )
@@ -331,3 +334,20 @@ def test_invalid_new_page_provenance_stops_capture_without_becoming_partial(tmp_
         HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
     assert len(adapter.calls) == 1
     assert list(Path(tmp_path).rglob("*.json")) == []
+
+
+
+def test_authenticated_capture_requires_explicit_non_secret_source_identity(tmp_path):
+    adapter = SequenceAdapter()
+    adapter._rest = SimpleNamespace(
+        authenticated=True, get_with_policy=lambda *args, **kwargs: None
+    )
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z", mode="authenticated", plan_id="authenticated-plan"
+    )
+    orchestrator = HistoricalCaptureOrchestrator(
+        adapter, tmp_path, owner_authorizer=lambda _: True
+    )
+    with pytest.raises(CapturePlanError, match="stable non-secret provenance_identity"):
+        orchestrator.run(plan)
+    assert adapter.calls == []
