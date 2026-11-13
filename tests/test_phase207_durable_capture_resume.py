@@ -399,3 +399,35 @@ def test_adapter_identity_rejects_credential_like_metadata_fields(tmp_path):
     with pytest.raises(CapturePlanError, match="credential-like"):
         HistoricalCaptureOrchestrator(adapter, tmp_path).run(plan)
     assert adapter.calls == []
+
+
+
+def test_resume_rejects_plan_directory_symlink_escape(tmp_path):
+    storage_root = tmp_path / "storage"
+    outside = tmp_path / "outside"
+    storage_root.mkdir()
+    outside.mkdir()
+    (storage_root / "symlink-plan").symlink_to(outside, target_is_directory=True)
+    adapter = SequenceAdapter()
+    plan = make_plan(end="2026-10-01T01:00:00Z", plan_id="symlink-plan")
+
+    with pytest.raises(CapturePersistenceError, match="plan directory"):
+        HistoricalCaptureOrchestrator(adapter, storage_root).run(plan)
+    assert adapter.calls == []
+
+
+def test_resume_rejects_symlinked_artifact_file(tmp_path):
+    storage_root = tmp_path / "storage"
+    plan_dir = storage_root / "symlink-artifact-plan"
+    plan_dir.mkdir(parents=True)
+    outside_file = tmp_path / "outside.json"
+    outside_file.write_text('{"schema":"quantengine.phase208.capture.v1"}', encoding="utf-8")
+    (plan_dir / "linked.json").symlink_to(outside_file)
+    adapter = SequenceAdapter()
+    plan = make_plan(
+        end="2026-10-01T01:00:00Z", plan_id="symlink-artifact-plan"
+    )
+
+    with pytest.raises(CapturePersistenceError, match="opened safely"):
+        HistoricalCaptureOrchestrator(adapter, storage_root).run(plan)
+    assert adapter.calls == []
