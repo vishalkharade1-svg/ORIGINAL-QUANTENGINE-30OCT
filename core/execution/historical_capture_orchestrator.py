@@ -521,6 +521,10 @@ class HistoricalCaptureOrchestrator:
                     # Budget exhaustion is terminal for this run. Do not keep
                     # issuing reads after a hard record/window budget is hit.
                     return result
+                except CapturePersistenceError:
+                    # Evidence durability/integrity failures are not adapter
+                    # transients. Stop immediately; never continue collecting.
+                    raise
                 except Exception as exc:
                     result.status = "PARTIAL"
                     result.errors.append(f"window={index};repeat={repeat};error={type(exc).__name__}")
