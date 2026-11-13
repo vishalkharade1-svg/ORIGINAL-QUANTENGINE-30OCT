@@ -99,7 +99,14 @@ def test_trusted_callback_and_authenticated_fake_adapter_allow_fixture_exercise(
 
 class FakeAdapter:
     def __init__(self, rows=None, complete=True):
-        self._rest = SimpleNamespace(authenticated=False, get_with_policy=lambda *args, **kwargs: None)
+        self._rest = SimpleNamespace(
+            authenticated=False,
+            get_with_policy=lambda *args, **kwargs: None,
+            provenance_identity={
+                "venue": "delta", "api_version": "v2",
+                "origin": "https://testnet.delta.example",
+            },
+        )
         self.rows = rows or [{"id": "o-1", "product_id": 84, "size": "1"}]
         self.complete = complete
         self.calls = []
@@ -115,6 +122,21 @@ class FakeAdapter:
                 "order_history": "OK", "fills": "OK", "positions": "OK",
                 "wallet_transactions": "OK",
             },
+            page_provenance=tuple({
+                "endpoint": endpoint,
+                "page_index": 0,
+                "request_cursor": None,
+                "response_cursor": None,
+                "response_status": "SUCCESS",
+                "record_count": 0,
+                "content_sha256": "a" * 64,
+                "request_started_at": "2026-10-01T04:00:00Z",
+                "collected_at": "2026-10-01T04:00:01Z",
+                "request_duration_ms": 1000.0,
+                "retry_count": 0,
+                "http_status_code": 200,
+                "request_policy_enforced": True,
+            } for endpoint in kwargs.get("endpoints", ())),
         )
 
 
