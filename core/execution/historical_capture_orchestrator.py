@@ -542,7 +542,7 @@ class HistoricalCaptureOrchestrator:
                  clock: Callable[[], datetime] | None = None,
                  sleeper: Callable[[float], None] = time.sleep):
         self._adapter = adapter
-        self._root = Path(storage_root).resolve()
+        self._root = Path(os.path.abspath(os.fspath(storage_root)))
         self._owner_authorizer = owner_authorizer
         self._clock = clock or (lambda: datetime.now(timezone.utc))
         self._sleep = sleeper
