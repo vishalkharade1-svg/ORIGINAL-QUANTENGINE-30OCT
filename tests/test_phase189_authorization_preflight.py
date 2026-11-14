@@ -158,8 +158,22 @@ class TestPhase189AuthorizationDocumentIntegrity(unittest.TestCase):
             product_id=84,
             order_size_contracts=Decimal("1.0"),
         )
+        # Preflight is diagnostic only; a valid signature does not itself
+        # mint a transport capability. The atomic ledger reservation does.
         self.assertTrue(decision.authorized)
-        self.assertTrue(decision.is_armed())
+        self.assertFalse(decision.is_armed())
+
+        reserved = self.gate.check_and_reserve_order(
+            auth_record=record,
+            rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal("1.0"),
+            cl_ord_id="P189-TESTNET-003-RESERVED",
+            order_details={"limit_price": "100.00", "post_only": True},
+        )
+        self.assertTrue(reserved.authorized)
+        self.assertTrue(reserved.is_armed())
 
 
 class TestPhase189EndpointIsolationAndAmbiguity(unittest.TestCase):
