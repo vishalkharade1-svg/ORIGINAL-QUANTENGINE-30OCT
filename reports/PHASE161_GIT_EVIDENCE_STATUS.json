@@ -504,6 +504,18 @@
       "phase157_observation": "PASSED_VACUOUSLY",
       "required_git_fact": "repository metadata",
       "status": "BLOCKED_EVIDENCE"
+    },
+    {
+      "commit_refs": [],
+      "file": "tests/test_upstream_hypothesis_audit.py",
+      "git_subcommands": [
+        "ls-files"
+      ],
+      "id": "test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_explicit_admission_paths_construct_records_in_core",
+      "phase157_detail": "the AST audit enumerates tracked Python source paths and therefore depends on repository metadata",
+      "phase157_observation": "FAILED_LOUD",
+      "required_git_fact": "tracked Python source-file inventory",
+      "status": "BLOCKED_EVIDENCE"
     }
   ],
   "gate": {
