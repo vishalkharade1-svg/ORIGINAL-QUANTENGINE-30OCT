@@ -215,6 +215,43 @@ class TestGuardBehaviourControls(unittest.TestCase):
             finally:
                 em.ROOT = original
 
+    def test_missing_historical_commit_is_blocked_even_in_a_git_checkout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _make_repo(root)
+            status = root / "phase161.json"
+            status.write_text(json.dumps({
+                "facts": [{
+                    "id": "missing.commit.fact",
+                    "commit_refs": ["deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"],
+                    "required_git_fact": "a retained historical commit",
+                }]
+            }), encoding="utf-8")
+            old_root, old_status = em.ROOT, em.STATUS_FILE
+            em.ROOT, em.STATUS_FILE = root, status
+            try:
+                with self.assertRaises(unittest.SkipTest) as ctx:
+                    em.require_git_fact(_FakeCase(), "missing.commit.fact")
+            finally:
+                em.ROOT, em.STATUS_FILE = old_root, old_status
+            self.assertIn("BLOCKED_EVIDENCE", str(ctx.exception))
+            self.assertIn("deadbeef", str(ctx.exception))
+
+    def test_present_historical_commit_is_verified_in_a_git_checkout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _make_repo(root)
+            old_root = em.ROOT
+            em.ROOT = root
+            try:
+                head = subprocess.run(
+                    ["git", "rev-parse", "HEAD"], cwd=str(root),
+                    capture_output=True, text=True, check=True,
+                ).stdout.strip()
+                em.require_git_commit(_FakeCase(), head)
+            finally:
+                em.ROOT = old_root
+
     def test_guard_skips_with_blocked_evidence_in_this_tree(self):
         """The release tree is a source archive, so the guard must declare blocked.
 
