@@ -4,8 +4,9 @@ Research-only, deterministic, offline, stdlib-only. Proves from
 source evidence why REAL_HYPOTHESIS_COUNT = 0 without inventing
 hypotheses, changing discovery semantics, or executing OOS:
 
-* no non-test code constructs HypothesisRecord from a finding
-  (the only core construction site is input coercion);
+* no implicit finding-to-hypothesis conversion exists: core record
+  construction is limited to dictionary coercion and the explicit, validated
+  9L selection-admission boundary; preregistration consumes existing records;
 * DiscoveryFinding carries no candidate params/baseline/symbol/
   direction/regime -- a mechanical adapter would have to invent
   them, so the missing edge is an intentional research
@@ -46,15 +47,35 @@ def _tracked_jsons():
 
 
 class TestNoFindingToHypothesisEdge(unittest.TestCase):
-    def test_only_coercion_constructs_records_in_core(self):
-        require_git_fact(self, 'test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_coercion_constructs_records_in_core')
+    def test_only_explicit_admission_paths_construct_records_in_core(self):
+        require_git_fact(self, 'test_upstream_hypothesis_audit::TestNoFindingToHypothesisEdge::test_only_explicit_admission_paths_construct_records_in_core')
+        import ast
         import subprocess
         out = subprocess.run(
-            ["git", "grep", "-l", "HypothesisRecord(",
-             "--", "core/", "scripts/", "main.py"],
-            capture_output=True, text=True, cwd=str(ROOT))
-        sites = sorted(out.stdout.splitlines())
-        self.assertEqual(sites, ["core/research/oos/engine.py"])
+            ["git", "ls-files", "*.py"],
+            capture_output=True, text=True, cwd=str(ROOT), check=True)
+        sites = []
+        for rel in out.stdout.splitlines():
+            if not (rel.startswith("core/") or rel.startswith("scripts/") or rel == "main.py"):
+                continue
+            source = (ROOT / rel).read_text(encoding="utf-8")
+            tree = ast.parse(source, filename=rel)
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                func = node.func
+                is_record_constructor = (
+                    isinstance(func, ast.Name) and func.id == "HypothesisRecord"
+                ) or (
+                    isinstance(func, ast.Attribute) and func.attr == "HypothesisRecord"
+                )
+                if is_record_constructor:
+                    sites.append(rel)
+                    break
+        self.assertEqual(
+            sorted(sites),
+            ["core/research/oos/engine.py", "core/research/oos/selection.py"],
+        )
 
     def test_coercion_consumes_dicts_not_findings(self):
         import inspect
