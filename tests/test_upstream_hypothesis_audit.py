@@ -58,7 +58,7 @@ class TestNoFindingToHypothesisEdge(unittest.TestCase):
         for rel in out.stdout.splitlines():
             if not (rel.startswith("core/") or rel.startswith("scripts/") or rel == "main.py"):
                 continue
-            source = (ROOT / rel).read_text(encoding="utf-8")
+            source = (ROOT / rel).read_text(encoding="utf-8-sig")
             tree = ast.parse(source, filename=rel)
             for node in ast.walk(tree):
                 if not isinstance(node, ast.Call):
