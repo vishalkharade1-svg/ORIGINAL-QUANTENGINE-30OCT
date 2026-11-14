@@ -135,7 +135,7 @@ def require_git_commit(case, commit: str, detail: str = "") -> None:
 def require_git_fact(case, fact_id: str, detail: str = "") -> None:
     """Enforce the contract for one Git-dependent test method.
 
-    In a genuine checkout this returns and the caller's own assertions run.
+    In a genuine checkout this returns only when every declared historical commit object is present; missing objects are reported as BLOCKED_EVIDENCE.
     In a source archive this skips the test with an explicit
     ``BLOCKED_EVIDENCE`` reason naming the fact, so the fact is neither
     silently assumed nor reported as verified.
