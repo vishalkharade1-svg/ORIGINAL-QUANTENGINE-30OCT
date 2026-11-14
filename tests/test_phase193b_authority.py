@@ -161,21 +161,30 @@ class _Harness:
     def cleanup(self):
         self.tmp.cleanup()
 
-    def reserve_order(self, cl_ord_id="QE-P193B-RESERVED-001"):
+    def reserve_order(
+        self,
+        auth_record=None,
+        rest_url=TESTNET_REST,
+        symbol="BTCUSD",
+        product_id=84,
+        order_size_contracts=Decimal(1),
+        post_only=True,
+        cl_ord_id="QE-P193B-RESERVED-001",
+    ):
         """Mint test write authority only after the gate durably reserves an order."""
         return self.gate.check_and_reserve_order(
-            auth_record=self.record,
-            rest_url=TESTNET_REST,
-            symbol="BTCUSD",
-            product_id=84,
-            order_size_contracts=Decimal(1),
+            auth_record=auth_record or self.record,
+            rest_url=rest_url,
+            symbol=symbol,
+            product_id=product_id,
+            order_size_contracts=order_size_contracts,
             cl_ord_id=cl_ord_id,
             order_details={
                 "side": "buy",
                 "limit_price": "100.0",
                 "post_only": "True",
             },
-            post_only=True,
+            post_only=post_only,
         )
 
 
@@ -296,8 +305,8 @@ class TestAdapterPassesAuthorityToEnforcingRest(unittest.TestCase):
         )
         return token_for_testnet_experiment(
             decision, base_url=TESTNET_REST,
-            payload={"product_id": 84, "size": 1, "side": "buy",
-                     "post_only": True})
+            payload={"product_id": 84, "size": 1, "side": "buy", "limit_price": 100.0,
+                     "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"})
 
     def test_place_order_writes_once_through_enforced_rest(self):
         token = self._armed_token()
