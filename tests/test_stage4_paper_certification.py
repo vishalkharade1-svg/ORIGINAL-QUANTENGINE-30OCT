@@ -68,9 +68,9 @@ from backtesting.backtester import Backtester
 from tests.test_pipeline_regressions import make_candles
 
 try:  # package import when pytest loads tests.test_*
-    from tests.evidence_mode import require_git_fact
+    from tests.evidence_mode import require_git_commit, require_git_fact
 except ImportError:  # direct execution of this file
-    from evidence_mode import require_git_fact
+    from evidence_mode import require_git_commit, require_git_fact
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAPER_ONLY = "PAPER ONLY / NOT OOS / NOT STRATEGY CERTIFICATION / NOT LIVE"
