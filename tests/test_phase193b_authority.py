@@ -161,6 +161,23 @@ class _Harness:
     def cleanup(self):
         self.tmp.cleanup()
 
+    def reserve_order(self, cl_ord_id="QE-P193B-RESERVED-001"):
+        """Mint test write authority only after the gate durably reserves an order."""
+        return self.gate.check_and_reserve_order(
+            auth_record=self.record,
+            rest_url=TESTNET_REST,
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal(1),
+            cl_ord_id=cl_ord_id,
+            order_details={
+                "side": "buy",
+                "limit_price": "100.0",
+                "post_only": "True",
+            },
+            post_only=True,
+        )
+
 
 class TestPendingAuthorizationArmsNothing(unittest.TestCase):
 
@@ -269,7 +286,7 @@ class TestAdapterPassesAuthorityToEnforcingRest(unittest.TestCase):
         self.h.cleanup()
 
     def _armed_token(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record,
             rest_url=TESTNET_REST,
             symbol="BTCUSD",
@@ -291,7 +308,7 @@ class TestAdapterPassesAuthorityToEnforcingRest(unittest.TestCase):
                          ["post"])
 
     def test_cancel_order_writes_once_through_enforced_rest(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
@@ -437,7 +454,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         self.h.cleanup()
 
     def test_approved_decision_is_armed(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record,
             rest_url=TESTNET_REST,
             symbol="BTCUSD",
@@ -449,7 +466,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         self.assertEqual(decision.reasons, [])
 
     def test_armed_token_binding_is_testnet_and_orders(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record,
             rest_url=TESTNET_REST,
             symbol="BTCUSD",
@@ -458,7 +475,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
             post_only=True,
         )
         order_payload = {"product_id": 84, "size": 1,
-                         "side": "buy", "post_only": True}
+                         "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"}
         token = token_for_testnet_experiment(
             decision, base_url=TESTNET_REST, payload=order_payload)
         self.assertEqual(token.kind, KIND_TESTNET_EXPERIMENT)
@@ -476,7 +493,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
                                api_secret="canary-secret",
                                base_url=TESTNET_REST)
         rest.client = transport
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record,
             rest_url=TESTNET_REST,
             symbol="BTCUSD",
@@ -485,7 +502,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
             post_only=True,
         )
         order_payload = {"product_id": 84, "size": 1,
-                         "side": "buy", "post_only": True}
+                         "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"}
         token = token_for_testnet_experiment(
             decision, base_url=TESTNET_REST, payload=order_payload)
         rest.post("/v2/orders", payload=order_payload, authority=token)
@@ -498,7 +515,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
             [c[0] for c in transport.calls], ["post", "delete"])
 
     def test_armed_testnet_authority_cannot_ride_a_live_host(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record,
             rest_url=TESTNET_REST,
             symbol="BTCUSD",
@@ -507,7 +524,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
             post_only=True,
         )
         token = token_for_testnet_experiment(
-            decision, base_url=TESTNET_REST, payload={"product_id": 84, "size": 1, "side": "buy", "post_only": True})
+            decision, base_url=TESTNET_REST, payload={"product_id": 84, "size": 1, "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"})
         transport = _ExplodingTransport()
         rest = DeltaSignedREST(api_key="canary-key",
                                api_secret="canary-secret",
@@ -527,12 +544,12 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         rest = DeltaSignedREST(api_key="canary-key", api_secret="canary-secret",
                                base_url=TESTNET_REST)
         rest.client = transport
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
         order_payload = {"product_id": 84, "size": 1,
-                         "side": "buy", "post_only": True}
+                         "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"}
         token = token_for_testnet_experiment(
             decision, base_url=TESTNET_REST, payload=order_payload)
         with self.assertRaises(TransportWriteAuthorityError) as ctx:
@@ -545,7 +562,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         rest = DeltaSignedREST(api_key="canary-key", api_secret="canary-secret",
                                base_url=TESTNET_REST)
         rest.client = transport
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
@@ -558,14 +575,14 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         self.assertEqual(transport.write_calls, [])
 
     def test_malformed_order_payload_cannot_be_armed(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
         with self.assertRaises(TransportWriteAuthorityError) as ctx:
             token_for_testnet_experiment(
                 decision, base_url=TESTNET_REST,
-                payload={"product_id": 84, "side": "buy", "post_only": True})
+                payload={"product_id": 84, "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"})
         self.assertIn("missing required fields: size", str(ctx.exception))
 
     def test_payload_mismatch_refused_before_transport_write(self):
@@ -573,12 +590,12 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         rest = DeltaSignedREST(api_key="canary-key", api_secret="canary-secret",
                                base_url=TESTNET_REST)
         rest.client = transport
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
         authorized_payload = {"product_id": 84, "size": 1,
-                              "side": "buy", "post_only": True}
+                              "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"}
         token = token_for_testnet_experiment(
             decision, base_url=TESTNET_REST, payload=authorized_payload)
         with self.assertRaises(TransportWriteAuthorityError):
@@ -588,7 +605,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         self.assertEqual(transport.write_calls, [])
 
     def test_token_mint_rejects_payload_outside_preflight_scope(self):
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
@@ -603,12 +620,12 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         rest = DeltaSignedREST(api_key="canary-key", api_secret="canary-secret",
                                base_url=TESTNET_REST)
         rest.client = transport
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record, rest_url=TESTNET_REST,
             symbol="BTCUSD", product_id=84,
             order_size_contracts=Decimal(1), post_only=True)
         payload = {"product_id": 84, "size": 1,
-                   "side": "buy", "post_only": True}
+                   "side": "buy", "limit_price": 100.0, "post_only": True, "client_order_id": "QE-P193B-RESERVED-001"}
         token = token_for_testnet_experiment(
             decision, base_url=TESTNET_REST, payload=payload)
         rest.post("/v2/orders", payload=payload, authority=token)
@@ -620,7 +637,7 @@ class TestArmedDecisionMintsBoundedAuthority(unittest.TestCase):
         # Pins the funding_settlement_hold guarantee: the ETHUSD/1699
         # settlement flow is OUTSIDE the authorized experiment scope
         # (BTCUSD/84) and must refuse with both reasons listed.
-        decision = self.h.gate.evaluate_preflight(
+        decision = self.h.reserve_order(
             auth_record=self.h.record,
             rest_url=TESTNET_REST,
             symbol="ETHUSD",
@@ -1091,9 +1108,13 @@ class TestScopeCapEnforcement(_TempDirCase):
     def test_cumulative_boundary_19_still_arms(self):
         self._seed(19)
         gate, record = self._gate()
-        d = self._preflight(gate, record)
+        d = gate.check_and_reserve_order(
+            auth_record=record, rest_url=TESTNET_REST,
+            symbol="BTCUSD", product_id=84,
+            order_size_contracts=Decimal(1),
+            cl_ord_id="boundary-19", post_only=True)
         self.assertTrue(d.is_armed())
-        self.assertEqual(d.cumulative_orders_placed, 19)
+        self.assertEqual(d.cumulative_orders_placed, 20)
 
     def test_duplicate_cl_ord_retry_refused(self):
         from core.execution.testnet_authorization_gate import (
