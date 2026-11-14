@@ -1,0 +1,55 @@
+{
+  "phase": 208,
+  "status": "HOLD",
+  "gates": {
+    "historical_capture_source_policy_provenance": "IMPLEMENTED",
+    "authenticated_capture_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
+    "exchange_write_capability": "DISABLED",
+    "live_execution": "DISABLED",
+    "strategy_edge": "NOT_ESTABLISHED",
+    "historical_release_archives": "BLOCKED_MISSING_REPOSITORY_ARTIFACTS",
+    "historical_git_ancestry": "BLOCKED_MISSING_PINNED_COMMIT_OBJECTS",
+    "frozen_strategy_identity": "BLOCKED_HASH_MISMATCH",
+    "testnet_authorization_certification": "BLOCKED_TESTNET_AUTHORIZATION_REGRESSIONS",
+    "production_execution_costs": "NOT_CERTIFIED",
+    "production_readiness": "HOLD"
+  },
+  "verification": {
+    "strict_manifest": "PASS_ON_TESTED_HEAD",
+    "secret_scan": "PASS_ON_TESTED_HEAD",
+    "phase206_focused_tests": "PASS",
+    "full_suite": "FAILED",
+    "full_suite_counts": {
+      "passed": 5177,
+      "failed": 84,
+      "skipped": 32,
+      "subtests_passed": 449
+    },
+    "full_suite_duration_seconds": 1308.44,
+    "full_suite_run_id": 43508336426,
+    "full_suite_run_url": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/43508336426",
+    "tested_pr_head": "b514f5dd55d256112af2db3288e74345b0be80da",
+    "tested_merge_commit": "e8632f00bfc8dcf7c49252ba5b4d68c1de905492",
+    "stage4_7_certification": "FAILED_MISSING_PINNED_STAGE123_ANCESTOR",
+    "stage4_7_run_id": 43508336410,
+    "release_archive": "NOT_BUILT",
+    "fresh_extraction": "NOT_RUN",
+    "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
+    "note": "Full-suite result is a historical CI observation on the tested PR merge ref. One incorrect trailing-stop outcome assertion was subsequently corrected on the PR branch; this record does not claim a rerun."
+  },
+  "verification_environment": {
+    "python": "3.11.18",
+    "pytest": "9.0.3",
+    "platform": "Ubuntu 24.04.5 LTS; GitHub Actions ubuntu-24.04 runner image 20261111.370.1",
+    "dependencies": {
+      "cryptography": "46.0.4",
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  }
+}

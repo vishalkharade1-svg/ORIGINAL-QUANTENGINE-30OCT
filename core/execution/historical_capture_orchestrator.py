@@ -12,11 +12,11 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import os
-import tempfile
+import stat
 from pathlib import Path
 import time
 from typing import Any, Callable, Mapping, Protocol
-from uuid import uuid5, NAMESPACE_URL
+from uuid import uuid4, uuid5, NAMESPACE_URL
 
 from core.execution.cross_capture_reconciliation import (
     CaptureSnapshot,
@@ -164,6 +164,14 @@ _ENDPOINT_FIELDS = {
     "wallet_transactions": "wallet_transactions",
 }
 
+_ENDPOINT_PATHS = {
+    "open_orders": "/v2/orders",
+    "order_history": "/v2/orders/history",
+    "fills": "/v2/fills",
+    "positions": "/v2/positions",
+    "wallet_transactions": "/v2/wallet/transactions",
+}
+
 
 def _snapshot_records(snapshot: Any, endpoint: str) -> tuple[dict[str, Any], ...]:
     """Return only records belonging to one endpoint/category."""
@@ -175,43 +183,121 @@ def _endpoint_status(snapshot: Any) -> Mapping[str, str]:
     return dict(getattr(snapshot, "endpoint_status", {}) or {})
 
 
-def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
-    """Atomically create an immutable JSON artifact and return its SHA-256.
+def _open_capture_plan_directory(root: Path, plan_id: str, *, create: bool) -> int | None:
+    """Open storage-root ancestors and the plan directory without following symlinks."""
+    # This is a storage boundary, not merely an orchestrator helper: the
+    # compatibility writer also calls it directly and must not escape via
+    # a parent-directory component.
+    if (not isinstance(plan_id, str) or not plan_id.strip()
+            or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
+            or Path(plan_id).name != plan_id):
+        raise CapturePersistenceError("capture plan identity is not a safe path component")
+    if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY"):
+        raise CapturePersistenceError("platform lacks no-follow directory operations")
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    root = Path(os.path.abspath(os.fspath(root)))
+    root_fd = None
+    try:
+        # Walk from the filesystem root using directory descriptors. O_NOFOLLOW
+        # on only the final path component would still follow symlinked parents.
+        root_fd = os.open(os.sep, flags)
+        for component in root.parts[1:]:
+            try:
+                next_fd = os.open(component, flags, dir_fd=root_fd)
+            except FileNotFoundError:
+                if not create:
+                    return None
+                try:
+                    os.mkdir(component, mode=0o777, dir_fd=root_fd)
+                except FileExistsError:
+                    pass
+                next_fd = os.open(component, flags, dir_fd=root_fd)
+            os.close(root_fd)
+            root_fd = next_fd
+        try:
+            plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
+        except FileNotFoundError:
+            if not create:
+                return None
+            os.mkdir(plan_id, mode=0o700, dir_fd=root_fd)
+            plan_fd = os.open(plan_id, flags, dir_fd=root_fd)
+        if os.fstat(plan_fd).st_mode & 0o077:
+            os.close(plan_fd)
+            raise CapturePersistenceError(
+                "capture plan directory must not grant group or other access"
+            )
+        return plan_fd
+    except CapturePersistenceError:
+        raise
+    except Exception:
+        raise CapturePersistenceError("capture storage root or plan directory is not a safe directory") from None
+    finally:
+        if root_fd is not None:
+            os.close(root_fd)
 
-    A same-directory temporary file is fully written and fsynced before an
-    atomic hard-link publishes it under the final create-only name. Existing
-    artifacts are never overwritten; an identical retry is idempotent.
-    """
-    path.parent.mkdir(parents=True, exist_ok=True)
+
+def _read_capture_artifact_at(directory_fd: int, name: str) -> Mapping[str, Any]:
+    """Read one regular artifact file without following a symlink."""
+    if not name.endswith(".json") or name in {".json", "..json"} or "/" in name or "\\" in name:
+        raise CapturePersistenceError("persisted capture artifact filename is invalid")
+    try:
+        fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory_fd)
+        with os.fdopen(fd, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise CapturePersistenceError("persisted capture artifact is not a regular file")
+            payload = json.loads(stream.read().decode("utf-8"))
+        if not isinstance(payload, Mapping):
+            raise CapturePersistenceError("persisted capture artifact payload is invalid")
+        return payload
+    except CapturePersistenceError:
+        raise
+    except Exception as exc:
+        raise CapturePersistenceError(
+            f"persisted capture could not be opened safely ({type(exc).__name__})"
+        ) from None
+
+
+def _safe_json_write_at(root: Path, plan_id: str, capture_id: str,
+                        payload: Mapping[str, Any]) -> str:
+    """Atomically create an immutable artifact using no-follow directory handles."""
+    if not capture_id or "/" in capture_id or "\\" in capture_id:
+        raise CapturePersistenceError("capture artifact identity is not a safe filename")
     encoded = canonical_json_bytes(payload)
     digest = hashlib.sha256(encoded).hexdigest()
-    target = path.with_suffix(path.suffix + ".json")
-    fd, temporary_name = tempfile.mkstemp(
-        prefix=f".{target.name}.", suffix=".tmp", dir=str(target.parent)
-    )
+    target_name = f"{capture_id}.json"
+    directory_fd = _open_capture_plan_directory(root, plan_id, create=True)
+    temporary_name = f".{target_name}.{uuid4().hex}.tmp"
     try:
+        fd = os.open(
+            temporary_name,
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600,
+            dir_fd=directory_fd,
+        )
         with os.fdopen(fd, "wb") as stream:
             stream.write(encoded)
             stream.flush()
             os.fsync(stream.fileno())
         try:
-            # Hard-link creation is atomic and fails if target already exists.
-            # Both paths are in the same directory/filesystem by construction.
-            os.link(temporary_name, target)
+            os.link(
+                temporary_name, target_name,
+                src_dir_fd=directory_fd, dst_dir_fd=directory_fd,
+                follow_symlinks=False,
+            )
         except FileExistsError:
-            existing = target.read_bytes()
+            existing_fd = os.open(
+                target_name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory_fd
+            )
+            with os.fdopen(existing_fd, "rb") as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                    raise CapturePersistenceError("existing capture artifact is not a regular file")
+                existing = stream.read()
             if hashlib.sha256(existing).hexdigest() == digest:
                 return digest
             raise CapturePersistenceError(
                 "capture artifact already exists with different content"
             ) from None
-        # Persist the directory entry where the platform supports directory fsync.
-        if hasattr(os, "O_DIRECTORY"):
-            directory_fd = os.open(str(target.parent), os.O_RDONLY | os.O_DIRECTORY)
-            try:
-                os.fsync(directory_fd)
-            finally:
-                os.close(directory_fd)
+        os.fsync(directory_fd)
         return digest
     except CapturePersistenceError:
         raise
@@ -221,24 +307,46 @@ def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
         ) from None
     finally:
         try:
-            os.unlink(temporary_name)
+            os.unlink(temporary_name, dir_fd=directory_fd)
         except FileNotFoundError:
             pass
+        except OSError:
+            pass
+        os.close(directory_fd)
 
 
-def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
-    """Validate the shape and bounded sequence of persisted read-page metadata."""
+
+def _safe_json_write(path: Path, payload: Mapping[str, Any]) -> str:
+    """Compatibility wrapper retaining the historical path/payload call shape."""
+    path = Path(path)
+    return _safe_json_write_at(
+        path.parent.parent, path.parent.name, path.name, payload
+    )
+
+
+def _validate_page_provenance(
+    value: Any, plan: HistoricalCapturePlan, *, require_enforced_policy: bool = False,
+    expected_endpoints: set[str] | None = None,
+) -> None:
+    """Validate bounded read-page metadata and authenticated request-policy evidence."""
     if not isinstance(value, list):
         raise CapturePersistenceError("persisted page provenance must be a list")
     if len(value) > plan.max_total_pages:
         raise CapturePersistenceError("persisted page provenance exceeds the total page budget")
+    if require_enforced_policy and not value:
+        raise CapturePersistenceError("authenticated capture is missing per-page request-policy provenance")
     next_index: dict[str, int] = {}
+    observed_endpoints: set[str] = set()
+    allowed_page_endpoints = {
+        name for endpoint in plan.endpoints
+        for name in (endpoint, _ENDPOINT_PATHS[endpoint])
+    }
     allowed_statuses = {"REQUEST_FAILED", "INVALID_RESPONSE", "SUCCESS", "RECORD_BUDGET_OVERRUN", "REPEATED_PAGE"}
     for page in value:
         if not isinstance(page, Mapping):
             raise CapturePersistenceError("persisted page provenance entry must be a mapping")
         endpoint = page.get("endpoint")
-        if endpoint not in plan.endpoints:
+        if not isinstance(endpoint, str) or endpoint not in allowed_page_endpoints:
             raise CapturePersistenceError("persisted page provenance endpoint is unsupported")
         page_index = page.get("page_index")
         expected_index = next_index.get(endpoint, 0)
@@ -246,8 +354,12 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
                 or page_index != expected_index):
             raise CapturePersistenceError("persisted page provenance index is invalid or non-sequential")
         next_index[endpoint] = expected_index + 1
+        observed_endpoints.add(
+            endpoint if endpoint in plan.endpoints
+            else next(name for name in plan.endpoints if _ENDPOINT_PATHS[name] == endpoint)
+        )
         status = page.get("response_status")
-        if status not in allowed_statuses:
+        if not isinstance(status, str) or status not in allowed_statuses:
             raise CapturePersistenceError("persisted page provenance response status is unsupported")
         for cursor_name in ("request_cursor", "response_cursor"):
             cursor = page.get(cursor_name)
@@ -279,8 +391,15 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
         http_status = page.get("http_status_code")
         if http_status is not None and not _bounded_int(http_status, 0, 999):
             raise CapturePersistenceError("persisted page provenance HTTP status is invalid")
-        if not isinstance(page.get("request_policy_enforced"), bool):
+        policy_enforced = page.get("request_policy_enforced")
+        if not isinstance(policy_enforced, bool):
             raise CapturePersistenceError("persisted page provenance policy flag is invalid")
+        if require_enforced_policy and not policy_enforced:
+            raise CapturePersistenceError("authenticated capture page did not enforce bounded request policy")
+        if require_enforced_policy and status == "SUCCESS":
+            if (retry_count is None or retry_count > plan.retry_budget
+                    or http_status is None or not 200 <= http_status < 300):
+                raise CapturePersistenceError("authenticated successful page lacks bounded retry/HTTP evidence")
         if "records_not_persisted" in page:
             not_persisted = page["records_not_persisted"]
             if (not _bounded_int(not_persisted, 0, plan.max_records_per_snapshot)
@@ -295,6 +414,128 @@ def _validate_page_provenance(value: Any, plan: HistoricalCapturePlan) -> None:
             raise CapturePersistenceError("persisted page provenance pagination status is invalid")
         if "error_type" in page and (not isinstance(page["error_type"], str) or not page["error_type"]):
             raise CapturePersistenceError("persisted page provenance error type is invalid")
+    required_endpoints = set(plan.endpoints) if expected_endpoints is None else set(expected_endpoints)
+    if not required_endpoints.issubset(set(plan.endpoints)):
+        raise CapturePersistenceError("page provenance expected endpoint scope is invalid")
+    if require_enforced_policy and not required_endpoints.issubset(observed_endpoints):
+        raise CapturePersistenceError("authenticated capture is missing endpoint page provenance")
+    if require_enforced_policy and not observed_endpoints.issubset(required_endpoints):
+        raise CapturePersistenceError("authenticated capture contains unexpected endpoint page provenance")
+
+
+_CAPTURE_ARTIFACT_SCHEMA = "quantengine.phase208.capture.v1"
+_CAPTURE_POLICY_VERSION = "phase208-bounded-read-capture-v1"
+
+
+def _plan_fingerprint(plan: HistoricalCapturePlan, windows: tuple[CaptureWindow, ...]) -> str:
+    """Fingerprint all plan inputs that can affect collection or evidence meaning."""
+    start_iso, end_iso = windows[0].as_iso()[0], windows[-1].as_iso()[1]
+    policy = {
+        "policy_version": _CAPTURE_POLICY_VERSION,
+        "venue": plan.venue.strip().lower(),
+        "tenant_id": plan.tenant_id,
+        "account_id": plan.account_id,
+        "product_id": plan.product_id,
+        "start": start_iso,
+        "end": end_iso,
+        "window_seconds": plan.window_seconds,
+        "overlap_seconds": plan.overlap_seconds,
+        "repeat_count": plan.repeat_count,
+        "max_windows": plan.max_windows,
+        "max_records_per_snapshot": plan.max_records_per_snapshot,
+        "max_total_records": plan.max_total_records,
+        "max_pages_per_endpoint": plan.max_pages_per_endpoint,
+        "max_total_pages": plan.max_total_pages,
+        "request_timeout_seconds": plan.request_timeout_seconds,
+        "retry_budget": plan.retry_budget,
+        "max_capture_runs": plan.max_capture_runs,
+        "interval_seconds": plan.interval_seconds,
+        "mode": plan.mode,
+        "endpoints": list(plan.endpoints),
+    }
+    return hashlib.sha256(canonical_json_bytes(policy)).hexdigest()
+
+
+def _adapter_identity_payload(adapter: Any, *, require_source_identity: bool = False) -> dict[str, Any]:
+    """Return auditable, non-secret adapter/source identity metadata."""
+    def class_name(value: Any) -> str | None:
+        if value is None:
+            return None
+        cls = type(value)
+        return f"{cls.__module__}.{cls.__qualname__}"
+
+    def reject_secret_fields(value: Any) -> None:
+        if isinstance(value, Mapping):
+            forbidden = (
+                "secret", "password", "api_key", "apikey", "credential",
+                "authorization", "private_key", "access_token", "refresh_token",
+                "signature",
+            )
+            for key, nested in value.items():
+                normalized = str(key).lower().replace("-", "_")
+                if any(term in normalized for term in forbidden):
+                    raise CapturePlanError(
+                        "adapter provenance_identity contains a credential-like field"
+                    )
+                reject_secret_fields(nested)
+        elif isinstance(value, (list, tuple)):
+            for nested in value:
+                reject_secret_fields(nested)
+
+    read_adapter = getattr(adapter, "_read_adapter", None)
+    rest_client = getattr(adapter, "_rest", None)
+    if rest_client is None and read_adapter is not None:
+        rest_client = getattr(read_adapter, "_rest", None)
+    identity: dict[str, Any] = {
+        "adapter_class": class_name(adapter),
+        "read_adapter_class": class_name(read_adapter),
+        "rest_client_class": class_name(rest_client),
+    }
+    for label, component in (
+        ("adapter_source", adapter),
+        ("read_adapter_source", read_adapter),
+        ("rest_source", rest_client),
+    ):
+        if component is None:
+            continue
+        source_identity = getattr(component, "provenance_identity", None)
+        if callable(source_identity):
+            source_identity = source_identity()
+        if source_identity is None:
+            continue
+        if not isinstance(source_identity, (str, Mapping)):
+            raise CapturePlanError("adapter provenance_identity must be a string or JSON mapping")
+        reject_secret_fields(source_identity)
+        identity[label] = source_identity
+    if require_source_identity and "rest_source" not in identity:
+        raise CapturePlanError(
+            "authenticated adapter REST client must expose a stable non-secret provenance_identity"
+        )
+    try:
+        canonical_json_bytes(identity)
+    except Exception:
+        raise CapturePlanError("adapter provenance_identity must be canonical JSON data") from None
+    return identity
+
+
+def _adapter_fingerprint(adapter: Any, *, require_source_identity: bool = False) -> str:
+    identity = _adapter_identity_payload(
+        adapter, require_source_identity=require_source_identity
+    )
+    return hashlib.sha256(canonical_json_bytes(identity)).hexdigest()
+
+
+def _assert_adapter_fingerprint(
+    adapter: Any, expected: str, *, require_source_identity: bool
+) -> None:
+    try:
+        current = _adapter_fingerprint(
+            adapter, require_source_identity=require_source_identity
+        )
+    except Exception:
+        raise CapturePersistenceError("adapter/source identity could not be verified during capture") from None
+    if current != expected:
+        raise CapturePersistenceError("adapter/source identity changed during capture")
 
 
 class DeltaCaptureAdapter(Protocol):
@@ -326,7 +567,7 @@ class HistoricalCaptureOrchestrator:
                  clock: Callable[[], datetime] | None = None,
                  sleeper: Callable[[float], None] = time.sleep):
         self._adapter = adapter
-        self._root = Path(storage_root)
+        self._root = Path(os.path.abspath(os.fspath(storage_root)))
         self._owner_authorizer = owner_authorizer
         self._clock = clock or (lambda: datetime.now(timezone.utc))
         self._sleep = sleeper
@@ -363,6 +604,13 @@ class HistoricalCaptureOrchestrator:
                 or plan_id in {".", ".."} or "/" in plan_id or "\\" in plan_id
                 or Path(plan_id).name != plan_id):
             raise CapturePlanError("plan_id must be a safe single path component")
+        plan_fingerprint = _plan_fingerprint(plan, windows)
+        adapter_identity = _adapter_identity_payload(
+            self._adapter, require_source_identity=plan.mode == "authenticated"
+        )
+        adapter_fingerprint = hashlib.sha256(
+            canonical_json_bytes(adapter_identity)
+        ).hexdigest()
         result = CaptureRunResult(
             plan_id=plan_id,
             status="COMPLETE",
@@ -372,82 +620,105 @@ class HistoricalCaptureOrchestrator:
         # any new reads. Legacy Phase-206 v1 files lack slot coordinates and
         # are intentionally not guessed into a window/repeat position.
         slot_latest: dict[tuple[int, int, str], CaptureSnapshot] = {}
-        plan_dir = self._root / plan_id
-        if resume and plan_dir.exists():
+        # Validate the complete storage path before any adapter reads, even
+        # when resume is disabled. A symlinked ancestor must fail closed early.
+        plan_directory_fd = _open_capture_plan_directory(
+            self._root, plan_id, create=False
+        )
+        if not resume and plan_directory_fd is not None:
+            os.close(plan_directory_fd)
+            plan_directory_fd = None
+        if plan_directory_fd is not None:
             recovered: list[tuple[int, int, str, CaptureSnapshot]] = []
-            for artifact_path in sorted(plan_dir.glob("*.json")):
-                try:
-                    payload = json.loads(artifact_path.read_text(encoding="utf-8"))
-                    schema = payload.get("schema")
-                    if schema == "quantengine.phase206.capture.v1":
-                        # Phase-206 artifacts predate slot coordinates; preserve
-                        # them but never infer a resumable slot from their names.
-                        continue
-                    if schema != "quantengine.phase207.capture.v1":
-                        raise CapturePersistenceError("persisted capture schema is unsupported")
-                    if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
-                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
-                    repeat_index = payload.get("repeat_index")
-                    window_index = payload.get("window_index")
-                    endpoint = payload.get("endpoint")
-                    if (not _bounded_int(repeat_index, 0, plan.repeat_count - 1)
-                            or not _bounded_int(window_index, 0, len(windows) - 1)
-                            or endpoint not in plan.endpoints):
-                        raise CapturePersistenceError("persisted capture has invalid slot coordinates")
-                    capture_payload = payload.get("capture")
-                    if not isinstance(capture_payload, Mapping):
-                        raise CapturePersistenceError("persisted capture payload is invalid")
-                    content_checksum = capture_payload.get("raw_source_checksum")
-                    if (not isinstance(content_checksum, str) or len(content_checksum) != 64
-                            or any(ch not in "0123456789abcdef" for ch in content_checksum)):
-                        raise CapturePersistenceError(
-                            "persisted capture content checksum is missing or invalid"
-                        )
-                    capture_records = capture_payload.get("records")
-                    capture_record_count = capture_payload.get("record_count")
-                    if (not isinstance(capture_records, (list, tuple))
-                            or not _bounded_int(
-                                capture_record_count, 0, plan.max_records_per_snapshot
+            try:
+                artifact_names = sorted(
+                    name for name in os.listdir(plan_directory_fd) if name.endswith(".json")
+                )
+                for artifact_name in artifact_names:
+                    try:
+                        payload = _read_capture_artifact_at(plan_directory_fd, artifact_name)
+                        schema = payload.get("schema")
+                        if schema in {"quantengine.phase206.capture.v1", "quantengine.phase207.capture.v1"}:
+                            # Older artifacts lack plan/source fingerprints; preserve
+                            # them but never trust them as resumable slots.
+                            continue
+                        if schema != _CAPTURE_ARTIFACT_SCHEMA:
+                            raise CapturePersistenceError("persisted capture schema is unsupported")
+                        if payload.get("plan_id") != plan_id or payload.get("tenant_id") != plan.tenant_id:
+                            raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                        if payload.get("plan_fingerprint") != plan_fingerprint:
+                            raise CapturePersistenceError("persisted capture plan/policy fingerprint does not match")
+                        if payload.get("adapter_identity") != adapter_identity:
+                            raise CapturePersistenceError("persisted capture adapter/source identity does not match")
+                        if payload.get("adapter_fingerprint") != adapter_fingerprint:
+                            raise CapturePersistenceError("persisted capture adapter/source fingerprint does not match")
+                        repeat_index = payload.get("repeat_index")
+                        window_index = payload.get("window_index")
+                        endpoint = payload.get("endpoint")
+                        if (not _bounded_int(repeat_index, 0, plan.repeat_count - 1)
+                                or not _bounded_int(window_index, 0, len(windows) - 1)
+                                or endpoint not in plan.endpoints):
+                            raise CapturePersistenceError("persisted capture has invalid slot coordinates")
+                        capture_payload = payload.get("capture")
+                        if not isinstance(capture_payload, Mapping):
+                            raise CapturePersistenceError("persisted capture payload is invalid")
+                        content_checksum = capture_payload.get("raw_source_checksum")
+                        if (not isinstance(content_checksum, str) or len(content_checksum) != 64
+                                or any(ch not in "0123456789abcdef" for ch in content_checksum)):
+                            raise CapturePersistenceError(
+                                "persisted capture content checksum is missing or invalid"
                             )
-                            or capture_record_count != len(capture_records)):
-                        raise CapturePersistenceError(
-                            "persisted capture record count is missing or inconsistent"
+                        capture_records = capture_payload.get("records")
+                        capture_record_count = capture_payload.get("record_count")
+                        if (not isinstance(capture_records, (list, tuple))
+                                or not _bounded_int(
+                                    capture_record_count, 0, plan.max_records_per_snapshot
+                                )
+                                or capture_record_count != len(capture_records)):
+                            raise CapturePersistenceError(
+                                "persisted capture record count is missing or inconsistent"
+                            )
+                        if capture_payload.get("schema") != "quantengine.historical-capture.v1":
+                            raise CapturePersistenceError("persisted capture schema is unsupported")
+                        capture = CaptureSnapshot.from_dict(capture_payload)
+                        if capture.record_category != endpoint:
+                            raise CapturePersistenceError("persisted capture endpoint does not match its slot")
+                        if artifact_name[:-5] != capture.capture_id:
+                            raise CapturePersistenceError("persisted capture filename does not match capture identity")
+                        expected_capture_id = str(uuid5(
+                            NAMESPACE_URL,
+                            f"{plan_id}:{repeat_index}:{window_index}:{endpoint}:{capture.captured_at}",
+                        ))
+                        if capture.capture_id != expected_capture_id:
+                            raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
+                        _validate_page_provenance(
+                            payload.get("page_provenance"), plan,
+                            require_enforced_policy=plan.mode == "authenticated",
+                            expected_endpoints={endpoint},
                         )
-                    if capture_payload.get("schema") != "quantengine.historical-capture.v1":
-                        raise CapturePersistenceError("persisted capture schema is unsupported")
-                    capture = CaptureSnapshot.from_dict(capture_payload)
-                    if capture.record_category != endpoint:
-                        raise CapturePersistenceError("persisted capture endpoint does not match its slot")
-                    if artifact_path.stem != capture.capture_id:
-                        raise CapturePersistenceError("persisted capture filename does not match capture identity")
-                    expected_capture_id = str(uuid5(
-                        NAMESPACE_URL,
-                        f"{plan_id}:{repeat_index}:{window_index}:{endpoint}:{capture.captured_at}",
-                    ))
-                    if capture.capture_id != expected_capture_id:
-                        raise CapturePersistenceError("persisted capture identity does not match its slot and timestamp")
-                    _validate_page_provenance(payload.get("page_provenance"), plan)
-                    expected_product = None if endpoint == "wallet_transactions" else plan.product_id
-                    if (capture.venue.strip().lower() != plan.venue.strip().lower()
-                            or capture.account_id != plan.account_id
-                            or capture.product_id != expected_product):
-                        raise CapturePersistenceError("persisted capture scope does not match requested plan")
-                    expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
-                    if payload.get("capture_status") != expected_status:
-                        raise CapturePersistenceError("persisted capture status does not match its completeness flags")
-                    expected_window = windows[window_index]
-                    expected_start, expected_end = expected_window.as_iso()
-                    if capture.window_start != expected_start or capture.window_end != expected_end:
-                        raise CapturePersistenceError("persisted capture window does not match its slot")
-                    if len(capture.records) > plan.max_records_per_snapshot:
-                        raise CapturePersistenceError("persisted capture exceeds per-snapshot record budget")
-                    recovered.append((repeat_index, window_index, endpoint, capture))
-                except CapturePersistenceError:
-                    raise
-                except Exception as exc:
-                    raise CapturePersistenceError(
-                        f"persisted capture could not be verified ({type(exc).__name__})"
-                    ) from None
+                        expected_product = None if endpoint == "wallet_transactions" else plan.product_id
+                        if (capture.venue.strip().lower() != plan.venue.strip().lower()
+                                or capture.account_id != plan.account_id
+                                or capture.product_id != expected_product):
+                            raise CapturePersistenceError("persisted capture scope does not match requested plan")
+                        expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
+                        if payload.get("capture_status") != expected_status:
+                            raise CapturePersistenceError("persisted capture status does not match its completeness flags")
+                        expected_window = windows[window_index]
+                        expected_start, expected_end = expected_window.as_iso()
+                        if capture.window_start != expected_start or capture.window_end != expected_end:
+                            raise CapturePersistenceError("persisted capture window does not match its slot")
+                        if len(capture.records) > plan.max_records_per_snapshot:
+                            raise CapturePersistenceError("persisted capture exceeds per-snapshot record budget")
+                        recovered.append((repeat_index, window_index, endpoint, capture))
+                    except CapturePersistenceError:
+                        raise
+                    except Exception as exc:
+                        raise CapturePersistenceError(
+                            f"persisted capture could not be verified ({type(exc).__name__})"
+                        ) from None
+            finally:
+                os.close(plan_directory_fd)
             for repeat_index, window_index, endpoint, capture in sorted(
                     recovered, key=lambda item: (item[0], item[1], item[2], item[3].captured_at)):
                 result.snapshots.append(capture)
@@ -477,6 +748,10 @@ class HistoricalCaptureOrchestrator:
                     return result
                 run_count += 1
                 try:
+                    _assert_adapter_fingerprint(
+                        self._adapter, adapter_fingerprint,
+                        require_source_identity=plan.mode == "authenticated",
+                    )
                     raw = self._adapter.capture(
                         product_id=plan.product_id, window_start=start_iso,
                         window_end=end_iso, overlap_seconds=plan.overlap_seconds,
@@ -485,6 +760,10 @@ class HistoricalCaptureOrchestrator:
                         max_total_pages=plan.max_total_pages,
                         request_timeout_seconds=plan.request_timeout_seconds,
                         retry_budget=plan.retry_budget, allow_partial=True,
+                    )
+                    _assert_adapter_fingerprint(
+                        self._adapter, adapter_fingerprint,
+                        require_source_identity=plan.mode == "authenticated",
                     )
                     endpoint_status = _endpoint_status(raw)
                     captured_at = str(getattr(raw, "captured_at", self._clock().isoformat()))
@@ -509,14 +788,33 @@ class HistoricalCaptureOrchestrator:
                             pagination_complete=endpoint_complete,
                             endpoint_status={endpoint: endpoint_status.get(endpoint, "STATUS_MISSING")},
                         )
+                        page_provenance = [dict(page) for page in getattr(raw, "page_provenance", ())]
+                        _validate_page_provenance(
+                            page_provenance, plan,
+                            require_enforced_policy=plan.mode == "authenticated",
+                            expected_endpoints=set(missing_endpoints),
+                        )
+                        endpoint_paths = {endpoint, _ENDPOINT_PATHS[endpoint]}
+                        endpoint_page_provenance = [
+                            page for page in page_provenance
+                            if page.get("endpoint") in endpoint_paths
+                        ]
+                        _validate_page_provenance(
+                            endpoint_page_provenance, plan,
+                            require_enforced_policy=plan.mode == "authenticated",
+                            expected_endpoints={endpoint},
+                        )
                         payload = {
-                            "schema": "quantengine.phase207.capture.v1",
+                            "schema": _CAPTURE_ARTIFACT_SCHEMA,
                             "plan_id": plan_id, "tenant_id": plan.tenant_id,
+                            "plan_fingerprint": plan_fingerprint,
+                            "adapter_identity": adapter_identity,
+                            "adapter_fingerprint": adapter_fingerprint,
                             "repeat_index": repeat, "window_index": index,
                             "endpoint": endpoint,
                             "capture": capture.to_dict(),
                             "capture_status": "COMPLETE" if endpoint_complete else "PARTIAL",
-                            "page_provenance": [dict(page) for page in getattr(raw, "page_provenance", ())],
+                            "page_provenance": endpoint_page_provenance,
                         }
                         _safe_json_write(self._root / plan_id / capture_id, payload)
                         capture = CaptureSnapshot(
@@ -544,6 +842,10 @@ class HistoricalCaptureOrchestrator:
                     # Budget exhaustion is terminal for this run. Do not keep
                     # issuing reads after a hard record/window budget is hit.
                     return result
+                except CapturePersistenceError:
+                    # Evidence durability/integrity failures are not adapter
+                    # transients. Stop immediately; never continue collecting.
+                    raise
                 except Exception as exc:
                     result.status = "PARTIAL"
                     result.errors.append(f"window={index};repeat={repeat};error={type(exc).__name__}")

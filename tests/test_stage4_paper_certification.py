@@ -68,9 +68,9 @@ from backtesting.backtester import Backtester
 from tests.test_pipeline_regressions import make_candles
 
 try:  # package import when pytest loads tests.test_*
-    from tests.evidence_mode import require_git_fact
+    from tests.evidence_mode import require_git_commit, require_git_fact
 except ImportError:  # direct execution of this file
-    from evidence_mode import require_git_fact
+    from evidence_mode import require_git_commit, require_git_fact
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAPER_ONLY = "PAPER ONLY / NOT OOS / NOT STRATEGY CERTIFICATION / NOT LIVE"
@@ -143,6 +143,7 @@ def real_backtester(symbol="BTCUSDT"):
 
 class TestRepoIntegrity(unittest.TestCase):
     def test_head_is_stage123_closure_descendant(self):
+        require_git_commit(self, "b42e8181406091bf06af18e312508a93924dcc37", detail="Stage 1–3 closure ancestor")
         require_git_fact(self, 'test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant')
         self.assertEqual(
             git("merge-base", "--is-ancestor",
