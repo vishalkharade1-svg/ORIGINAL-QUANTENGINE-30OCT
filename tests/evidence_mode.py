@@ -108,6 +108,30 @@ def detect_mode(root: Path | None = None) -> tuple[str, dict]:
     return MODE_GIT_CHECKOUT, evidence
 
 
+def require_git_commit(case, commit: str, detail: str = "") -> None:
+    """Skip historical Git assertions when their required commit object is absent."""
+    mode, _ = detect_mode()
+    if mode != MODE_GIT_CHECKOUT:
+        reason = "%s: commit %s cannot be established from this source archive." % (SKIP_PREFIX, commit)
+        if detail:
+            reason += " Required: %s." % detail
+        case.skipTest(reason)
+    try:
+        probe = _git(["cat-file", "-e", "%s^{commit}" % commit])
+    except (OSError, subprocess.SubprocessError) as exc:
+        probe = None
+        error = "%s: %s" % (type(exc).__name__, exc)
+    else:
+        error = probe.stderr.strip()
+    if probe is None or probe.returncode != 0:
+        reason = "%s: required historical commit object %s is absent; ancestry remains blocked." % (SKIP_PREFIX, commit)
+        if detail:
+            reason += " Required: %s." % detail
+        if error:
+            reason += " Git evidence: %s." % error
+        case.skipTest(reason)
+
+
 def require_git_fact(case, fact_id: str, detail: str = "") -> None:
     """Enforce the contract for one Git-dependent test method.
 
@@ -118,6 +142,13 @@ def require_git_fact(case, fact_id: str, detail: str = "") -> None:
     """
     mode, evidence = detect_mode()
     if mode == MODE_GIT_CHECKOUT:
+        doc = status_document()
+        fact = next((item for item in (doc or {}).get("facts", [])
+                     if item.get("id") == fact_id), None)
+        if fact is not None:
+            for commit in fact.get("commit_refs", []):
+                require_git_commit(case, commit,
+                                   detail=fact.get("required_git_fact", detail))
         return
     reason = (
         "%s: git fact %s cannot be established from a source archive "
