@@ -143,8 +143,8 @@ def real_backtester(symbol="BTCUSDT"):
 
 class TestRepoIntegrity(unittest.TestCase):
     def test_head_is_stage123_closure_descendant(self):
-        require_git_commit(self, "b42e8181406091bf06af18e312508a93924dcc37", detail="Stage 1–3 closure ancestor")
         require_git_fact(self, 'test_stage4_paper_certification::TestRepoIntegrity::test_head_is_stage123_closure_descendant')
+        require_git_commit(self, "b42e8181406091bf06af18e312508a93924dcc37", detail="Stage 1–3 closure ancestor")
         self.assertEqual(
             git("merge-base", "--is-ancestor",
                 "b42e8181406091bf06af18e312508a93924dcc37",

@@ -5,8 +5,8 @@ source evidence why REAL_HYPOTHESIS_COUNT = 0 without inventing
 hypotheses, changing discovery semantics, or executing OOS:
 
 * no implicit finding-to-hypothesis conversion exists: core record
-  construction is limited to dictionary coercion and the explicit, validated
-  9L selection-admission boundary; preregistration consumes existing records;
+  construction is limited to dictionary coercion, the explicit validated 9L
+  selection-admission boundary, and explicit preregistration deserialization;
 * DiscoveryFinding carries no candidate params/baseline/symbol/
   direction/regime -- a mechanical adapter would have to invent
   them, so the missing edge is an intentional research
@@ -74,7 +74,11 @@ class TestNoFindingToHypothesisEdge(unittest.TestCase):
                     break
         self.assertEqual(
             sorted(sites),
-            ["core/research/oos/engine.py", "core/research/oos/selection.py"],
+            [
+                "core/research/oos/engine.py",
+                "core/research/oos/selection.py",
+                "core/research/readiness/preregistration.py",
+            ],
         )
 
     def test_coercion_consumes_dicts_not_findings(self):

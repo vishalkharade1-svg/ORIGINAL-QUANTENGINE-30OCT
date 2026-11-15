@@ -28,6 +28,7 @@ must not appear to be part of the gated suite.
 from __future__ import annotations
 
 import ast
+import json
 import subprocess
 import tempfile
 import unittest
