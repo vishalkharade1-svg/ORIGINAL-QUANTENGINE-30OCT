@@ -30,6 +30,7 @@ from core.execution.live_safety_gate import LiveSafetyGate
 from core.risk.costs import post_cost_rr
 
 import math
+import threading
 from decimal import Decimal, InvalidOperation
 
 
@@ -53,10 +54,23 @@ class _ClientOrderSeq:
 
     def __init__(self):
         self.value = 0
+        self._lock = threading.Lock()
 
     def next(self):
-        self.value += 1
-        return self.value
+        # The fallback is used by hand-built intents that do not carry
+        # registry-minted order IDs. Concurrent callers must never receive
+        # the same client ID.
+        with self._lock:
+            self.value += 1
+            return self.value
+
+    def current(self):
+        with self._lock:
+            return self.value
+
+    def reset(self, value=0):
+        with self._lock:
+            self.value = max(0, int(value))
 
 
 _CLIENT_ORDER_SEQ = _ClientOrderSeq()
@@ -65,13 +79,13 @@ _CLIENT_ORDER_SEQ = _ClientOrderSeq()
 def order_seq_value():
     """Current fallback-sequence value (journal persistence)."""
 
-    return _CLIENT_ORDER_SEQ.value
+    return _CLIENT_ORDER_SEQ.current()
 
 
 def reset_order_seq(value=0):
     """Reset the fallback counter (tests / restart seeding)."""
 
-    _CLIENT_ORDER_SEQ.value = max(0, int(value))
+    _CLIENT_ORDER_SEQ.reset(value)
 
 
 class DeltaOrderExecutor:

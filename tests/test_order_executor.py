@@ -27,10 +27,13 @@ Stdlib only -- a recording fake exchange replaces the network.
 """
 
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 
 from core.exchanges.contract_registry import ContractRegistry
 from core.exchanges.delta.delta_contract import DeltaContract
-from core.execution.order_executor import DeltaOrderExecutor, InvalidContractError
+from core.execution.order_executor import (
+    DeltaOrderExecutor, InvalidContractError, _ClientOrderSeq,
+)
 from core.risk.order_intent import OrderIntent
 
 
@@ -101,6 +104,23 @@ class _FakeExchange:
                 "state": "open",
             },
         }
+
+
+class TestClientOrderSequence(unittest.TestCase):
+    def test_concurrent_fallback_ids_are_unique_and_monotonic(self):
+        sequence = _ClientOrderSeq()
+        with ThreadPoolExecutor(max_workers=16) as pool:
+            values = list(pool.map(lambda _: sequence.next(), range(2000)))
+        self.assertEqual(len(values), 2000)
+        self.assertEqual(len(set(values)), 2000)
+        self.assertEqual(sorted(values), list(range(1, 2001)))
+        self.assertEqual(sequence.current(), 2000)
+
+    def test_reset_is_normalized_and_observable(self):
+        sequence = _ClientOrderSeq()
+        sequence.reset(-5)
+        self.assertEqual(sequence.current(), 0)
+        self.assertEqual(sequence.next(), 1)
 
 
 class TestBuildPayload(unittest.TestCase):

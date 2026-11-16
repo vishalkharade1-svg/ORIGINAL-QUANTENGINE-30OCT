@@ -99,23 +99,17 @@ class TestFrozenBaseline(unittest.TestCase):
         self.assertEqual(art["phase18_reference"]["bars"], 11461)
         self.assertEqual(art["phase18_reference"]["fills"], 0)
 
-    def test_nine_file_hash_exact_match(self):
+    def test_historical_pin_and_unregistered_identity_are_separate(self):
         from core.research.strategy_identity import (
             HISTORICAL_PHASE14_STRATEGY_HASH,
             get_versioned_identities,
         )
+        from tests.strategy_identity_evidence import assert_unregistered_identity
 
-        # Historical record continuity: the Phase-14 pooled identity
-        # is preserved verbatim; live registration uses the Phase-165
-        # versioned composites (LF-canonical, checkout-independent).
+        # The Phase-14 digest remains a historical pin. Current source
+        # identity is observed but not registered for research or release.
         self.assertEqual(HISTORICAL_PHASE14_STRATEGY_HASH, STRATEGY_HASH)
-
-        ident = get_versioned_identities(ROOT)
-        self.assertEqual(
-            ident["strategy_core"]["sha256"], PHASE22_CORE_SHA256)
-        self.assertEqual(
-            ident["runtime_infrastructure"]["sha256"],
-            PHASE22_INFRA_SHA256)
+        assert_unregistered_identity(self, get_versioned_identities(ROOT), ROOT)
         self.assertEqual(len(STRATEGY_FILES), 9)
 
     def test_no_strategy_mutation_and_rr_frozen(self):

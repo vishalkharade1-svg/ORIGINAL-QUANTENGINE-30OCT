@@ -55,14 +55,11 @@ class TestStrategyIdentitySeparation(unittest.TestCase):
         self.assertEqual(len(infra_h), 64)
         self.assertEqual(len(legacy_lf_h), 64)
 
-        # Expected canonical LF values: Phase 22 re-registration of the
-        # composites with the delivered worktree (frozen-era OOS semantics
-        # restored; all recorded OOS funnels reproduce). Provenance:
-        # reports/PHASE22_STRATEGY_IDENTITY_BASELINE.json - the historical
-        # Phase 14 pin (c52e648c...) remains the authority.
-        self.assertEqual(core_h, "26c2bead8c4599b78c64281a3d2860e194f16603c950840df199c953fcfc9666")
-        self.assertEqual(infra_h, "997a21f21045551ed25e29d2289157d257b16b5f3b99bbf04e95c7f257b96294")
-        self.assertEqual(legacy_lf_h, "05986916c990dbda8329b7fa8230ced878f951c68ed87e071b6afd3b8475afda")
+        # The Phase22 values remain historical registration records.
+        # The migrated current tree is explicitly observed but unregistered;
+        # its hashes are checked against the Phase206 blocked observation.
+        from tests.strategy_identity_evidence import assert_unregistered_identity
+        assert_unregistered_identity(self, identities, ROOT)
 
     def test_04_paper_trading_isolation_invariance(self):
         """Simulate a change to paper trading engine: core strategy hash must remain invariant."""

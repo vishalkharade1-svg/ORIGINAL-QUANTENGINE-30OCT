@@ -157,5 +157,65 @@ class TestStagedScanCoversRemovedWorktreeCopies(unittest.TestCase):
         self.assertNotIn(marker, repr(findings[0]))
 
 
+
+class TestSecretScanFailsClosed(unittest.TestCase):
+    @staticmethod
+    def _scanner():
+        import importlib.util as iu
+        spec = iu.spec_from_file_location(
+            "phase193b_fail_closed_scan",
+            ROOT / "scripts" / "security" / "scan_secrets.py")
+        module = iu.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+        return module
+
+    def test_unreadable_worktree_member_refuses_to_pass(self):
+        from unittest.mock import patch
+        module = self._scanner()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "unreadable.txt").write_text("placeholder", encoding="utf-8")
+            with patch.object(module, "read_text_file", return_value=None):
+                with self.assertRaisesRegex(RuntimeError, "refusing to pass"):
+                    module.scan_worktree(root)
+
+    def test_index_enumeration_failure_refuses_to_pass(self):
+        from unittest.mock import patch
+        module = self._scanner()
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.object(
+                module.subprocess, "run",
+                side_effect=subprocess.CalledProcessError(128, ["git", "diff"]),
+            ):
+                with self.assertRaisesRegex(RuntimeError, "refusing to pass"):
+                    module.scan_staged(Path(directory))
+
+    def test_index_blob_read_failure_refuses_to_pass(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        module = self._scanner()
+        with tempfile.TemporaryDirectory() as directory:
+            def fake_run(args, **kwargs):
+                if args[1] == "diff":
+                    return SimpleNamespace(stdout="ops/.env.backup\\0")
+                raise subprocess.CalledProcessError(128, args)
+            with patch.object(module.subprocess, "run", side_effect=fake_run):
+                with self.assertRaisesRegex(RuntimeError, "refusing to pass"):
+                    module.scan_staged(Path(directory))
+
+    def test_cli_returns_error_when_staged_scan_is_incomplete(self):
+        from unittest.mock import patch
+        module = self._scanner()
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.object(
+                module, "scan_staged",
+                side_effect=RuntimeError("index unavailable"),
+            ):
+                self.assertEqual(
+                    module.main(["--root", directory, "--check-staged"]), 2
+                )
+
+
 if __name__ == "__main__":
     unittest.main()

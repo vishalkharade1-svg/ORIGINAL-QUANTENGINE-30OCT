@@ -77,23 +77,15 @@ def fresh_rows_asc():
 
 class TestStrategyIdentity(unittest.TestCase):
 
-    def test_nine_file_hash_exact_match(self):
+    def test_historical_pin_and_unregistered_identity_are_separate(self):
         from core.research.strategy_identity import (
             HISTORICAL_PHASE14_STRATEGY_HASH,
             get_versioned_identities,
         )
+        from tests.strategy_identity_evidence import assert_unregistered_identity
 
-        # Historical record continuity: the Phase-14 pooled identity
-        # is preserved verbatim; live registration uses the Phase-165
-        # versioned composites (LF-canonical, checkout-independent).
         self.assertEqual(HISTORICAL_PHASE14_STRATEGY_HASH, STRATEGY_HASH)
-
-        ident = get_versioned_identities(ROOT)
-        self.assertEqual(
-            ident["strategy_core"]["sha256"], PHASE22_CORE_SHA256)
-        self.assertEqual(
-            ident["runtime_infrastructure"]["sha256"],
-            PHASE22_INFRA_SHA256)
+        assert_unregistered_identity(self, get_versioned_identities(ROOT), ROOT)
         self.assertIn("core/execution/execution_engine.py", STRATEGY_FILES)
         self.assertEqual(len(STRATEGY_FILES), 9)
 
@@ -119,14 +111,22 @@ class TestStrategyIdentity(unittest.TestCase):
     def test_no_strategy_mutation_after_runs(self):
         from core.research.oos_validation.execution import run_frozen_oos
         from core.research.strategy_identity import get_versioned_identities
+        from tests.strategy_identity_evidence import assert_unregistered_identity
+
+        before = get_versioned_identities(ROOT)
+        assert_unregistered_identity(self, before, ROOT)
         rows, _ = fresh_rows_asc()
         run_frozen_oos(rows[:300])
-        ident = get_versioned_identities(ROOT)
+        after = get_versioned_identities(ROOT)
+        assert_unregistered_identity(self, after, ROOT)
+        self.assertEqual(before["strategy_core"]["sha256"],
+                         after["strategy_core"]["sha256"])
+        self.assertEqual(before["runtime_infrastructure"]["sha256"],
+                         after["runtime_infrastructure"]["sha256"])
         self.assertEqual(
-            ident["strategy_core"]["sha256"], PHASE22_CORE_SHA256)
-        self.assertEqual(
-            ident["runtime_infrastructure"]["sha256"],
-            PHASE22_INFRA_SHA256)
+            before["composite_legacy_9_files"]["canonical_lf_sha256"],
+            after["composite_legacy_9_files"]["canonical_lf_sha256"],
+        )
 
 
 # --------------------------------------------------
