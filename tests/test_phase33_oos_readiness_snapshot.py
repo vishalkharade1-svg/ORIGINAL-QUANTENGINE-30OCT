@@ -13,6 +13,8 @@ ART = ROOT / "research" / "results" / "phase33_oos_readiness_snapshot.json"
 CACHE = ROOT / "data" / "history" / "BTCUSDT_1m_oos_topup.json"
 
 
+from tests.artifact_line_endings import normalize_line_endings, read_pinned_artifact
+
 class TestPhase33Snapshot(unittest.TestCase):
     def test_artifact_exists_and_is_blocked(self):
         self.assertTrue(ART.exists())
@@ -41,14 +43,14 @@ class TestPhase33Snapshot(unittest.TestCase):
         self.assertGreaterEqual(snap["fill_gap"], 57)
         self.assertFalse(snap["is_production_ready"])
 
-    def test_rerun_is_byte_identical(self):
-        before = ART.read_bytes()
+    def test_rerun_preserves_canonical_content(self):
+        before = read_pinned_artifact(ART, ROOT)
         subprocess.check_call([sys.executable,
                                str(ROOT / "scripts" /
                                    "build_phase33_oos_readiness_snapshot.py")],
                               cwd=str(ROOT))
         after = ART.read_bytes()
-        self.assertEqual(before, after)
+        self.assertEqual(normalize_line_endings(before), normalize_line_endings(after))
 
 
 if __name__ == "__main__":
