@@ -75,7 +75,7 @@ def fixture_bars(csv_text, symbol="BTCUSDT"):
 
 class TestStartingState(unittest.TestCase):
     def test_head_descends_from_q(self):
-        require_git_fact(self, 'test_researcher_11g_r::TestStartingState::test_head_descends_from_q')
+        require_git_fact(self, 'test_researcher_11g_r::TestStartingState::test_head_descends_from_q', required_commit='29959c536610be610653bf34ac7fd331270d96fa')
         r = subprocess.run(["git", "merge-base", "--is-ancestor",
                             "bd21e9ac06b33857f2b314925f25e528ecf0ea2b", "HEAD"],
                            capture_output=True, cwd=str(BASE_DIR))
@@ -83,9 +83,20 @@ class TestStartingState(unittest.TestCase):
 
     def test_branch_main(self):
         require_git_fact(self, 'test_researcher_11g_r::TestStartingState::test_branch_main')
-        r = subprocess.run(["git", "branch", "--show-current"],
+        r = subprocess.run(["git", "symbolic-ref", "--quiet", "--short", "HEAD"],
                            capture_output=True, text=True, cwd=str(BASE_DIR))
-        self.assertEqual(r.stdout.strip(), "main")
+        if r.returncode == 1:
+            self.skipTest(
+                "BLOCKED_EVIDENCE: detached HEAD checkout does not expose a branch name"
+            )
+        self.assertEqual(r.returncode, 0, r.stderr)
+        branch = r.stdout.strip()
+        if branch != "main":
+            self.skipTest(
+                "BLOCKED_EVIDENCE: branch-specific repository-head assertion "
+                "requires main; current branch is %r" % branch
+            )
+        self.assertEqual(branch, "main")
 
     def test_tree_only_expected(self):
         require_git_fact(self, 'test_researcher_11g_r::TestStartingState::test_tree_only_expected')

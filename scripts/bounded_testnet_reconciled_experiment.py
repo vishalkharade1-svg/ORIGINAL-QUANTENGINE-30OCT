@@ -24,6 +24,7 @@ import os
 import sys
 import time
 from datetime import datetime, timezone
+from decimal import Decimal
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -163,7 +164,23 @@ def main(argv=None) -> int:
         catalog = rest.get("/v2/products").get("result", [])
         match = [r for r in catalog if r.get("symbol") == exp.SYMBOL]
         assert len(match) == 1
-        product_id = int(match[0]["id"])
+        product = match[0]
+        product_id = int(product["id"])
+        assert (
+            product.get("contract_type") == "perpetual_futures"
+            and product.get("state") == "live"
+            and product.get("trading_status") == "operational"
+        ), "BTCUSD product is not live and operational"
+        contract_value = Decimal(str(
+            product.get("contract_size") or product.get("contract_value") or "0"
+        ))
+        assert contract_value.is_finite() and contract_value > 0, (
+            "BTCUSD contract value unavailable"
+        )
+        if gate is not None:
+            assert contract_value == gate.scope.contract_size_btc, (
+                "live BTCUSD contract value differs from signed authorization scope"
+            )
         presp = rest.get("/v2/positions",
                          params={"product_id": product_id})
         pres = presp.get("result", {})

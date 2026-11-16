@@ -239,6 +239,76 @@ class TestPhase192ReconciliationAdversarial(unittest.TestCase):
         self.assertFalse(report.execution_permitted)
         self.assertTrue(any(a["type"] == "CONTRADICTORY_RECORD" for a in report.anomalies))
 
+    def test_10_explicit_remaining_quantity_must_reconcile_to_total(self):
+        """A venue order whose filled + remaining sizes disagree is not clean."""
+        local_orders = {
+            "ord_bad_remaining": {
+                "state": OrderLifecycleState.ACKNOWLEDGED,
+                "order_size": "1.0",
+            },
+        }
+        exchange_orders = [
+            {
+                "id": 710,
+                "cl_ord_id": "ord_bad_remaining",
+                "state": "open",
+                "size": "1.0",
+                "size_filled": "0.2",
+                "unfilled_size": "0.9",
+            },
+        ]
+        exchange_fills = [
+            {
+                "id": "fill_bad_remaining",
+                "order_id": 710,
+                "cl_ord_id": "ord_bad_remaining",
+                "size": "0.2",
+            },
+        ]
+        report = self.reconciler.reconcile(
+            local_orders=local_orders,
+            exchange_orders=exchange_orders,
+            exchange_fills=exchange_fills,
+        )
+        self.assertEqual(report.status, ReconciliationStatus.BLOCKED)
+        self.assertFalse(report.execution_permitted)
+        self.assertTrue(any(
+            item["type"] == "CONTRADICTORY_RECORD"
+            for item in report.anomalies
+        ))
+        self.assertTrue(any(
+            "inconsistent exchange quantities" in reason
+            for reason in report.reasons
+        ))
+
+    def test_11_non_finite_exchange_quantity_is_held_not_released(self):
+        local_orders = {
+            "ord_nan_fill": {
+                "state": OrderLifecycleState.ACKNOWLEDGED,
+                "order_size": "1.0",
+            },
+        }
+        report = self.reconciler.reconcile(
+            local_orders=local_orders,
+            exchange_orders=[{
+                "id": 711,
+                "cl_ord_id": "ord_nan_fill",
+                "state": "open",
+                "size": "1.0",
+                "size_filled": "NaN",
+            }],
+        )
+        self.assertEqual(report.status, ReconciliationStatus.BLOCKED)
+        self.assertFalse(report.execution_permitted)
+        record = report.reconciled_orders["ord_nan_fill"]
+        self.assertEqual(
+            record.reconciled_state,
+            OrderLifecycleState.RECONCILIATION_REQUIRED,
+        )
+        self.assertFalse(record.risk_released)
+        self.assertFalse(record.unfilled_quota_released)
+        self.assertTrue(record.position_exposure_held)
+
     def test_10_missing_identifiers_and_redaction(self):
         """Exchange record missing cl_ord_id is safely handled, and credentials are redacted."""
         local_orders = {

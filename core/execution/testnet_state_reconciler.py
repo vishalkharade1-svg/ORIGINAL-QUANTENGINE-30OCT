@@ -323,11 +323,69 @@ class TestnetStateReconciler:
                 # Order found on exchange
                 ex_state = str(ex_order.get("state", "")).lower()
                 ex_filled = Decimal(str(ex_order.get("size_filled", ex_order.get("filled_qty", "0.0"))))
-                ex_unfilled = Decimal(str(ex_order.get("unfilled_size", ex_order.get("unfilled_qty", "0.0"))))
                 ex_total = Decimal(str(ex_order.get("size", ex_order.get("qty", l_qty))))
+                raw_unfilled = ex_order.get("unfilled_size", ex_order.get("unfilled_qty"))
+                # Some venue order responses omit remaining size. Derive it
+                # only when absent; an explicitly supplied inconsistent
+                # remaining quantity is contradictory evidence.
+                if raw_unfilled is not None:
+                    ex_unfilled = Decimal(str(raw_unfilled))
+                elif ex_total.is_finite() and ex_filled.is_finite():
+                    ex_unfilled = max(Decimal("0"), ex_total - ex_filled)
+                else:
+                    ex_unfilled = Decimal("NaN")
                 ex_order_id = ex_order.get("id") or ex_order.get("order_id")
 
-                # Check quantity contradiction
+                # Check quantity contradiction, including venue-internal
+                # arithmetic. A mismatched filled + remaining quantity can
+                # otherwise be treated as a clean partial fill and allow
+                # the coordinator to reason from inconsistent exposure.
+                invalid_quantities = (
+                    not ex_total.is_finite()
+                    or not ex_filled.is_finite()
+                    or not ex_unfilled.is_finite()
+                    or ex_total <= Decimal("0")
+                    or ex_filled < Decimal("0")
+                    or ex_unfilled < Decimal("0")
+                    or ex_filled > ex_total
+                    or (
+                        raw_unfilled is not None
+                        and ex_filled + ex_unfilled != ex_total
+                    )
+                )
+                if invalid_quantities:
+                    order_anomalies.append(ReconciliationAnomalyType.CONTRADICTORY_RECORD)
+                    reasons.append(
+                        f"Order {cl_id!r} has invalid or inconsistent exchange quantities: "
+                        f"total={ex_total}, filled={ex_filled}, remaining={ex_unfilled}"
+                    )
+                if invalid_quantities:
+                    if ex_total.is_finite() and ex_total != l_qty:
+                        reasons.append(
+                            f"Order {cl_id!r} size contradiction: local={l_qty} vs exchange={ex_total}"
+                        )
+                    exposure_qty = (
+                        ex_filled if ex_filled.is_finite()
+                        and ex_filled > Decimal("0") else Decimal("0")
+                    )
+                    reconciled_dict[cl_id] = ReconciledOrderRecord(
+                        cl_ord_id=cl_id,
+                        exchange_order_id=ex_order_id,
+                        local_state=l_state,
+                        exchange_state=ex_state,
+                        local_qty=l_qty,
+                        exchange_filled_qty=exposure_qty,
+                        exchange_remaining_qty=Decimal("0"),
+                        reconciled_state=OrderLifecycleState.RECONCILIATION_REQUIRED,
+                        anomalies=order_anomalies,
+                        risk_released=False,
+                        unfilled_quota_released=False,
+                        position_exposure_held=True,
+                        position_exposure_qty=exposure_qty,
+                        notes=["Invalid exchange quantities; retain exposure and require operator reconciliation"],
+                    )
+                    continue
+
                 if ex_total != l_qty:
                     order_anomalies.append(ReconciliationAnomalyType.CONTRADICTORY_RECORD)
                     reasons.append(
