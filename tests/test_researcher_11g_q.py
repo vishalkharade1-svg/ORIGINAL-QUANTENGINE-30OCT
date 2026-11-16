@@ -549,11 +549,16 @@ class TestMutations(unittest.TestCase):
             self.assertNotIn('"%s"' % tok, blob, tok)
 
 
+from tests.artifact_line_endings import normalize_line_endings, read_pinned_artifact
+
+
 class TestDeterminism(unittest.TestCase):
-    def test_rerun_byte_identical(self):
-        before = (QDIR / "trigger_q.json").read_bytes()
+    def test_rerun_preserves_canonical_content(self):
+        path = QDIR / "trigger_q.json"
+        before = read_pinned_artifact(path, QDIR.parents[1])
         G.determine()
-        self.assertEqual((QDIR / "trigger_q.json").read_bytes(), before)
+        self.assertEqual(normalize_line_endings(path.read_bytes()),
+                         normalize_line_endings(before))
 
 
 class TestProductionIsolation(unittest.TestCase):

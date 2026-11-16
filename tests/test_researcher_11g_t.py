@@ -473,11 +473,16 @@ class TestMutations(unittest.TestCase):
             self.assertNotIn('"%s"' % tok, blob, tok)
 
 
+from tests.artifact_line_endings import normalize_line_endings, read_pinned_artifact
+
+
 class TestDeterminism(unittest.TestCase):
-    def test_rerun_byte_identical(self):
-        before = (TDIR / "readiness_t.json").read_bytes()
+    def test_rerun_preserves_canonical_content(self):
+        path = TDIR / "readiness_t.json"
+        before = read_pinned_artifact(path, TDIR.parents[1])
         TM.determine(availability())
-        self.assertEqual((TDIR / "readiness_t.json").read_bytes(), before)
+        self.assertEqual(normalize_line_endings(path.read_bytes()),
+                         normalize_line_endings(before))
 
 
 class TestProductionIsolation(unittest.TestCase):

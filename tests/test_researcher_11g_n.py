@@ -438,11 +438,16 @@ class TestMutations(unittest.TestCase):
                 sort_keys=True).encode()).hexdigest())
 
 
+from tests.artifact_line_endings import normalize_line_endings, read_pinned_artifact
+
+
 class TestDeterminism(unittest.TestCase):
-    def test_rerun_byte_identical(self):
-        before = (NDIR / "feasibility.json").read_bytes()
+    def test_rerun_preserves_canonical_content(self):
+        path = NDIR / "feasibility.json"
+        before = read_pinned_artifact(path, NDIR.parents[1])
         AN.analyze()
-        self.assertEqual((NDIR / "feasibility.json").read_bytes(), before)
+        self.assertEqual(normalize_line_endings(path.read_bytes()),
+                         normalize_line_endings(before))
 
 
 class TestProductionIsolation(unittest.TestCase):

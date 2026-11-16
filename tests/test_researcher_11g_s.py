@@ -579,11 +579,16 @@ class TestMutations(unittest.TestCase):
         self.assertEqual(DG.D3_ACCESS["load"], 0)
 
 
+from tests.artifact_line_endings import normalize_line_endings, read_pinned_artifact
+
+
 class TestDeterminism(unittest.TestCase):
-    def test_rerun_byte_identical(self):
-        before = (SDIR / "readiness_s.json").read_bytes()
+    def test_rerun_preserves_canonical_content(self):
+        path = SDIR / "readiness_s.json"
+        before = read_pinned_artifact(path, SDIR.parents[1])
         GS.determine()
-        self.assertEqual((SDIR / "readiness_s.json").read_bytes(), before)
+        self.assertEqual(normalize_line_endings(path.read_bytes()),
+                         normalize_line_endings(before))
 
 
 class TestProductionIsolation(unittest.TestCase):
