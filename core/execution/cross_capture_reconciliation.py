@@ -204,6 +204,15 @@ class CaptureSnapshot:
             raise CrossCaptureReconciliationError("venue must be non-empty")
         if not self.record_category or not self.record_category.strip():
             raise CrossCaptureReconciliationError("record_category must be non-empty")
+        # Capture time is part of the immutable evidence identity and must be
+        # a real timezone-aware timestamp, not merely a string.
+        _parse_utc(self.captured_at, "captured_at")
+        if not isinstance(self.complete, bool) or not isinstance(self.pagination_complete, bool):
+            raise CrossCaptureReconciliationError("capture completeness flags must be booleans")
+        if not isinstance(self.endpoint_status, Mapping) or any(
+                not isinstance(key, str) or not isinstance(value, str)
+                for key, value in self.endpoint_status.items()):
+            raise CrossCaptureReconciliationError("endpoint_status must map strings to strings")
         if (self.window_start is None) != (self.window_end is None):
             raise CrossCaptureReconciliationError("window_start and window_end must be supplied together")
         if self.window_start is not None and self.window_end is not None:
@@ -262,8 +271,10 @@ class CaptureSnapshot:
             window_start=data.get("window_start"),
             window_end=data.get("window_end"),
             overlap_seconds=int(data.get("overlap_seconds", 0)),
-            complete=bool(data.get("complete", True)),
-            pagination_complete=bool(data.get("pagination_complete", True)),
+            # Preserve raw values so __post_init__ can reject strings/numbers
+            # instead of silently coercing corrupted persisted evidence.
+            complete=data.get("complete", True),
+            pagination_complete=data.get("pagination_complete", True),
             endpoint_status=dict(data.get("endpoint_status", {})),
             raw_source_checksum=data.get("raw_source_checksum"),
             schema=str(data.get("schema", "quantengine.historical-capture.v1")),

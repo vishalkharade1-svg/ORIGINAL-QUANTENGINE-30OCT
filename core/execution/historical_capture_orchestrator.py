@@ -704,6 +704,13 @@ class HistoricalCaptureOrchestrator:
                         expected_status = "COMPLETE" if capture.complete and capture.pagination_complete else "PARTIAL"
                         if payload.get("capture_status") != expected_status:
                             raise CapturePersistenceError("persisted capture status does not match its completeness flags")
+                        endpoint_result = capture.endpoint_status.get(endpoint)
+                        if ((capture.complete and capture.pagination_complete and endpoint_result != "OK")
+                                or ((not capture.complete or not capture.pagination_complete)
+                                    and endpoint_result == "OK")):
+                            raise CapturePersistenceError(
+                                "persisted endpoint status contradicts completeness flags"
+                            )
                         expected_window = windows[window_index]
                         expected_start, expected_end = expected_window.as_iso()
                         if capture.window_start != expected_start or capture.window_end != expected_end:
