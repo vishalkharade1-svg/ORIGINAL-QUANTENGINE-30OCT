@@ -115,3 +115,34 @@ def test_closed_recorder_rejects_writes(tmp_path):
     with pytest.raises(RecorderError, match="closed"):
         recorder.append("OPTION_QUOTE", exchange_timestamp="2026-11-12T09:15:00Z",
                         instrument=INSTRUMENT, payload={"bid": "8.8"})
+
+
+
+def test_verify_missing_journal_fails_without_creating_parent(tmp_path):
+    missing = tmp_path / "not-created" / "session.jsonl"
+    with pytest.raises(RecorderError, match="does not exist"):
+        ExpirySqueezeRecorder.verify_journal(missing, "SENSEX-2026-11-12")
+    assert not missing.parent.exists()
+
+
+def test_append_failure_closes_recorder_until_restart_verification(tmp_path, monkeypatch):
+    recorder = ExpirySqueezeRecorder(tmp_path / "session.jsonl", "SENSEX-2026-11-12")
+
+    def fail_fsync(_fd):
+        raise OSError("simulated fsync failure")
+
+    monkeypatch.setattr("core.research.expiry_squeeze.recorder.os.fsync", fail_fsync)
+    with pytest.raises(RecorderError, match="recorder closed"):
+        recorder.append(
+            "OPTION_QUOTE",
+            exchange_timestamp="2026-11-12T09:15:00Z",
+            instrument=INSTRUMENT,
+            payload={"bid": "8.8"},
+        )
+    with pytest.raises(RecorderError, match="closed"):
+        recorder.append(
+            "OPTION_QUOTE",
+            exchange_timestamp="2026-11-12T09:15:01Z",
+            instrument=INSTRUMENT,
+            payload={"bid": "8.9"},
+        )
