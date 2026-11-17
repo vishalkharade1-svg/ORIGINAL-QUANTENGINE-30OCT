@@ -204,6 +204,15 @@ class CaptureSnapshot:
             raise CrossCaptureReconciliationError("venue must be non-empty")
         if not self.record_category or not self.record_category.strip():
             raise CrossCaptureReconciliationError("record_category must be non-empty")
+        # Capture time is part of the immutable evidence identity and must be
+        # a real timezone-aware timestamp, not merely a string.
+        _parse_utc(self.captured_at, "captured_at")
+        if not isinstance(self.complete, bool) or not isinstance(self.pagination_complete, bool):
+            raise CrossCaptureReconciliationError("capture completeness flags must be booleans")
+        if not isinstance(self.endpoint_status, Mapping) or any(
+                not isinstance(key, str) or not isinstance(value, str)
+                for key, value in self.endpoint_status.items()):
+            raise CrossCaptureReconciliationError("endpoint_status must map strings to strings")
         if (self.window_start is None) != (self.window_end is None):
             raise CrossCaptureReconciliationError("window_start and window_end must be supplied together")
         if self.window_start is not None and self.window_end is not None:
