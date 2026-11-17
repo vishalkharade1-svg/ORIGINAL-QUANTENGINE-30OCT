@@ -195,11 +195,16 @@ class ExpirySqueezeRecorder:
                 raise CaptureLimitError("MAX_BYTES_REACHED")
             try:
                 with self.path.open("ab") as stream:
-                    stream.write(encoded)
+                    written = stream.write(encoded)
+                    if written != len(encoded):
+                        raise OSError("short journal write")
                     stream.flush()
                     os.fsync(stream.fileno())
             except OSError as exc:
-                raise RecorderError(f"journal append failed ({type(exc).__name__})") from None
+                # A failed append may have left a partial tail. Do not permit
+                # another append in this process; restart must verify the file.
+                self._closed = True
+                raise RecorderError(f"journal append failed ({type(exc).__name__}); recorder closed") from None
             self._sequence += 1
             self._last_hash = digest
             return event
@@ -248,8 +253,11 @@ class ExpirySqueezeRecorder:
 
     @classmethod
     def verify_journal(cls, journal_path: str | Path, session_id: str) -> dict[str, Any]:
-        """Verify a journal without opening it for writes."""
-        recorder = cls(journal_path, session_id)
+        """Verify an existing journal without creating or modifying any path."""
+        path = Path(journal_path)
+        if not path.is_file():
+            raise RecorderError("journal does not exist or is not a regular file")
+        recorder = cls(path, session_id)
         return {
             "status": "VERIFIED",
             "session_id": session_id,
