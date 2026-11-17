@@ -11,6 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 ART = ROOT / "research" / "results" / "phase35_symbol_coverage.json"
 
 
+from tests.artifact_line_endings import normalize_line_endings, read_pinned_artifact
+
 class TestPhase35Artifact(unittest.TestCase):
     def test_current_snapshot_is_unavailable_cross_symbol(self):
         data = json.loads(ART.read_text(encoding="utf-8"))
@@ -21,12 +23,13 @@ class TestPhase35Artifact(unittest.TestCase):
         self.assertFalse(data["universal_validation"])
         self.assertFalse(data["production_ready"])
 
-    def test_rerun_is_byte_identical(self):
-        before = ART.read_bytes()
+    def test_rerun_preserves_canonical_content(self):
+        before = read_pinned_artifact(ART, ROOT)
         subprocess.check_call(
             [sys.executable, str(ROOT / "scripts" / "build_phase35_symbol_coverage.py")],
             cwd=str(ROOT), stdout=subprocess.DEVNULL)
-        self.assertEqual(before, ART.read_bytes())
+        after = ART.read_bytes()
+        self.assertEqual(normalize_line_endings(before), normalize_line_endings(after))
 
 
 if __name__ == "__main__":

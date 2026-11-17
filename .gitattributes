@@ -27,3 +27,23 @@ research/phase11g_s/gate_s.py    text eol=lf
 research/phase11g_t/monitor.py   text eol=lf
 research/phase11g_u/monitor_u.py text eol=lf
 research/**/data/raw/** binary
+
+# Phase 131 / 154 raw-byte-pinned evidence artifacts. Preserve their recorded CRLF
+# bytes verbatim on every checkout; do not apply platform newline conversion.
+research/phase11g_n/feasibility.json -text
+research/phase11g_o/feasibility_o.json -text
+research/phase11g_p/readiness_p.json -text
+research/phase11g_q/trigger_q.json -text
+research/phase11g_r/readiness_r.json -text
+research/phase11g_s/readiness_s.json -text
+research/phase11g_t/readiness_t.json -text
+research/phase11g_u/readiness_u.json -text
+research/results/phase33_oos_readiness_snapshot.json -text
+research/results/phase35_symbol_coverage.json -text
+research/results/phase36_provenance_symbol_coverage.json -text
+research/results/phase48_discovery_capture.json -text
+research/phase11f/data/universe_D2_BTC.json -text
+research/phase11f/data/universe_D2_ETH.json -text
+research/captures/phase167_recon/l2/delta_ob_updates_archive.json -text
+reports/PHASE170_RECONCILIATION_RESULTS.json -text
+data/history/BTCUSDT_1m_phase17_fresh.json -text

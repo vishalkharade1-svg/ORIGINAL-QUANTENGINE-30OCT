@@ -26,7 +26,7 @@ Contract
   ``BLOCKED_EVIDENCE`` and the fact id.  A skip is not a pass: pytest reports
   it as skipped, and the release gate for ancestry stays blocked.
 
-``reports/PHASE161_GIT_EVIDENCE_STATUS.json`` is the machine-readable record of
+``reports/PHASE206_GIT_EVIDENCE_STATUS.json`` is the machine-readable record of
 which facts were blocked, why, and in which mode.  ``tests/
 test_git_evidence_mode_contract.py`` checks this module, the record, and the
 gated tests against each other -- including a positive test, against a
@@ -42,7 +42,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-STATUS_FILE = ROOT / "reports" / "PHASE161_GIT_EVIDENCE_STATUS.json"
+STATUS_FILE = ROOT / "reports" / "PHASE206_GIT_EVIDENCE_STATUS.json"
 
 MODE_GIT_CHECKOUT = "GIT_CHECKOUT"
 MODE_SOURCE_ARCHIVE = "SOURCE_ARCHIVE"
@@ -108,28 +108,95 @@ def detect_mode(root: Path | None = None) -> tuple[str, dict]:
     return MODE_GIT_CHECKOUT, evidence
 
 
-def require_git_fact(case, fact_id: str, detail: str = "") -> None:
-    """Enforce the contract for one Git-dependent test method.
+def require_git_fact(case, fact_id: str, detail: str = "",
+                     required_commit: str | tuple[str, ...] | None = None) -> None:
+    """Enforce a Git-dependent fact against the packaged Phase 206 evidence record."""
+    mode, evidence = detect_mode()
+    if mode != MODE_GIT_CHECKOUT:
+        reason = (
+            "%s: git fact %s cannot be established from a source archive "
+            "(mode=%s; rev-parse --is-inside-work-tree returned %s). "
+            "The fact is recorded as blocked, not verified, in reports/%s."
+            % (SKIP_PREFIX, fact_id, mode,
+               evidence.get("rev_parse_is_inside_work_tree", {}).get("returncode", "n/a"),
+               STATUS_FILE.name)
+        )
+        if detail:
+            reason += " Required: %s." % detail
+        case.skipTest(reason)
 
-    In a genuine checkout this returns and the caller's own assertions run.
-    In a source archive this skips the test with an explicit
-    ``BLOCKED_EVIDENCE`` reason naming the fact, so the fact is neither
-    silently assumed nor reported as verified.
+    doc = status_document()
+    fact = next((item for item in (doc or {}).get("facts", [])
+                 if item.get("id") == fact_id), None)
+    fact_commits = tuple((fact or {}).get("commit_refs", []))
+    explicit_commits = (
+        (required_commit,) if isinstance(required_commit, str)
+        else tuple(required_commit or ())
+    )
+    required_commits = tuple(dict.fromkeys((*fact_commits, *explicit_commits)))
+    fact_detail = (fact or {}).get("required_git_fact", detail)
+    for commit in required_commits:
+        try:
+            probe = _git(["cat-file", "-e", "%s^{commit}" % commit])
+        except (OSError, subprocess.SubprocessError) as exc:  # pragma: no cover
+            case.skipTest(
+                "%s: historical commit %s unavailable for %s (%s: %s)"
+                % (SKIP_PREFIX, commit, fact_id, type(exc).__name__, exc)
+            )
+        if probe.returncode != 0:
+            reason = (
+                "%s: historical commit %s is absent from this checkout; "
+                "ancestry fact %s is BLOCKED_EVIDENCE, not verified"
+                % (SKIP_PREFIX, commit, fact_id)
+            )
+            if fact_detail:
+                reason += " Required: %s." % fact_detail
+            case.skipTest(reason)
+
+
+def require_git_commit(case, commit: str, detail: str = "") -> None:
+    """Compatibility helper for a single historical Git object requirement."""
+    require_git_fact(
+        case, "historical_commit:%s" % commit, detail,
+        required_commit=commit,
+    )
+
+
+def require_history_depth(case, fact_id: str, minimum_commits: int = 2) -> None:
+    """Block historical-byte claims when the checkout is only a migration snapshot.
+
+    The caller's original hash assertions still run when sufficient Git history
+    is present. A one-commit import cannot establish whether historical report
+    bytes were changed before migration, so it must be reported as blocked.
     """
     mode, evidence = detect_mode()
-    if mode == MODE_GIT_CHECKOUT:
-        return
-    reason = (
-        "%s: git fact %s cannot be established from a source archive "
-        "(mode=%s; rev-parse --is-inside-work-tree returned %s). "
-        "The fact is recorded as blocked, not verified, in reports/%s."
-        % (SKIP_PREFIX, fact_id, mode,
-           evidence.get("rev_parse_is_inside_work_tree", {}).get("returncode", "n/a"),
-           STATUS_FILE.name)
-    )
-    if detail:
-        reason += " Required: %s." % detail
-    case.skipTest(reason)
+    if mode != MODE_GIT_CHECKOUT:
+        case.skipTest(
+            "%s: historical record bytes %s cannot be established from a "
+            "source archive (mode=%s)" % (SKIP_PREFIX, fact_id, mode)
+        )
+    try:
+        probe = _git(["rev-list", "--count", "HEAD"])
+    except (OSError, subprocess.SubprocessError) as exc:  # pragma: no cover
+        case.skipTest(
+            "%s: Git history depth unavailable for %s (%s: %s)"
+            % (SKIP_PREFIX, fact_id, type(exc).__name__, exc)
+        )
+    if probe.returncode != 0:
+        case.skipTest(
+            "%s: Git history depth unavailable for %s; original history "
+            "is BLOCKED_EVIDENCE" % (SKIP_PREFIX, fact_id)
+        )
+    try:
+        count = int(probe.stdout.strip())
+    except ValueError:
+        count = 0
+    if count < minimum_commits:
+        case.skipTest(
+            "%s: only %s Git commit(s) are present for %s; this is a migration "
+            "snapshot, not the original history, so historical byte identity "
+            "is BLOCKED_EVIDENCE" % (SKIP_PREFIX, count, fact_id)
+        )
 
 
 def status_document() -> dict | None:

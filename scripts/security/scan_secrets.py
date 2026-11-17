@@ -114,10 +114,14 @@ def scan_worktree(root: Path) -> list[Finding]:
             continue
         if not path.is_file():
             continue
-        decoded = read_text_file(path)
-        if decoded is None or decoded.binary:
-            continue
         relative = path.relative_to(root).as_posix()
+        decoded = read_text_file(path)
+        if decoded is None:
+            raise RuntimeError(
+                "secret scan could not read %s; refusing to pass" % relative
+            )
+        if decoded.binary:
+            continue
         findings.extend(_scan_text_lines(
             relative, path.name, path.suffix, decoded.text))
     return findings
@@ -139,24 +143,31 @@ def scan_staged(root: Path) -> list[Finding]:
              "-z"],
             cwd=root, check=True, capture_output=True, text=True, timeout=30,
         ).stdout
-    except (OSError, subprocess.SubprocessError):
-        return []
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise RuntimeError(
+            "staged scan could not enumerate Git index; refusing to pass"
+        ) from exc
     findings: list[Finding] = []
     for encoded_path in listing.split("\0"):
         if not encoded_path:
             continue
         relative = encoded_path.replace("\\", "/")
+        path = Path(relative)
+        if path.is_absolute() or ".." in path.parts:
+            raise RuntimeError(
+                "staged scan encountered unsafe index path; refusing to pass"
+            )
         try:
             blob = subprocess.run(
                 ["git", "show", "".join((":0:", relative))],
                 cwd=root, check=True, capture_output=True, text=True,
                 timeout=30,
             ).stdout
-        except (OSError, subprocess.SubprocessError):
-            continue
-        path = Path(relative)
-        if path.is_absolute() or ".." in path.parts:
-            continue
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise RuntimeError(
+                "staged scan could not read index blob %s; refusing to pass"
+                % relative
+            ) from exc
         findings.extend(_scan_text_lines(relative, path.name, path.suffix, blob))
     return findings
 
@@ -291,22 +302,26 @@ def main(argv: list[str] | None = None) -> int:
     # ``.env``.  The Phase187 exemption (``f.path != ".env"``) let a live
     # credential file sit in the worktree while the ordinary gate printed
     # ``SECRET_SCAN_PASS``; Phase193B closes that bypass.
-    findings = scan_worktree(root)
-    _emit_findings(findings)
-    history = scan_env_history(root) if args.check_history else []
-    for revision in history:
-        print(f"SECRET_HISTORY_FAIL path=.env commit={revision} rule=non_empty_known_secret")
+    try:
+        findings = scan_worktree(root)
+        _emit_findings(findings)
+        history = scan_env_history(root) if args.check_history else []
+        for revision in history:
+            print(f"SECRET_HISTORY_FAIL path=.env commit={revision} rule=non_empty_known_secret")
 
-    staged: list[Finding] = []
-    if args.check_staged:
-        staged = scan_staged(root)
-        # Worktree findings are double-reported against staged content; only
-        # emit staged findings for paths the worktree scan could not see.
-        worktree_paths = {f.path for f in findings}
-        for finding in staged:
-            if finding.path not in worktree_paths:
-                print(f"SECRET_SCAN_FAIL path={finding.path} "
-                      f"line={finding.line} rule=staged:{finding.rule}")
+        staged: list[Finding] = []
+        if args.check_staged:
+            staged = scan_staged(root)
+            # Worktree findings are double-reported against staged content; only
+            # emit staged findings for paths the worktree scan could not see.
+            worktree_paths = {f.path for f in findings}
+            for finding in staged:
+                if finding.path not in worktree_paths:
+                    print(f"SECRET_SCAN_FAIL path={finding.path} "
+                          f"line={finding.line} rule=staged:{finding.rule}")
+    except (RuntimeError, OSError, subprocess.SubprocessError):
+        print("SECRET_SCAN_ERROR scan_incomplete refusing_to_pass")
+        return 2
 
     if findings or history or staged:
         return 1

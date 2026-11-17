@@ -66,6 +66,16 @@ class DeltaReconciliationReadAdapter:
     def __init__(self, rest: Any):
         self._rest = rest
 
+    @property
+    def provenance_identity(self) -> Mapping[str, str]:
+        """Stable, non-secret identity for this read-only Delta API adapter."""
+        return {
+            "venue": "delta",
+            "api_version": "v2",
+            "adapter": "reconciliation-read",
+            "policy_version": "delta-get-only-evidence-v1",
+        }
+
     @staticmethod
     def _envelope(response: Any, endpoint: str) -> tuple[list[dict[str, Any]], str | None]:
         if not isinstance(response, dict):

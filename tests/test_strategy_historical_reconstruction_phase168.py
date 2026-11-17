@@ -6,6 +6,11 @@ import json
 import unittest
 from pathlib import Path
 
+try:
+    from tests.evidence_mode import require_git_commit
+except ImportError:
+    from evidence_mode import require_git_commit
+
 from core.research.historical_reconstruction import (
     reconstruct_strategy_history,
 )
@@ -15,6 +20,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
     def test_historical_reconstruction_structure_and_milestones(self):
+        for commit in ("3f19895", "fbeb860", "ffefa14"):
+            require_git_commit(self, commit, detail="Phase 168 historical milestone")
         report = reconstruct_strategy_history(ROOT)
         self.assertEqual(report["schema"], "quantengine.strategy-historical-reconstruction.v1")
         self.assertEqual(report["phase"], 168)
@@ -52,6 +59,7 @@ class TestStrategyHistoricalReconstructionPhase168(unittest.TestCase):
         )
 
     def test_file_reconciliation_layer_and_diffs(self):
+        require_git_commit(self, "3f19895", detail="Phase 14 baseline reconciliation")
         report = reconstruct_strategy_history(ROOT)
         reconciled = {f["file"]: f for f in report["file_reconciliation"]}
         self.assertEqual(len(reconciled), 9)

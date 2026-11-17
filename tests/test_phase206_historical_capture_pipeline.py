@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from core.exchanges.delta.delta_auth import DeltaSignedREST
 from core.exchanges.delta.reconciliation_read_adapter import DeltaReconciliationReadAdapter
 from core.execution.historical_capture_orchestrator import (
     CaptureAuthorizationError, CapturePersistenceError, CapturePlanError, HistoricalCapturePlan,
@@ -89,6 +90,7 @@ def test_trusted_callback_and_authenticated_fake_adapter_allow_fixture_exercise(
     authenticated_plan = plan(mode="authenticated")
     adapter = FakeAdapter()
     adapter._rest.authenticated = True
+    adapter.provenance_identity = {"source": "delta-test-double", "api_version": "fixture-v1"}
     result = HistoricalCaptureOrchestrator(
         adapter, tmp_path, owner_authorizer=lambda _: True
     ).run(authenticated_plan)
@@ -97,7 +99,14 @@ def test_trusted_callback_and_authenticated_fake_adapter_allow_fixture_exercise(
 
 class FakeAdapter:
     def __init__(self, rows=None, complete=True):
-        self._rest = SimpleNamespace(authenticated=False, get_with_policy=lambda *args, **kwargs: None)
+        self._rest = SimpleNamespace(
+            authenticated=False,
+            get_with_policy=lambda *args, **kwargs: None,
+            provenance_identity={
+                "venue": "delta", "api_version": "v2",
+                "origin": "https://testnet.delta.example",
+            },
+        )
         self.rows = rows or [{"id": "o-1", "product_id": 84, "size": "1"}]
         self.complete = complete
         self.calls = []
@@ -113,6 +122,21 @@ class FakeAdapter:
                 "order_history": "OK", "fills": "OK", "positions": "OK",
                 "wallet_transactions": "OK",
             },
+            page_provenance=tuple({
+                "endpoint": endpoint,
+                "page_index": 0,
+                "request_cursor": None,
+                "response_cursor": None,
+                "response_status": "SUCCESS",
+                "record_count": 0,
+                "content_sha256": "a" * 64,
+                "request_started_at": "2026-10-01T04:00:00Z",
+                "collected_at": "2026-10-01T04:00:01Z",
+                "request_duration_ms": 1000.0,
+                "retry_count": 0,
+                "http_status_code": 200,
+                "request_policy_enforced": True,
+            } for endpoint in kwargs.get("endpoints", ())),
         )
 
 
@@ -281,3 +305,31 @@ def test_phase206_persists_partial_records_after_later_page_failure(tmp_path):
     assert [page["response_status"] for page in persisted["page_provenance"]] == [
         "SUCCESS", "REQUEST_FAILED"
     ]
+
+
+
+def test_delta_read_adapter_exposes_stable_non_secret_provenance_identity():
+    adapter = DeltaReconciliationReadAdapter(
+        SimpleNamespace(authenticated=True, get=lambda *args, **kwargs: {})
+    )
+    assert adapter.provenance_identity == {
+        "venue": "delta",
+        "api_version": "v2",
+        "adapter": "reconciliation-read",
+        "policy_version": "delta-get-only-evidence-v1",
+    }
+
+
+
+def test_delta_signed_rest_provenance_identity_pins_origin_without_credentials():
+    rest = object.__new__(DeltaSignedREST)
+    rest.base_url = "https://user:password@testnet.delta.example:8443/custom/api?token=do-not-store"
+
+    assert rest.provenance_identity == {
+        "venue": "delta",
+        "api_version": "v2",
+        "origin": "https://testnet.delta.example:8443",
+        "base_path": "/custom/api",
+    }
+    assert "password" not in str(rest.provenance_identity)
+    assert "token" not in str(rest.provenance_identity)

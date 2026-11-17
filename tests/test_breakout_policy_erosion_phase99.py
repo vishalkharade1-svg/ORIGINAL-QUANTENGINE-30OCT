@@ -78,9 +78,21 @@ def drive_breakout(*, entry, stop, target, fill_open, fill_high,
 class ErosionPolicyCase(unittest.TestCase):
     OVERRIDE_SYMBOL = "TEST99"
 
-    def tearDown(self):
+    def setUp(self):
         from core.risk.trading_policy import trading_policy_manager
-        trading_policy_manager().reset_instrument(self.OVERRIDE_SYMBOL)
+        self._manager = trading_policy_manager()
+        self._previous_overrides = {
+            key: values
+            for key, values in self._manager.snapshot()["instruments"].items()
+            if self._manager._key(key) == self._manager._key(self.OVERRIDE_SYMBOL)
+        }
+        # Tests require the compiled default, but preserve operator state.
+        self._manager.reset_instrument(self.OVERRIDE_SYMBOL)
+
+    def tearDown(self):
+        self._manager.reset_instrument(self.OVERRIDE_SYMBOL)
+        for key, values in self._previous_overrides.items():
+            self._manager.set_instrument(key, values)
 
     def set_min_rr(self, minimum):
         from core.risk.trading_policy import trading_policy_manager

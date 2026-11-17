@@ -46,22 +46,26 @@ class TestPolicySymbolThreading132(unittest.TestCase):
     def setUp(self):
         from core.risk.trading_policy import trading_policy_manager
         self.mgr = trading_policy_manager()
-        # Isolate: remember prior override for our symbol (should be none)
         self.sym = "PHASE132-SYM"
-        try:
-            self.mgr.reset_instrument(self.sym)
-        except Exception:
-            pass
+        self._symbols = (self.sym, "PHASE132-SYM-2")
+        persisted = self.mgr.snapshot()["instruments"]
+        self._previous_overrides = {
+            symbol: {
+                key: values for key, values in persisted.items()
+                if self.mgr._key(key) == self.mgr._key(symbol)
+            }
+            for symbol in self._symbols
+        }
+        # These tests exercise default/explicit values in isolation while
+        # preserving any operator override that predated the test.
+        for symbol in self._symbols:
+            self.mgr.reset_instrument(symbol)
 
     def tearDown(self):
-        try:
-            self.mgr.reset_instrument(self.sym)
-        except Exception:
-            pass
-        try:
-            self.mgr.reset_instrument("PHASE132-SYM-2")
-        except Exception:
-            pass
+        for symbol in self._symbols:
+            self.mgr.reset_instrument(symbol)
+            for key, values in self._previous_overrides[symbol].items():
+                self.mgr.set_instrument(key, values)
 
     def test_simulator_fixed_respects_instrument_override(self):
         from core.backtesting.trade_simulator import TradeSimulator

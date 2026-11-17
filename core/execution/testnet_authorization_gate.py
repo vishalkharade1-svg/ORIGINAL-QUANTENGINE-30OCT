@@ -54,6 +54,15 @@ log = get_logger(__name__)
 _AUDIT_COMPONENT = "TestnetAuthorizationGate"
 _GATE_MINT = secrets.token_hex(16)
 
+# Pinned to the Phase 185 Delta product snapshot; do not accept caller-substituted multipliers.
+BTCUSD_PRODUCT_ID = 84
+BTCUSD_CONTRACT_SIZE_BTC = Decimal("0.001")
+BTCUSD_PRODUCT_SNAPSHOT_SHA256 = "e4d838d7d647e4485399ea19aa699058d30ca47cc3806c51bf8e5e2d99950af2"
+MAX_TESTNET_ORDER_NOTIONAL_USD = Decimal("100.00")
+# Phase 189 policy boundary; this value is policy-pinned, not inferred from the snapshot.
+BTCUSD_PRICE_TICK_USD = Decimal("0.10")
+BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS = Decimal("1")
+
 
 class AuthorizationState(str, Enum):
     """Explicit lifecycle states for experiment authorization."""
@@ -265,6 +274,12 @@ class ExperimentScope:
     require_post_only: bool
     forbid_market_conversion: bool
     require_valid_book: bool = False
+    # BTCUSD inverse contract value from the observed Delta product record.
+    # The signed authorization binds this multiplier; callers cannot choose
+    # a smaller multiplier to evade the USD notional ceiling.
+    contract_size_btc: Optional[Decimal] = None
+    contract_metadata_product_id: Optional[int] = None
+    contract_metadata_sha256: str = ""
 
 
 @dataclass
@@ -315,6 +330,9 @@ class OperatorAuthorizationRecord:
                 "max_simultaneous_open_orders": scope.max_simultaneous_open_orders,
                 "max_order_size_contracts": str(scope.max_order_size_contracts),
                 "max_order_notional_usd": str(scope.max_order_notional_usd),
+                "contract_size_btc": (str(scope.contract_size_btc) if scope.contract_size_btc is not None else None),
+                "contract_metadata_product_id": scope.contract_metadata_product_id,
+                "contract_metadata_sha256": scope.contract_metadata_sha256,
                 "max_loss_budget_usd": str(scope.max_loss_budget_usd),
                 "max_order_wait_seconds": scope.max_order_wait_seconds,
                 "require_post_only": scope.require_post_only,
@@ -474,6 +492,9 @@ class TestnetAuthorizationGate:
             max_order_wait_seconds=120.0,
             require_post_only=True,
             forbid_market_conversion=True,
+            contract_size_btc=BTCUSD_CONTRACT_SIZE_BTC,
+            contract_metadata_product_id=BTCUSD_PRODUCT_ID,
+            contract_metadata_sha256=BTCUSD_PRODUCT_SNAPSHOT_SHA256,
         )
         self._kill_switch_active: bool = False
         self._kill_switch_reason: str = ""
@@ -637,6 +658,7 @@ class TestnetAuthorizationGate:
         post_only: bool = True,
         cumulative_realized_loss: Decimal | float = Decimal("0.0"),
         book_tracker: Optional[Any] = None,
+        limit_price: Decimal | float | str | None = None,
     ) -> AuthorizationDecision:
         """Evaluate preflight gate prior to order placement attempt.
 
@@ -682,7 +704,18 @@ class TestnetAuthorizationGate:
         elif not auth_record.is_currently_valid():
             reasons.append("Authorization record signature or operator credentials invalid")
 
-        # 4. Scope and instrument check
+        # 4. Scope and instrument check. The signed operator scope must
+        # agree with the gate's pinned notional boundary; otherwise fail closed.
+        signed_scope = auth_record.scope
+        if (
+            self.scope.max_order_notional_usd != MAX_TESTNET_ORDER_NOTIONAL_USD
+            or signed_scope.max_order_notional_usd != MAX_TESTNET_ORDER_NOTIONAL_USD
+            or signed_scope.contract_size_btc != self.scope.contract_size_btc
+            or signed_scope.contract_metadata_product_id != self.scope.contract_metadata_product_id
+            or signed_scope.contract_metadata_sha256 != self.scope.contract_metadata_sha256
+        ):
+            reasons.append("Signed authorization notional scope does not match the gate's pinned notional boundary")
+
         sym_clean = str(symbol or "").strip().upper()
         if sym_clean not in self.scope.allowed_symbols:
             reasons.append(f"Symbol {sym_clean!r} not in authorized scope: {self.scope.allowed_symbols}")
@@ -690,17 +723,76 @@ class TestnetAuthorizationGate:
         if product_id not in self.scope.allowed_product_ids:
             reasons.append(f"Product ID {product_id} not in authorized scope: {self.scope.allowed_product_ids}")
 
-        # 5. Order sizing
+        # 5. Order sizing and verified product metadata.
+        sz = None
         try:
             sz = Decimal(str(order_size_contracts))
-            if sz <= 0:
+            if not sz.is_finite():
+                reasons.append("Order size must be finite")
+            elif sz <= 0:
                 reasons.append("Order size must be positive")
             elif sz > self.scope.max_order_size_contracts:
                 reasons.append(
                     f"Order size ({sz}) exceeds maximum authorized ({self.scope.max_order_size_contracts})"
                 )
-        except Exception as exc:
-            reasons.append(f"Malformed order size: {exc}")
+            elif sz != BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS:
+                reasons.append(
+                    f"Order size must be exactly {BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS} contract"
+                )
+        except Exception:
+            reasons.append("Malformed order size")
+
+        contract_size = self.scope.contract_size_btc
+        metadata_valid = True
+        if sym_clean != "BTCUSD" or product_id != BTCUSD_PRODUCT_ID:
+            reasons.append("Notional metadata is authorized only for BTCUSD Product ID 84")
+            metadata_valid = False
+        if self.scope.contract_metadata_product_id != product_id:
+            reasons.append("Contract metadata product ID is missing or does not match requested product")
+            metadata_valid = False
+        if self.scope.contract_metadata_sha256 != BTCUSD_PRODUCT_SNAPSHOT_SHA256:
+            reasons.append("Contract metadata snapshot SHA-256 does not match the pinned verified BTCUSD product snapshot")
+            metadata_valid = False
+        try:
+            if contract_size is None:
+                raise ValueError("missing multiplier")
+            contract_size = Decimal(str(contract_size))
+            if not contract_size.is_finite() or contract_size <= 0:
+                raise ValueError("invalid multiplier")
+            if contract_size != BTCUSD_CONTRACT_SIZE_BTC:
+                raise ValueError("multiplier differs from pinned BTCUSD product metadata")
+        except Exception:
+            reasons.append("Verified BTCUSD contract multiplier is missing or invalid")
+            metadata_valid = False
+
+        # 5A. The gate itself requires a priced order and enforces its USD ceiling.
+        if limit_price is None:
+            reasons.append("Limit price is required to authorize USD notional")
+        elif sz is not None and sz.is_finite() and metadata_valid:
+            try:
+                price = Decimal(str(limit_price))
+                if not price.is_finite() or price <= 0:
+                    reasons.append("Limit price must be finite and positive")
+                else:
+                    if price % BTCUSD_PRICE_TICK_USD != 0:
+                        reasons.append(
+                            f"Limit price must align to the \u0024{BTCUSD_PRICE_TICK_USD} USD tick size"
+                        )
+                    notional = sz * contract_size * price
+                    if notional > MAX_TESTNET_ORDER_NOTIONAL_USD:
+                        reasons.append(
+                            f"Order notional (${notional}) exceeds maximum authorized "
+                            f"(${MAX_TESTNET_ORDER_NOTIONAL_USD})"
+                        )
+            except Exception:
+                reasons.append("Malformed limit price or contract-size metadata")
+        elif limit_price is not None:
+            try:
+                price = Decimal(str(limit_price))
+                if not price.is_finite() or price <= 0:
+                    reasons.append("Limit price must be finite and positive")
+            except Exception:
+                reasons.append("Malformed limit price")
 
         # 6. Post-only enforcement
         if self.scope.require_post_only and not post_only:
@@ -822,9 +914,86 @@ class TestnetAuthorizationGate:
                 post_only=post_only,
                 cumulative_realized_loss=cumulative_realized_loss,
                 book_tracker=book_tracker,
+                limit_price=(
+                    order_details.get("limit_price")
+                    if isinstance(order_details, dict) else None
+                ),
             )
             if not decision.authorized:
                 return decision
+
+            # Preflight alone is diagnostic. A write-capable reservation must
+            # bind every field used by the transport capability before any
+            # durable reservation is appended.
+            required_details = {"side", "limit_price", "post_only"}
+            if (not isinstance(order_details, dict)
+                    or set(order_details) != required_details):
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=[
+                        "Order reservation requires exactly side, limit_price, and post_only details"
+                    ],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            side = str(order_details.get("side", "")).strip().lower()
+            if side not in {"buy", "sell"}:
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=["Order side must be buy or sell"],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            if (type(order_details.get("post_only")) is not bool
+                    or order_details["post_only"] is not post_only):
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=["Reserved post_only detail must exactly match the authorization request"],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            try:
+                limit_price = Decimal(str(order_details["limit_price"]))
+                contract_size = Decimal(str(self.scope.contract_size_btc))
+                if (product_id != BTCUSD_PRODUCT_ID
+                        or self.scope.contract_metadata_product_id != BTCUSD_PRODUCT_ID
+                        or self.scope.contract_metadata_sha256 != BTCUSD_PRODUCT_SNAPSHOT_SHA256
+                        or not limit_price.is_finite() or limit_price <= 0
+                        or limit_price % BTCUSD_PRICE_TICK_USD != 0
+                        or decision.authorized_order_size_contracts != BTCUSD_REQUIRED_ORDER_SIZE_CONTRACTS
+                        or not contract_size.is_finite() or contract_size != BTCUSD_CONTRACT_SIZE_BTC):
+                    raise ValueError("unverified product metadata or invalid price/multiplier")
+                notional_usd = (
+                    decision.authorized_order_size_contracts
+                    * contract_size * limit_price
+                )
+            except Exception:
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.MALFORMED,
+                    reasons=["Limit price or authorized contract size is invalid"],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
+            if notional_usd > MAX_TESTNET_ORDER_NOTIONAL_USD:
+                return AuthorizationDecision(
+                    authorized=False,
+                    state=AuthorizationState.INVALID_SCOPE,
+                    reasons=[
+                        f"Order notional (${notional_usd}) exceeds maximum authorized "
+                        f"(${MAX_TESTNET_ORDER_NOTIONAL_USD})"
+                    ],
+                    cumulative_orders_placed=decision.cumulative_orders_placed,
+                    current_open_orders=len(self._active_open_orders),
+                    current_realized_loss_usd=decision.current_realized_loss_usd,
+                )
 
             # 2. Check for duplicate cl_ord_id in active or ambiguous tracking
             if cl_ord_id_clean in self._active_open_orders or cl_ord_id_clean in self._ambiguous_orders:
@@ -866,8 +1035,18 @@ class TestnetAuthorizationGate:
                 "state": OrderLifecycleState.RESERVED.value,
                 "timestamp_monotonic": time.monotonic(),
             }
-            if order_details:
-                reservation_data.update(order_details)
+            # Never let caller-supplied details overwrite reservation
+            # identity, product scope, quantity, state, or timestamps.
+            reservation_data.update({
+                "side": side,
+                "limit_price": format(limit_price, "f"),
+                "post_only": post_only,
+                "notional_usd": str(notional_usd),
+                "contract_size_btc": format(contract_size, "f"),
+                "contract_metadata_product_id": self.scope.contract_metadata_product_id,
+                "contract_metadata_sha256": self.scope.contract_metadata_sha256,
+                "notional_formula": "contracts * BTC_per_contract * limit_price_USD",
+            })
 
             self.ledger_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.ledger_path, "a", encoding="utf-8") as f:
@@ -900,7 +1079,16 @@ class TestnetAuthorizationGate:
                 authorized_order_size_contracts=decision.authorized_order_size_contracts,
                 authorized_post_only=decision.authorized_post_only,
                 authorized_order_details=tuple(sorted(
-                    (str(k), str(v)) for k, v in (order_details or {}).items())),
+                    (str(key), str(value)) for key, value in {
+                        "side": side,
+                        "limit_price": format(limit_price, "f"),
+                        "post_only": post_only,
+                        "notional_usd": str(notional_usd),
+                        "contract_size_btc": format(contract_size, "f"),
+                        "contract_metadata_product_id": self.scope.contract_metadata_product_id,
+                        "contract_metadata_sha256": self.scope.contract_metadata_sha256,
+                    }.items()
+                )),
                 authorized_client_order_id=cl_ord_id_clean,
                 _mint_token=_GATE_MINT,
             )

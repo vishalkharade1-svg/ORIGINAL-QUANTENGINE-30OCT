@@ -19,6 +19,11 @@ import hashlib
 import subprocess
 import unittest
 from pathlib import Path
+
+try:
+    from tests.evidence_mode import require_git_commit
+except ImportError:
+    from evidence_mode import require_git_commit
 from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -132,6 +137,7 @@ class TestNormalizedStrategyDigest(unittest.TestCase):
         self.assertFalse(obj["matches_recorded"])
 
     def test_only_phase4_files_differ_from_pre_phase4(self):
+        require_git_commit(self, "47fbecd", detail="historical pre-Phase-4 strategy tree")
         probe = subprocess.run(
             ["git", "rev-parse", "--is-inside-work-tree"],
             capture_output=True, text=True, cwd=str(ROOT), timeout=15,

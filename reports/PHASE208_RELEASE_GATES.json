@@ -1,0 +1,56 @@
+{
+  "phase": 208,
+  "status": "HOLD",
+  "gates": {
+    "historical_capture_source_policy_provenance": "IMPLEMENTED",
+    "authenticated_capture_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
+    "exchange_write_capability": "DISABLED",
+    "live_execution": "DISABLED",
+    "strategy_edge": "NOT_ESTABLISHED",
+    "historical_release_archives": "BLOCKED_MISSING_REPOSITORY_ARTIFACTS",
+    "historical_git_ancestry": "BLOCKED_MISSING_PINNED_COMMIT_OBJECTS",
+    "frozen_strategy_identity": "BLOCKED_HASH_MISMATCH",
+    "testnet_authorization_certification": "BLOCKED_TESTNET_AUTHORIZATION_REGRESSIONS",
+    "production_execution_costs": "NOT_CERTIFIED",
+    "production_readiness": "HOLD"
+  },
+  "verification": {
+    "strict_manifest": "PASS_ON_TESTED_HEAD",
+    "secret_scan": "PASS_ON_TESTED_HEAD",
+    "phase206_focused_tests": "PASS",
+    "full_suite": "FAILED",
+    "full_suite_counts": {
+      "passed": 5192,
+      "failed": 59,
+      "skipped": 44,
+      "subtests_passed": 449
+    },
+    "full_suite_duration_seconds": 1040.25,
+    "full_suite_run_id": 43613854617,
+    "full_suite_run_url": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/43613854617",
+    "tested_pr_head": "86b31d1b9d9f45e426133b2c1d8e6fc53d933ddb",
+    "tested_merge_commit": "b8c02d513f606660db787a3bca22da8341cbb6a0",
+    "stage4_7_certification": "PASS",
+    "stage4_7_run_id": 43613854448,
+    "release_archive": "NOT_BUILT",
+    "fresh_extraction": "NOT_RUN",
+    "authenticated_venue_exercise": "BLOCKED_OWNER_AUTHORIZATION_REQUIRED",
+    "note": "Latest full-suite result is a CI observation on the tested PR merge ref. Stage 4 paper certification, continuous soak, and Stages 5–7 passed. The full suite reported 5,192 passed, 59 failed, 44 skipped, and 449 passing subtests. Failures include test-contract wiring and AST expectation issues plus unavailable historical archives/commit objects and frozen-evidence hash mismatches; no historical evidence or frozen hashes were rewritten.",
+    "stage4_7_run_url": "https://github.com/vishalkharade1-svg/ORIGINAL-QUANTENGINE-30OCT/actions/runs/43613854448"
+  },
+  "verification_environment": {
+    "python": "3.11.18",
+    "pytest": "9.0.3",
+    "platform": "Ubuntu 24.04.5 LTS; GitHub Actions ubuntu-24.04 runner image 20261111.370.1",
+    "dependencies": {
+      "cryptography": "46.0.4",
+      "httpx": "0.28.1",
+      "websockets": "12.0",
+      "python-dotenv": "1.2.2",
+      "pandas": "2.2.2",
+      "numpy": "2.1.1",
+      "pyarrow": "23.0.1",
+      "pytest": "9.0.3"
+    }
+  }
+}

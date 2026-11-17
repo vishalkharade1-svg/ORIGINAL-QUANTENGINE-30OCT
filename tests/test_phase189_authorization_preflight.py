@@ -157,9 +157,126 @@ class TestPhase189AuthorizationDocumentIntegrity(unittest.TestCase):
             symbol="BTCUSD",
             product_id=84,
             order_size_contracts=Decimal("1.0"),
+            limit_price=Decimal("50000"),
         )
         self.assertTrue(decision.authorized)
-        self.assertTrue(decision.is_armed())
+
+        fractional = self.gate.evaluate_preflight(
+            auth_record=record, rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD", product_id=84, order_size_contracts=Decimal("0.5"),
+            limit_price=Decimal("50000"),
+        )
+        self.assertFalse(fractional.authorized)
+        self.assertTrue(any("exactly 1 contract" in reason for reason in fractional.reasons))
+
+        off_tick = self.gate.evaluate_preflight(
+            auth_record=record, rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD", product_id=84, order_size_contracts=Decimal("1"),
+            limit_price=Decimal("50000.05"),
+        )
+        self.assertFalse(off_tick.authorized)
+        self.assertTrue(any("tick size" in reason for reason in off_tick.reasons))
+
+        aligned_tick = self.gate.evaluate_preflight(
+            auth_record=record, rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD", product_id=84, order_size_contracts=Decimal("1"),
+            limit_price=Decimal("50000.10"),
+        )
+        self.assertTrue(aligned_tick.authorized)
+
+        # Preflight is diagnostic only; transport authority requires the
+        # atomic reservation that persists the client order id first.
+        self.assertFalse(decision.is_armed())
+        reserved = self.gate.check_and_reserve_order(
+            auth_record=record,
+            rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal("1.0"),
+            cl_ord_id="P189-TESTNET-RESERVED-001",
+            order_details={
+                "side": "buy",
+                "limit_price": "50000",
+                "post_only": True,
+            },
+            post_only=True,
+        )
+        self.assertTrue(reserved.is_armed())
+
+
+    def test_notional_cap_is_enforced_inside_authorization_gate(self):
+        now = time.time()
+        signed = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now - 2))
+        expiry = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now + 3600))
+        unsigned_text = f"""# QuantEngine Testnet Authorization
+- **Authorization ID**: P189-NOTIONAL-001
+- **Status**: OPERATOR_APPROVED
+- **Authorizing Operator**: SENIOR_QUANT_OPS_01
+- **Signed Timestamp UTC**: {signed}
+- **Expiry Timestamp UTC**: {expiry}
+- **Operator Signature**: SIGNATURE_TO_BE_REPLACED
+"""
+        record = self.gate.parse_authorization_document(unsigned_text)
+        record.signature_payload = sign_record_for_test(record)
+        record = self.gate.parse_authorization_document(
+            unsigned_text.replace(
+                "SIGNATURE_TO_BE_REPLACED", record.signature_payload
+            )
+        )
+        configure_test_verification_key()
+        self.assertTrue(record.is_currently_valid())
+
+        decision = self.gate.check_and_reserve_order(
+            auth_record=record,
+            rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal("1"),
+            cl_ord_id="P189-NOTIONAL-OVER-CAP",
+            order_details={
+                "side": "buy", "limit_price": "100001",
+                "post_only": True,
+            },
+            post_only=True,
+        )
+        self.assertFalse(decision.authorized)
+        self.assertFalse(decision.is_armed())
+        self.assertTrue(any("Order notional" in reason
+                            for reason in decision.reasons))
+        self.assertFalse(self.ledger_file.exists())
+
+    def test_reservation_rejects_caller_override_of_ledger_identity(self):
+        unsigned_text = """# QuantEngine Testnet Authorization
+- **Authorization ID**: P189-OVERRIDE-001
+- **Status**: OPERATOR_APPROVED
+- **Authorizing Operator**: SENIOR_QUANT_OPS_01
+- **Signed Timestamp UTC**: 2026-11-10T00:00:00Z
+- **Expiry Timestamp UTC**: 2026-11-11T00:00:00Z
+- **Operator Signature**: SIGNATURE_TO_BE_REPLACED
+"""
+        record = self.gate.parse_authorization_document(unsigned_text)
+        record.signature_payload = sign_record_for_test(record)
+        record = self.gate.parse_authorization_document(
+            unsigned_text.replace(
+                "SIGNATURE_TO_BE_REPLACED", record.signature_payload
+            )
+        )
+        configure_test_verification_key()
+        decision = self.gate.check_and_reserve_order(
+            auth_record=record,
+            rest_url="https://cdn-ind.testnet.deltaex.org",
+            symbol="BTCUSD",
+            product_id=84,
+            order_size_contracts=Decimal("1"),
+            cl_ord_id="P189-RESERVED-ID",
+            order_details={
+                "side": "buy", "limit_price": "50000",
+                "post_only": True, "cl_ord_id": "P189-ATTACKER-ID",
+            },
+            post_only=True,
+        )
+        self.assertFalse(decision.authorized)
+        self.assertFalse(self.ledger_file.exists())
 
 
 class TestPhase189EndpointIsolationAndAmbiguity(unittest.TestCase):
@@ -250,6 +367,7 @@ class TestPhase189PersistentAccountingAcrossRestarts(unittest.TestCase):
             symbol="BTCUSD",
             product_id=84,
             order_size_contracts=Decimal("1.0"),
+            limit_price=Decimal("50000"),
         )
         self.assertTrue(decision_19.authorized)
         self.assertEqual(decision_19.cumulative_orders_placed, 19)
