@@ -271,8 +271,10 @@ class CaptureSnapshot:
             window_start=data.get("window_start"),
             window_end=data.get("window_end"),
             overlap_seconds=int(data.get("overlap_seconds", 0)),
-            complete=bool(data.get("complete", True)),
-            pagination_complete=bool(data.get("pagination_complete", True)),
+            # Preserve raw values so __post_init__ can reject strings/numbers
+            # instead of silently coercing corrupted persisted evidence.
+            complete=data.get("complete", True),
+            pagination_complete=data.get("pagination_complete", True),
             endpoint_status=dict(data.get("endpoint_status", {})),
             raw_source_checksum=data.get("raw_source_checksum"),
             schema=str(data.get("schema", "quantengine.historical-capture.v1")),
