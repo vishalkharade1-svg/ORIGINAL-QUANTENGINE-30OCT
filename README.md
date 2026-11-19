@@ -6,7 +6,7 @@ This repository is a research, replay, backtesting, and paper-trading developmen
 
 - Baseline archive: `QuantEngine_PHASE161_RELEASE_CANDIDATE.zip` (SHA-256 `ce95884b5c34c47f19e58c7b02267b8afa49b0bbb871a56785697c5d2230d8f5`).
 - Phase 162 builds on Phase 161 by completing full-package forensic auditing, dead code triage, manifest stdout robustness, documentation reconciliation, empirical funding/repeat-match reconciliations, and authoritative test baseline reporting.
-- Current test status: 4,065 tests passed, 399 subtests passed, 57 skipped, 5 failed (the deliberate strategy-digest change detectors; see `reports/PHASE162_FAILURE_TRIAGE.json`). Full suite is NOT certified production-ready.
+- Latest verified CI status (2026-11-17, commit `6cba352bc87975b8a77cb24a72d8eeac61f07910`): **5,256 passed, 64 skipped, 462 subtests passed, 4 warnings**; the canonical full-repository test job completed successfully in Python 3.12. This is automated regression evidence, not production/live certification.
 - Historical captures and research artifacts are preserved under recorded provenance; their internal hashes do not independently prove profitable edge.
 - Detailed status and gate records: `reports/PHASE162_RELEASE_GATES.json`, `reports/PHASE162_BLOCKERS.json`, `docs/BUILD_HANDOFF_PHASE162.md`.
 
