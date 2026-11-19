@@ -29,7 +29,11 @@ flows setup -> OrderIntent -> Trade verbatim.
 ====================================================
 """
 
+from datetime import datetime, timezone
+
 from config import risk_settings
+from core.exchanges.paper_data_quality_gate import evaluate_paper_candle
+from core.exchanges.paper_data_gate_policy import validate_paper_data_gate_config
 
 from core.analytics.performance import PerformanceAnalytics
 from core.backtesting.trade_registry import TradeRegistry
@@ -49,6 +53,9 @@ class PaperRuntime:
         portfolio_gate=None,
         portfolio_release=None,
         journal=None,
+        market_data_max_age_seconds=None,
+        market_data_now_provider=None,
+        market_data_gate_required=False,
     ):
 
         self.instrument = instrument
@@ -59,6 +66,21 @@ class PaperRuntime:
         # observer over the settled bar; default None keeps the
         # runtime bottleneck behaviouridentical.
         self.journal = journal
+
+        # Phase 205: optional fail-closed market-data gate at the paper intake
+        # boundary. None preserves legacy behavior; enabling the gate requires
+        # an explicit age tolerance. The clock provider is injectable for tests.
+        self.market_data_max_age_seconds = validate_paper_data_gate_config(
+            market_data_max_age_seconds,
+            required=market_data_gate_required,
+            now_provider=market_data_now_provider,
+        )
+        self.market_data_gate_required = market_data_gate_required
+        self.market_data_now_provider = market_data_now_provider or (
+            lambda: datetime.now(timezone.utc)
+        )
+        self.market_data_gate_decisions = []
+        self.rejected_market_data_candles = 0
 
         self.starting_balance = (
             starting_balance
@@ -102,7 +124,25 @@ class PaperRuntime:
 
         if self.retired:
 
-            return
+            return False if self.market_data_max_age_seconds is not None else None
+
+        if self.market_data_max_age_seconds is not None:
+            try:
+                decision = evaluate_paper_candle(
+                    candle,
+                    now=self.market_data_now_provider(),
+                    expected_symbol=self.symbol,
+                    max_age_seconds=self.market_data_max_age_seconds,
+                )
+            except Exception:
+                # Fail closed: a broken clock/provider cannot let unvalidated
+                # market data enter the paper strategy path. Never log payloads.
+                from core.exchanges.paper_data_quality_gate import PaperDataGateDecision
+                decision = PaperDataGateDecision(False, ("MARKET_DATA_GATE_ERROR",))
+            self.market_data_gate_decisions.append(decision)
+            if not decision.accepted:
+                self.rejected_market_data_candles += 1
+                return False
 
         self.engine.run_candle(candle)
 
@@ -123,6 +163,8 @@ class PaperRuntime:
             except Exception:
 
                 pass
+
+        return True if self.market_data_max_age_seconds is not None else None
 
     # --------------------------------------------------
 
@@ -195,6 +237,8 @@ class PaperRuntime:
                 getattr(self.instrument, "instrument_id", "") or ""
             ),
             "retired": self.retired,
+            "market_data_gate_enabled": self.market_data_max_age_seconds is not None,
+            "rejected_market_data_candles": self.rejected_market_data_candles,
             "processed_bars": self.processed_bars,
             "open_position": self.current_trade is not None,
             "trades": self.ledger.count(),
