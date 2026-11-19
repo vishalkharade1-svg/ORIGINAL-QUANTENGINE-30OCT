@@ -53,6 +53,11 @@ _HEARTBEAT_KEYS = (
     "quantity_step",
     "minimum_quantity",
     "trading_enabled",
+    "expiry_time",
+    "strike_price",
+    "option_type",
+    "lot_size",
+    "contract_multiplier",
 )
 
 
