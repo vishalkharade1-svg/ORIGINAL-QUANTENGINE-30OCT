@@ -29,6 +29,7 @@ from dataclasses import fields
 from typing import Any
 from typing import Dict
 from typing import Optional
+import math
 
 from core.registry.product_types import (
     PRODUCT_STATE_NEWLY_LISTED,
@@ -70,6 +71,11 @@ class Instrument:
     # Raw exchange metadata preserved verbatim
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+    # Option sizing facts are optional until supplied by a verified venue
+    # contract catalog. Appended to preserve positional construction.
+    lot_size: Optional[int] = None
+    contract_multiplier: float = 1.0
+
     # =====================================================
     # Identity
     # =====================================================
@@ -91,6 +97,37 @@ class Instrument:
         """A contract with no printable price / quantity step is
         not tradable (would round to nothing)."""
         return self.tick_size > 0.0 and self.quantity_step > 0.0
+
+    @property
+    def valid_option_contract_metadata(self):
+        """Require complete option facts without enabling option strategies."""
+        from core.registry.product_types import (
+            PRODUCT_CALL_OPTION, PRODUCT_PUT_OPTION,
+        )
+
+        if self.product_type not in (PRODUCT_CALL_OPTION, PRODUCT_PUT_OPTION):
+            return True
+        if not isinstance(self.underlying_asset, str) or not self.underlying_asset.strip():
+            return False
+        expected_right = "call" if self.product_type == PRODUCT_CALL_OPTION else "put"
+        if not isinstance(self.option_type, str) or self.option_type.lower() != expected_right:
+            return False
+        if isinstance(self.expiry_time, bool) or not isinstance(self.expiry_time, int) or self.expiry_time <= 0:
+            return False
+        try:
+            strike = float(self.strike_price)
+            multiplier = float(self.contract_multiplier)
+        except (TypeError, ValueError, OverflowError):
+            return False
+        if not math.isfinite(strike) or strike <= 0:
+            return False
+        if not math.isfinite(multiplier) or multiplier <= 0:
+            return False
+        return (
+            isinstance(self.lot_size, int)
+            and not isinstance(self.lot_size, bool)
+            and self.lot_size > 0
+        )
 
     @property
     def valid(self):
