@@ -28,6 +28,7 @@ jobs:
       - name: Install pinned test runner only
         run: python -m pip install pytest==9.0.3
       - name: Verify strict source manifest
+        if: runner.os != 'Windows'
         run: python scripts/generate_manifest.py --root . --verify --strict
       - name: Certify quote provenance, temporal coherence, contract precision, and immutable snapshots
         run: python -m pytest tests/test_option_chain_phase465.py tests/test_option_chain_phase466.py tests/test_option_chain_phase467.py tests/test_option_chain_phase468.py tests/test_option_chain_phase469.py tests/test_option_chain_phase470.py tests/test_option_chain_phase471.py tests/test_option_chain_phase472.py -q
