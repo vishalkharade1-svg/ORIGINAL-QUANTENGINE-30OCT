@@ -45,6 +45,7 @@ each runtime is the PAPER_TRADE_REGISTRY.
 """
 
 from config import risk_settings
+from core.exchanges.paper_data_gate_policy import validate_paper_data_gate_config
 
 from data.realtime.subscription_manager import (
     MultiSymbolSubscriptionManager,
@@ -80,7 +81,21 @@ class RealTimeEngine:
         portfolio_manager=None,
         portfolio_state=None,
         journal=None,
+        market_data_max_age_seconds=None,
+        market_data_now_provider=None,
+        market_data_gate_required=False,
     ):
+
+        # Phase 208: one canonical orchestrator owns the optional paper
+        # market-data quality gate. None preserves the legacy path; an
+        # explicit finite non-negative threshold enables fail-closed checks.
+        self.market_data_max_age_seconds = validate_paper_data_gate_config(
+            market_data_max_age_seconds,
+            required=market_data_gate_required,
+            now_provider=market_data_now_provider,
+        )
+        self.market_data_gate_required = market_data_gate_required
+        self.market_data_now_provider = market_data_now_provider
 
         self.universe_manager = universe_manager
 
@@ -338,6 +353,9 @@ class RealTimeEngine:
                 portfolio_gate=self._portfolio_gate,
                 portfolio_release=self._portfolio_release,
                 journal=self.journal,
+                market_data_max_age_seconds=self.market_data_max_age_seconds,
+                market_data_now_provider=self.market_data_now_provider,
+                market_data_gate_required=getattr(self, "market_data_gate_required", False),
             )
 
             log.info("PIPELINE_ADDED key=%s symbol=%s", key, pipeline.instrument.symbol)
